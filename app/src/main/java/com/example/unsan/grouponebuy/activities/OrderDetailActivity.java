@@ -63,6 +63,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
     Button cancelButton,editOrderButton;
     GlobalProvider globalProvider;
     boolean editClicked;
+    String lang;
     // View Types
     private static final int NO_EDIT = 0;
     private static final int EDIT = 1;
@@ -79,6 +80,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         orderIdText=(TextView) findViewById(R.id.order_id);
         orderDateText=(TextView) findViewById(R.id.order_date);
         deliveryDateText=(TextView) findViewById(R.id.delivery_date);
+        lang=Constants.getLanguage(this);
         statusText=(TextView) findViewById(R.id.status);
         paymentStatusText=(TextView) findViewById(R.id.payment_status);
         orderDetailAdapter=new OrderDetailAdapter(this,productList,this);
@@ -113,6 +115,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         statusText.setText(order.getState());
         if(order.getState().equalsIgnoreCase("completed"))
         {
+
             statusText.setTextColor(getResources().getColor(R.color.green));
         }
         deliveryDateText.setText(deliveryDate);
@@ -129,7 +132,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         editOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(editOrderButton.getText().toString().equalsIgnoreCase("edit order")) {
+                if(editOrderButton.getText().toString().equalsIgnoreCase("Edit")) {
                     OrderDetailAdapter.editClicked = true;
                     orderDetailAdapter.notifyDataSetChanged();
                     editOrderButton.setText("save");
@@ -137,7 +140,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
                 else
                 {
                     editOrder();
-                    editOrderButton.setText("edit order");
+                    editOrderButton.setText("Edit");
                     OrderDetailAdapter.editClicked=false;
                     orderDetailAdapter.notifyDataSetChanged();
 
@@ -201,13 +204,13 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
                 if(orderPayload.getTotalPriceActual()!=null&&orderPayload.getTotalPriceActual()>0)
                 {
 
-                    paymentStatusText.setText("paid");
+                    paymentStatusText.setText("Paid");
                     paymentStatusText.setTextColor(getResources().getColor(R.color.green));
                     editOrderButton.setVisibility(View.GONE);
                     cancelButton.setVisibility(View.GONE);
                 }
                 else {
-                    paymentStatusText.setText("unpaid");
+                    paymentStatusText.setText("Unpaid");
                     paymentStatusText.setTextColor(getResources().getColor(R.color.orange));
 
                     editOrderButton.setVisibility(View.VISIBLE);

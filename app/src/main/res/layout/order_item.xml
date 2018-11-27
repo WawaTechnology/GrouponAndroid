@@ -16,6 +16,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
                 android:text="@string/orderID"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -29,6 +30,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
                 android:text="@string/orderDate"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -47,6 +49,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
                 android:text="@string/deliveryDate"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -61,6 +64,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
                 android:text="@string/status"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -75,30 +79,40 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
                 android:text="@string/total"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/total_num"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"></View>
+            <Button
+                android:layout_width="78dp"
+                android:layout_height="30dp"
+                android:text="@string/more"
+                android:textSize="14sp"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+
+
+
+                android:gravity="center"
+                android:textAlignment="gravity"
+
+
+
+
+
+                android:id="@+id/o_detail"
+                android:background="@drawable/red_wholerectangle"
+                android:textColor="#fff"/>
         </LinearLayout>
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/more"
-        android:layout_gravity="right"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
 
-
-
-
-        android:id="@+id/o_detail"
-        android:background="@drawable/red_wholerectangle"
-        android:textColor="#fff"/>
 
 
 

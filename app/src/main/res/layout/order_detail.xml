@@ -84,11 +84,17 @@
                 android:layout_weight="1"
                 android:layout_height="15dp"/>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Edit Order"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:text="Edit"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
             android:id="@+id/edit_order"
-            android:background="@drawable/yellow_wholerectangle"/>
+
+            android:background="@drawable/yellow_new"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -127,9 +133,13 @@
             android:layout_weight="1"
             android:layout_height="15dp"/>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:background="@drawable/table_bkg"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:background="@drawable/table_greybkg"
             android:id="@+id/cancel"
             android:text="Cancel"/>
     </LinearLayout>

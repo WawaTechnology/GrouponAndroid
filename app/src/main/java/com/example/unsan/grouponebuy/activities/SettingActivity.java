@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.unsan.grouponebuy.R;
 import com.example.unsan.grouponebuy.helpers.GlobalProvider;
@@ -23,8 +24,9 @@ import java.io.File;
 public class SettingActivity extends AppCompatActivity {
     Button logoutButton;
     GlobalProvider globalProvider;
-    RelativeLayout changePwdLayout,changeLangLayout,aboutUsLayout;
+    RelativeLayout changePwdLayout,changeLangLayout,aboutUsLayout,accountLayout;
     ImageView backButton;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onCreate(Bundle savedInstanceState)
@@ -34,6 +36,7 @@ public class SettingActivity extends AppCompatActivity {
         logoutButton=(Button)findViewById(R.id.logout);
         changePwdLayout=(RelativeLayout) findViewById(R.id.change_pwd);
         changeLangLayout=(RelativeLayout) findViewById(R.id.change_langlayout);
+        accountLayout=(RelativeLayout) findViewById(R.id.account_settinglayout);
         aboutUsLayout=(RelativeLayout) findViewById(R.id.about_usLayout);
         backButton=(ImageView) findViewById(R.id.back);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
@@ -43,6 +46,21 @@ public class SettingActivity extends AppCompatActivity {
         }
         else
             logoutButton.setVisibility(View.VISIBLE);
+        accountLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(globalProvider.isLogin())
+                {
+                    Intent intent=new Intent(SettingActivity.this,EditInfoActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    Toast.makeText(SettingActivity.this,"You need to login first!",Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

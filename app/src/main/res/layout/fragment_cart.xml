@@ -72,8 +72,9 @@
             android:layout_below="@id/grey_view"
 
             android:layout_width="match_parent"
-            android:layout_margin="5dp"
+            android:layout_marginBottom="?attr/actionBarSize"
             android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
             android:id="@+id/cart_recycler"></android.support.v7.widget.RecyclerView>
 
@@ -81,6 +82,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+
+
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical">
