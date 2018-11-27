@@ -1,0 +1,180 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:layout_height="120dp">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <CheckBox
+        android:id="@+id/cart_checkbox"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        android:checked="true"
+
+        android:button="@drawable/custom_checkbox"
+         />
+
+    <ImageView
+        android:id="@+id/pd_img"
+        android:layout_width="91dp"
+        android:layout_height="132dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/pd_nm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+         />
+
+    <TextView
+        android:id="@+id/desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        />
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="20dp"
+        android:text="TextView"
+       />
+    </LinearLayout>
+
+
+
+    <!--  <FrameLayout
+          android:id="@+id/frame_add"
+          android:layout_width="40dp"
+          android:layout_height="30dp"
+          android:layout_marginBottom="8dp"
+          android:layout_marginEnd="8dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent">
+      -->
+
+
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+
+
+
+ >
+
+    <ImageView
+        android:id="@+id/add"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="8dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+
+
+        android:padding="5dp"
+
+        app:srcCompat="@drawable/add_on"
+
+
+
+        />
+    <TextView
+        android:id="@+id/quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_toLeftOf="@id/add"
+        android:layout_alignParentBottom="true"
+
+        android:text="100"
+        android:layout_marginLeft="8dp"
+
+
+        android:textSize="18sp"
+        />
+    <ImageView
+        android:id="@+id/sub"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@id/quantity"
+
+        app:srcCompat="@drawable/minus"
+
+
+        android:padding="5dp"
+        />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--  <FrameLayout
+          android:layout_width="45dp"
+          android:layout_height="60dp"
+          android:layout_marginBottom="2dp"
+          android:layout_marginEnd="8dp"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent">
+
+      </FrameLayout>
+      -->
+
+</RelativeLayout>
+</LinearLayout>
+<View
+android:layout_width="match_parent"
+android:layout_height="2dp"
+android:background="@color/grey"
+android:layout_marginTop="8dp"
+android:id="@+id/grey_view"
+    android:layout_gravity="bottom"
+
+
+    ></View>
+</LinearLayout>

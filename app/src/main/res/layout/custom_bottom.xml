@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="55dp"
+    android:background="#f8f8f8"
+    >
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/home_layout"
+        android:orientation="vertical"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:src="@drawable/home_black"
+            android:id="@+id/homeimg"
+            android:paddingTop="8dp"
+            android:background="#00000000"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hometext"
+            android:textSize="12sp"
+            android:text="@string/home"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/product_layout"
+
+        android:gravity="center">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00000000"
+            android:paddingTop="8dp"
+            android:id="@+id/product_image"
+            android:src="@drawable/productblack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/product"
+            android:textSize="12sp"
+            android:id="@+id/product_text"
+       />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/fav_linearlayout"
+        android:orientation="vertical"
+
+        android:gravity="center">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00000000"
+            android:paddingTop="8dp"
+            android:id="@+id/favourite_image"
+            android:src="@drawable/favblack"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/favorite"
+            android:textSize="12sp"
+            android:id="@+id/favorite_text"
+         />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:id="@+id/cart_linearlayout"
+
+        android:gravity="center">
+
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00000000"
+            android:paddingTop="8dp"
+            android:id="@+id/cart_image"
+            android:src="@drawable/cart_black"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/cart_text"
+            android:textSize="12sp"
+            android:text="@string/shopping_cart"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:id="@+id/about_layout"
+
+        android:gravity="center">
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:background="#00000000"
+            android:paddingTop="8dp"
+            android:id="@+id/about_image"
+            android:src="@drawable/profile_black"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/about_text"
+            android:textSize="12sp"
+            android:text="@string/me"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

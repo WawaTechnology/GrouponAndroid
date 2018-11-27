@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_margin="16dp"
+    android:background="#fff"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+
+        android:layout_width="75dp"
+        android:layout_height="80dp"
+        android:id="@+id/product_image"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/product_name"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+
+            android:id="@+id/price"/>
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+
+
+                android:id="@+id/quantity"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/edit_layout">
+              <View
+                  android:layout_width="0dp"
+                  android:layout_height="5dp"
+                  android:layout_weight="1"></View>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/sub_quantity"
+                    android:src="@drawable/minus"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="16dp"
+                    android:textSize="18sp"
+                    android:id="@+id/quantityedit"
+
+                    android:text="1"/>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="5dp"
+                    android:id="@+id/add_quantity"
+                    android:src="@drawable/add_on"/>
+            </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

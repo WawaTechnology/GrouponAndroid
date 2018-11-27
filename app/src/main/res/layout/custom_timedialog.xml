@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="300dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivery Info"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+
+        android:gravity="center_horizontal"
+
+
+
+
+        android:id="@+id/timingText"
+        android:layout_marginTop="16dp"
+        />
+    <Button
+        android:layout_marginTop="8dp"
+        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/red"
+        android:textColor="#fff"
+        android:textAlignment="center"
+        android:text="OK"
+        android:id="@+id/ok"></Button>
+
+
+
+</LinearLayout>

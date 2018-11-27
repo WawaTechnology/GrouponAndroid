@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<data>
+    <variable
+        name="usermodel"
+        type="com.example.unsan.grouponebuy.model.User"></variable>
+    <variable
+        name="presenter"
+        type="com.example.unsan.grouponebuy.Presenter.ClickPresenter"></variable>
+</data>
+
+
+<LinearLayout
+
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:id="@+id/back"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/signUp"
+            android:gravity="center"
+            android:layout_weight="0.9"
+
+            android:textStyle="bold"
+            android:textSize="22sp"/>
+
+    </LinearLayout>
+    <ImageView
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+
+        >
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+            android:layout_centerHorizontal="true"
+
+            android:text="@string/name"/>
+        <EditText
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+
+            android:text="@={usermodel.userName}"
+
+            android:inputType="text"
+            android:gravity="center"
+            android:id="@+id/name"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/table_noround"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+
+            android:layout_centerHorizontal="true"
+
+            android:text="@string/email"/>
+        <EditText
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+
+            android:gravity="center"
+            android:layout_marginRight="24dp"
+            android:inputType="textEmailAddress"
+            android:text="@={usermodel.email}"
+
+            android:id="@+id/email"
+            android:background="@drawable/table_noround"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+
+
+            android:layout_centerHorizontal="true"
+
+            android:text="@string/phone"/>
+        <EditText
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+
+
+            android:gravity="center"
+            android:layout_marginRight="24dp"
+            android:inputType="number"
+            android:text="@={usermodel.phone}"
+
+            android:id="@+id/phone"
+            android:background="@drawable/table_noround"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+
+            android:layout_centerHorizontal="true"
+
+            android:text="@string/password"/>
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="24dp"
+            android:inputType="textPassword"
+            android:text="@{usermodel.password}"
+            android:background="@drawable/table_noround"
+
+            android:gravity="center"
+             />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+
+            android:layout_centerHorizontal="true"
+
+            android:text="@string/confirm"/>
+
+        <EditText
+            android:id="@+id/confirm"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="24dp"
+
+            android:background="@drawable/table_noround"
+            android:inputType="textPassword"
+
+
+            android:gravity="center"
+             />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+
+
+            android:layout_centerHorizontal="true"
+
+            android:text="@string/postcode"/>
+
+        <EditText
+            android:id="@+id/postcode"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/table_noround"
+            android:inputType="number"
+            android:text="@{usermodel.postcode}"
+
+
+            android:gravity="center"
+             />
+
+    </LinearLayout>
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="35dp"
+
+
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:id="@+id/submit"
+        android:padding="4dp"
+        android:textSize="18sp"
+        android:background="@color/red"
+        android:textAlignment="center"
+        android:textColor="#fff"
+
+        android:onClick="@{(v)->presenter.onButtonClick()}"
+
+        android:text="@string/signUp"/>
+
+
+
+
+
+
+
+</LinearLayout>
+</layout>

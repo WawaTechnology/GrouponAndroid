@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/new_grey"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+
+        android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="0.9"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/searchbar_height"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_searchbar"
+        >
+        <ImageView
+            android:id="@+id/searchview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search"
+            android:layout_weight="0.1"
+           />
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="0.8"
+            android:layout_height="wrap_content"
+            android:id="@+id/searchText"
+            android:textColor="@android:color/black"
+            android:background="@null"
+            android:hint="@string/search_product"/>
+
+
+
+    </LinearLayout>
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Cancel"
+            android:id="@+id/cancel"
+            android:textSize="16sp"
+            android:layout_marginRight="8dp"
+
+            android:layout_marginLeft="8dp"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="12dp"
+        android:text="Hot Keywords: "
+        android:textColor="@android:color/black"
+
+        android:id="@+id/keyword"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="18dp"
+        android:textSize="22sp"/>
+   <android.support.v7.widget.RecyclerView
+       android:layout_marginTop="8dp"
+       android:layout_marginLeft="12dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/hot_list"></android.support.v7.widget.RecyclerView>
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/product_search_recycler"></android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/end_of_page"
+        android:visibility="gone"
+        android:gravity="center_horizontal">
+        <View
+            android:layout_width="40dp"
+            android:layout_height="1sp"
+            android:layout_marginTop="8dp"
+            android:background="@color/grey_dark"></View>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+
+        android:text="@string/end_page"/>
+        <View
+            android:layout_width="40dp"
+            android:layout_height="1sp"
+            android:layout_marginTop="8dp"
+            android:background="@color/grey_dark"></View>
+    </LinearLayout>
+
+</LinearLayout>

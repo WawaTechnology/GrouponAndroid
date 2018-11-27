@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="3dp"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+
+    
+
+   >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/img"
+        android:adjustViewBounds="true"
+
+
+
+
+        android:scaleType="fitXY"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+
+        android:maxLines="2"
+        android:minLines="2"
+        android:ellipsize="end"
+        android:id="@+id/prod_title"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:maxLines="1"
+        android:layout_marginLeft="3dp"
+        android:ellipsize="end"
+        android:id="@+id/prod_spec"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+
+        android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:textColor="@color/red"
+        android:id="@+id/prod_price"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:visibility="gone"
+            android:id="@+id/original_price"/>
+    </LinearLayout>
+    <Button
+
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+
+
+
+        android:background="@color/red"
+        android:id="@+id/buyButton"
+        android:textColor="#fff"
+        android:text="@string/buy_now"/>
+
+
+
+</LinearLayout>

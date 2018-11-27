@@ -1,0 +1,163 @@
+<resources>
+    <string name="app_name">EbuyMart</string>
+    <string name="about_ebuy">Ebuy is an Internet e-commerce company.\nWe have 7 years experience in this area,we will provide you with fresh supply
+        of vegetables,fruits,meat,dried food and cooked food.\n\nWith the powerful supply chain system and good reputation,we have cooperation
+        with Singapore haidilao,Tanyu nearly hundreds of restaurants.\n \nEbuy is commited to satisfying consumers demand for shopping experience
+        in quality food,providing consumers with good quality groceries and improving after-sales service.
+        Ebuy is trying to become an online fresh grocery store that more and more consumers are trusted.Over the past few years,
+        with the customers support,Ebuy has succesfully built a high-quality corporate image with high reputation and
+        brand characteristics.\n \nWe will continue to strictly control food quality and provide consumers healthier,safer,
+        more nutritious and more assured food.We are trying to get Singaporeans to enjoy the freshest and cheapest fresh food.
+    </string>
+    <string name="end_page">End of Page!</string>
+    <string name="home">Home</string>
+    <string name="shopping_cart">Cart</string>
+    <string name="order">Order</string>
+    <string name="name">Name: </string>
+    <string name="email">Email: </string>
+    <string name="all_order">All Orders</string>
+    <string name="phone">Phone:</string>
+    <string name="password">Password:</string>
+    <string name="confirm">Confirm:</string>
+    <string name="confm">Confirm</string>
+    <string name="postcode">Postcode:</string>
+    <string name="fill_up">Please Fill Up the Blanks </string>
+    <string name="add_to_cart">Add to Cart"</string>
+    <string name="old_password">Old Password: </string>
+    <string name="new_password">New Password: </string>
+    <string name="logout">Logout</string>
+    <string name="edit">edit</string>
+    <string name="save">save</string>
+    <string name="popular">Popular</string>
+    <string name="countdown">Closes in</string>
+    <string name="limited_offer">Limited Offer</string>
+
+
+    <string name="outOfStock">Sold Out</string>
+    <string name="feedback_successful">We have received your message successfully, thanks!</string>
+    <string name="customer_service">Customer service: </string>
+    <string name="customer_service_hour">Note:customer service hours are 9am-9pm daily </string>
+    <string name="any_question">Do you have any comments or questions? </string>
+    <string name="no_order">You have no order....\nLets \'s go Shopping!
+    </string>
+    <string name="offer">Offer</string>
+    <string name="product">Product</string>
+    <string name="me">My</string>
+    <string name="order_detail">Order Detail</string>
+    <string name="orderID">Order ID: </string>
+    <string name="orderDate">Order Date: </string>
+    <string name="deliveryDate">Delivery Date: </string>
+    <string name="status">Status: </string>
+    <string name="total">Total: </string>
+    <string name="submit">Submit</string>
+    <string name="service">Services</string>
+    <string name="processing">Processing</string>
+    <string name="customerService">Customer Service</string>
+    <string name="more">More</string>
+    <string name="min_spend">Minimum spend is $9.9 for free delivery</string>
+
+    <string name="deliveryTime">Delivery Time Info</string>
+    <string name="aboutUs">About Us</string>
+    <string name="setting">Setting</string>
+    <string name="language_setting">Language Setting</string>
+    <string name="modifyPsw">Update Password</string>
+    <string name="customerHotline">Customer Hotline</string>
+    <string name="version">Version</string>
+    <string name="shippingDate">Delivery Date:  </string>
+    <string name="orderStatus">Order Status:  </string>
+    <string name="paymentStatus">Payment Status:  </string>
+    <string name="cancel">Cancel</string>
+    <string name="saveOrder">Save</string>
+    <string name="updateOrder">Modify</string>
+    <string name="payment">Payment</string>
+    <string name="monday">Mon</string>
+    <string name="tuesday">Tue</string>
+    <string name="wednesday">Wed</string>
+    <string name="thursday">Thu</string>
+    <string name="friday">Fri</string>
+    <string name="saturday">Sat</string>
+    <string name="sunday" >Sun</string>
+    <string name="myOrder">Orders</string>
+    <string name="purchase">Offer</string>
+    <string name="notification">Notification</string>
+    <string name="shipping">Shipping</string>
+    <string name="plz_Sel_Lan">Please Select Language</string>
+    <string name="userName">Username</string>
+    <string name="secPassword">Password</string>
+    <string name="againPassword">Confirm</string>
+
+    <string name="signUp">Sign Up</string>
+    <string name="signUp_Login">Sign Up/Login</string>
+    <string name="Order_Detail">Order Detail</string>
+    <string name="favorited">Favorited</string>
+    <string name="favorite">Favorite</string>
+    <string name="origin">Origin: </string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="specification">Specification:  </string>
+    <string name="search_product">Search for a product... </string>
+    <string name="go_shopping">Go Shopping</string>
+    <string name="online_message">Online Message</string>
+    <string name="feedback">Feedback</string>
+    <string name="quality_assuarance">Replacement Policy, Quality Assuarance,Customer Service</string>
+    <string name="after_sale"> We Promise:  \n
+        ① If the return is caused by the product quality or the mistake from us, you will be guaranteed to get 100% refund.\n
+② We offer a 24hours return policy.\n\n
+
+1. Return and exchange situation caused by the customer\'s personal reasons：\n
+① Personal taste preference;\n
+② Product color perception difference;\n
+③ Return without any reason (when the product and packaging are intact);\n
+④ After dismantling the package, as long as the main body of the product is in good condition, you can contact customer service to return the goods without affecting the second sale.\n\n
+
+2. Return and exchange situation caused by EBuyMart：\n
+
+① When the product received is not the ordered product, please provide the order number or your mobile phone number to follow up the return service;\n
+② For the quality of the product itself, please provide the order number or your mobile phone number to provide after-sales service.\n\n
+
+
+3. Refusal to return any of the following conditions：\n
+
+① When there is a quality problem in the product, the customer discards or consumes the product. Then make a complaint consultation;\n
+② The product is not sold by EBuyMart after inspection by the EBuy staff;\n
+③ The product exceeds the specified service time within 24 hours.\n\n
+
+4. Return and exchange tips：\n
+
+① Chilled perishable goods and vegetables do not enjoy the "24-hour return" service, if there are product quality problems in the face, you can directly refuse;\n
+② When returning the goods, you need to return the corresponding invoice (if has) to ensure that the EBuy staff can verify and quickly process;\n
+③ The refund will be refunded in the original payment method;\n
+④ EBuyMart pictures and information are for reference only. The products are subject to the actual product. The shooting light and the color difference of the display may cause a slight difference between the product and the picture, which is not a quality problem. After the order transaction is successful, please save the invoice (if has), so that after the quality problem is found within the specified time, the after-sales service can be carried out normally.\n\n
+5. Exclusive customer service - Have problems, Easily retreat\n
+In order to facilitate follow-up and return service and provide after-sales service, customers can contact the exclusive customer service:\n
+EBuyMart WeChat ID: EbuyAssitant\n
+EBuyMart WhatsApp: 8518 9139\n\nWe can\'t guarantee 100% satisfaction, but we care about your feelings and won\'t let you worry about after-sales is our goal\n\n
+ALL RIGHTS RESERVED BY EBuyMART</string>
+
+
+    <string name="succesful_apply">You have successfully applied the area -</string>
+    <string name="open_msg">We will open this area after the application amount reaches 10 people.
+   Please feel free to leave a message and ask about our application process and wait for the good news.Thank You! </string>
+    <string name="follow_us">Follow our official WeChat account for updates on promotional Items and activities</string>
+    <string name="district_info">District Information</string>
+    <string name="about_us">About Us</string>
+    <string name="replacement_policy">Replacement Policy</string>
+
+    <string name="ebuy_paynow">Ebuy PayNow Info</string>
+    <string name="service_hotline">Service Hotline</string>
+
+    <string name="paynow_phone">Phone:   8518 9139 </string>
+    <string name="account_paynow">Account:   Ebuy Groupon</string>
+    <string name="paynow_handle">We will handle it within 24 hours</string>
+    <string name="all">ALL</string>
+    <string name="new_tag">New</string>
+    <string name="buy_now">Buy Now</string>
+    <string name="price">Price</string>
+    <string name="ok">OK</string>
+    <string name="change_password">Change Password</string>
+    <string name="login">Login</string>
+    <string name="my_order">My Order</string>
+
+    <string name="completed">Completed</string>
+    <string name="waiting">Waiting</string>
+
+</resources>

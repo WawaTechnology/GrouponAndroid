@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="480dp"
+
+    android:background="#fff">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/red"
+        android:id="@+id/red_view"></View>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/red_view"
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentTop="true"
+        android:text="@string/quality_assuarance"
+
+        android:id="@+id/title"
+        android:textColor="@color/red"
+
+        android:gravity="center_horizontal"
+        android:textStyle="bold"/>
+    <View
+        android:layout_below="@id/title"
+        android:id="@+id/border"
+
+
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/new_grey"></View>
+
+  <ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="400dp"
+    android:layout_below="@id/border">
+
+    <TextView
+
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+
+
+        android:layout_marginTop="8dp"
+        android:text="@string/after_sale"/>
+  </ScrollView>
+
+
+
+
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+
+        android:background="@color/red"
+        android:text="@string/ok"
+        android:gravity="center_horizontal"
+
+        android:id="@+id/ok"
+
+        android:textColor="#fff"/>
+
+</RelativeLayout>

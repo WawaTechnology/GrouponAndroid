@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/shopping_cart"
+        android:textStyle="bold"
+
+        android:padding="5dp"
+
+        android:textSize="20sp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/new_grey"
+        ></View>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:id="@+id/cart_layout"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_layout"
+        android:background="#fff"
+
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:id="@+id/all_check"
+            android:button="@drawable/custom_checkbox"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            android:text="@string/all"/>
+
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/min_spendmsg"
+            android:textSize="12sp"
+            android:textColor="@color/red"
+            android:text="@string/min_spend"/>
+    </LinearLayout>
+    <View
+        android:layout_below="@id/check_layout"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/grey_view"
+
+        android:background="@color/new_grey"></View>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_below="@id/grey_view"
+
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/cart_recycler"></android.support.v7.widget.RecyclerView>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+            <View
+
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/new_grey"></View>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+
+        android:id="@+id/edit_bottom"
+
+
+        android:orientation="horizontal"
+
+
+        android:background="#ffff">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
+
+
+
+            android:textStyle="bold"
+            android:textSize="14sp"
+
+            android:text="@string/total"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/red"
+
+           android:layout_weight="1"
+            android:id="@+id/amount"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="$ 0"/>
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            android:textSize="14sp"
+            android:text="@string/submit"
+
+
+
+            android:textColor="#ffff"
+
+            android:id="@+id/pay_button"
+            android:background="@color/red"/>
+
+
+    </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+   <LinearLayout
+
+        android:id="@+id/cart_none"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:background="@color/white"
+       android:visibility="gone"
+        android:gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ImageView
+            android:src="@drawable/rsz_nocart"
+            android:scaleType="fitXY"
+
+            android:adjustViewBounds="true"
+
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="-16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textSize="16sp"
+
+            android:text="Empty"
+            android:textColor="@color/grey_dark"/>
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

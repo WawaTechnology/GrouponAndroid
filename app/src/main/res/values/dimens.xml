@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_textsize">12sp</dimen>
+    <dimen name="button_height">35dp</dimen>
+    <dimen name="item_offset">5dp</dimen>
+    <dimen name="category_size">12sp</dimen>
+    <dimen name="scroll_height">210dp</dimen>
+
+</resources>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="280dp"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:id="@+id/red_view"
+        android:background="@color/red"></View>
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/first_layout"
+    android:layout_below="@id/red_view"
+    android:background="#fff"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:layout_marginTop="12dp"
+        android:layout_width="120dp"
+        android:layout_height="90dp"
+        android:src="@drawable/ebuylogo"
+        android:layout_gravity="center_horizontal"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        >
+        <TextView
+            android:layout_width="100dp"
+
+            android:layout_height="wrap_content"
+            android:text="District: "/>
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/district_name"
+            android:maxLines="3"
+            android:text="Orchard - Spring Grove - BLK N"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+
+            android:text="Unit No: "/>
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/unit_number"
+            android:maxLines="3"
+            android:text="#02-02"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        android:layout_marginTop="8dp">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+
+            android:text="Delivery Date: "/>
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_marginLeft="8dp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:id="@+id/delivery_date"
+                android:text="2018-8-14 Tuesday 18:00~21:00"
+                />
+            <TextView
+                android:layout_marginLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/red"
+                android:id="@+id/change_text"
+                android:text="change Delivery Date"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+
+
+            android:text="Paper Bill: "/>
+        <TextView
+            android:layout_marginLeft="8dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/noRadioButton"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/yesRadioButton"
+
+                android:text="Yes"/>
+            <RadioButton
+                android:layout_marginLeft="8dp"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/noRadioButton"
+                android:text="No"/>
+
+        </RadioGroup>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="150dp"
+
+            android:layout_height="wrap_content"
+
+
+            android:text="Payment Method:"/>
+        <TextView
+
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/cashRadioButton"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/cashRadioButton"
+                android:text="Cash"/>
+            <RadioButton
+                android:layout_marginLeft="8dp"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/payNowRadioButton"
+                android:text="PayNow"/>
+
+        </RadioGroup>
+    </LinearLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
+
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:id="@+id/remark"
+        android:hint="Text..."
+        android:background="@drawable/black_rectangle"/>
+
+
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_below="@id/first_layout"
+
+
+
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:background="@color/grey"
+            android:gravity="center_vertical|center_horizontal"
+
+            android:id="@+id/cancel"
+            android:text="Cancel"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:background="@color/red"
+            android:gravity="center_vertical|center_horizontal"
+            android:id="@+id/confirm"
+            android:text="Confirm"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">EbuyMart</string>
+    <string name="login">登录</string>
+    <string name="order">订单</string>
+    <string name="shopping_cart">购物车</string>
+    <string name="me">我的</string>
+    <string name="order_detail">订单详情</string>
+    <string name="orderID">订单编号:  </string>
+    <string name="orderDate">下单日期: </string>
+    <string name="deliveryDate">送货日期:  </string>
+    <string name="status">订单状态:   </string>
+    <string name="total">总价:  </string>
+    <string name="customerService">客户服务 </string>
+    <string name="logout">退出</string>
+    <string name="buy_now">立即抢购</string>
+    <string name="popular">综合</string>
+    <string name="countdown">剩余</string>
+    <string name="limited_offer">限时抢购</string>
+    <string name="feedback">意见反馈</string>
+    <string name="quality_assuarance">24小时内坏果包退、品控质检、专享客服</string>
+    <string name="end_page">没有更多了</string>
+
+    <string name="password">密码:</string>
+    <string name="phone">手机号码:</string>
+    <string name="postcode">邮编:</string>
+    <string name="secPassword">确认密码</string>
+    <string name="againPassword">再次确认</string>
+    <string name="forget_Psw">忘记密码？</string>
+    <string name="signUp">注册</string>
+    <string name="signUp_Login">注册/登陆</string>
+    <string name="order_Detail">订单详情</string>
+    <string name="favorited">已收藏</string>
+    <string name="favorite">收藏</string>
+    <string name="origin">产地:    </string>
+    <string name="specification">规格:    </string>
+    <string name="deliveryTime">配送时间说明</string>
+    <string name="aboutUs">关于我们</string>
+    <string name="language_setting">语言设置</string>
+    <string name="modifyPsw">密码修改</string>
+    <string name="customerHotline">客服热线</string>
+    <string name="currentVersion">当前版本</string>
+    <string name="shippingDate">送货日期:  </string>
+    <string name="orderStatus">订单状态:   </string>
+    <string name="paymentStatus">付款状态:   </string>
+    <string name="change_password">修改密码</string>
+    <string name="ok">确定</string>
+    <string name="offer">抢购价</string>
+    <string name="email">邮箱: </string>
+    <string name="name">名称: </string>
+    <string name="outOfStock">已抢光</string>
+    <string name="cancel">取消</string>
+    <string name="saveOrder">保存订单</string>
+    <string name="updateOrder">修改订单</string>
+    <string name="monday">星期一</string>
+    <string name="tuesday">星期二</string>
+    <string name="wednesday">星期三</string>
+    <string name="thursday">星期四</string>
+    <string name="friday">星期五</string>
+    <string name="saturday">星期六</string>
+    <string name="sunday">星期天</string>
+    <string name="myOrder">我的订单</string>
+    <string name="purchase">抢购价</string>
+    <string name="notification">通知</string>
+    <string name="shipping">送货中</string>
+    <string name="plz_Sel_Lan">请选择语言</string>
+    <string name="product">商品</string>
+    <string name="confirm">确认:</string>
+    <string name="confm">确认</string>
+    <string name="userName">用户名</string>
+    <string name="feedback_successful">留言成功</string>
+    <string name="customer_successful">客户服务: </string>
+    <string name="customer_service_hour">注： 客服上班时间为每天 9:30 am - 8:30 pm</string>
+    <string name="processing">待收货</string>
+    <string name="my_order">订单</string>
+    <string name="forgot_password">忘记密码？</string>
+    <string name="old_password">旧密码:  </string>
+    <string name="new_password">新密码: </string>
+    <string name="shipped">待收货</string>
+    <string name="completed">已完成</string>
+    <string name="waiting">等待处理</string>
+
+    <string name="after_sale">我们承诺——坏果包退：\n
+签收后24小时内，商品腐坏变质，商家承诺24小时内处理。\n\n
+
+1、由客户个人原因造成的退换货情况\n
+① 个人口味偏好；\n
+② 产品色泽感观差异；\n
+③ 无任何理由退回(产品与包装完好无损的情况下)；\n
+④ 拆除包装后，只要商品主体完好，在不影响二次销售的情况下可联系客服进行退换货。\n\n
+
+2、由EBuyMart造成的退换货情况\n
+① 发现收到的产品并非订购的产品时，请提供订单编号或订购手机号，以便跟进退换服务；\n
+② 产品本身质量问题，请提供订单编号或订购手机号，以便提供售后服务。\n\n
+
+3、以下情况拒绝进行任何退换货\n
+① 产品存在质量问题时，客户丢弃或食用产品之后再进行投诉咨询的；\n
+② 产品经配送人员检查后并非EBuyMart出售的产品；\n
+③ 产品超过规定的24小时内售后服务时间。\n
+
+</string>
+    <string name="about_us">关于我们</string>
+
+    <string name="ebuy_paynow">Ebuy PayNow 信息</string>
+
+    <string name="payment">未付款</string>
+    <string name="all_order">全部订单</string>
+
+    <string name="submit">结算</string>
+    <string name="service">商家服务</string>
+    <string name="about_ebuy">Ebuy is an Internet e-commerce company.\nWe have 7 years experience in this area,we will provide you with fresh supply
+        of vegetables,fruits,meat,dried food and cooked food.\n\nWith the powerful supply chain system and good reputation,we have cooperation
+        with Singapore haidilao,Tanyu nearly hundreds of restaurants.\n \nEbuy is commited to satisfying consumers demand for shopping experience
+        in quality food,providing consumers with good quality groceries and improving after-sales service.
+        Ebuy is trying to become an online fresh grocery store that more and more consumers are trusted.Over the past few years,
+        with the customers support,Ebuy has succesfully built a high-quality corporate image with high reputation and
+        brand characteristics.\n \nWe will continue to strictly control food quality and provide consumers healthier,safer,
+        more nutritious and more assured food.We are trying to get Singaporeans to enjoy the freshest and cheapest fresh food.
+    </string>
+    <string name="version">当前版本</string>
+    <string name="setting">设置</string>
+    <string name="home">主页</string>
+    <string name="fill_up">请补充空白处信息 </string>
+    <string name="add_to_cart">加入购物车</string>
+
+    <string name="any_question">Do you have any comments or questions? </string>
+    <string name="no_order"> 当前无订单记录....去购物！
+    </string>
+    <string name="search_product">请输入商品名称... </string>
+    <string name="go_shopping">去购物</string>
+    <string name="online_message">Online Message</string>
+    <string name="succesful_apply">You have successfully applied the area -</string>
+    <string name="open_msg">We will open this area after the application amount reaches 10 people.
+   Please feel free to leave a message and ask about our application process and wait for the good news.Thank You! </string>
+    <string name="follow_us">Follow our official WeChat account for updates on promotional Items and activities</string>
+    <string name="district_info">团购区域信息</string>
+    <string name="service_hotline">客服热线</string>
+    <string name="more">查看详情</string>
+    <string name="min_spend">最低起送价为 $9.9</string>
+    <string name="edit">编辑</string>
+    <string name="save">保存订单</string>
+
+    <string name="paynow_handle">We will handle it within 24 hours</string>
+    <string name="all">全部</string>
+    <string name="new_tag">新品</string>
+    <string name="price">价格</string>
+    <string name="replacement_policy">坏果包退</string>
+
+</resources>

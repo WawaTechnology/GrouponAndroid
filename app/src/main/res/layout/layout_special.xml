@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginTop="4dp"
+    android:layout_height="wrap_content">
+    <View android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginBottom="4dp"
+        android:id="@+id/grey_view"
+        android:background="@color/new_grey"></View>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/grey_view"
+        android:layout_marginBottom="8dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/spl_img"
+        />
+
+
+    <TextView
+        android:layout_below="@id/spl_img"
+
+
+        android:layout_marginTop="-24dp"
+        android:layout_width="105dp"
+        android:layout_height="30dp"
+        android:paddingRight="8dp"
+        android:gravity="center_horizontal"
+
+        android:textColor="#fff"
+        android:padding="5dp"
+        android:textSize="12sp"
+        android:background="@drawable/rounded_corneright"
+        android:id="@+id/spl_catname"/>
+
+
+
+
+ <!--   <com.example.unsan.grouponebuy.utils.AutoResizeTextView
+        android:layout_below="@id/spl_img"
+
+
+        android:layout_marginTop="-20dp"
+        android:layout_width="110dp"
+        android:layout_height="30dp"
+        android:paddingRight="8dp"
+        android:singleLine="true"
+        android:ellipsize="none"
+
+        android:textColor="#fff"
+        android:padding="5dp"
+        android:textSize="12sp"
+        android:background="@drawable/rounded_corneright"
+        android:id="@+id/spl_catname"/>
+        -->
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@id/spl_catname"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spl_catprodrecycler"></android.support.v7.widget.RecyclerView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_height="4dp"
+        android:layout_below="@id/spl_catprodrecycler"
+        android:background="@color/new_grey"
+        android:id="@+id/grey_separator"
+        android:layout_marginBottom="2dp"
+        ></View>
+    <!--trying single iage
+    -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/grey_separator"
+
+        android:adjustViewBounds="true"
+
+
+
+
+        android:id="@+id/single_layoutimage"
+        />
+
+
+</RelativeLayout>

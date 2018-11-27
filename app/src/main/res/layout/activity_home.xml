@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    >
+    <data>
+        <variable
+            name="categoryclick"
+            type="com.example.unsan.grouponebuy.Presenter.LinearClickPresenter"/>
+    </data>
+
+
+
+
+
+<android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    >
+
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#fff"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+       android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/searchbar_height"
+        android:orientation="horizontal"
+        android:background="@drawable/rounded_searchbar"
+        >
+
+        <ImageView
+            android:id="@+id/searchview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:src="@drawable/search"
+             />
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_product"
+          />
+
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        >
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="wrap_content"
+
+
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="3dp"
+
+
+
+         />
+    <LinearLayout
+        android:id="@+id/indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"></LinearLayout>
+    </RelativeLayout>
+<!--
+paste special banner here-->
+    <ImageView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
+
+
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/specialBanner"
+
+
+        />
+
+
+
+    <android.support.v7.widget.RecyclerView
+
+
+
+
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+
+     android:layout_marginTop="2dp"
+     android:clipToPadding="false"
+     android:padding="@dimen/item_offset"
+     android:gravity="center"
+     android:id="@+id/catgory_recycler"></android.support.v7.widget.RecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+
+        android:visibility="gone"
+        android:id="@+id/flashsalelayout"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:textColor="@color/red"
+                android:text="@string/limited_offer"
+                android:id="@+id/saleName"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="5dp"
+                android:layout_weight="1"></View>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey_dark"
+                android:text="@string/countdown"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/time_remaining"
+                android:text="hhh"
+                android:textColor="@color/grey_dark"
+                android:gravity="center_horizontal"
+
+                android:layout_marginLeft="5dp"/>
+
+
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sale_productRecycler"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+
+
+
+
+  <!--  <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/new_grey"
+        android:layout_marginTop="5dp"
+        ></View>
+        -->
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_threeTop"></android.support.v7.widget.RecyclerView>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+
+
+
+
+        android:id="@+id/single_impimage"
+        android:layout_marginBottom="4dp"/>
+
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_doubleTop"></android.support.v7.widget.RecyclerView>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+
+        android:adjustViewBounds="true"
+        android:visibility="gone"
+
+
+
+
+        android:id="@+id/single_oneimage"
+        android:layout_marginBottom="4dp"/>
+
+
+
+    <android.support.v7.widget.RecyclerView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/recycler_special"
+        ></android.support.v7.widget.RecyclerView>
+
+    <!--
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:id="@+id/single_toprecycler"
+        ></android.support.v7.widget.RecyclerView>
+        -->
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:id="@+id/double_bottomrecycler"
+        ></android.support.v7.widget.RecyclerView>
+
+
+   <android.support.v7.widget.RecyclerView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+       android:layout_marginLeft="8dp"
+       android:layout_marginRight="8dp"
+        android:id="@+id/recycler_threelayout"
+        ></android.support.v7.widget.RecyclerView>
+
+
+
+   
+
+
+    
+
+
+
+
+</LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>
+</layout>
+
