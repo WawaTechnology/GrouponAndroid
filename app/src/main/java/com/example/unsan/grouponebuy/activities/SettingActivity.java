@@ -3,6 +3,7 @@ package com.example.unsan.grouponebuy.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -26,6 +27,7 @@ public class SettingActivity extends AppCompatActivity {
     GlobalProvider globalProvider;
     RelativeLayout changePwdLayout,changeLangLayout,aboutUsLayout,accountLayout;
     ImageView backButton;
+    RelativeLayout callLayout;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -39,6 +41,7 @@ public class SettingActivity extends AppCompatActivity {
         accountLayout=(RelativeLayout) findViewById(R.id.account_settinglayout);
         aboutUsLayout=(RelativeLayout) findViewById(R.id.about_usLayout);
         backButton=(ImageView) findViewById(R.id.back);
+        callLayout=(RelativeLayout) findViewById(R.id.call_layout);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         if(!globalProvider.isLogin())
         {
@@ -65,6 +68,15 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        callLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(Intent.ACTION_DIAL);
+
+                intent.setData(Uri.parse("tel:" + "85189139"));
+                startActivity(intent);
             }
         });
 
@@ -114,33 +126,28 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        File cacheDirectory=getApplicationContext().getCacheDir();
+       calculateSize();
+      // Log.d("total",total+"");
+    }
+    public void calculateSize()
+    {
         long size = 0;
-        File[] files = cacheDirectory.listFiles();
-        Log.d("checkfilesize",files.length+"");
+        long exsize=0;
+        long totalsize=0;
+
+
+
+        File[] files = getCacheDir().listFiles();
         for (File f:files) {
-
-
             size = size+f.length();
         }
-        Log.d("internalFile",size+"");
-        File externalFiles=getApplicationContext().getExternalCacheDir();
-        Log.d("externalFile",externalFiles.length()+"");
-        Log.d("checkss",getApplicationContext().getCodeCacheDir().length()+"");
-/*       File datacache= getApplicationContext().getDataDir();
-       long si=0;
-       for(File f:datacache.listFiles())
-       {
-           si+=f.length();
-       }
-       Log.d("datasize",si+"");
-       */
+        File[] filex = getExternalCacheDir().listFiles();
+        for (File f:filex) {
+            exsize = exsize+f.length();
+        }
+        totalsize=size+exsize;
+        Log.d("tss",totalsize+"");
 
 
-
-
-        Log.d("appsizeis",size+externalFiles.length()+getApplicationContext().getCodeCacheDir().length()+"");
-      // int total= (int) (getApplicationContext().getCacheDir().length() + getApplicationContext().getExternalCacheDir().length());
-      // Log.d("total",total+"");
     }
 }

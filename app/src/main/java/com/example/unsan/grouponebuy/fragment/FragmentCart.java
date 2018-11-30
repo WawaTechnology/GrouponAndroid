@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -233,6 +234,7 @@ RelativeLayout cartLayout;
         switch (requestCode) {
             case DIALOG_FRAGMENT:
                 if (resultCode == Activity.RESULT_OK&&data.getStringExtra("status").equals("ok")) {
+                    Toast.makeText(getContext(), "Order Successfully placed", Toast.LENGTH_SHORT).show();
                    cartProductList.clear();
                    /* SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
                     SharedPreferences.Editor editor= prefs.edit();
@@ -769,6 +771,7 @@ RelativeLayout cartLayout;
         public static final int DELIVERY_CONSTANT=212;
         ArrayList<PrevOrder> prevOrderList;
         String lang;
+        RadioGroup paymentGroup,paperGroup;
 
         // make sure the Activity implemented it
 
@@ -1001,8 +1004,65 @@ RelativeLayout cartLayout;
             cashRadioButton=(RadioButton) view.findViewById(R.id.cashRadioButton);
             payNowRadioButton=(RadioButton) view.findViewById(R.id.payNowRadioButton);
             yesRadioButton=(RadioButton)view.findViewById(R.id.yesRadioButton);
+            paperGroup=(RadioGroup) view.findViewById(R.id.paper_radiogroup);
+
+            paymentGroup=(RadioGroup) view.findViewById(R.id.payment_group);
+
             noRadioButton=(RadioButton)view.findViewById(R.id.noRadioButton);
             lang=Constants.getLanguage(getContext());
+           SharedPreferences sp= getActivity().getPreferences(Context.MODE_PRIVATE);
+           int res=sp.getInt("paymentkey",0);
+           int billres=sp.getInt("billkey",1);
+           if(res==0)
+           {
+               paymentGroup.check(R.id.cashRadioButton);
+           }
+           else
+               paymentGroup.check(R.id.payNowRadioButton);
+           if(billres==0)
+           {
+               paperGroup.check(R.id.yesRadioButton);
+           }
+           else
+               paperGroup.check(R.id.noRadioButton);
+           paperGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+               @Override
+               public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                   Log.d("here","radio");
+                   SharedPreferences.Editor e = getActivity().getPreferences(Context.MODE_PRIVATE).edit();
+                   if(i==R.id.yesRadioButton)
+                   {
+
+                       e.putInt ("billkey",0);
+
+                   }
+                   else
+                   {
+                       e.putInt("billkey",1);
+                   }
+                   e.commit();
+
+               }
+           });
+
+
+            paymentGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    SharedPreferences.Editor e = getActivity().getPreferences(Context.MODE_PRIVATE).edit();
+                    if(i==R.id.cashRadioButton)
+                    {
+
+                        e.putInt ("paymentkey",0);
+
+                    }
+                    else
+                    {
+                        e.putInt("paymentkey",1);
+                    }
+                    e.commit();
+                }
+            });
 
 
 
@@ -1038,10 +1098,11 @@ RelativeLayout cartLayout;
                     for(PrevOrder order:prevOrderList)
                     {
                        Log.d("prevorderdate",order.getShippingDate());
-                       Log.d("deliveryDar",deliveryDat);
+                       Log.d("deliveryDar",deliveryDate.toString());
 
-                            Date shippingDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+                            Date shippingDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
                                     .parse(order.getShippingDate());
+                        Log.d("prevSHIPrdate",shippingDate.toString());
 
                             if (shippingDate.compareTo(deliveryDate) == 0) {
                                 prevOrder=order.getOrderID();
@@ -1079,6 +1140,7 @@ RelativeLayout cartLayout;
                             try {
                                 jsonObject.put("userName", customer.getUserName());
                                 jsonObject.put("phone", customer.phone);
+                                jsonObject.put("email",customer.getEmail());
                                 jsonObject1.put("inactive", jsonObject);
                                 jsonObject1.put("active", customer.customer_id);
                                 jsonObject2.put("userInfo", jsonObject1);
@@ -1086,6 +1148,7 @@ RelativeLayout cartLayout;
                                 jsonObject2.put("remark", remarkText.getText().toString());
                                 jsonObject2.put("totalPrice", totalamt + "");
                                 jsonObject2.put("district", district.getId());
+
                                 //todo use radiobutton value
                                 if (yesRadioButton.isChecked())
                                     jsonObject2.put("isPrint", true);
@@ -1096,7 +1159,7 @@ RelativeLayout cartLayout;
                                 else
                                     jsonObject2.put("paymentMethod", "PayNow");
 
-                                JSONArray jsonArray = new JSONArray();
+                                final JSONArray jsonArray = new JSONArray();
                                 for (Product product : globalProvider.cartList) {
 
                                     String productId = product.getId();
@@ -1143,23 +1206,55 @@ RelativeLayout cartLayout;
                                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.createOrderUrl, jsonObject2, new Response.Listener<JSONObject>() {
                                     @Override
                                     public void onResponse(JSONObject response) {
-                                       // Log.d("checkResponse", response.toString());
+                                        Log.d("checkorderResponse", response.toString());
 
                                         int status = 0;
                                         try {
                                             status = response.getInt("status");
+                                            String orderCode=response.getJSONObject("payload").getString("orderCode");
+                                            Log.d("orderCode",orderCode);
 
                                             if (status == 0) {
 
-                                                Toast.makeText(getContext(), "Order Successfully placed", Toast.LENGTH_LONG).show();
+                                                JSONObject object=new JSONObject();
+                                                object.put("productList", jsonArray);
+                                                object.put("orderCode",orderCode);
+                                                object.put("email",customer.getEmail());
+                                                object.put("userName",customer.getUserName());
+                                                object.put("totalPrice",totalamt + "");
+                                                object.put("date",deliveryDat);
+                                               String week= GlobalProvider.deliveryTiming.get(deliveryWeek);
+                                                Log.d("deliveryweek",week);
+                                                object.put("week_en",week);
+                                                object.put("week",globalProvider.deliveryTimingChinese.get(week));
+                                                object.put("duration",duration);
+                                                JsonObjectRequest objectRequest=new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        Log.d("emailresponse",response.toString());
+                                                      //  Toast.makeText(getContext(), "Order Successfully placed", Toast.LENGTH_LONG).show();
 
 
-                                                Intent i = new Intent()
-                                                        .putExtra("status", "ok"
-                                                        );
-                                                getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+                                                        Intent i = new Intent()
+                                                                .putExtra("status", "ok"
+                                                                );
+                                                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
 
-                                                dismiss();
+                                                        dismiss();
+
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                    }
+                                                });
+                                                globalProvider.addRequest(objectRequest);
+
+
+
+
+
 
 
                                             } else if (status == 1) {
@@ -1244,6 +1339,7 @@ RelativeLayout cartLayout;
                     }
                     else
                     {
+                        dismiss();
                         new AlertDialog.Builder(getContext()).setTitle("Alert").setMessage("Adding to existing order!").setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -1259,7 +1355,7 @@ RelativeLayout cartLayout;
                                 JsonObjectRequest jsonObjectRequest=null;
                                 try {
                                     jsonObject.put("extraPrice",totalamt);
-                                    JSONArray jsonArray = new JSONArray();
+                                    final JSONArray jsonArray = new JSONArray();
                                     for (Product product : globalProvider.cartList) {
                                         String productId = product.getId();
                                         Double price = product.getPrice();
@@ -1303,12 +1399,49 @@ RelativeLayout cartLayout;
 
                                                 status = response.getInt("status");
                                                 if(response.getInt("status")==0) {
-                                                    Intent i = new Intent()
-                                                            .putExtra("status", "ok"
-                                                            );
-                                                    getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
 
-                                                    dismiss();
+                                                    status = response.getInt("status");
+                                                    String orderCode=response.getJSONObject("payload").getString("orderCode");
+                                                    Log.d("orderCode",orderCode);
+
+                                                    JSONObject object=new JSONObject();
+                                                    object.put("productList", jsonArray);
+                                                    object.put("orderCode",orderCode);
+                                                    object.put("email",customer.getEmail());
+                                                    object.put("userName",customer.getUserName());
+                                                    object.put("totalPrice",totalamt + "");
+                                                    object.put("date",deliveryDat);
+                                                    String week= GlobalProvider.deliveryTiming.get(deliveryWeek);
+                                                    Log.d("deliveryweek",week);
+                                                    object.put("week_en",week);
+                                                    object.put("week",globalProvider.deliveryTimingChinese.get(week));
+                                                    object.put("duration",duration);
+
+
+
+                                                    JsonObjectRequest objectRequest=new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
+                                                        @Override
+                                                        public void onResponse(JSONObject response) {
+                                                            Log.d("emailresponse",response.toString());
+
+
+
+                                                            Intent i = new Intent()
+                                                                    .putExtra("status", "ok"
+                                                                    );
+                                                            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+
+                                                            dismiss();
+
+                                                        }
+                                                    }, new Response.ErrorListener() {
+                                                        @Override
+                                                        public void onErrorResponse(VolleyError error) {
+
+                                                        }
+                                                    });
+                                                    globalProvider.addRequest(objectRequest);
+
                                                 }
                                                 else if(status==1) {
 

@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -27,6 +28,7 @@ public class ChangeLanguageActivity extends AppCompatActivity  {
     RadioGroup radioGroup;
     Button confirmButton;
     String langChoosed;
+    ImageView backButton;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class ChangeLanguageActivity extends AppCompatActivity  {
         setContentView(R.layout.change_language);
         confirmButton=(Button) findViewById(R.id.confirm);
         radioGroup=(RadioGroup) findViewById(R.id.radioGroup);
+        backButton=(ImageView) findViewById(R.id.back);
         Log.d("langis", Constants.getLanguage(getApplicationContext()));
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         englishButton = (RadioButton) findViewById(R.id.english_button);
@@ -48,6 +51,12 @@ public class ChangeLanguageActivity extends AppCompatActivity  {
             radioGroup.check(R.id.chinese_button);
             langChoosed="chinese";
         }
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

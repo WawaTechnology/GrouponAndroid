@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:textSize="18sp"
-        android:text="@string/plz_Sel_Lan"
-        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#fff"
+        android:orientation="horizontal">
 
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:id="@+id/back"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:id="@+id/title"
+            android:textColor="@android:color/black"
+            android:text="Change Language"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_marginLeft="-24dp"
+            android:textSize="17sp"/>
+
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_marginTop="2dp"
         android:layout_height="1dp"
-        android:background="@color/grey"></View>
+
+        android:background="@color/new_grey"></View>
     
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="220dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="125dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ebuylogo"
+        android:layout_marginBottom="67dp"
         />
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="horizontal"
         android:gravity="center_horizontal"
         android:id="@+id/radioGroup"
@@ -44,7 +62,7 @@
             android:onClick="onRadioButtonClicked"
             android:text="中文"/>
         <RadioButton
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/english_button"
@@ -53,11 +71,13 @@
     </RadioGroup>
 
     <Button
-        android:layout_marginTop="12dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+
         android:id="@+id/confirm"
 
         android:layout_gravity="center_horizontal"

@@ -199,6 +199,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         }
         for(ProductImageId productImageId:globalProvider.singleProductList) {
             if (productImageId.getCategory().equals("one-important")) {
+                Log.d("oneimp","visible");
                 activityHomeBinding.singleImpimage.getLayoutParams().height = width / 2;
                 activityHomeBinding.singleImpimage.requestLayout();
                 String cover = Constants.baseUrlStr + productImageId.getProductCover();
@@ -210,6 +211,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
             }
             if (productImageId.getCategory().equals("one")) {
+                Log.d("onesingle","visible");
                 activityHomeBinding.singleOneimage.getLayoutParams().height = width / 2;
                 activityHomeBinding.singleOneimage.requestLayout();
                 String cover = Constants.baseUrlStr + productImageId.getProductCover();
@@ -232,7 +234,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         }
 
 
-      /*  activityHomeBinding.singleImpimage.setOnClickListener(new View.OnClickListener() {
+    activityHomeBinding.singleImpimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -253,7 +255,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             }
 
         });
-        */
+
 
 
 
@@ -566,8 +568,10 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     public void onStop() {
         super.onStop();
         handler.removeCallbacks(runnable);
-        timer.cancel();
-        timer.purge();
+        if(timer!=null) {
+            timer.cancel();
+            timer.purge();
+        }
     }
 
 

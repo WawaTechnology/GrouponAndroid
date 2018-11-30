@@ -37,6 +37,7 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.example.unsan.grouponebuy.R;
 import com.example.unsan.grouponebuy.fragment.FavoriteFragment;
 import com.example.unsan.grouponebuy.fragment.FragmentCart;
@@ -58,6 +59,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -316,6 +318,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
     public void onResume()
     {
         super.onResume();
+       // calculateSize();
         if(!globalProvider.isNotFirstTime)
         {
             globalProvider.isNotFirstTime=true;
@@ -330,6 +333,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
                 HideCartNum();
         }
     }
+
 
     public void setCartNum() {
         Log.d("cartset","here");
@@ -387,6 +391,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
                 favImage.setImageResource(R.drawable.favblack);
                 cartImage.setImageResource(R.drawable.cart_black);
                 aboutImage.setImageResource(R.drawable.profile_black);
+
                 fragmentTransaction.commit();
 
                 break;
@@ -547,6 +552,13 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dip, r.getDisplayMetrics());
         return (int) px;
+    }
+    public void onDestroy()
+    {
+        Log.d("maindestory","here");
+
+        Glide.get(this).clearMemory();
+        super.onDestroy();
     }
 
 

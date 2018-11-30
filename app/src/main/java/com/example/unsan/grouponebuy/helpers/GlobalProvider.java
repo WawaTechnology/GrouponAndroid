@@ -81,6 +81,7 @@ public class GlobalProvider {
    public List<Product> cartList=new ArrayList<>();
    public List<CategoryImage> categoryImageList=new ArrayList<>();
    public Map<String,String> categoryNameMap=new HashMap();
+   public Map<String,String> deliveryTimingChinese=new HashMap();
    public List<ProductImageId> doubleProductImageList=new ArrayList<>();
    private FlashSale flashSale;
 

@@ -15,8 +15,19 @@ public class SpecialImage implements Serializable {
     private String imageEntryEn;
     @JsonProperty("name_ch")
     private String nameCh;
+
+    public Integer getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(Integer sequence) {
+        this.sequence = sequence;
+    }
+
     @JsonProperty("name_en")
     private String nameEn;
+    @JsonProperty("sequence")
+    private Integer sequence;
 
     public Double getImageHeaderSize() {
         return imageHeaderSize;

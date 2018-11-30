@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,7 +40,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/new_grey"></View>
 
     <RelativeLayout
@@ -69,7 +73,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/new_grey"></View>
 
     <RelativeLayout
@@ -102,7 +106,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/new_grey"></View>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -134,7 +138,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/new_grey"></View>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -166,7 +170,7 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/new_grey"></View>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -198,9 +202,10 @@
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/new_grey"></View>
 
 
 
 </LinearLayout>
+</ScrollView>

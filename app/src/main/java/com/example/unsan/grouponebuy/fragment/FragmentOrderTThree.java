@@ -47,6 +47,9 @@ public class FragmentOrderTThree extends Fragment {
     }
 
 
+
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -160,7 +163,10 @@ public class FragmentOrderTThree extends Fragment {
                         ft.remove(prev);
                     }
                     ft.addToBackStack(null);
+
                     DialogFragment dialogFragment = new FragmentOrderTThree.MyDialog();
+
+
 
 
 
@@ -193,6 +199,14 @@ public class FragmentOrderTThree extends Fragment {
         List<Cycle> cycleList;
         Button okButton;
 
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+            // request a window without the title
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            return dialog;
+        }
         public void onCreate(Bundle savedInstanceState)
         {
             super.onCreate(savedInstanceState);

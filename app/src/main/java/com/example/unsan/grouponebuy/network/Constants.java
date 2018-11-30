@@ -41,6 +41,7 @@ static public String baseUrlStr = "http://13.251.164.198:3000/";
     static public String applyDistrictUrl=baseUrlStr+"applies/create";
     static public String customerServiceUrl=baseUrlStr+"messages/create";
     static public String specialImageUrl=baseUrlStr+"specialSales";
+    static public String emailOrderUrl=baseUrlStr+"emails/sendNewOrder";
     static public String ChangePasswordUrlA=baseUrlStr+"users/password/A/";
     static public String modifyOrderUrl=baseUrlStr+"orders/addExtra/";
     static public String flashSaleUrl=baseUrlStr+"activities/1";

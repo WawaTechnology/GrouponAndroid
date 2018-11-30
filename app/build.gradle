@@ -61,6 +61,10 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.4'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.4'
     compile 'com.google.android:flexbox:1.0.0'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    // Optional, if you use support library fragments:
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
 
 
 

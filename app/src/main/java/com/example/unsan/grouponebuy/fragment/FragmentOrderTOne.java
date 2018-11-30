@@ -1,5 +1,6 @@
 package com.example.unsan.grouponebuy.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -59,6 +60,7 @@ public class FragmentOrderTOne extends Fragment {
     OrderAdapter orderAdapter;
     LinearLayout noOrderLayOut;
     CircleBadgeView circleBadgeView;
+    CustomRequest customRequest;
     public static final String TAG = "OrderTag";
     int page = 1;
     int pageSize = 5;
@@ -148,18 +150,20 @@ public class FragmentOrderTOne extends Fragment {
         orderRecyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
+                Log.d("loadmore","called");
                 isLoading = true;
                 page += 1;
 
                 // mocking network delay for API call
-               new Handler().postDelayed(new Runnable() {
+            /*   new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         loadNextPage();
                     }
                 }, 1000);
+                */
 
-               // loadNextPage();
+               loadNextPage();
 
             }
 
@@ -292,8 +296,11 @@ public class FragmentOrderTOne extends Fragment {
         if (globalProvider.isLogin()) {
             String url = Constants.getOrderUrl + page + "/" + pageSize;
             Map<String, String> params = new HashMap<>();
+
             params.put("state", "all");
             params.put("userID", globalProvider.getCustomer().customer_id);
+            Log.d("url",url);
+            Log.d("userId",globalProvider.getCustomer().customer_id);
             CustomRequest customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -303,6 +310,8 @@ public class FragmentOrderTOne extends Fragment {
                     try {
                         JsonParser jsonParser = jsonFactory.createParser(response.toString());
                         ResultOrder resultOrder = (ResultOrder) objectMapper.readValue(jsonParser, ResultOrder.class);
+                        Log.d("ostatus",resultOrder.getStatus()+"");
+                        Log.d("resultorder",response.toString());
                         orderAdapter.removeLoadingFooter();
                         if (resultOrder.getStatus() == 0) {
 
@@ -311,15 +320,22 @@ public class FragmentOrderTOne extends Fragment {
                             orderAdapter.notifyDataSetChanged();
                             noOrderLayOut.setVisibility(View.GONE);
                             orderRecyclerView.setVisibility(View.VISIBLE);
-                            if(pageSize<orderList.size()) {
+                           Log.d("checkresultsize",resultOrder.getOrder().size()+"");
+                            isLoading = false;
 
-                                TOTAL_PAGE += 1;
+                            if (pageSize <= resultOrder.getOrder().size()) {
+                                orderAdapter.addLoadingFooter();
+                                TOTAL_PAGE+=1;
                             }
-                            if (page < TOTAL_PAGE) orderAdapter.addLoadingFooter();
-                            else isLastPage = true;
+                            else
+                                isLastPage = true;
+
+                            Log.d("checkisLatP",isLastPage+"");
+                            Log.d("isLoading",isLoading+"");
                         } else {
                             if (resultOrder.getStatus() == 2) {
                                 isLastPage = true;
+                                orderAdapter.isLoadingAdded=false;
                                 //orderAdapter.removeLoadingFooter();
                                 orderAdapter.notifyDataSetChanged();
                                 return;
@@ -344,6 +360,7 @@ public class FragmentOrderTOne extends Fragment {
 
 
     }
+
 
 
     public void onResume()
@@ -371,11 +388,14 @@ public class FragmentOrderTOne extends Fragment {
       if(globalProvider.isLogin())
       {
           Log.d("onresumeorder","called");
+          Activity activity = getActivity();
+          if(isAdded()&&activity!=null) {
 
               getBadge();
-          orderList.clear();
-           orderAdapter.notifyDataSetChanged();
-          getOrders();
+              orderList.clear();
+              orderAdapter.notifyDataSetChanged();
+              getOrders();
+          }
       }
 
 
@@ -488,6 +508,7 @@ public class FragmentOrderTOne extends Fragment {
     public void getOrders() {
 
 
+
         if (globalProvider.isLogin()) {
             String url = Constants.getOrderUrl + page + "/" + pageSize;
 
@@ -508,7 +529,7 @@ public class FragmentOrderTOne extends Fragment {
 
             params.put("userID", globalProvider.getCustomer().customer_id);
 
-            CustomRequest customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
+             customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     ObjectMapper objectMapper = new ObjectMapper();
@@ -535,6 +556,7 @@ public class FragmentOrderTOne extends Fragment {
                                 }
                             }
                             */
+
                             orderList.addAll(resultOrder.getOrder());
                            // Log.d("orderleistsize",orderList.size()+"");
                            // orderAdapter.notifyDataSetChanged();
@@ -549,9 +571,14 @@ public class FragmentOrderTOne extends Fragment {
                                 noOrderLayOut.setVisibility(View.GONE);
 
                                 orderRecyclerView.setVisibility(View.VISIBLE);
+                                Log.d("checkorders",orderList.size()+"");
 
-                                if (page <= TOTAL_PAGE&&pageSize<=orderList.size())
+                                if (pageSize<=orderList.size()) {
                                     orderAdapter.addLoadingFooter();
+                                    Log.d("footeradded","here");
+                                    Log.d("isLoading1",isLoading+"");
+                                    Log.d("isLastpage",isLastPage+"");
+                                }
                                 else {
                                     isLastPage = true;
                                     orderAdapter.isLoadingAdded=false;

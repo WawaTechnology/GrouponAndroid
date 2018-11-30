@@ -6,173 +6,230 @@
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="44dp"
         android:background="#fff"
         android:orientation="horizontal">
 
 
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
+            android:layout_gravity="center_horizontal|center_vertical"
             app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
             android:id="@+id/back"/>
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Login"
-            android:gravity="center"
-            android:layout_weight="0.9"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:text="@string/account_setting"
+            android:textColor="@android:color/black"
 
-            android:textStyle="bold"
-            android:textSize="22sp"/>
+            android:gravity="center_horizontal|center_vertical"
+
+            android:layout_marginLeft="-24dp"
+
+
+            android:textSize="17sp"/>
 
     </LinearLayout>
+    <ImageView
+        android:background="@color/new_grey"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="8dp"
+
+        android:layout_height="1dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="#fff"
         android:orientation="horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="16dp"
+
+
         >
         <TextView
-            android:layout_width="90dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+
             android:text="Name:"
             />
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+
+
             android:layout_height="wrap_content"
 
+
             android:id="@+id/name_edit"
-            android:background="@drawable/table_noround"
+            android:background="@null"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="1dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="#fff"
+
         >
         <TextView
-            android:layout_width="90dp"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
             android:text="Email:"
             />
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
 
+            android:textSize="14sp"
+
             android:id="@+id/email_edit"
-            android:background="@drawable/table_noround"
+            android:background="@null"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="16dp"
+        android:background="#fff"
+        android:layout_marginTop="1dp"
+
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
         >
         <TextView
-            android:layout_width="90dp"
+            android:layout_width="100dp"
+            android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
             android:text="Phone:"
             />
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+
+            android:textSize="14sp"
+
             android:layout_height="wrap_content"
 
             android:id="@+id/phone_edit"
-            android:background="@drawable/table_noround"
+            android:background="@null"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="16dp"
+        android:background="#fff"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="1dp"
+
+        android:paddingTop="5dp"
         >
         <TextView
-            android:layout_width="90dp"
+            android:layout_width="100dp"
+            android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
             android:text="Postcode:"
             />
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+
+            android:textSize="14sp"
+
             android:layout_height="wrap_content"
 
             android:id="@+id/postcode_edit"
-            android:background="@drawable/table_noround"
+            android:background="@null"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="16dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/white"
+
+        android:layout_marginTop="1dp"
         >
         <TextView
-            android:layout_width="90dp"
+            android:layout_width="100dp"
+            android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
             android:text="Unit No:"
             />
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
+            android:textSize="14sp"
 
             android:id="@+id/unitno_edit"
-            android:background="@drawable/table_noround"
+            android:background="@null"
             />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="22dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="1dp"
         >
 
         <TextView
             android:layout_width="100dp"
+            android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
 
-            android:text="Paynow Name:" />
+            android:text="Paynow: " />
         <EditText
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:textSize="14sp"
+
             android:layout_height="wrap_content"
+
+
 
             android:id="@+id/paynow_edit"
             android:hint="e.g.: ZHANG YUN"
-            android:background="@drawable/table_noround"
+            android:background="@null"
             />
     </LinearLayout>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@color/red"
         android:textColor="#fff"
-        android:textAlignment="center"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:gravity="center"
+        android:textAlignment="gravity"
         android:textSize="18sp"
         android:id="@+id/save"
         android:text="SAVE"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"></View>
+
+   <ImageView
+       android:layout_width="wrap_content"
+       android:layout_height="50dp"
+       android:layout_marginBottom="8dp"
+       android:layout_gravity="center"
+       android:id="@+id/bottomimage"
+       />
+
 </LinearLayout>

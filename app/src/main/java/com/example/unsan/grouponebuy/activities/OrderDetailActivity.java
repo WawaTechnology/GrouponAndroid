@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -91,8 +92,13 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         backButton=(ImageView) findViewById(R.id.back);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
 
+        orderListRecycler.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL));
+
 
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
+
+
         orderListRecycler.setLayoutManager(linearLayoutManager);
         orderListRecycler.setAdapter(orderDetailAdapter);
         Intent intent=getIntent();
@@ -112,7 +118,13 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
 
         orderIdText.setText(order.getOrderCode());
         orderDateText.setText(order.getOrderDate());
-        statusText.setText(order.getState());
+       String  state = order.getState().substring(0,1).toUpperCase() + order.getState().substring(1);
+        statusText.setText(state);
+        if(order.getState().equalsIgnoreCase("shipping"))
+        {
+            editOrderButton.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.GONE);
+        }
         if(order.getState().equalsIgnoreCase("completed"))
         {
 
@@ -132,15 +144,15 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         editOrderButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(editOrderButton.getText().toString().equalsIgnoreCase("Edit")) {
+                if(editOrderButton.getText().toString().equalsIgnoreCase(getString(R.string.edit))) {
                     OrderDetailAdapter.editClicked = true;
                     orderDetailAdapter.notifyDataSetChanged();
-                    editOrderButton.setText("save");
+                    editOrderButton.setText(getString(R.string.save));
                 }
                 else
                 {
                     editOrder();
-                    editOrderButton.setText("Edit");
+                    editOrderButton.setText(getString(R.string.edit));
                     OrderDetailAdapter.editClicked=false;
                     orderDetailAdapter.notifyDataSetChanged();
 
@@ -204,17 +216,17 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
                 if(orderPayload.getTotalPriceActual()!=null&&orderPayload.getTotalPriceActual()>0)
                 {
 
-                    paymentStatusText.setText("Paid");
+                    paymentStatusText.setText(getString(R.string.paid));
                     paymentStatusText.setTextColor(getResources().getColor(R.color.green));
                     editOrderButton.setVisibility(View.GONE);
                     cancelButton.setVisibility(View.GONE);
                 }
                 else {
-                    paymentStatusText.setText("Unpaid");
+                    paymentStatusText.setText(getString(R.string.unpaid));
                     paymentStatusText.setTextColor(getResources().getColor(R.color.orange));
 
-                    editOrderButton.setVisibility(View.VISIBLE);
-                    cancelButton.setVisibility(View.VISIBLE);
+                    //editOrderButton.setVisibility(View.VISIBLE);
+                   // cancelButton.setVisibility(View.VISIBLE);
                 }
             } catch (JsonParseException e) {
                 e.printStackTrace();

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.unsan.grouponebuy.network.Constants;
+import com.squareup.leakcanary.LeakCanary;
 
 
 import java.util.Locale;
@@ -67,6 +68,12 @@ public class MyApplication extends Application {
         {
             Constants.setLanguage(getApplicationContext(),"english");
         }
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
 
       /* String language= Constants.getGetLanguage(this);

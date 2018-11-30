@@ -223,10 +223,17 @@ public class SplashActivity extends AppCompatActivity {
                     SpecialImageResult specialImageResult = (SpecialImageResult) objectMapper.readValue(jsonParser, SpecialImageResult.class);
                     globalProvider.specialMImages.clear();
                     if (specialImageResult.getStatus() == 0) {
-                        List<SpecialImage> specialImages = new ArrayList<>();
-                        specialImages.addAll(specialImageResult.getPayload());
+                        //List<SpecialImage> specialImages = new ArrayList<>();
+                       // specialImages.addAll(specialImageResult.getPayload());
+                        for(SpecialImage specialImage:specialImageResult.getPayload())
+                        {
+                            if(specialImage.getSequence()!=666)
+                            globalProvider.specialMImages.add(specialImage);
+                        }
 
-                        globalProvider.specialMImages.addAll(specialImageResult.getPayload());
+
+
+
                         progressBar.setVisibility(View.GONE);
                         Intent intent=new Intent(SplashActivity.this,MainActivity.class);
                         startActivity(intent);
@@ -260,6 +267,13 @@ public class SplashActivity extends AppCompatActivity {
           globalProvider.deliveryTiming.put(4, "Thursday");
           globalProvider.deliveryTiming.put(5, "Friday");
           globalProvider.deliveryTiming.put(6, "Saturday");
+           globalProvider.deliveryTimingChinese.put("Monday","星期一");
+          globalProvider.deliveryTimingChinese.put("Tuesday","星期二");
+          globalProvider.deliveryTimingChinese.put("Wednesday","星期三");
+          globalProvider.deliveryTimingChinese.put("Thursday","星期四");
+          globalProvider.deliveryTimingChinese.put("Friday","星期五");
+          globalProvider.deliveryTimingChinese.put("Saturday","星期六");
+          globalProvider.deliveryTimingChinese.put("Sunday","星期天");
       }
     }
     private void getCategoryImage()
@@ -301,6 +315,10 @@ public class SplashActivity extends AppCompatActivity {
     {
         globalProvider.singleProductList.clear();
         globalProvider.threeImageLayout.clear();
+        globalProvider.doubleProductList.clear();
+        globalProvider.threeTopImageLayout.clear();
+        globalProvider.doubleProductImageList.clear();
+
         String url=Constants.singleProductUrl;
         Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override

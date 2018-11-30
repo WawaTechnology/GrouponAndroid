@@ -10,36 +10,37 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_height="44dp"
+
             android:orientation="horizontal">
             <ImageView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.1"
+                android:layout_gravity="center_horizontal|center_vertical"
                 app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
                 android:id="@+id/back"/>
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="44dp"
                 android:text="@string/setting"
-                android:layout_marginLeft="-30dp"
-                android:gravity="center_horizontal"
-                android:layout_weight="0.9"
+                android:layout_marginLeft="-24dp"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:gravity="center_horizontal|center_vertical"
 
-                android:textStyle="bold"
-                android:textSize="22sp"/>
+/>
 
         </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="4dp"
+
             android:background="@color/new_grey"></View>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:id="@+id/call_layout"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
             <TextView
@@ -49,7 +50,7 @@
 
                 android:layout_alignParentLeft="true"
                 android:id="@+id/service_text"
-                android:textSize="20sp"/>
+                android:textSize="16sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,7 +58,7 @@
                 android:layout_alignParentRight="true"
                 android:id="@+id/service_num"
 
-                android:textSize="20sp"/>
+                android:textSize="16sp"/>
 
         </RelativeLayout>
         <View
@@ -77,14 +78,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/change_password"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:layout_alignParentLeft="true"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:text=">"/>
 
         </RelativeLayout>
@@ -105,14 +106,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/language_setting"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_alignParentLeft="true"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:text=">"/>
 
     </RelativeLayout>
@@ -133,14 +134,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/account_setting"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_alignParentLeft="true"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:text=">"/>
 
     </RelativeLayout>
@@ -161,14 +162,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/about_us"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_alignParentLeft="true"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:text=">"/>
 
     </RelativeLayout>
@@ -188,14 +189,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/version"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_alignParentLeft="true"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:text="V 0.5"/>
 
     </RelativeLayout>
@@ -206,14 +207,16 @@
 
 
     <Button
-        android:layout_width="180dp"
-        android:layout_height="35dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="40dp"
         android:id="@+id/logout"
 
 
         android:text="@string/logout"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textAlignment="center"
         android:layout_gravity="center_horizontal"
         android:background="@color/red"

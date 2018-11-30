@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.example.unsan.grouponebuy.R;
 import com.example.unsan.grouponebuy.helpers.CustomRequest;
 import com.example.unsan.grouponebuy.helpers.GlobalProvider;
@@ -50,6 +51,7 @@ public class EditInfoActivity extends AppCompatActivity {
     EditText nameEdit, emailEdit, phoneEdit, postcodeEdit, unitNoEdit, paynowEdit;
     //ImageView uploadImageIcon;
     ImageView backButton;
+    ImageView bottomImage;
     GlobalProvider globalProvider;
     Button saveButton;
     Map<String, String> params;
@@ -66,6 +68,7 @@ public class EditInfoActivity extends AppCompatActivity {
         paynowEdit = (EditText) findViewById(R.id.paynow_edit);
         backButton=(ImageView)findViewById(R.id.back);
         saveButton = (Button) findViewById(R.id.save);
+        bottomImage=(ImageView) findViewById(R.id.bottomimage);
       //  uploadImageIcon = (ImageView) findViewById(R.id.upload_image);
         globalProvider = GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         Customer customer = globalProvider.getCustomer();
@@ -77,6 +80,7 @@ public class EditInfoActivity extends AppCompatActivity {
         phoneEdit.addTextChangedListener(new GenericTextWatcher(phoneEdit));
         postcodeEdit.setText(customer.postcode);
         postcodeEdit.addTextChangedListener(new GenericTextWatcher(postcodeEdit));
+        Glide.with(this).load(R.drawable.ebuygrey).fitCenter().into(bottomImage);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -119,6 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkedButton="@+id/noRadioButton"
+            android:id="@+id/paper_radiogroup"
             android:orientation="horizontal">
             <RadioButton
                 android:layout_width="80dp"
@@ -164,6 +165,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checkedButton="@+id/cashRadioButton"
+            android:id="@+id/payment_group"
             android:orientation="horizontal">
             <RadioButton
                 android:layout_width="80dp"
@@ -185,9 +187,9 @@
         android:layout_marginTop="5dp"
 
         android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:id="@+id/remark"
-        android:hint="Text..."
+
         android:background="@drawable/black_rectangle"/>
 
 

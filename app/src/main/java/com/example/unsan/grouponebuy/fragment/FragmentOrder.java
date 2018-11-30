@@ -71,11 +71,11 @@ public class FragmentOrder extends Fragment {
         //tabLayout.addTab(tabLayout.newTab().setText("Other"), 2);
         Log.d("fragmentordertag","here");
         imgProfile=(ImageView) view.findViewById(R.id.change_info);
-     //   DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+     DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
-     //   int width = displayMetrics.widthPixels;
-       // frameRelative.getLayoutParams().height= (int) (width/2.5);
-       // frameRelative.requestLayout();
+      int width = displayMetrics.widthPixels;
+        frameRelative.getLayoutParams().height= (int) (width/2.5);
+        frameRelative.requestLayout();
 
 
 
@@ -140,7 +140,7 @@ public class FragmentOrder extends Fragment {
 
             }
         });
-        wrapTabIndicatorToTitle(tabLayout,50,50);
+        wrapTabIndicatorToTitle(tabLayout,70,70);
        // tabLayout.setTabIndicatorFullWidth(false);
 
       /*  tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

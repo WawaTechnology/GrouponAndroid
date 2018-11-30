@@ -1,11 +1,8 @@
-<ScrollView android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
 
 <RelativeLayout
@@ -33,14 +30,16 @@
 
         >
         <ImageView
+
             android:layout_width="66dp"
             android:layout_height="66dp"
-
-
-
-
+            android:layout_centerInParent="true"
+            android:src="@drawable/circular"
             android:id="@+id/change_info"
-            android:src="@mipmap/ic_launcher"/>
+            android:scaleType="fitXY" >
+        </ImageView>
+
+
 
     </RelativeLayout>
     <Button
@@ -49,13 +48,14 @@
 
         android:layout_centerInParent="true"
         android:gravity="center_horizontal|center_vertical"
-
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
 
 
 
         android:id="@+id/loginButton"
         android:layout_below="@id/profile_photo"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/yellow_wholerectangle"
 
         android:text="@string/signUp_Login"
@@ -90,7 +90,8 @@
 </RelativeLayout>
         <android.support.design.widget.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
+            app:tabTextAppearance="@style/CustomTextStyle"
             android:background="#fff"
             android:id="@+id/order_tab"
 
@@ -107,7 +108,9 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+
             android:background="@color/new_grey"
             ></android.support.v4.view.ViewPager>
         <!-- fragment test-->
@@ -120,7 +123,7 @@
 
 
 
-</ScrollView>
+
 
 
 

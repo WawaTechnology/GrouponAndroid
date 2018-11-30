@@ -20,22 +20,24 @@
     <string name="password">Password:</string>
     <string name="confirm">Confirm:</string>
     <string name="confm">Confirm</string>
+    <string name="payment_status">Payment Status:</string>
     <string name="postcode">Postcode:</string>
     <string name="fill_up">Please Fill Up the Blanks </string>
     <string name="add_to_cart">Add to Cart"</string>
     <string name="old_password">Old Password: </string>
     <string name="new_password">New Password: </string>
-    <string name="logout">Logout</string>
-    <string name="edit">edit</string>
-    <string name="save">save</string>
+    <string name="logout">Log Out</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
     <string name="popular">Popular</string>
     <string name="countdown">Closes in</string>
     <string name="limited_offer">Limited Offer</string>
 
 
     <string name="outOfStock">Sold Out</string>
+    <string name="postcode_hint">Please enter postcode</string>
     <string name="feedback_successful">We have received your message successfully, thanks!</string>
-    <string name="customer_service">Customer service: </string>
+    <string name="customer_service">Customer service </string>
     <string name="customer_service_hour">Note:customer service hours are 9am-9pm daily </string>
     <string name="any_question">Do you have any comments or questions? </string>
     <string name="no_order">You have no order....\nLets \'s go Shopping!
@@ -67,6 +69,8 @@
     <string name="orderStatus">Order Status:  </string>
     <string name="paymentStatus">Payment Status:  </string>
     <string name="cancel">Cancel</string>
+    <string name="paid">Paid</string>
+    <string name="unpaid">Unpaid</string>
     <string name="saveOrder">Save</string>
     <string name="updateOrder">Modify</string>
     <string name="payment">Payment</string>
@@ -88,7 +92,8 @@
 
     <string name="signUp">Sign Up</string>
     <string name="signUp_Login">Sign Up/Login</string>
-    <string name="Order_Detail">Order Detail</string>
+    <string name="district_setting">District Setting</string>
+
     <string name="favorited">Favorited</string>
     <string name="favorite">Favorite</string>
     <string name="origin">Origin: </string>
@@ -96,7 +101,7 @@
     <string name="specification">Specification:  </string>
     <string name="search_product">Search for a product... </string>
     <string name="go_shopping">Go Shopping</string>
-    <string name="online_message">Online Message</string>
+    <string name="online_message">Online Feedback</string>
     <string name="feedback">Feedback</string>
     <string name="quality_assuarance">Replacement Policy, Quality Assuarance,Customer Service</string>
     <string name="after_sale"> We Promise:  \n

@@ -60,7 +60,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
     EditText blkEditText, districtEditText,postalTextView;
     GlobalProvider globalProvider;
 
-    android.support.v7.widget.SearchView searchView;
+    ImageView searchView;
     String postalcode;
     TextView addressText,cycleText,deliveryText;
     LinearLayout deliveryTimeLayout;
@@ -111,7 +111,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
 
 
         deliveryTimeLayout=(LinearLayout) findViewById(R.id.deliverytimelayout);
-        searchView=(android.support.v7.widget.SearchView) findViewById(R.id.searchview);
+        searchView=(ImageView) findViewById(R.id.searchview);
 
 
 
@@ -154,14 +154,14 @@ public class DistrictSettingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(TextUtils.isEmpty(postalTextView.getText()))
+                if(TextUtils.isEmpty(postalTextView.getText())||postalTextView.getText().length()<6)
                 {
-                    postalTextView.setError("Please enter district!");
+
                     resultPostalText.setVisibility(View.GONE);
                     notOpenLayout.setVisibility(View.GONE);
                     openLayOut.setVisibility(View.GONE);
                 }
-                else {
+                else if(postalTextView.getText().toString().length()==6) {
                     resultPostalText.setVisibility(View.VISIBLE);
                     postalcode = postalTextView.getText().toString();
                     checkPostalStatus(postalcode);
@@ -267,7 +267,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
 
 
 
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
+        searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("searchviewclicked","yes");
@@ -278,7 +278,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
                     notOpenLayout.setVisibility(View.GONE);
                     openLayOut.setVisibility(View.GONE);
                 }
-                else {
+                else if(postalTextView.getText().toString().length()==6) {
                     postalcode = postalTextView.getText().toString();
                     resultPostalText.setVisibility(View.VISIBLE);
                     checkPostalStatus(postalcode);
@@ -312,6 +312,13 @@ public class DistrictSettingActivity extends AppCompatActivity {
                     params.put("postcode",postalcode);
                     params.put("name",address);
                     params.put("applicant",globalProvider.getCustomer().customer_id);
+                    String language=Constants.getLanguage(getApplicationContext());
+                    if(language.equals("english"))
+                    {
+                        params.put("lang","english");
+                    }
+                    else
+                        params.put("lang","chinese");
                     CustomRequest customRequest=new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
@@ -406,16 +413,16 @@ public class DistrictSettingActivity extends AppCompatActivity {
                             }
 
                             openResultTextView.setTextColor(getResources().getColor(R.color.green));
-                            String result="State:   Open";
-                                    openResultTextView.setText(result);
-                                    String address="Address:   "+district.getNamePrimaryEn()+" - "+district.getNameSecondaryEn()+" - "+district.getNameTertiaryEn();
-                                    addressText.setText(address);
-                                    String cycle="";
-                                    for(String timing:timingList)
-                                    {
-                                        cycle+=timing+"\n";
-                                    }
-                                    cycleText.setText(cycle);
+                            String result="State:           Open";
+                            openResultTextView.setText(result);
+                            String address="Address:     "+district.getNamePrimaryEn()+" - "+district.getNameSecondaryEn()+" - "+district.getNameTertiaryEn();
+                            addressText.setText(address);
+                            String cycle="";
+                            for(String timing:timingList)
+                            {
+                                cycle+=" "+" "+" "+" "+" "+timing+"\n";
+                            }
+                            cycleText.setText(cycle);
 
 
 

@@ -59,12 +59,12 @@
         android:id="@+id/originalprice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
-        android:textColor="@color/grey"
-
         android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
+
         android:text="3.00"
+        android:textColor="@color/grey"
+        android:textSize="13sp"
         app:layout_constraintStart_toEndOf="@+id/priceunit"
         app:layout_constraintTop_toTopOf="@+id/minusButton" />
 
