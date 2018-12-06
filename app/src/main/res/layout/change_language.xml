@@ -83,7 +83,7 @@
         android:layout_gravity="center_horizontal"
         android:background="@drawable/red_wholerectangle"
 
-        android:text="Confirm"
+        android:text="@string/confm"
         android:textColor="#fff"/>
 
 </LinearLayout>

@@ -42,7 +42,7 @@
         <CheckBox
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="8dp"
             android:id="@+id/all_check"
             android:button="@drawable/custom_checkbox"
             />
@@ -51,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:textStyle="bold"
-            android:textSize="12sp"
+
+            android:textSize="14sp"
             android:text="@string/all"/>
 
         <TextView
@@ -77,6 +78,7 @@
 
             android:layout_width="match_parent"
             android:layout_marginBottom="?attr/actionBarSize"
+
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
 

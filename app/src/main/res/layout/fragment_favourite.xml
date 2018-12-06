@@ -26,14 +26,44 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+
+
         android:id="@+id/show_fav"></android.support.v7.widget.RecyclerView>
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/favoriteempty_en"
+        android:id="@+id/empty_favLayout"
+        android:gravity="center"
+        android:visibility="gone"
+
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:scaleType="fitXY"
+        android:padding="8dp"
+
+
+        android:src="@drawable/ebuyas"
+
+
+
+
+        android:adjustViewBounds="true"
+
+
         android:id="@+id/empty_fav"
 
         />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:textAlignment="center"
+            android:text="@string/save_list"/>
+    </LinearLayout>
 
 
 

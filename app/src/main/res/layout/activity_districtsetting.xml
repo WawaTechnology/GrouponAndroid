@@ -42,7 +42,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="District Status (Postcode)"/>
+        android:text="@string/district_postcode"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -56,8 +56,10 @@
         <EditText
             android:layout_width="0dp"
             android:layout_weight="0.6"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:id="@+id/postal"
+            android:gravity="center"
+            android:textAlignment="gravity"
             android:hint="@string/postcode_hint"
 
             android:background="@null"/>
@@ -65,6 +67,7 @@
         <ImageView
             android:id="@+id/searchview"
             android:layout_width="0dp"
+
             android:layout_height="wrap_content"
             android:src="@drawable/search"
             android:layout_weight="0.1"
@@ -118,7 +121,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/deliverytext"
 
-                    android:text="Delivery: "/>
+                    android:text="@string/delivery"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -134,11 +137,12 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:background="@drawable/table_bkg" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Unit No. is: "
-                android:layout_gravity="center_horizontal"/>
+                android:layout_gravity="center_horizontal"
+                android:text="@string/your_unit_no" />
             <TextView
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"

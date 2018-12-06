@@ -26,14 +26,18 @@
             android:id="@+id/searchview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:src="@drawable/search"
             android:layout_weight="0.1"
            />
         <EditText
             android:layout_width="0dp"
             android:layout_weight="0.8"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:id="@+id/searchText"
+
+
+
             android:textColor="@android:color/black"
             android:background="@null"
             android:hint="@string/search_product"/>

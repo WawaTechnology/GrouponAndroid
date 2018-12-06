@@ -31,7 +31,7 @@
             android:layout_width="100dp"
 
             android:layout_height="wrap_content"
-            android:text="District: "/>
+            android:text="@string/district"/>
         <TextView
             android:layout_marginLeft="8dp"
             android:layout_width="120dp"
@@ -51,7 +51,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
 
-            android:text="Unit No: "/>
+            android:text="@string/unit_no"/>
         <TextView
             android:layout_marginLeft="8dp"
             android:layout_width="100dp"
@@ -71,7 +71,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
 
-            android:text="Delivery Date: "/>
+            android:text="@string/deliveryDate"/>
         <LinearLayout
             android:layout_width="150dp"
             android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/red"
                 android:id="@+id/change_text"
-                android:text="change Delivery Date"/>
+                android:text="@string/change_delivery_date"/>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
 
 
-            android:text="Paper Bill: "/>
+            android:text="@string/paper_bill"/>
         <TextView
             android:layout_marginLeft="8dp"
             android:layout_width="120dp"
@@ -126,13 +126,13 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/yesRadioButton"
 
-                android:text="Yes"/>
+                android:text="@string/yes"/>
             <RadioButton
                 android:layout_marginLeft="8dp"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/noRadioButton"
-                android:text="No"/>
+                android:text="@string/no"/>
 
         </RadioGroup>
     </LinearLayout>
@@ -146,7 +146,7 @@
             android:layout_height="wrap_content"
 
 
-            android:text="Payment Method:"/>
+            android:text="@string/payment_method"/>
         <TextView
 
             android:layout_width="100dp"
@@ -172,7 +172,7 @@
                 android:layout_height="wrap_content"
 
                 android:id="@+id/cashRadioButton"
-                android:text="Cash"/>
+                android:text="@string/cash"/>
             <RadioButton
                 android:layout_marginLeft="8dp"
                 android:layout_width="100dp"
@@ -212,7 +212,7 @@
             android:gravity="center_vertical|center_horizontal"
 
             android:id="@+id/cancel"
-            android:text="Cancel"/>
+            android:text="@string/cancel"/>
         <Button
             android:layout_width="0dp"
             android:layout_height="35dp"
@@ -222,6 +222,6 @@
             android:background="@color/red"
             android:gravity="center_vertical|center_horizontal"
             android:id="@+id/confirm"
-            android:text="Confirm"/>
+            android:text="@string/confm"/>
     </LinearLayout>
 </RelativeLayout>

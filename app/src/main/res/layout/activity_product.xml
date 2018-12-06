@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<LinearLayout android:layout_width="match_parent"
+<RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -12,6 +12,7 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/search_layout"
 
     android:orientation="horizontal">
     <ImageView
@@ -32,30 +33,41 @@
         android:background="@drawable/rounded_searchbar"
         >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.9"
-            android:layout_height="wrap_content"
-            android:hint="@string/search_product"/>
-
         <ImageView
             android:id="@+id/searchview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
-            android:src="@drawable/search" />
+            android:layout_gravity="center_vertical"
+
+            android:src="@drawable/search"
+            />
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
+            android:layout_height="35dp"
+            android:hint="@string/search_product"
+            />
 
     </LinearLayout>
 </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:id="@+id/grey_view"
+        android:layout_below="@id/search_layout"
         android:background="@color/new_grey"
         android:layout_marginTop="5dp"
         ></View>
 
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
+        android:layout_below="@id/grey_view"
         android:layout_height="44dp"
         app:tabTextAppearance="@style/CustomTextStyle"
 
@@ -70,6 +82,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@id/tab_layout"
+        android:id="@+id/newgrey"
         android:background="@color/new_grey"
         android:layout_marginTop="5dp"
         ></View>
@@ -77,13 +91,84 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/newgrey"
         android:id="@+id/product_recycler"></android.support.v7.widget.RecyclerView>
     <ProgressBar
         android:id="@+id/main_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_gravity="center"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="20dp"
+        android:gravity="right"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true">
+        <RelativeLayout
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+
+
+            >
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
 
 
 
-</LinearLayout>
+
+
+        android:id="@+id/cart"
+        android:src="@drawable/cart_float"
+
+        />
+            <TextView
+                android:id="@+id/badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3s"
+
+
+
+                android:textColor="#fff"
+
+
+
+
+
+                android:textSize="12sp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+
+
+
+
+
+                android:layout_alignRight="@id/cart"
+                android:layout_alignTop="@id/cart"
+                android:background="@drawable/badge"
+                ></TextView>
+        </RelativeLayout>
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+
+
+        android:id="@+id/uparrow"
+        android:src="@drawable/top"
+
+
+
+
+
+
+        />
+    </LinearLayout>
+
+</RelativeLayout>

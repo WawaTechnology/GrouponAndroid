@@ -19,28 +19,42 @@
 
     <TextView
         android:id="@+id/prod_name"
-        android:layout_width="180dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textColor="@android:color/black"
         android:inputType="textMultiLine"
         android:maxLines="2"
         android:minLines="1"
         android:text="Product Name"
 
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/product_img"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/prod_detail"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Product Detail"
+
+        android:ellipsize="end"
+        android:maxLines="1"
+
+        android:text="Product Detail is something here where you can see next lie"
+        app:layout_constraintEnd_toEndOf="parent"
+
+
+
+
+
         app:layout_constraintStart_toEndOf="@+id/product_img"
-        app:layout_constraintTop_toBottomOf="@+id/prod_name" />
+        app:layout_constraintTop_toBottomOf="@+id/prod_name"
+        />
 
     <TextView
         android:id="@+id/priceunit"

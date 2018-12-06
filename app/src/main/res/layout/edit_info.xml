@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
 
-            android:text="Name:"
+            android:text="@string/name"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
-            android:text="Email:"
+            android:text="@string/email"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
             android:layout_width="100dp"
             android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
-            android:text="Phone:"
+            android:text="@string/phone"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
             android:layout_width="100dp"
             android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
-            android:text="Postcode:"
+            android:text="@string/postcode"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -161,7 +161,7 @@
             android:layout_width="100dp"
             android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
-            android:text="Unit No:"
+            android:text="@string/unit_no"
             />
         <EditText
             android:layout_width="wrap_content"
@@ -217,7 +217,7 @@
         android:textAlignment="gravity"
         android:textSize="18sp"
         android:id="@+id/save"
-        android:text="SAVE"/>
+        android:text="@string/save"/>
 
     <View
         android:layout_width="match_parent"

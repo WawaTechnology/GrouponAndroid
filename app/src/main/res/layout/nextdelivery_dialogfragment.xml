@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="500dp"
-    android:layout_height="450dp">
+    android:orientation="vertical" android:layout_width="600dp"
+    android:padding="8dp"
+
+    android:layout_marginBottom="8dp"
+    android:layout_height="600dp">
     <TextView
         android:layout_marginTop="12dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/black"
+
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:text="Please select Expected Delivery Date"/>
+
+        android:text="@string/select_date"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/new_grey"></View>
     <android.support.v7.widget.RecyclerView
-        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginBottom="16dp"
         android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/selectdate_recycler"></android.support.v7.widget.RecyclerView>

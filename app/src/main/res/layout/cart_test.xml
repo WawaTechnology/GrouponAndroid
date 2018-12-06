@@ -33,30 +33,34 @@
 
     <TextView
         android:id="@+id/pd_nm"
-        android:layout_width="140dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:minLines="1"
-        android:maxLines="2"
-        android:inputType="textMultiLine"
-        android:textColor="@android:color/black"
-
-
-
-
-        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:inputType="textMultiLine"
+
+
+        android:maxLines="2"
+        android:minLines="1"
         android:text="TextView"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pd_img"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/desc"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:ellipsize="end"
+
+        android:maxLines="2"
         android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pd_img"
         app:layout_constraintTop_toBottomOf="@+id/pd_nm" />
 

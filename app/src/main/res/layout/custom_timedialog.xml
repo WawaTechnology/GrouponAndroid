@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delivery Info"
+        android:text="@string/deliveryTime"
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:layout_marginTop="12dp"
@@ -37,7 +37,7 @@
         android:background="@color/red"
         android:textColor="#fff"
         android:textAlignment="center"
-        android:text="OK"
+        android:text="@string/ok"
         android:id="@+id/ok"></Button>
 
 

@@ -63,7 +63,7 @@
         android:layout_height="35dp"
         android:id="@+id/submit"
         android:textAlignment="center"
-        android:text="Submit"
+        android:text="@string/submit"
         android:textColor="#fff"
         android:background="@drawable/red_wholerectangle"
         android:layout_gravity="center"/>
@@ -79,7 +79,7 @@
      android:layout_height="wrap_content"
      android:layout_gravity="center"
      android:layout_marginTop="12dp"
-     android:text="Customer Service tel : 85189139"/>
+     android:text="@string/customer_service_tel"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="Note : Customer Service Working Time: 9am-9pm"/>
+        android:text="@string/customer_service_time"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"

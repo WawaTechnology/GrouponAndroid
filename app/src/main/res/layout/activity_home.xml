@@ -6,32 +6,30 @@
     <data>
         <variable
             name="categoryclick"
-            type="com.example.unsan.grouponebuy.Presenter.LinearClickPresenter"/>
+            type="com.easybuy.sg.grouponebuy.Presenter.LinearClickPresenter"/>
     </data>
 
 
 
 
 
-<android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true"
-    >
 
-
-<LinearLayout android:layout_width="match_parent"
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#fff"
-    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-       android:layout_marginTop="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:id="@+id/searchbar_height"
@@ -44,6 +42,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
+            android:layout_gravity="center_vertical"
+
             android:src="@drawable/search"
              />
 
@@ -52,7 +52,10 @@
         <TextView
             android:layout_width="0dp"
             android:layout_weight="0.9"
-            android:layout_height="wrap_content"
+
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
+            android:layout_height="35dp"
             android:hint="@string/search_product"
           />
 
@@ -62,6 +65,22 @@
 
 
     </LinearLayout>
+    </FrameLayout>
+    <android.support.v4.widget.NestedScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+
+
+        >
+
+
+        <LinearLayout android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#fff"
+
+            xmlns:android="http://schemas.android.com/apk/res/android">
 
 
 
@@ -70,15 +89,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:id="@+id/relative_layout"
         >
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
 
 
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="3dp"
+        android:layout_height="match_parent"
+
+
 
 
 
@@ -88,7 +108,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
 
         android:layout_centerInParent="true"
         android:layout_gravity="center"
@@ -279,5 +299,6 @@ paste special banner here-->
 
 
 </android.support.v4.widget.NestedScrollView>
+</LinearLayout>
 </layout>
 

@@ -17,18 +17,27 @@
         android:background="@drawable/rounded_searchbar"
         >
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="0.9"
-            android:layout_height="wrap_content"
-            android:hint="@string/search_product"/>
-
         <ImageView
             android:id="@+id/searchview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
-            android:src="@drawable/search" />
+            android:layout_gravity="center_vertical"
+
+            android:src="@drawable/search"
+            />
+
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.9"
+
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
+            android:layout_height="35dp"
+            android:hint="@string/search_product"
+            />
 
     </LinearLayout>
 
@@ -68,6 +77,7 @@
 
 
     </LinearLayout>
+
 
 
 </LinearLayout>

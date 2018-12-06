@@ -12,9 +12,22 @@
     <string name="deliveryDate">送货日期:  </string>
     <string name="status">订单状态:   </string>
     <string name="total">总价:  </string>
+    <string name="order_cancelled_success">订单已取消</string>
+    <string name="order_updated_success">订单修改成功</string>
+    <string name="some_item_na">部分产品库存暂时不足</string>
+    <string name="payment_method">支付方式:</string>
+    <string name="cash">现金</string>
+    <string name="yes">需要</string>
+    <string name="no">不需要</string>
+    <string name="something_wrong">出错了</string>
+    <string name="remove_product">移除该产品?</string>
     <string name="customerService">客户服务 </string>
     <string name="logout">退出</string>
     <string name="buy_now">立即抢购</string>
+    <string name="change_delivery_date">更换送货时间</string>
+    <string name="district">区域:</string>
+    <string name="paper_bill">纸质账单:</string>
+    <string name="order_success">下单成功</string>
     <string name="popular">综合</string>
     <string name="countdown">剩余</string>
     <string name="limited_offer">限时抢购</string>
@@ -49,7 +62,8 @@
     <string name="ok">确定</string>
     <string name="offer">抢购价</string>
     <string name="email">邮箱: </string>
-    <string name="name">名称: </string>
+    <string name="name">名称:</string>
+    <string name="unit_no">门牌号:</string>
     <string name="outOfStock">已抢光</string>
     <string name="cancel">取消</string>
     <string name="saveOrder">保存订单</string>
@@ -69,6 +83,12 @@
     <string name="product">商品</string>
     <string name="confirm">确认:</string>
     <string name="confm">确认</string>
+    <string name="save_list">将常买物品加入收藏夹! </string>
+    <string name="cancel_order_alert">确定删除订单?</string>
+    <string name="alert">通知</string>
+    <string name="add_existing_order">添加到已存在订单!</string>
+    <string name="select_date">请选择送货日期</string>
+    <string name="sorry_insufficient">抱歉，以下产品当前库存量不足</string>
     <string name="userName">用户名</string>
     <string name="feedback_successful">留言成功</string>
     <string name="customer_successful">客户服务: </string>
@@ -81,6 +101,8 @@
     <string name="shipped">待收货</string>
     <string name="completed">已完成</string>
     <string name="waiting">等待处理</string>
+    <string name="items">产品个数:</string>
+    <string name="total_amount">总价:</string>
 
     <string name="after_sale">我们承诺——坏果包退：\n
 签收后24小时内，商品腐坏变质，商家承诺24小时内处理。\n\n
@@ -104,6 +126,7 @@
     <string name="about_us">关于我们</string>
 
     <string name="ebuy_paynow">Ebuy PayNow 信息</string>
+    <string name="paynow_phone">手机号码: 8518 9139</string>
 
     <string name="payment">未付款</string>
     <string name="all_order">全部订单</string>
@@ -130,7 +153,17 @@
     </string>
     <string name="search_product">请输入商品名称... </string>
     <string name="go_shopping">去购物</string>
-    <string name="online_message">Online Message</string>
+    <string name="online_message">在线反馈</string>
+    <string name="state">状态:\u0020\u0020</string>
+    <string name="open">开放</string>
+    <string name="district_not_open">区域未开通，请申请开通!</string>
+    <string name="address">地址:\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020</string>
+    <string name="delivery">送货时间:</string>
+    <string name="district_open_shortly">区域将会很快开通</string>
+
+    <string name="your_unit_no">门牌号:</string>
+    <string name="district_postcode">区域状态（邮编)</string>
+    <string name="result_postcode">搜索结果:</string>
     <string name="succesful_apply">You have successfully applied the area -</string>
     <string name="open_msg">We will open this area after the application amount reaches 10 people.
    Please feel free to leave a message and ask about our application process and wait for the good news.Thank You! </string>
@@ -139,11 +172,14 @@
     <string name="service_hotline">客服热线</string>
     <string name="more">查看详情</string>
     <string name="min_spend">最低起送价为 $9.9</string>
+    <string name="customer_service_time">提示：客服时间为 9 am - 9 pm</string>
     <string name="edit">编辑</string>
-    <string name="save">保存订单</string>
+    <string name="save">保存</string>
     <string name="payment_status">付款状态:</string>
+    <string name="customer_service_tel">客服电话: 85189139</string>
 
-    <string name="paynow_handle">We will handle it within 24 hours</string>
+    <string name="paynow_handle">请给我们的PayNow账户转账，付款状态显示或有延迟，我们将在24小时内处理</string>
+    <string name="account_paynow">账户:  EBuy Groupon</string>
     <string name="all">全部</string>
     <string name="new_tag">新品</string>
     <string name="price">价格</string>

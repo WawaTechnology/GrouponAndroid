@@ -9,18 +9,24 @@
         brand characteristics.\n \nWe will continue to strictly control food quality and provide consumers healthier,safer,
         more nutritious and more assured food.We are trying to get Singaporeans to enjoy the freshest and cheapest fresh food.
     </string>
+    <string name="remove_product">Remove the Product?</string>
+    <string name="order_cancelled_success">Order cancelled succesfully</string>
+    <string name="order_updated_success">Order Updated successfully</string>
+
     <string name="end_page">End of Page!</string>
     <string name="home">Home</string>
     <string name="shopping_cart">Cart</string>
     <string name="order">Order</string>
-    <string name="name">Name: </string>
-    <string name="email">Email: </string>
+    <string name="name">Name:</string>
+    <string name="email">Email:</string>
     <string name="all_order">All Orders</string>
     <string name="phone">Phone:</string>
     <string name="password">Password:</string>
     <string name="confirm">Confirm:</string>
+
     <string name="confm">Confirm</string>
     <string name="payment_status">Payment Status:</string>
+    <string name="payment_method">Payment Method:</string>
     <string name="postcode">Postcode:</string>
     <string name="fill_up">Please Fill Up the Blanks </string>
     <string name="add_to_cart">Add to Cart"</string>
@@ -42,13 +48,19 @@
     <string name="any_question">Do you have any comments or questions? </string>
     <string name="no_order">You have no order....\nLets \'s go Shopping!
     </string>
+    <string name="save_list">Save what you always buy to the list! </string>
+    <string name="cancel_order_alert">Are you sure of cancelling order?</string>
     <string name="offer">Offer</string>
     <string name="product">Product</string>
     <string name="me">My</string>
     <string name="order_detail">Order Detail</string>
+    <string name="some_item_na">Some items are not available</string>
+    <string name="something_wrong">something went wrong</string>
     <string name="orderID">Order ID: </string>
     <string name="orderDate">Order Date: </string>
     <string name="deliveryDate">Delivery Date: </string>
+    <string name="select_date">Please Select Delivery Date</string>
+    <string name="sorry_insufficient">Sorry,We dont have sufficient quantity for following items</string>
     <string name="status">Status: </string>
     <string name="total">Total: </string>
     <string name="submit">Submit</string>
@@ -57,6 +69,18 @@
     <string name="customerService">Customer Service</string>
     <string name="more">More</string>
     <string name="min_spend">Minimum spend is $9.9 for free delivery</string>
+    <string name="district_postcode">District Status (Postcode)</string>
+    <string name="result_postcode">The result of searching:</string>
+    <string name="your_unit_no">Your Unit No. is:</string>
+    <string name="unit_no">Unit No:</string>
+    <string name="district_not_open">District not open! Please Apply!</string>
+    <string name="state">State:\u0020</string>
+    <string name="open">Open</string>
+    <string name="delivery">Delivery:\u0020\u0020</string>
+    <string name="district_open_shortly">District will be opened shortly</string>
+    <string name="address">Address:\u0020</string>
+    <string name="items">Items:</string>
+    <string name="total_amount">Total Amount:</string>
 
     <string name="deliveryTime">Delivery Time Info</string>
     <string name="aboutUs">About Us</string>
@@ -71,7 +95,12 @@
     <string name="cancel">Cancel</string>
     <string name="paid">Paid</string>
     <string name="unpaid">Unpaid</string>
+    <string name="paper_bill">Paper Bill:</string>
+    <string name="cash">Cash</string>
     <string name="saveOrder">Save</string>
+    <string name="change_delivery_date">Change Delivery Date</string>
+    <string name="district">District: </string>
+    <string name="order_success">Order Successfully Placed</string>
     <string name="updateOrder">Modify</string>
     <string name="payment">Payment</string>
     <string name="monday">Mon</string>
@@ -89,6 +118,8 @@
     <string name="userName">Username</string>
     <string name="secPassword">Password</string>
     <string name="againPassword">Confirm</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <string name="signUp">Sign Up</string>
     <string name="signUp_Login">Sign Up/Login</string>
@@ -101,7 +132,11 @@
     <string name="specification">Specification:  </string>
     <string name="search_product">Search for a product... </string>
     <string name="go_shopping">Go Shopping</string>
+    <string name="alert">Alert</string>
+    <string name="add_existing_order">Adding to existing order!</string>
     <string name="online_message">Online Feedback</string>
+    <string name="customer_service_time">Note : Customer Service Working Time: 9am-9pm</string>
+    <string name="customer_service_tel">Customer Service tel : 85189139</string>
     <string name="feedback">Feedback</string>
     <string name="quality_assuarance">Replacement Policy, Quality Assuarance,Customer Service</string>
     <string name="after_sale"> We Promise:  \n
@@ -151,9 +186,9 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="service_hotline">Service Hotline</string>
     <string name="account_setting">Account Setting</string>
 
-    <string name="paynow_phone">Phone:   8518 9139 </string>
-    <string name="account_paynow">Account:   Ebuy Groupon</string>
-    <string name="paynow_handle">We will handle it within 24 hours</string>
+    <string name="paynow_phone">Phone: 8518 9139 </string>
+    <string name="account_paynow">Account: Ebuy Groupon</string>
+    <string name="paynow_handle">Please transfer to our PayNow account, the payment status will change after we receive your bill. We will handle it within 24 hours.</string>
     <string name="all">ALL</string>
     <string name="new_tag">New</string>
     <string name="buy_now">Buy Now</string>

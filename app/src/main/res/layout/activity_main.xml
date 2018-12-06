@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.unsan.grouponebuy.activities.MainActivity">
+    tools:context="com.easybuy.sg.grouponebuy.activities.MainActivity">
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="0dp"

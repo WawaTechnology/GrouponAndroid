@@ -4,10 +4,10 @@
 <data>
     <variable
         name="usermodel"
-        type="com.example.unsan.grouponebuy.model.User"></variable>
+        type="com.easybuy.sg.grouponebuy.model.User"></variable>
     <variable
         name="presenter"
-        type="com.example.unsan.grouponebuy.Presenter.ClickPresenter"></variable>
+        type="com.easybuy.sg.grouponebuy.Presenter.ClickPresenter"></variable>
 </data>
 
 
