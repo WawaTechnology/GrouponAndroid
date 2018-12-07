@@ -1594,6 +1594,7 @@ RelativeLayout cartLayout;
             alertDialog.setPositiveButton(getContext().getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+
                     Intent intent= new Intent()
                             .putExtra("status", "not available"
                             );

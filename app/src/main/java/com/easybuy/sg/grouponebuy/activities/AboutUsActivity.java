@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,6 +25,7 @@ public class AboutUsActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_us);
+        Log.d("hii","justchecking");
         backButton=(ImageView)findViewById(R.id.back);
         recyclerView=(RecyclerView) findViewById(R.id.img_Recyclers);
         backButton.setOnClickListener(new View.OnClickListener() {
