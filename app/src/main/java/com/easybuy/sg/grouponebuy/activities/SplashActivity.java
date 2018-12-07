@@ -66,6 +66,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
       //  this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.splash_layout);
+        //Log.d("heyya","there");
 
         String languaged= Locale.getDefault().getDisplayLanguage();
         Log.d("checkhlang",languaged);
