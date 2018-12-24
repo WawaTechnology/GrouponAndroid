@@ -3,6 +3,7 @@ package com.easybuy.sg.grouponebuy.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             holder.tvname.setText(bp.getNameCh());
             holder.tvquantity.setText(bp.getSpecificationCh());
         }
+        Log.d("prodname",bp.getNameEn());
 
         double price=bp.getPrice();
         String dr= Constants.baseUrlStr+bp.getImageCover();

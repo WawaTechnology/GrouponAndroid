@@ -83,9 +83,14 @@ public class DistrictSettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_districtsetting);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         backButton=(ImageView)findViewById(R.id.back);
-        if(globalProvider.getCustomer()!=null)
+        if(globalProvider.getCustomerId()!=null)
         {
-            if(globalProvider.getCustomer().getAddress()!=null&&globalProvider.getCustomer().getAddress().length()>0)
+           /* if(globalProvider.getCustomer().getAddress()!=null&&globalProvider.getCustomer().getAddress().length()>0)
+            {
+                hasUnit=true;
+            }
+            */
+            if(Constants.getCustomer(getApplicationContext()).address!=null&&Constants.getCustomer(getApplicationContext()).address.length()>0)
             {
                 hasUnit=true;
             }
@@ -122,9 +127,10 @@ public class DistrictSettingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         postalcode = intent.getStringExtra("postal");
         postCodeChanged=intent.getBooleanExtra("postCodeChanged",false);
-        if(postalcode!=null||globalProvider.getCustomer()!=null) {
+        if(postalcode!=null||globalProvider.getCustomerId()!=null) {
             if(postalcode==null) {
-                postalcode = globalProvider.getCustomer().postcode;
+               // postalcode = globalProvider.getCustomer().postcode;
+                postalcode = Constants.getCustomer(getApplicationContext()).postcode;
             }
 
             postalTextView.setText(postalcode);
@@ -197,7 +203,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
                     }
 
                     // String url="http://192.168.1.70:3000/users/binding/"+globalProvider.getCustomer().customer_id;
-                    String url = Constants.changeDistrictUrl + globalProvider.getCustomer().customer_id;
+                    String url = Constants.changeDistrictUrl + globalProvider.getCustomerId();
                     Log.d("checkurl", url);
                     final Map<String, String> params = new HashMap<>();
 
@@ -212,7 +218,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
                             try {
                                 int status = response.getInt("status");
                                 if (status == 0) {
-                                    String url = Constants.favouriteUrl + "/" + globalProvider.getCustomer().customer_id;
+                                    String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
                                     Log.d("getu", url);
                                     Map<String, String> param = new HashMap<>();
                                     Log.d("unitnum", unitNumEdit.getText().toString());
@@ -314,7 +320,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
                     Map<String,String> params=new HashMap<>();
                     params.put("postcode",postalcode);
                     params.put("name",address);
-                    params.put("applicant",globalProvider.getCustomer().customer_id);
+                    params.put("applicant",globalProvider.getCustomerId());
                     String language=Constants.getLanguage(getApplicationContext());
                     if(language.equals("english"))
                     {
@@ -436,9 +442,9 @@ public class DistrictSettingActivity extends AppCompatActivity {
 
 
 
-                                    if(globalProvider.getCustomer()!=null&&hasUnit&&(globalProvider.getCustomer().postcode.equals(postalcode))&&!postCodeChanged) {
+                                    if(globalProvider.getCustomerId()!=null&&hasUnit&&(Constants.getCustomer(getApplicationContext()).postcode.equals(postalcode))&&!postCodeChanged) {
                                        Log.d("buttonno","no");
-                                        unitNumberText.setText(globalProvider.getCustomer().address);
+                                        unitNumberText.setText(Constants.getCustomer(getApplicationContext()).address);
                                         bindingButton.setVisibility(View.GONE);
                                         unitNumEdit.setVisibility(View.GONE);
                                         unitNumberText.setVisibility(View.VISIBLE);

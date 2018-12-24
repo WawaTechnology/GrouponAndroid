@@ -27,6 +27,7 @@
     <string name="confm">Confirm</string>
     <string name="payment_status">Payment Status:</string>
     <string name="payment_method">Payment Method:</string>
+    <string name="paymentmethod">Payment Method</string>
     <string name="postcode">Postcode:</string>
     <string name="fill_up">Please Fill Up the Blanks </string>
     <string name="add_to_cart">Add to Cart"</string>
@@ -81,6 +82,10 @@
     <string name="address">Address:\u0020</string>
     <string name="items">Items:</string>
     <string name="total_amount">Total Amount:</string>
+    <string name="invoice_info">Invoice Info</string>
+    <string name="message">Message</string>
+    <string name="special_needs">If you have special needs type here</string>
+    <string name="item">items</string>
 
     <string name="deliveryTime">Delivery Time Info</string>
     <string name="aboutUs">About Us</string>
@@ -89,7 +94,7 @@
     <string name="modifyPsw">Update Password</string>
     <string name="customerHotline">Customer Hotline</string>
     <string name="version">Version</string>
-    <string name="shippingDate">Delivery Date:  </string>
+    <string name="shippingDate">Delivery Date</string>
     <string name="orderStatus">Order Status:  </string>
     <string name="paymentStatus">Payment Status:  </string>
     <string name="cancel">Cancel</string>
@@ -120,6 +125,7 @@
     <string name="againPassword">Confirm</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
 
     <string name="signUp">Sign Up</string>
     <string name="signUp_Login">Sign Up/Login</string>
@@ -197,6 +203,7 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="change_password">Change Password</string>
     <string name="login">Login</string>
     <string name="my_order">My Order</string>
+    <string name="payment_hint">Hint : If you select Paynow as your payment wasy,please transfer to our account below</string>
 
     <string name="completed">Completed</string>
     <string name="waiting">Waiting</string>

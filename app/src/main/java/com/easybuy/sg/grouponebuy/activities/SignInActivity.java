@@ -151,7 +151,7 @@ public class SignInActivity extends AppCompatActivity {
                                  Log.d("check",customer.getStatus()+"");
                                 int status=customer.getStatus();
                                 if(status==0) {
-                                    globalProviderInstance.setCustomer(customer.getCustomer());
+                                    globalProviderInstance.setCustomerId(customer.getCustomer().customer_id);
                                     String token;
                                     token = response.getString("token");
 

@@ -72,7 +72,7 @@ public class EditInfoActivity extends AppCompatActivity {
         bottomImage=(ImageView) findViewById(R.id.bottomimage);
       //  uploadImageIcon = (ImageView) findViewById(R.id.upload_image);
         globalProvider = GlobalProvider.getGlobalProviderInstance(getApplicationContext());
-        Customer customer = globalProvider.getCustomer();
+        Customer customer = Constants.getCustomer(getApplicationContext());
         nameEdit.setText(customer.userName);
         nameEdit.addTextChangedListener(new GenericTextWatcher(nameEdit));
         emailEdit.setText(customer.email);
@@ -129,7 +129,7 @@ public class EditInfoActivity extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = Constants.favouriteUrl + "/" + globalProvider.getCustomer().customer_id;
+                String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
                 Log.d("curl", url);
                 CustomRequest customRequest = new CustomRequest(Request.Method.PATCH, url, params, new Response.Listener<JSONObject>() {
                     @Override
@@ -170,7 +170,7 @@ public class EditInfoActivity extends AppCompatActivity {
     }
 
     private void updateCustomer() {
-        String url = Constants.favouriteUrl + "/" + globalProvider.getCustomer().customer_id;
+        String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
         Utf8JsonRequest utf8JsonRequest = new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -195,8 +195,8 @@ public class EditInfoActivity extends AppCompatActivity {
                     if (status == 0) {
                       Constants.setCustomer(EditInfoActivity.this,null);
                       Constants.setCustomer(EditInfoActivity.this,res.getCustomer());
-                      globalProvider.setCustomer(null);
-                      globalProvider.setCustomer(res.getCustomer());
+                      globalProvider.setCustomerId(null);
+                      globalProvider.setCustomerId(res.getCustomer().customer_id);
                       if(postalChanged)
                       {
                           new AlertDialog.Builder(EditInfoActivity.this).setTitle("Alert").setMessage("PostCode is changed!Please reset your district").setPositiveButton("Ok", new DialogInterface.OnClickListener() {

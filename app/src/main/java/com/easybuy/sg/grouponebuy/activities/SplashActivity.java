@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.SyncStateContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -25,20 +22,18 @@ import com.android.volley.VolleyError;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.helpers.Utf8JsonRequest;
-import com.easybuy.sg.grouponebuy.model.Category;
 import com.easybuy.sg.grouponebuy.model.CategoryImage;
 import com.easybuy.sg.grouponebuy.model.CategoryImageResult;
-import com.easybuy.sg.grouponebuy.model.CategoryList;
 import com.easybuy.sg.grouponebuy.model.CategoryPrimary;
 import com.easybuy.sg.grouponebuy.model.CategoryPrimaryList;
 import com.easybuy.sg.grouponebuy.model.CategorySpecial;
+import com.easybuy.sg.grouponebuy.model.CategorySpecialList;
 import com.easybuy.sg.grouponebuy.model.CategorySummary;
 import com.easybuy.sg.grouponebuy.model.FlashSaleResult;
 import com.easybuy.sg.grouponebuy.model.OtherImageResult;
 import com.easybuy.sg.grouponebuy.model.Payload;
 import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.model.ProductImageId;
-import com.easybuy.sg.grouponebuy.model.SpecialCategoryList;
 import com.easybuy.sg.grouponebuy.model.SpecialImage;
 import com.easybuy.sg.grouponebuy.model.SpecialImageResult;
 import com.easybuy.sg.grouponebuy.network.Constants;
@@ -51,7 +46,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -151,7 +145,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 try {
                     JsonParser jsonParser = jsonFactory.createParser(response);
-                    SpecialCategoryList splcategories = (SpecialCategoryList) objectMapper.readValue(jsonParser, SpecialCategoryList.class);
+                    CategorySpecialList splcategories = (CategorySpecialList) objectMapper.readValue(jsonParser, CategorySpecialList.class);
                    // Log.d("getstatus",splcategories.getStatus()+"");
                     int status=splcategories.getStatus();
 
@@ -200,42 +194,51 @@ public class SplashActivity extends AppCompatActivity {
     }
     private void getFlashSales()
     {
+        globalProvider.hasSale=false;
+        globalProvider.saleDate=null;
+        globalProvider.setFlashSale(null);
+
         Utf8JsonRequest utf8JsonRequest = new Utf8JsonRequest(Request.Method.GET, Constants.flashSaleUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+
                 Log.d("checkflashresponse",response);
                 JsonFactory jsonFactory = new JsonFactory();
                 ObjectMapper objectMapper = new ObjectMapper();
                 try {
                     JsonParser jsonParser = jsonFactory.createParser(response);
+
                     FlashSaleResult flashSaleResult = (FlashSaleResult) objectMapper.readValue(jsonParser, FlashSaleResult.class);
-                    //check flashsale
-                 String deadline= flashSaleResult.getPayload().get(0).getDeadline();
+                    if (flashSaleResult.getStatus() == 0&&flashSaleResult.getPayload()!=null) {
+                        //check flashsale
+                        String deadline = flashSaleResult.getPayload().get(0).getDeadline();
 
-                    SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                    isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                    Date saleDate = isoFormat.parse(deadline);
-                    globalProvider.saleDate=saleDate;
-                    Date today=new Date();
-                  Log.d("saleDate",saleDate.toString());
-                  Log.d("today",today.toString());
+                        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                        Date saleDate = isoFormat.parse(deadline);
+                        globalProvider.saleDate = saleDate;
+                        Date today = new Date();
+                        Log.d("saleDate", saleDate.toString());
+                        Log.d("today", today.toString());
 
-                    if(today.before(saleDate))
-                    {
-                        //Log.d("flashstuas","wiil be displayed");
-                        globalProvider.setFlashSale(flashSaleResult.getPayload().get(0));
-                        globalProvider.hasSale=true;
+                        if (today.before(saleDate)) {
+                            //Log.d("flashstuas","wiil be displayed");
+                            globalProvider.setFlashSale(flashSaleResult.getPayload().get(0));
+                            globalProvider.hasSale = true;
+
+
+                        }
+                        Log.d("hasSale", globalProvider.hasSale + "");
+
+                        //  Log.d("flashstuas","wiil not be displayed");
+                        getSingleProducts();
 
 
                     }
-                    Log.d("hasSale",globalProvider.hasSale+"");
-
-                      //  Log.d("flashstuas","wiil not be displayed");
-                    getSingleProducts();
-
-
-
-
+                    else
+                    {
+                        getSingleProducts();
+                    }
                 }
              catch (JsonParseException e) {
                 e.printStackTrace();

@@ -16,6 +16,7 @@
     <string name="order_updated_success">订单修改成功</string>
     <string name="some_item_na">部分产品库存暂时不足</string>
     <string name="payment_method">支付方式:</string>
+    <string name="payment_hint">注: 如果支付方式选择PayNow，请转账至</string>
     <string name="cash">现金</string>
     <string name="yes">需要</string>
     <string name="no">不需要</string>
@@ -55,10 +56,15 @@
     <string name="modifyPsw">密码修改</string>
     <string name="customerHotline">客服热线</string>
     <string name="currentVersion">当前版本</string>
-    <string name="shippingDate">送货日期:  </string>
+    <string name="shippingDate">送货日期</string>
+    <string name="paymentmethod">支付方式</string>
     <string name="orderStatus">订单状态:   </string>
     <string name="paymentStatus">付款状态:   </string>
     <string name="change_password">修改密码</string>
+    <string name="invoice_info">发票信息</string>
+    <string name="message">留言</string>
+    <string name="special_needs">如有特殊需求,请写在这</string>
+    <string name="item">物品</string>
     <string name="ok">确定</string>
     <string name="offer">抢购价</string>
     <string name="email">邮箱: </string>

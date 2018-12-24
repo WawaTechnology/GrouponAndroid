@@ -98,7 +98,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 globalProvider.setLogin(false);
-                globalProvider.setCustomer(null);
+                globalProvider.setCustomerId(null);
               //  globalProvider.favoriteList.clear();
                 globalProvider.cartList.clear();
 
@@ -114,7 +114,11 @@ public class SettingActivity extends AppCompatActivity {
 
 
                 Intent intent=new Intent(SettingActivity.this,MainActivity.class);
+                //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
                 startActivity(intent);
+                //finish();
 
             }
         });

@@ -9,13 +9,14 @@ import android.util.Log;
 import com.easybuy.sg.grouponebuy.activities.MainActivity;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.model.Customer;
+import com.easybuy.sg.grouponebuy.utils.CategoryListener;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class Constants {
+public class Constants  {
 //static public String baseUrlStr = "http://192.168.1.70:3000/";
 
 static public String baseUrlStr = "http://13.251.164.198:3000/";
@@ -116,6 +117,5 @@ static public String baseUrlStr = "http://13.251.164.198:3000/";
     }
 
 
-
-
+   
 }

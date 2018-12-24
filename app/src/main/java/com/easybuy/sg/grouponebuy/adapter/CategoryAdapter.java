@@ -49,7 +49,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final CategorySummary category=categoryList.get(position);
-       final int width=holder.categoryName.getLayoutParams().width;
+       //final int width=holder.categoryName.getLayoutParams().width;
 
         if(lang.equals("english")) {
 

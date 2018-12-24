@@ -70,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
     ImageView homeImage,aboutImage,favImage,productImage,cartImage;
     LinearLayout homeLinearLayout,productLinearLayout,aboutLinearLayout,favLinearLayout,cartLinearLayout;
     GlobalProvider globalProvider;
-    private CircleBadgeView buyNumView;
+   // TextView badgeTextView;
+   private CircleBadgeView buyNumView;
     private  int DEFAULT_LR_PADDING_DIP = 5;
 
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
         super.onCreate(savedInstanceState);
         Log.d("maincalled","yes");
         setContentView(R.layout.activity_main);
+
         //todo check if splashactivity is loaded when app goes in background with many apps opened
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         if(!globalProvider.isNotFirstTime)
@@ -92,11 +94,12 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
             startActivity(intent);
             finish();
         }
+      //  badgeTextView=(TextView)findViewById(R.id.badge);
 
 
 
 
-        homeText=(TextView) findViewById(R.id.hometext);
+                homeText=(TextView) findViewById(R.id.hometext);
         aboutText=(TextView) findViewById(R.id.about_text);
         favText=(TextView) findViewById(R.id.favorite_text);
         productText=(TextView)findViewById(R.id.product_text) ;
@@ -111,9 +114,9 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
         productLinearLayout=(LinearLayout) findViewById(R.id.product_layout);
         cartLinearLayout=(LinearLayout) findViewById(R.id.cart_linearlayout);
         favLinearLayout=(LinearLayout) findViewById(R.id.fav_linearlayout);
-        buyNumView = new CircleBadgeView(this, cartImage);
-        buyNumView.setTextColor(Color.WHITE);
-        buyNumView.setBackgroundColor(getResources().getColor(R.color.red));
+       buyNumView = new CircleBadgeView(this, cartImage);
+       buyNumView.setTextColor(Color.WHITE);
+       buyNumView.setBackgroundColor(getResources().getColor(R.color.red));
         homeLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -150,6 +153,9 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
         {
             requestPermission();
         }
+
+
+        //check if there customer record is in sharedpreference, reload it with api data;add products cart in global provider variable
         if(Constants.getCustomer(this)!=null) {
             Log.d("logintrue","here");
             Log.d("checkfavl",Constants.getCustomer(this).getFavoriteList().size()+"");
@@ -203,7 +209,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
                           //  globalProvider.favoriteList.addAll(favResult.getCustomer().getFavoriteList());
 
                             Constants.setCustomer(MainActivity.this, favResult.getCustomer());
-                            globalProvider.setCustomer(Constants.getCustomer(MainActivity.this));
+                            globalProvider.setCustomerId(Constants.getCustomer(MainActivity.this).customer_id);
+                           // globalProvider.setCustomer(Constants.getCustomer(MainActivity.this));
                         }
                         else
                         {
@@ -211,7 +218,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
                             //set customer null
                             globalProvider.setLogin(false);
                             Constants.setCustomer(MainActivity.this,null);
-                            globalProvider.setCustomer(null);
+                            globalProvider.setCustomerId(null);
+                            //globalProvider.setCustomer(null);
 
                             Gson gson=new Gson();
                           //  String productList=gson.toJson(globalProvider.cartList);
@@ -338,8 +346,18 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
     public void setCartNum() {
         Log.d("cartset","here");
         if(!globalProvider.cartList.isEmpty()) {
+          /*  badgeTextView.setText(globalProvider.cartList.size()+"");
+            if(globalProvider.cartList.size()>=10)
+            {
+                badgeTextView.setPadding(3,0,3,0);
+            }
+            else
+                badgeTextView.setPadding(5,0,5,0);
+            badgeTextView.setVisibility(View.VISIBLE);
+            */
 
-            buyNumView.setText(globalProvider.cartList.size() + "");//
+
+           buyNumView.setText(globalProvider.cartList.size() + "");//
 
             if (globalProvider.cartList.size() >= 10) {
 
@@ -361,6 +379,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
             buyNumView.setBadgePosition(CircleBadgeView.POSITION_TOP_RIGHT);
             buyNumView.setGravity(Gravity.RIGHT);
             buyNumView.show();
+
         }
         else
             HideCartNum();
@@ -369,6 +388,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
     }
 
     public void HideCartNum(){
+      //  badgeTextView.setVisibility(View.GONE);
         buyNumView.hide();
 
     }
@@ -475,6 +495,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
         }
     }
+
+    // changing Fragments from Fragment Home to Fragment Product
 
     @Override
     public void onSelectedCategory() {

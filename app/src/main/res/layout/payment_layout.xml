@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#fff"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:id="@+id/back"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:text="@string/payment"
+            android:gravity="center_horizontal|center_vertical"
+            android:textColor="@android:color/black"
+
+
+            android:layout_marginLeft="-24dp"
+            android:textSize="17sp"/>
+
+    </LinearLayout>
+    <ImageView
+        android:background="@color/new_grey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginLeft="4dp"
+        android:padding="5dp"
+        android:textSize="16sp"
+        android:id="@+id/delivery_address"
+
+        android:text="07-02, 03-09 Office, Ebuy Staff Channel"
+        />
+    <ImageView
+        android:background="@color/new_grey"
+        android:layout_width="match_parent"
+        android:layout_height="3dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pd_layout"
+        android:padding="5dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginLeft="4dp"
+        android:textSize="16sp"
+        android:id="@+id/num_item"
+
+
+
+        android:text="5 items"
+        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+
+            android:layout_alignParentRight="true"
+            android:text=">"/>
+    </RelativeLayout>
+    <ImageView
+        android:background="@color/new_grey"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+    ></ImageView>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_marginLeft="4dp"
+        android:id="@+id/img_Recyclers"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+    <ImageView
+        android:background="@color/new_grey"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        ></ImageView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginLeft="4dp"
+            android:textSize="16sp"
+            android:id="@+id/date_label"
+
+
+
+            android:text="@string/shippingDate"
+            />
+
+        <TextView
+
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/arrow"
+            android:gravity="right"
+            android:textAlignment="gravity"
+
+
+
+            android:id="@+id/delivery_date"
+
+            android:minLines="2"
+            android:maxLines="2"
+
+            android:scrollHorizontally="false"
+
+            android:layout_marginLeft="16dp"
+            android:textSize="16sp"
+            android:text="14/12/2018,Thursday,18:00~21:00"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:text=">"/>
+    </RelativeLayout>
+    <ImageView
+        android:background="@color/new_grey"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        ></ImageView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/invoice_layout"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginLeft="4dp"
+            android:textSize="16sp"
+
+
+
+            android:text="@string/invoice_info"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/arrow1"
+            android:textSize="16sp"
+            android:id="@+id/invoice_choice"
+            android:text="No"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow1"
+            android:textSize="16sp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+
+            android:layout_alignParentRight="true"
+            android:text=">"/>
+    </RelativeLayout>
+    <ImageView
+        android:background="@color/new_grey"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        ></ImageView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/payment_layout"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginLeft="4dp"
+            android:textSize="16sp"
+
+
+
+            android:text="@string/paymentmethod"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/arrow3"
+            android:id="@+id/payment_choice"
+            android:textSize="16sp"
+            android:text="Cash"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/arrow3"
+            android:textSize="16sp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+
+            android:layout_alignParentRight="true"
+            android:text=">"/>
+    </RelativeLayout>
+    <ImageView
+        android:background="@color/new_grey"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        ></ImageView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_marginLeft="4dp"
+            android:textSize="16sp"
+            android:id="@+id/title"
+
+
+
+            android:text="@string/message"
+            />
+ <EditText
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginLeft="12dp"
+     android:layout_toRightOf="@id/title"
+
+     android:textSize="16sp"
+     android:id="@+id/payment_msg"
+     android:hint="@string/special_needs"
+     android:background="@null"
+     />
+
+    </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginLeft="12dp"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginRight="3dp"
+
+            android:text="@string/total_amount"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:textSize="16sp"
+
+            android:id="@+id/amt"
+            android:text="$ 14.0 "/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"></View>
+        <Button
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:text="@string/submit"
+            android:id="@+id/submit"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:background="@color/red"/>
+    </LinearLayout>
+
+
+
+
+
+</RelativeLayout>

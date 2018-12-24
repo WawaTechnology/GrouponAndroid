@@ -64,7 +64,8 @@ public class CustomerServiceActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Map<String,String> params=new HashMap<>();
                 params.put("text",adviceText.getText().toString());
-                params.put("writer",globalProvider.getCustomer().customer_id);
+                params.put("writer",globalProvider.getCustomerId());
+              //  params.put("writer",globalProvider.getCustomer().customer_id);
                 CustomRequest customRequest=new CustomRequest(Request.Method.POST, Constants.customerServiceUrl, params, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

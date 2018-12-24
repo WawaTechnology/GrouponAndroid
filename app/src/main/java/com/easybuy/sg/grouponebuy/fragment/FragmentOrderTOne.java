@@ -109,6 +109,12 @@ public class FragmentOrderTOne extends Fragment {
             categoryListener = (CategoryListener) context;
         }
     }
+    @Override
+    public void onDetach()
+    {
+        super.onDetach();
+        categoryListener=null;
+    }
 
 
     public FragmentOrderTOne() {
@@ -298,9 +304,10 @@ public class FragmentOrderTOne extends Fragment {
             Map<String, String> params = new HashMap<>();
 
             params.put("state", "all");
-            params.put("userID", globalProvider.getCustomer().customer_id);
+            params.put("userID", globalProvider.getCustomerId());
+            //params.put("userID", globalProvider.getCustomer().customer_id);
             Log.d("url",url);
-            Log.d("userId",globalProvider.getCustomer().customer_id);
+           // Log.d("userId",globalProvider.getCustomer().customer_id);
             CustomRequest customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -407,8 +414,9 @@ public class FragmentOrderTOne extends Fragment {
         String url=Constants.orderBadgeUrl;
         Log.d("checkurl",url);
         Map<String,String> params=new HashMap<>();
-        params.put("userID", globalProvider.getCustomer().customer_id);
-        Log.d("userid",globalProvider.getCustomer().customer_id);
+        params.put("userID", globalProvider.getCustomerId());
+       // params.put("userID", globalProvider.getCustomer().customer_id);
+       // Log.d("userid",globalProvider.getCustomer().customer_id);
         CustomRequest customRequest=new CustomRequest(Request.Method.POST, url,params, new Response.Listener<JSONObject>() {
 
             @Override
@@ -512,7 +520,7 @@ public class FragmentOrderTOne extends Fragment {
         if (globalProvider.isLogin()) {
             String url = Constants.getOrderUrl + page + "/" + pageSize;
 
-            Log.d("userId", globalProvider.getCustomer().customer_id);
+           // Log.d("userId", globalProvider.getCustomer().customer_id);
             Map<String, String> params = new HashMap<>();
           if(TAB_PRESSED==1) {
                 params.put("state", "all");
@@ -525,9 +533,9 @@ public class FragmentOrderTOne extends Fragment {
             {
                 params.put("state","waiting");
             }
+            params.put("userID", globalProvider.getCustomerId());
 
-
-            params.put("userID", globalProvider.getCustomer().customer_id);
+           // params.put("userID", globalProvider.getCustomer().customer_id);
 
              customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                 @Override

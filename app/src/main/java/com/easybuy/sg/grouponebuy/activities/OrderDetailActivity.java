@@ -118,7 +118,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         totalNumberText.setText(getString(R.string.items)+" "+order.getProductList().size());
         String price = String.format("%.2f", order.getTotalPrice());
         totalPriceText.setText(" ,"+getString(R.string.total_amount)+" $"+price);
-       // changedtotal=order.getTotalPrice();
+        changedtotal=order.getTotalPrice();
 
         orderIdText.setText(order.getOrderCode());
         orderDateText.setText(order.getOrderDate());
@@ -205,12 +205,12 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(OrderDetailActivity.this).setTitle("Alert").setMessage(getString(R.string.cancel_order_alert)).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(OrderDetailActivity.this).setTitle(getString(R.string.alert)).setMessage(getString(R.string.cancel_order_alert)).setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         cancelOrder();
                     }
-                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -389,9 +389,8 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
 
         changedtotal=Double.parseDouble(new DecimalFormat("##.##").format(changedtotal));
 
-        totalPriceText.setText(",Total Amount: $"+changedtotal);
-        totalNumberText.setText("Items: "+productList.size());
-
+        totalPriceText.setText(" ,"+getString(R.string.total_amount)+" $"+changedtotal);
+        totalNumberText.setText(getString(R.string.items)+" "+productList.size());
 
 
 

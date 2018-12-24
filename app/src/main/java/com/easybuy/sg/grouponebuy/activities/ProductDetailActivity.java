@@ -16,7 +16,8 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-import android.text.method.ScrollingMovementMethod;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -39,20 +40,36 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.adapter.ProductDetailViewPagerAdapter;
-import com.easybuy.sg.grouponebuy.helpers.ExpandableTextView;
+import com.easybuy.sg.grouponebuy.adapter.ProductSpecAdapter;
+import com.easybuy.sg.grouponebuy.adapter.SpecialCategory;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
+import com.easybuy.sg.grouponebuy.helpers.Utf8JsonRequest;
+import com.easybuy.sg.grouponebuy.model.Category;
+import com.easybuy.sg.grouponebuy.model.CategoryProduct;
+import com.easybuy.sg.grouponebuy.model.CategoryS;
+import com.easybuy.sg.grouponebuy.model.CategorySpecial;
+import com.easybuy.sg.grouponebuy.model.CategorySpecialList;
 import com.easybuy.sg.grouponebuy.model.Customer;
 import com.easybuy.sg.grouponebuy.model.Product;
+import com.easybuy.sg.grouponebuy.model.SpecialCategoryList;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.CircleBadgeView;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 import static java.lang.Integer.parseInt;
@@ -63,6 +80,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
     List<ViewGroup> listViews;
     TextView productNameText, originText, specText, priceText, originalPriceText, favText, soldOutText;
     ProductDetailViewPagerAdapter productDetailViewPagerAdapter;
+    ProductSpecAdapter productSpecAdapter;
+    List<CategoryProduct> categoryProducts;
+    //TextView spec1TextView,spec2TextView;
+    LinearLayout multipleSpecialLayout;
     LinearLayout indicator;
    TextView descriptionText;
     ImageView favImgView;
@@ -76,6 +97,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
     LinearLayout replacementLayout;
     List<Product> favoriteList;
     ScrollView scrollView;
+    SpecialCategory multipleSameProduct;
+    RecyclerView multipleSpecLayout;
 
 
     private CircleBadgeView buyNumView;
@@ -120,17 +143,25 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.product_detail);
+        categoryProducts=new ArrayList<>();
+        //spec1TextView=(TextView) findViewById(R.id.spec1);
+        //spec2TextView=(TextView) findViewById(R.id.spec2);
+
+
        // scrollView=(ScrollView) findViewById(R.id.scroll_view);
         Display display = getWindowManager(). getDefaultDisplay();
         Point size = new Point();
         display. getSize(size);
         int width = size. x;
         int height = size. y;
+      //  multipleSpecialLayout=(LinearLayout) findViewById(R.id.multipleViewLayout);
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
+        multipleSpecLayout=(RecyclerView) findViewById(R.id.spec_list);
 
         Log.d("heights",dpHeight+"");
+        multipleSameProduct=new SpecialCategory();
         favoriteList=new ArrayList<>();
         backButton = (ImageView) findViewById(R.id.bkbutton);
         cartImageButton = (ImageView) findViewById(R.id.carticonbutton);
@@ -184,8 +215,69 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         {
             favoriteList.addAll(Constants.getCustomer(getApplicationContext()).getFavoriteList());
         }
+
         Intent intent = getIntent();
         product = (Product) intent.getSerializableExtra("product");
+        Log.d("pdid",product.getId());
+        getProductDetail(product.getId());
+
+
+
+
+
+
+
+            /*for(CategoryS categorySpl:product.getCategorySList())
+            {
+                if(categorySpl.getSequence()==666)
+                {
+                    getSpecialCategories(categorySpl);
+                    break;
+                }
+            }
+            */
+
+
+
+
+
+      /*  spec1TextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(product.getNameEn().equals(multipleSameProduct.getProductList().get(0).getNameEn()))
+                {
+                    Log.d("donothing","spec1");
+
+                }
+                else
+                {
+                   finish();
+                   Intent intent=getIntent();
+
+
+                   intent.putExtra("product",multipleSameProduct.getProductList().get(0));
+                   startActivity(intent);
+                }
+            }
+        });
+        spec2TextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(product.getNameEn().equals(multipleSameProduct.getProductList().get(1).getNameEn()))
+                {
+                    Log.d("donothing","spec2");
+
+                }
+                else
+                {
+                    finish();
+                    Intent intent=getIntent();
+                    intent.putExtra("product",multipleSameProduct.getProductList().get(1));
+                    startActivity(intent);
+                }
+            }
+        });
+        */
 
 
         List<String> imgList = product.getImageDisplay();
@@ -462,7 +554,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
                         JSONObject obj = new JSONObject();
                         obj.put("favoriteList", jsonArray);
-                        String url = Constants.favouriteUrl + "/" + globalProvider.getCustomer().customer_id;
+                        String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
 
 
                         jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, url, obj, new Response.Listener<JSONObject>() {
@@ -605,6 +697,145 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
 
     }
+    private void getProductDetail(String id)
+    {
+        String url=Constants.productUrl+"/"+id;
+
+        Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObj = new JSONObject(response);
+                    JSONArray categorySArray = jsonObj.getJSONObject("payload").getJSONArray("categorySpecial");
+                    for(int j=0;j<categorySArray.length();j++) {
+                        int val = categorySArray.getJSONObject(j).getInt("sequence");
+                        if (val == 666) {
+                            Log.d("categoryId",categorySArray.getJSONObject(j).getString("_id"));
+
+
+                            getSpecialCategories(categorySArray.getJSONObject(j).getString("_id"));
+
+
+                          /*  JSONArray productArray = categorySArray.getJSONObject(j).getJSONArray("productList");
+                            List<String> productList = new ArrayList<>();
+                            Log.d("checkval", val + "");
+
+                            if (productArray != null) {
+                                for (int i = 0; i < productArray.length(); i++) {
+                                    productList.add(productArray.getString(i));
+                                }
+                                Log.d("sizeis", productList.size() + "");
+
+                            }
+                            */
+                            break;
+
+                            //JSONObject categoryS= jsonObj.getJSONObject("payload").getJSONObject("categorySpecial");
+                            // int val= categoryS.getInt("sequence");
+
+
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        globalProvider.addRequest(utf8JsonRequest);
+    }
+
+
+private void getSpecialCategories(final String categoryId) {
+        String url=Constants.specialCategoryUrl;
+        Log.d("thisurl",url);
+        Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+                JsonFactory jsonFactory = new JsonFactory();
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                try {
+                    JsonParser jsonParser = jsonFactory.createParser(response);
+                    SpecialCategoryList splcategories = (SpecialCategoryList) objectMapper.readValue(jsonParser, SpecialCategoryList.class);
+
+                    int status = splcategories.getStatus();
+                    Log.d("statusres",status+"");
+
+                    if (status == 0) {
+
+                        List<SpecialCategory> specialCategoryList = splcategories.getSpecialCategoryList();
+
+                        for (SpecialCategory specialCategory : specialCategoryList) {
+                            if (specialCategory.getSequence() != null && (specialCategory.getSequence() == 666 )) {
+
+
+
+                                if(categoryId.equals(specialCategory.getId()))
+                                {
+                                    multipleSpecLayout.setVisibility(View.VISIBLE);
+                                    Log.d("pdname",specialCategory.getNameEn());
+
+
+                                    multipleSameProduct=specialCategory;
+                                List<CategoryProduct> products= specialCategory.getProductList();
+                                    productSpecAdapter=new ProductSpecAdapter(ProductDetailActivity.this,products,product.getId());
+                                    LinearLayoutManager linearLayoutManager=new LinearLayoutManager(ProductDetailActivity.this,LinearLayoutManager.HORIZONTAL,false);
+                                    multipleSpecLayout.setAdapter(productSpecAdapter);
+                                    multipleSpecLayout.setLayoutManager(linearLayoutManager);
+                                    productSpecAdapter.notifyDataSetChanged();
+                                 /*   spec1TextView.setText("$"+specialCategory.getProductList().get(0).getPrice()+"/ "+specialCategory.getProductList().get(0).getSpecificationEn());
+                                    spec2TextView.setText("$"+specialCategory.getProductList().get(1).getPrice()+"/ "+specialCategory.getProductList().get(1).getSpecificationEn());
+                                    if(product.getNameEn().equals(specialCategory.getProductList().get(0).getNameEn()))
+                                    {
+                                        spec1TextView.setBackground(getResources().getDrawable(R.drawable.yellow_new));
+                                        spec2TextView.setBackground(getResources().getDrawable(R.drawable.table_bkg));
+                                    }
+                                    else
+                                    {
+                                        spec2TextView.setBackground(getResources().getDrawable(R.drawable.yellow_new));
+                                        spec1TextView.setBackground(getResources().getDrawable(R.drawable.table_bkg));
+                                    }
+                                    */
+
+
+                                    break;
+                                }
+
+
+
+
+
+
+                            }
+
+                        }
+                    }
+
+                } catch (JsonParseException e) {
+                    e.printStackTrace();
+                } catch (JsonMappingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }}
+        , new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        globalProvider.addRequest(utf8JsonRequest);
+    }
+
+
 
 
 

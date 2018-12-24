@@ -19,6 +19,8 @@
         <meta-data
             android:name="com.easybuy.sg.grouponebuy.utils.LimitCacheSizeGlideModule"
             android:value="GlideModule" />
+        <activity android:name=".activities.PaymentActivity"></activity>
+        <activity android:name=".activities.CartListActivity"></activity>
 
         <activity android:name=".activities.SplashActivity"
             android:noHistory="true"

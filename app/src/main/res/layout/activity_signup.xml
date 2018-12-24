@@ -71,7 +71,7 @@
             android:text="@={usermodel.userName}"
 
             android:inputType="text"
-            android:gravity="center"
+
             android:id="@+id/name"
             android:layout_marginRight="24dp"
             android:background="@drawable/table_noround"
@@ -98,7 +98,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
 
-            android:gravity="center"
+
             android:layout_marginRight="24dp"
             android:inputType="textEmailAddress"
             android:text="@={usermodel.email}"
@@ -131,7 +131,7 @@
             android:layout_marginLeft="5dp"
 
 
-            android:gravity="center"
+
             android:layout_marginRight="24dp"
             android:inputType="number"
             android:text="@={usermodel.phone}"
@@ -168,7 +168,7 @@
             android:text="@{usermodel.password}"
             android:background="@drawable/table_noround"
 
-            android:gravity="center"
+
              />
 
     </LinearLayout>
@@ -200,7 +200,7 @@
             android:inputType="textPassword"
 
 
-            android:gravity="center"
+
              />
 
     </LinearLayout>
@@ -232,7 +232,7 @@
             android:text="@{usermodel.postcode}"
 
 
-            android:gravity="center"
+
              />
 
     </LinearLayout>

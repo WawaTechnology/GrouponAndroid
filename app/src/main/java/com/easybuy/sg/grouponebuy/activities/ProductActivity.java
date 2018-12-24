@@ -309,7 +309,14 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
             badgeText.setVisibility(GONE);
         } else {
             Log.d("pdsize", productList.size() + "");
+
+            if(globalProvider.cartList.size()>=10)
+            {
+                badgeText.setPadding(3,0,3,0);
+            }
+
             badgeText.setText(globalProvider.cartList.size()+"");
+
             badgeText.setVisibility(VISIBLE);
 
 
@@ -388,6 +395,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
 
                     try {
                         JsonParser jsonParser = jsonFactory.createParser(response);
+
                         ProductList products = (ProductList) objectMapper.readValue(jsonParser, ProductList.class);
                         if(products.getStatus()==2)
                         {
@@ -671,7 +679,15 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
         }
         else
         {
+
             badgeText.setText(globalProvider.cartList.size()+"");
+            if(globalProvider.cartList.size()>=10)
+            {
+                badgeText.setPadding(3,0,3,0);
+            }
+            else
+                badgeText.setPadding(8,0,8,0);
+
             badgeText.setVisibility(VISIBLE);
         }
     }

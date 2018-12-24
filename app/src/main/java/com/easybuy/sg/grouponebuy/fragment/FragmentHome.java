@@ -181,9 +181,8 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
 
 
+// check if there is any sale in products
 
-        float searchHeight = 360 / displayMetrics.density;
-        Log.d("getv", searchHeight + "");
         if(globalProvider.getFlashSale()!=null)
         {
             activityHomeBinding.flashsalelayout.setVisibility(View.VISIBLE);
@@ -273,7 +272,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         */
 
 
-
+      // displaying set of images in viewpager
         if(imgArray!=null&&imgArray.length>0)
         {
             for (int a = 0; a < imgArray.length; a++) {
@@ -346,6 +345,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         productImageIdList.addAll(globalProvider.threeImageLayout);
         doubleTopList.addAll(globalProvider.doubleProductList);
         tripleTopList.addAll(globalProvider.threeTopImageLayout);
+        Log.d("doubletoplistsize",doubleTopList.size()+"");
 
         singleTopAdapter0=new SingleTopAdapter(getContext(),doubleTopList);
          singleTopAdapter=new SingleTopAdapter(getContext(),singleTopList);
@@ -409,7 +409,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         activityHomeBinding.doubleBottomrecycler.setAdapter(singleTopAdapter2);
 
 
-
+//changing color of dots when we scroll images in viewpager
         activityHomeBinding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
 
         {
@@ -614,11 +614,11 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
                 try {
                     JsonParser jsonParser = jsonFactory.createParser(response);
-                    SpecialCategoryList splcategories = (SpecialCategoryList) objectMapper.readValue(jsonParser, SpecialCategoryList.class);
+                    CategorySpecialList splcategories = (CategorySpecialList) objectMapper.readValue(jsonParser, CategorySpecialList.class);
                     Log.d("getstatus",splcategories.getStatus()+"");
                     int status=splcategories.getStatus();
                     if(status==0) {
-                        List<CategorySpecial> categorySpecialList = splcategories.getCategorySpecialList();
+                        List<CategorySpecial> categorySpecialList = splcategories.getSpecialCategoryList();
                         for (CategorySpecial cs:categorySpecialList) {
                             Log.d("SPLNAME",cs.getNameEn());
                             categorySpecials.add(cs);
@@ -688,6 +688,15 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
        // fragmentCallback.onSelectedCategory();
         categoryListener.onSelectedCategory();
 
+
+    }
+    @Override
+    public void onDetach()
+    {
+        super.onDetach();
+        categoryListener=null;
+        categoryAdapter=null;
+        productDetailViewPagerAdapter=null;
 
     }
 

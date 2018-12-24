@@ -206,7 +206,7 @@ ImageView backButton;
                                     Customer customer = op.getCustomer();
                                     Log.d("checkcus",customer.getUserName());
                                     Constants.setCustomer(SignUpActivity.this,customer);
-                                    globalProvider.setCustomer(customer);
+                                    globalProvider.setCustomerId(customer.customer_id);
                                     globalProvider.setLogin(true);
                                     Intent intent = new Intent(SignUpActivity.this, DistrictSettingActivity.class);
                                     intent.putExtra("postal",activitySignupBinding.postcode.getText().toString());

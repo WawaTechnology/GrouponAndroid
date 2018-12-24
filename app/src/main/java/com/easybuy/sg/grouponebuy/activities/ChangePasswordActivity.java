@@ -122,7 +122,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                   else
                   {
                       params.put("oldPassword", oldPassEditText.getText().toString());
-                      url=Constants.ChangePasswordUrlA+globalProvider.getCustomer().customer_id;
+                    //  url=Constants.ChangePasswordUrlA+globalProvider.getCustomer().customer_id;
+                      url=Constants.ChangePasswordUrlA+globalProvider.getCustomerId();
                   }
                     params.put("newPassword", newPassEditText.getText().toString());
                   Log.d("checkurl",url);

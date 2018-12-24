@@ -44,11 +44,19 @@ public class Product implements Serializable{
         isAttention = attention;
     }
 
+
     @JsonProperty("_id")
         private String id;
         @JsonProperty("name_ch")
         private String nameCh;
-        @JsonProperty("name_en")
+
+    public Boolean getOnShelf() {
+        return isOnShelf;
+    }
+
+
+
+    @JsonProperty("name_en")
         private String nameEn;
         @JsonProperty("origin_ch")
         private String originCh;
@@ -62,11 +70,27 @@ public class Product implements Serializable{
         private String specificationCh;
         @JsonProperty("specification_en")
         private String specificationEn;
+     //@JsonProperty("categorySpecial")
+//List<Object> categorySList;
+
+      //  @JsonProperty("categorySpecial")
+    //   List<String> categorySpecialList;
         @JsonProperty("unit_ch")
         private String unitCh;
         @JsonProperty("unit_en")
         private String unitEn;
-        @JsonProperty("category")
+
+  /*  public List<String> getSpecialCategoryList() {
+        return categorySpecialList;
+    }
+
+    public void setSpecialCategoryList(List<String> categorySpecialList) {
+        this.categorySpecialList = categorySpecialList;
+    }
+    */
+
+    @JsonProperty("category")
+
         private Category category;
         @JsonProperty("priceOriginal")
         private Double priceOriginal;
@@ -89,13 +113,25 @@ public class Product implements Serializable{
         this.supplier = supplier;
     }
 
+   /* public List<Object> getCategorySList() {
+        return categorySList;
+    }
+
+    public void setCategorySList(List<Object> categorySList) {
+        this.categorySList = categorySList;
+    }
+    */
+
+
     @JsonProperty("stock")
+
 
         private Integer stock;
     @JsonProperty("SKU")
     private String sKU;
     @JsonProperty("supplier")
     private String supplier;
+
 
 
 

@@ -213,9 +213,13 @@ public class FragmentOrderTThree extends Fragment {
             super.onCreate(savedInstanceState);
             cycleList=new ArrayList<>();
             globalProvider=GlobalProvider.getGlobalProviderInstance(getContext());
-            if(globalProvider.getCustomer().getDistrict()!=null&&globalProvider.getCustomer().getDistrict().getCycle()!=null)
+           /* if(globalProvider.getCustomer().getDistrict()!=null&&globalProvider.getCustomer().getDistrict().getCycle()!=null)
 
             cycleList.addAll(globalProvider.getCustomer().getDistrict().getCycle()) ;
+            */
+            if(Constants.getCustomer(getContext()).getDistrict()!=null&&Constants.getCustomer(getContext()).getDistrict().getCycle()!=null)
+
+                cycleList.addAll(Constants.getCustomer(getContext()).getDistrict().getCycle()) ;
 
 
         }

@@ -25,6 +25,7 @@ import com.easybuy.sg.grouponebuy.activities.SettingActivity;
 import com.easybuy.sg.grouponebuy.activities.SignInActivity;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.model.Customer;
+import com.easybuy.sg.grouponebuy.network.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,8 +88,8 @@ public class FragmentOrder extends Fragment {
         viewPager.setCurrentItem(0);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getContext().getApplicationContext());
 
-
-       Customer customer=globalProvider.getCustomer();
+        Customer customer= Constants.getCustomer(getContext());
+      // Customer customer=globalProvider.getCustomer();
         if(customer!=null)
         {
             String name=customer.getUserName();

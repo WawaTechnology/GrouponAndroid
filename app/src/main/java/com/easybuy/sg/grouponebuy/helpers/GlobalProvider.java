@@ -41,21 +41,21 @@ public class GlobalProvider {
     private Context context;
    public boolean hasSale;
    public Date saleDate;
-  // String customerId;
+  String customerId;
 
- /*   public String getCustomerId() {
+    public String getCustomerId() {
         return customerId;
     }
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
-    */
+
 
     private boolean isLogin;
     public boolean isNotFirstTime;
     public String selectedCategory;
-   private Customer customer;
+  // private Customer customer;
     public ProductImageId specialBanner;
 
     public List<ProductImageId> getDoubleProductImageList() {
@@ -164,13 +164,14 @@ public class GlobalProvider {
     private static RequestQueue requestQueue;
     public List<CategorySummary> categoryList=new ArrayList<>();
 
- public Customer getCustomer() {
+ /*public Customer getCustomer() {
         return customer;
     }
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+    */
 
 
     private GlobalProvider(Context context)

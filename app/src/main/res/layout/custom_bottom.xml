@@ -84,6 +84,10 @@
 
         android:gravity="center">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
 
         <ImageView
             android:layout_width="35dp"
@@ -92,6 +96,8 @@
             android:paddingTop="8dp"
             android:id="@+id/cart_image"
             android:src="@drawable/cart_black"/>
+
+        </RelativeLayout>
 
 
         <TextView

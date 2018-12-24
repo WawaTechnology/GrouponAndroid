@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="600dp"
-    android:padding="8dp"
+    android:orientation="vertical" android:layout_width="match_parent"
+
 
     android:layout_marginBottom="8dp"
-    android:layout_height="600dp">
+    android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/red"></View>
+
+
     <TextView
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
@@ -24,92 +30,11 @@
         android:layout_marginTop="8dp"
 
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/selectdate_recycler"></android.support.v7.widget.RecyclerView>
 
-
-<!--
-    <LinearLayout
-        android:layout_marginTop="12dp"
-        android:layout_width="500dp"
-        android:id="@+id/layout_1"
-        android:layout_height="wrap_content"
-        android:background="@drawable/red_rectangle"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/date"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/week"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/time"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="12dp"
-        android:layout_width="500dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/layout_2"
-        android:background="@drawable/red_rectangle"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/seconddate"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/secondweek"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/secondtime"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="12dp"
-        android:layout_width="500dp"
-        android:id="@+id/layout_3"
-        android:layout_height="wrap_content"
-        android:background="@drawable/red_rectangle"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/thirddate"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/thirdweek"/>
-        <TextView
-            android:layout_marginLeft="5dp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:id="@+id/thirdtime"/>
-    </LinearLayout>
-    -->
 
 </LinearLayout>

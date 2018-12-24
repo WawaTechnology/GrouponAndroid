@@ -150,9 +150,11 @@ public class FavoriteFragment extends Fragment  {
 
     private void getFavourite() {
         favouriteList.clear();
-        if(globalProvider.getCustomer()!=null)
+       // if(globalProvider.getCustomer()!=null)
+        if(globalProvider.getCustomerId()!=null)
         {
-            String id=globalProvider.getCustomer().customer_id;
+            String id=globalProvider.getCustomerId();
+           // String id=globalProvider.getCustomer().customer_id;
             String url= Constants.favouriteUrl+"/"+id;
           //  Log.d("urlr",url);
              utf8JsonRequest=new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
