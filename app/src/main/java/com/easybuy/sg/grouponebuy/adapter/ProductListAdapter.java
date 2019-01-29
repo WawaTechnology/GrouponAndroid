@@ -151,7 +151,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
 
-                Glide.with(context).load(Constants.baseUrlStr + product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(myholder.imgView);
+                Glide.with(context).load(Constants.newImageUrl + product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(myholder.imgView);
                 Log.d("ggimg", product.getImageCover() + "");
                 myholder.minusButton.setOnClickListener(new View.OnClickListener() {
                     @Override

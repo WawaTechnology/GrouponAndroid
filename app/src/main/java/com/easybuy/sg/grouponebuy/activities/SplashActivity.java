@@ -209,36 +209,47 @@ public class SplashActivity extends AppCompatActivity {
                     JsonParser jsonParser = jsonFactory.createParser(response);
 
                     FlashSaleResult flashSaleResult = (FlashSaleResult) objectMapper.readValue(jsonParser, FlashSaleResult.class);
-                    if (flashSaleResult.getStatus() == 0&&flashSaleResult.getPayload()!=null) {
-                        //check flashsale
-                        String deadline = flashSaleResult.getPayload().get(0).getDeadline();
 
-                        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-                        Date saleDate = isoFormat.parse(deadline);
-                        globalProvider.saleDate = saleDate;
-                        Date today = new Date();
-                        Log.d("saleDate", saleDate.toString());
-                        Log.d("today", today.toString());
+                        if (flashSaleResult.getStatus() == 0 && flashSaleResult.getPayload() != null) {
+                            try {
+                            //check flashsale
+                            String deadline = flashSaleResult.getPayload().get(0).getDeadline();
 
-                        if (today.before(saleDate)) {
-                            //Log.d("flashstuas","wiil be displayed");
-                            globalProvider.setFlashSale(flashSaleResult.getPayload().get(0));
-                            globalProvider.hasSale = true;
+                            SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+                            Date saleDate = isoFormat.parse(deadline);
+                            globalProvider.saleDate = saleDate;
+                            Date today = new Date();
+                            Log.d("saleDate", saleDate.toString());
+                            Log.d("today", today.toString());
+
+                            if (today.before(saleDate)) {
+                                //Log.d("flashstuas","wiil be displayed");
+                                globalProvider.setFlashSale(flashSaleResult.getPayload().get(0));
+                                globalProvider.hasSale = true;
+
+
+                            }
+                            Log.d("hasSale", globalProvider.hasSale + "");
+
+                            //  Log.d("flashstuas","wiil not be displayed");
+                           // getSingleProducts();
 
 
                         }
-                        Log.d("hasSale", globalProvider.hasSale + "");
-
-                        //  Log.d("flashstuas","wiil not be displayed");
-                        getSingleProducts();
-
-
+                    catch(IndexOutOfBoundsException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    finally{
+                            getSingleProducts();
+                        }
                     }
                     else
-                    {
-                        getSingleProducts();
-                    }
+                        {
+                            getSingleProducts();
+                        }
+
                 }
              catch (JsonParseException e) {
                 e.printStackTrace();

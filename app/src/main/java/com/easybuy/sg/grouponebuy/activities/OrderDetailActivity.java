@@ -13,11 +13,13 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.easybuy.sg.grouponebuy.R;
+import com.easybuy.sg.grouponebuy.adapter.CustomAlertAdapter;
 import com.easybuy.sg.grouponebuy.adapter.OrderDetailAdapter;
 import com.easybuy.sg.grouponebuy.helpers.CustomRequest;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
@@ -35,16 +38,22 @@ import com.easybuy.sg.grouponebuy.model.OrderPayload;
 import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.model.ProductInfo;
 import com.easybuy.sg.grouponebuy.model.ProductOrderList;
+import com.easybuy.sg.grouponebuy.model.ProductStock;
 import com.easybuy.sg.grouponebuy.model.ResultClass;
 import com.easybuy.sg.grouponebuy.model.ResultOrder;
+import com.easybuy.sg.grouponebuy.model.ResultProductList;
 import com.easybuy.sg.grouponebuy.model.SingleOrderResult;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,6 +83,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
     private static final int EDIT = 1;
     private double changedtotal=0.0;
     private ImageView backButton;
+    boolean orderEdited;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -123,6 +133,13 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         orderIdText.setText(order.getOrderCode());
         orderDateText.setText(order.getOrderDate());
       // String  state = order.getState().substring(0,1).toUpperCase() + order.getState().substring(1);
+        Log.d("checkorderstate",order.getState()+"");
+        if(order.getState().equalsIgnoreCase("processing"))
+        {
+            statusText.setText(getString(R.string.processing));
+            editOrderButton.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.GONE);
+        }
 
         if(order.getState().equalsIgnoreCase("shipping"))
         {
@@ -150,6 +167,11 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(orderEdited)
+                {
+
+                }
+
                 finish();
             }
         });
@@ -301,7 +323,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
 
 
     private void editOrder()  {
-        if(changedtotal>9.9) {
+        if(changedtotal>Constants.getCustomer(OrderDetailActivity.this).getDistrict().getDeliveryCost()) {
             String url = Constants.editOrderUrl + order.getId();
             Log.d("checkediturl", url);
             JSONObject jsonObject = new JSONObject();
@@ -340,7 +362,36 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
                         Log.d("checkeditresponse", response.toString());
                         try {
                             if (response.getInt("status") == 0) {
-                                Toast.makeText(OrderDetailActivity.this,getString(R.string.order_updated_success), Toast.LENGTH_LONG).show();
+                               Toast.makeText(OrderDetailActivity.this,getString(R.string.order_updated_success), Toast.LENGTH_LONG).show();
+                                orderEdited=true;
+
+
+                            }
+                            else if(response.getInt("status")==1)
+                            {
+
+                                //Toast.makeText(OrderDetailActivity.this, "Some Items are not available", Toast.LENGTH_LONG).show();
+                                ObjectMapper objectMapper=new ObjectMapper();
+                                JsonFactory jsonFactory = new JsonFactory();
+                                try
+                                {
+                                    JsonParser jsonParser = jsonFactory.createParser(response.toString());
+                                    ResultProductList resultProductList = (ResultProductList) objectMapper.readValue(jsonParser, ResultProductList.class);
+                                    List<ProductStock> productStockList=new ArrayList<>();
+                                    for(ProductInfo product:resultProductList.getPayload()) {
+                                        if (lang.equals("english"))
+
+                                            productStockList.add(new ProductStock(product.getNameEn(), product.getStock()));
+                                        else
+                                            productStockList.add(new ProductStock(product.getNameCh(), product.getStock()));
+                                    }
+                                    Log.d("productoutofstock",productStockList.get(0).getProductName());
+                                    displayStockList(productStockList);
+                                } catch (JsonParseException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
 
                             }
                         } catch (JSONException e) {
@@ -362,10 +413,96 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         }
         else
         {
-            Toast.makeText(this,getString(R.string.min_spend), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,getString(R.string.min_spend)+" $ "+Constants.getCustomer(OrderDetailActivity.this).getDistrict().getDeliveryCost(), Toast.LENGTH_LONG).show();
         }
 
 
+
+
+    }
+    private void displayStockList(final List<ProductStock> productStockList) {
+       // submitButton.setClickable(true);
+
+
+
+
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(OrderDetailActivity.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View convertView = (View) inflater.inflate(R.layout.custom_listalert, null, false);
+
+        ListView lv = (ListView) convertView.findViewById(R.id.lvw);
+
+        final CustomAlertAdapter adapter = new CustomAlertAdapter(productStockList, OrderDetailActivity.this);
+        alertDialog.setTitle(getResources().getString(R.string.sorry_insufficient));
+
+
+
+        alertDialog.setView(convertView);
+        alertDialog.setCancelable(false);
+
+
+        alertDialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+                finish();
+
+         /*  String url=Constants.editOrderUrl+order.getId();
+           Log.d("editrl",url);
+           Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
+               @Override
+               public void onResponse(String response) {
+                   try {
+
+                       JSONObject jsonObj = new JSONObject(response);
+                       JsonFactory jsonFactory = new JsonFactory();
+                       ObjectMapper objectMapper = new ObjectMapper();
+                      JSONObject newobj= jsonObj.getJSONObject("payload");
+                      JSONArray jsonArray=  newobj.getJSONArray("productList");
+                      Log.d("checkjsonArraysize",jsonArray.length()+"");
+                     // List<ProductOrderList> productOrderLists=new ArrayList<>();
+                       JsonParser jsonParser = jsonFactory.createParser(jsonArray.toString());
+                      List<ProductOrderList> productOrderLists = new Gson().fromJson(jsonArray.toString(), new TypeToken<List<ProductOrderList>>(){}.getType());
+
+                       Log.d("productorderli",productOrderLists.get(0).getId());
+
+
+
+
+                      
+
+
+
+
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   } catch (JsonParseException e) {
+                       e.printStackTrace();
+                   } catch (IOException e) {
+                       e.printStackTrace();
+                   }
+
+
+               }
+           }, new Response.ErrorListener() {
+               @Override
+               public void onErrorResponse(VolleyError error) {
+
+               }
+           });
+           globalProvider.addRequest(utf8JsonRequest);
+           */
+
+
+            }
+        });
+        alertDialog.setAdapter(adapter,null);
+
+
+
+
+
+        alertDialog.show();
 
 
     }
@@ -411,10 +548,12 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
                 if(resultClass.getStatus()==0)
                 {
                     Toast.makeText(OrderDetailActivity.this,getString(R.string.order_cancelled_success),Toast.LENGTH_LONG).show();
-                    // Intent returnIntent = new Intent();
-                    // returnIntent.putExtra("ordercancelled",order);
-                    // setResult(Activity.RESULT_OK,returnIntent);
+                   /* Intent returnIntent = new Intent();
+                     returnIntent.putExtra("orderEdited",true);
+                     setResult(Activity.RESULT_OK,returnIntent);
+
                     globalProvider.setDeletedOrder(order);
+                    */
 
                     finish();
                 }

@@ -102,7 +102,7 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
                     }
                     else
                         holder.originalPrice.setVisibility(View.GONE);
-                    Glide.with(context).load(Constants.baseUrlStr+product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(holder.prodCover);
+                    Glide.with(context).load(Constants.newImageUrl+product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(holder.prodCover);
                     holder.buyButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {

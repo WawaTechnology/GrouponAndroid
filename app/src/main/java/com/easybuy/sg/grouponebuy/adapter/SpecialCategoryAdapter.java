@@ -77,7 +77,13 @@ public class SpecialCategoryAdapter extends RecyclerView.Adapter<SpecialCategory
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final CategorySpecial categorySpecial=categorySpecials.get(position);
-        String img=Constants.baseUrlStr+categorySpecial.getImage();
+        String img=null;
+        if(lang.equals("english")&&categorySpecial.getImageCorner()!=null)
+            img = Constants.newImageUrl +categorySpecial.getImageCorner();
+        else
+            img=Constants.newImageUrl+categorySpecial.getImage();
+
+
        holder.splImage.getLayoutParams().height=width/2;
         holder.splImage.requestLayout();
 
@@ -192,7 +198,8 @@ public class SpecialCategoryAdapter extends RecyclerView.Adapter<SpecialCategory
             {
                holder.singleImage.getLayoutParams().height=width/2;
                 holder.singleImage.requestLayout();
-                  cover= Constants.baseUrlStr+ productImageId.getProductCover();
+
+                  cover= Constants.newImageUrl+ productImageId.getProductCover();
                final Product  product=productImageId.getProduct();
                 Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).fitCenter().into(holder.singleImage);
                 holder.singleImage.setVisibility(View.VISIBLE);

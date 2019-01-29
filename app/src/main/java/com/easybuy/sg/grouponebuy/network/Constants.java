@@ -17,10 +17,11 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Constants  {
-//static public String baseUrlStr = "http://192.168.1.70:3000/";
+//static public String baseUrlStr = "http://13.250.234.103:4397/";
 
 static public String baseUrlStr = "http://13.251.164.198:3000/";
     static public String loginUrlStr = baseUrlStr + "users/login";
+    static public String newImageUrl="https://s3-ap-southeast-1.amazonaws.com/ebuymart/";
     static public String signUpUrl=baseUrlStr+"users/signUp";
     static public String districtUrl=baseUrlStr+"districts/search";
     static public String categoryUrl=baseUrlStr+"categories";

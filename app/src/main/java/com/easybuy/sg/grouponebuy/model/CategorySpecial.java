@@ -21,6 +21,16 @@ public class CategorySpecial implements Serializable {
     private String id;
     @JsonProperty("name_ch")
     private String nameCh;
+    @JsonProperty("imageCorner")
+    private String imageCorner;
+
+    public String getImageCorner() {
+        return imageCorner;
+    }
+
+    public void setImageCorner(String imageCorner) {
+        this.imageCorner = imageCorner;
+    }
 
     public Integer getSequence() {
         return sequence;

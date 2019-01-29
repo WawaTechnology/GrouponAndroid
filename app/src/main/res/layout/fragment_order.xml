@@ -3,11 +3,90 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@drawable/red"
+        android:id="@+id/loggedin_layout"
+        android:visibility="gone"
+        android:orientation="vertical"
+        >
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/setting"
+            android:id="@+id/settingn"
+            android:layout_marginRight="14dp"
+
+            android:layout_marginTop="14dp"
+            android:layout_gravity="right"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
+            <ImageView
+
+                android:layout_width="66dp"
+                android:layout_height="66dp"
+                android:layout_marginLeft="16dp"
+
+
+                android:src="@drawable/circular"
+                android:id="@+id/change_infon"
+                android:scaleType="fitXY" >
+
+
+            </ImageView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="24dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name : Sampada"
+                    android:id="@+id/name"
+                    android:textColor="@color/white"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/balance"
+                    android:text="Balance : 0"
+                    android:textColor="@color/white"/>
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="History"
+                        android:background="@drawable/yellow_wholerectangle"
+                        android:layout_marginLeft="12dp"/>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+    -->
 
 
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="160dp"
+
     android:id="@+id/frame_relative"
 
 
@@ -21,6 +100,7 @@
 
         android:adjustViewBounds="true"
         android:scaleType="fitXY"/>
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +122,8 @@
 
 
     </RelativeLayout>
+
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="30dp"

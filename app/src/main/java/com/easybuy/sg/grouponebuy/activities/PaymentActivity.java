@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -154,6 +156,19 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 finish();
             }
         });
+        final View parent = (View) backButton.getParent();  // button: the view you want to enlarge hit area
+        parent.post( new Runnable() {
+            public void run() {
+                final Rect rect = new Rect();
+                backButton.getHitRect(rect);
+                rect.top -= 10;    // increase top hit area
+                rect.left -= 10;   // increase left hit area
+                rect.bottom += 10; // increase bottom hit area
+                rect.right += 50;  // increase right hit area
+                parent.setTouchDelegate( new TouchDelegate( rect , backButton));
+            }
+        });
+
         SharedPreferences sp= getPreferences(Context.MODE_PRIVATE);
         int res=sp.getInt("paymentkey",0);
         int billres=sp.getInt("billkey",1);
@@ -255,8 +270,9 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
                 if(prevOrder==null) {
 
-                    if (totalamt < 9.9) {
-                        Toast.makeText(PaymentActivity.this,getString(R.string.min_spend), Toast.LENGTH_LONG).show();
+                    if (totalamt < customer.getDistrict().getDeliveryCost()) {
+                        Toast.makeText(PaymentActivity.this,getString(R.string.min_spend)+ " $ "+customer.getDistrict().getDeliveryCost(), Toast.LENGTH_LONG).show();
+                        submitButton.setClickable(true);
                         return;
                     } else {
 
@@ -277,7 +293,9 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                             jsonObject2.put("district", district.getId());
 
                             //todo use radiobutton value
-                            if (invoiceChoiceText.getText().toString().equals(R.string.yes)) {
+                            Log.d("invoicetext",invoiceChoiceText.getText().toString());
+                            String invoiceValue=invoiceChoiceText.getText().toString();
+                            if (invoiceValue.equals(getString(R.string.yes))) {
                                 Log.d("valuesis", "yes");
                                 jsonObject2.put("isPrint", true);
                             }
@@ -285,10 +303,14 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                 jsonObject2.put("isPrint", false);
                                 Log.d("valuesis","no");
                             }
-                            if (paymentMethodChoice.getText().toString().equals(R.string.cash))
+                            if (paymentMethodChoice.getText().toString().equals(getString(R.string.cash))) {
+                                Log.d("valueis", "cash");
                                 jsonObject2.put("paymentMethod", "cash");
-                            else
+                            }
+                            else {
                                 jsonObject2.put("paymentMethod", "PayNow");
+                                Log.d("valueis","paynow");
+                            }
 
                             final JSONArray jsonArray = new JSONArray();
                             for (Product product : globalProvider.cartList) {
@@ -446,9 +468,10 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 else
                 {
 
-                    new AlertDialog.Builder(PaymentActivity.this).setTitle(getResources().getString(R.string.alert)).setMessage(getResources().getString(R.string.add_existing_order)).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    new AlertDialog.Builder(PaymentActivity.this).setCancelable(false).setTitle(getResources().getString(R.string.alert)).setMessage(getResources().getString(R.string.add_existing_order)).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            submitButton.setClickable(true);
                             dialogInterface.dismiss();
 
 
@@ -623,6 +646,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
     }
     private void displayStockList(final List<ProductStock> productStockList) {
+        submitButton.setClickable(true);
 
 
 
@@ -635,6 +659,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         final CustomAlertAdapter adapter = new CustomAlertAdapter(productStockList, PaymentActivity.this);
         alertDialog.setTitle(getResources().getString(R.string.sorry_insufficient));
+        alertDialog.setCancelable(false);
+
 
 
 

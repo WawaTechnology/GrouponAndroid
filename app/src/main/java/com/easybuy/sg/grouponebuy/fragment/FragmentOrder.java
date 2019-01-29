@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -41,6 +42,7 @@ public class FragmentOrder extends Fragment {
     GlobalProvider globalProvider;
     ImageView imgProfile;
     RelativeLayout frameRelative;
+  //  LinearLayout loggedInLayout;
 
 
 
@@ -67,6 +69,7 @@ public class FragmentOrder extends Fragment {
         frameRelative=(RelativeLayout)view.findViewById(R.id.frame_relative) ;
         loginText=(Button) view.findViewById(R.id.loginButton);
         userNameText=(TextView) view.findViewById(R.id.userName);
+       // loggedInLayout=(LinearLayout)view.findViewById(R.id.loggedin_layout) ;
        // tabLayout.addTab(tabLayout.newTab().setText("My Order"), 0);
        // tabLayout.addTab(tabLayout.newTab().setText("Personal"), 1);
         //tabLayout.addTab(tabLayout.newTab().setText("Other"), 2);
@@ -87,6 +90,17 @@ public class FragmentOrder extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(0);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getContext().getApplicationContext());
+      /*  if(globalProvider.isLogin())
+        {
+            loggedInLayout.setVisibility(View.VISIBLE);
+            frameRelative.setVisibility(View.GONE);
+        }
+        else
+        {
+            loggedInLayout.setVisibility(View.GONE);
+            frameRelative.setVisibility(View.VISIBLE);
+        }
+        */
 
         Customer customer= Constants.getCustomer(getContext());
       // Customer customer=globalProvider.getCustomer();

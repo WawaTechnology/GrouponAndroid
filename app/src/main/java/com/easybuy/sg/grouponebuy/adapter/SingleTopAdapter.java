@@ -119,7 +119,7 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
        ProductImageId productImageId= productImageIdList.get(position);
         final Product product=productImageId.getProduct();
 
-        String cover= Constants.baseUrlStr+ productImageId.getProductCover();
+        String cover= Constants.newImageUrl+ productImageId.getProductCover();
        switch(productImageId.getViewType())
        {
            case SINGLEVIEW:

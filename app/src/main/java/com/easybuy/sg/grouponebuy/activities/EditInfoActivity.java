@@ -76,10 +76,34 @@ public class EditInfoActivity extends AppCompatActivity {
         nameEdit.setText(customer.userName);
         nameEdit.addTextChangedListener(new GenericTextWatcher(nameEdit));
         emailEdit.setText(customer.email);
+        emailEdit.post(new Runnable() {
+            @Override
+            public void run() {
+                emailEdit.setSelection(emailEdit.getText().length());
+
+            }
+        });
+
         emailEdit.addTextChangedListener(new GenericTextWatcher(emailEdit));
         phoneEdit.setText(customer.phone);
+        phoneEdit.post(new Runnable() {
+            @Override
+            public void run() {
+                phoneEdit.setSelection(phoneEdit.getText().length());
+
+            }
+        });
+
         phoneEdit.addTextChangedListener(new GenericTextWatcher(phoneEdit));
         postcodeEdit.setText(customer.postcode);
+        postcodeEdit.post(new Runnable() {
+            @Override
+            public void run() {
+                postcodeEdit.setSelection(postcodeEdit.getText().length());
+
+            }
+        });
+
         postcodeEdit.addTextChangedListener(new GenericTextWatcher(postcodeEdit));
         Glide.with(this).load(R.drawable.ebuygrey).fitCenter().into(bottomImage);
 
@@ -168,6 +192,7 @@ public class EditInfoActivity extends AppCompatActivity {
         }
         return super.dispatchTouchEvent( event );
     }
+
 
     private void updateCustomer() {
         String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();

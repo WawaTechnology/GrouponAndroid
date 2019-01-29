@@ -138,7 +138,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             imgArray = new String[globalProvider.specialMImages.size()];
 
             for (int i = 0; i < imgArray.length; i++) {
-                imgArray[i] = Constants.baseUrlStr + globalProvider.specialMImages.get(i).getImageEntryCh();
+                imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryCh();
                 Log.d("checkimae",imgArray[i]);
 
             }
@@ -207,7 +207,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             if (productImageId.getCategory().equals("one-important")) {
                 Log.d("oneimp","visible");
 
-                String cover = Constants.baseUrlStr + productImageId.getProductCover();
+                String cover = Constants.newImageUrl + productImageId.getProductCover();
                 Glide.with(getContext()).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).fitCenter().into(activityHomeBinding.singleImpimage);
                 activityHomeBinding.singleImpimage.setVisibility(View.VISIBLE);
                 oneImportantProduct=productImageId.getProduct();
@@ -218,7 +218,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             if (productImageId.getCategory().equals("one")) {
                 Log.d("onesingle","visible");
 
-                String cover = Constants.baseUrlStr + productImageId.getProductCover();
+                String cover = Constants.newImageUrl + productImageId.getProductCover();
                 Glide.with(getContext()).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).fitCenter().into(activityHomeBinding.singleOneimage);
                 activityHomeBinding.singleOneimage.setVisibility(View.VISIBLE);
                 oneProduct=productImageId.getProduct();
@@ -376,7 +376,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         activityHomeBinding.specialBanner.getLayoutParams().height=bannerHeight;
         activityHomeBinding.specialBanner.requestLayout();
 
-        Glide.with(getContext()).load(Constants.baseUrlStr+globalProvider.specialBanner.getProductCover()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
+        Glide.with(getContext()).load(Constants.newImageUrl+globalProvider.specialBanner.getProductCover()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
         Log.d("checkimage",Constants.baseUrlStr+globalProvider.specialBanner.getProductCover());
         activityHomeBinding.specialBanner.setOnClickListener(new View.OnClickListener() {
             @Override

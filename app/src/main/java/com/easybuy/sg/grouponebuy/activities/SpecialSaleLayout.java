@@ -66,14 +66,14 @@ public class SpecialSaleLayout extends AppCompatActivity {
         //LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         if(lang.equals("english")) {
 
-            Glide.with(this).load(Constants.baseUrlStr + specialImage.getImageHeaderEn()).thumbnail(0.1f).placeholder(R.drawable.ebuylogo).error(R.drawable.ebuylogo).diskCacheStrategy(DiskCacheStrategy.NONE)
+            Glide.with(this).load(Constants.newImageUrl + specialImage.getImageHeaderEn()).thumbnail(0.1f).placeholder(R.drawable.ebuylogo).error(R.drawable.ebuylogo).diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true).into(imageCoverView);
 
         }
         else
         {
 
-            Glide.with(this).load(Constants.baseUrlStr + specialImage.getImageHeaderCh()).placeholder(R.drawable.ebuylogo).diskCacheStrategy(DiskCacheStrategy.NONE)
+            Glide.with(this).load(Constants.newImageUrl + specialImage.getImageHeaderCh()).placeholder(R.drawable.ebuylogo).diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true).into(imageCoverView);
         }
 

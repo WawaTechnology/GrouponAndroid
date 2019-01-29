@@ -65,7 +65,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     RecyclerView recyclerView;
     GlobalProvider globalProvider;
     String language;
-RelativeLayout cartLayout;
+    RelativeLayout cartLayout;
 
 
     List<PrevOrder> prevOrderList;
@@ -184,10 +184,13 @@ RelativeLayout cartLayout;
     public void onResume()
     {
         super.onResume();
-        if(totalamt>9.9)
+        if(Constants.getCustomer(getContext())!=null&&Constants.getCustomer(getContext()).getDistrict()!=null)
+        if(totalamt>Constants.getCustomer(getContext()).getDistrict().getDeliveryCost())
         {
             minSpendTextView.setVisibility(View.GONE);
         }
+        else
+            minSpendTextView.setText(getString(R.string.min_spend)+" $ "+Constants.getCustomer(getContext()).getDistrict().getDeliveryCost());
         if(globalProvider.cartList.isEmpty())
         {
             noCartLayout.setVisibility(View.VISIBLE);
@@ -471,7 +474,11 @@ RelativeLayout cartLayout;
                     startActivity(intent);
 
                 } else {
-                    if (totalamt > 9.9 || prevOrder != null) {
+                    float minOrderValue=Constants.getCustomer(getContext()).getDistrict().getDeliveryCost();
+                    Log.d("deliveryCost",minOrderValue+"");
+
+
+                    if (totalamt > minOrderValue|| prevOrder != null) {
 
                        Intent intent=new Intent(getContext(), PaymentActivity.class);
 
@@ -479,6 +486,7 @@ RelativeLayout cartLayout;
                         intent.putExtra("prevOrderList", (Serializable) prevOrderList);
                         intent.putExtra("totalamt",totalamt);
                         startActivity(intent);
+
 
                         /* FragmentTransaction ft = getFragmentManager().beginTransaction();
                         Fragment prev = getFragmentManager().findFragmentByTag("dialog");
@@ -497,7 +505,7 @@ RelativeLayout cartLayout;
                         dialogFragment.show(ft, "dialog");
                         */
                     } else {
-                        Toast.makeText(getContext(), getString(R.string.min_spend), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), getString(R.string.min_spend)+ " $ "+minOrderValue, Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -599,6 +607,18 @@ RelativeLayout cartLayout;
         }
         totalamt=Double.parseDouble(new DecimalFormat("##.##").format(totalamt));
         amountText.setText("$ "+totalamt);
+        if(Constants.getCustomer(getContext())!=null&&Constants.getCustomer(getContext()).getDistrict()!=null)
+        {
+            float minamt=Constants.getCustomer(getContext()).getDistrict().getDeliveryCost();
+            if(totalamt<minamt)
+            {
+                minSpendTextView.setText(getString(R.string.min_spend)+" $ "+minamt);
+                minSpendTextView.setVisibility(View.VISIBLE);
+
+            }
+            else
+                minSpendTextView.setVisibility(View.GONE);
+        }
     }
 
 

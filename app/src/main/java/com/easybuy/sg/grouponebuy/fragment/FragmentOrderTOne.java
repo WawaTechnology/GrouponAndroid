@@ -197,6 +197,9 @@ public class FragmentOrderTOne extends Fragment {
             noOrderLayOut.setVisibility(View.VISIBLE);
             orderRecyclerView.setVisibility(View.GONE);
         }
+     /*   else
+             getOrders();
+             */
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,8 +214,7 @@ public class FragmentOrderTOne extends Fragment {
         });
         allordertext.setTextColor(getResources().getColor(R.color.red));
         allOrderImage.setImageResource(R.drawable.orders);
-       // else
-           // getOrders();
+
 
 
 
@@ -395,13 +397,22 @@ public class FragmentOrderTOne extends Fragment {
       if(globalProvider.isLogin())
       {
           Log.d("onresumeorder","called");
+          Log.d("ecoin",Constants.getCustomer(getContext()).getRefund().getECoins()+"");
           Activity activity = getActivity();
           if(isAdded()&&activity!=null) {
 
               getBadge();
+              Log.d("onresumeorder","here");
               orderList.clear();
               orderAdapter.notifyDataSetChanged();
+              TAB_PRESSED = 1;
+              TOTAL_PAGE = 2;
+              page = 1;
+
+              isLoading = false;
+              isLastPage = false;
               getOrders();
+
           }
       }
 
@@ -489,6 +500,7 @@ public class FragmentOrderTOne extends Fragment {
                 }catch (JSONException e) {
                     e.printStackTrace();
                 }
+
 
 
             }

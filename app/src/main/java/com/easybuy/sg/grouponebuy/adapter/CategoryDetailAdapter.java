@@ -48,7 +48,7 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
        final CategorySummary category= categoryList.get(position);
-        Glide.with(context).load(Constants.baseUrlStr+category.getImage()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.productImageView);
+        Glide.with(context).load(Constants.newImageUrl+category.getImage()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.productImageView);
         if(lang.equals("english"))
         holder.productNameTextView.setText(category.getNameEn());
         else

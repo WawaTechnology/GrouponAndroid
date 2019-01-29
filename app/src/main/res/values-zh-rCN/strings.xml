@@ -166,6 +166,9 @@
     <string name="address">地址:\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020</string>
     <string name="delivery">送货时间:</string>
     <string name="district_open_shortly">区域将会很快开通</string>
+    <string name="items_not_avail">Some Items are not available</string>
+    <string name="stock_available">剩余库存:</string>
+
 
     <string name="your_unit_no">门牌号:</string>
     <string name="district_postcode">区域状态（邮编)</string>
@@ -177,7 +180,7 @@
     <string name="district_info">团购区域信息</string>
     <string name="service_hotline">客服热线</string>
     <string name="more">查看详情</string>
-    <string name="min_spend">最低起送价为 $9.9</string>
+    <string name="min_spend">最低起送价为</string>
     <string name="customer_service_time">提示：客服时间为 9 am - 9 pm</string>
     <string name="edit">编辑</string>
     <string name="save">保存</string>

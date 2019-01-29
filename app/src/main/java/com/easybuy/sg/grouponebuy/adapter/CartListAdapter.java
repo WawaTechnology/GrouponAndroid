@@ -97,7 +97,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
 
 
 
-        Glide.with(context).load(Constants.baseUrlStr + product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(holder.imgView);
+        Glide.with(context).load(Constants.newImageUrl+ product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(holder.imgView);
         Log.d("ggimg", product.getImageCover() + "");
        holder.minusButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -93,7 +93,7 @@ public SaleProductAdapter(Context context,List<String> productList)
                 if (!((Activity)context).isDestroyed())
                 {
 
-                    Glide.with(context).load(Constants.baseUrlStr + product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).error(R.drawable.ebuylogo).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.prodCover);
+                    Glide.with(context).load(Constants.newImageUrl + product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).error(R.drawable.ebuylogo).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.prodCover);
                 }
                 if(product.getStock()==0)
                 {

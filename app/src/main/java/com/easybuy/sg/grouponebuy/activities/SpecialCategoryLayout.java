@@ -70,8 +70,16 @@ public class SpecialCategoryLayout extends AppCompatActivity {
 
 
 
-
-        Glide.with(this).load(Constants.baseUrlStr+categorySpecial.getImage()).override(width,height).into(splCategoryImg);
+        String img=null;
+        if(lang.equals("english")&&categorySpecial.getImageCorner()!=null)
+        {
+           img=categorySpecial.getImageCorner();
+        }
+        else
+        {
+           img=categorySpecial.getImage();
+        }
+        Glide.with(this).load(Constants.newImageUrl+img).override(width,height).into(splCategoryImg);
          productList=new ArrayList<>();
         for(Product product:categorySpecial.getProductList())
         {

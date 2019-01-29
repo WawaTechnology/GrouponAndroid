@@ -114,10 +114,10 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
 
            String bkg="";
            if(lang.equals("english")) {
-                bkg = Constants.baseUrlStr + layer.imageTitleEn;
+                bkg = Constants.newImageUrl + layer.imageTitleEn;
            }
            else
-               bkg=Constants.baseUrlStr+layer.imageTitleCh;
+               bkg=Constants.newImageUrl+layer.imageTitleCh;
            Glide.with(context).load(bkg).fitCenter().into(holder.imgHeader);
        }
        Log.d("checktitleheader",layer.getNameEn());

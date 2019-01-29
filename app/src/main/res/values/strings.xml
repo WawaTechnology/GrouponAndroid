@@ -49,6 +49,7 @@
     <string name="any_question">Do you have any comments or questions? </string>
     <string name="no_order">You have no order....\nLets \'s go Shopping!
     </string>
+    <string name="stock_available">Stock Available:</string>
     <string name="save_list">Save what you always buy to the list! </string>
     <string name="cancel_order_alert">Are you sure of cancelling order?</string>
     <string name="offer">Offer</string>
@@ -62,6 +63,7 @@
     <string name="deliveryDate">Delivery Date: </string>
     <string name="select_date">Please Select Delivery Date</string>
     <string name="sorry_insufficient">Sorry,We dont have sufficient quantity for following items</string>
+    <string name="items_not_avail">Some Items are not available</string>
     <string name="status">Status: </string>
     <string name="total">Total: </string>
     <string name="submit">Submit</string>
@@ -69,7 +71,7 @@
     <string name="processing">Processing</string>
     <string name="customerService">Customer Service</string>
     <string name="more">More</string>
-    <string name="min_spend">Minimum spend is $9.9 for free delivery</string>
+    <string name="min_spend">Minimum spend for free delivery is</string>
     <string name="district_postcode">District Status (Postcode)</string>
     <string name="result_postcode">The result of searching:</string>
     <string name="your_unit_no">Your Unit No. is:</string>

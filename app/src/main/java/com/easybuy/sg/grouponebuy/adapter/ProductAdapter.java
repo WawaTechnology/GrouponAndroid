@@ -56,7 +56,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         Log.d("prodname",bp.getNameEn());
 
         double price=bp.getPrice();
-        String dr= Constants.baseUrlStr+bp.getImageCover();
+      //  String dr= Constants.baseUrlStr+bp.getImageCover();
+        String dr="https://s3-ap-southeast-1.amazonaws.com/ebuymart/"+bp.getImageCover();
+        Log.d("checkimage",dr);
 
         holder.tvprice.setText("$ "+price);
         holder.tvprice.setTextColor(context.getResources().getColor(R.color.red));

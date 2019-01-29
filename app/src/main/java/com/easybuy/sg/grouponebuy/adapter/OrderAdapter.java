@@ -78,6 +78,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
                 //holder.orderTimeText.setText(order.get);
+
                 if(order.getState().equalsIgnoreCase("completed"))
                 {
 
@@ -97,6 +98,11 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     {
                         myholder.orderStatusText.setText(context.getString(R.string.shipping));
                     }
+                    else if(order.getState().equalsIgnoreCase("processing"))
+                    {
+                        myholder.orderStatusText.setText(context.getString(R.string.processing));
+                    }
+
                     else
                     {
                         myholder.orderStatusText.setText(order.getState());
@@ -142,12 +148,12 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         @Override
                         public void onClick(View view) {
                             Intent intent=new Intent(context, OrderDetailActivity.class);
-                           // Activity origin = (Activity)context;
+                           Activity origin = (Activity)context;
                             intent.putExtra("Order",order);
                             intent.putExtra("deliverydate",delDate);
                             intent.putExtra("orderDateTime",orderdate + " ," + time);
                             context.startActivity(intent);
-                            //origin.startActivityForResult(intent,113);
+                         //   origin.startActivityForResult(intent,113);
 
                         }
                     });

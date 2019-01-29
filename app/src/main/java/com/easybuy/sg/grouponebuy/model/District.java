@@ -28,12 +28,24 @@ public class District {
     private Integer state;
     @JsonProperty("_id")
     private String id;
+    @JsonProperty("deliveryCost")
+    float deliveryCost;
+
     @JsonProperty("namePrimary_ch")
     private String namePrimaryCh;
     @JsonProperty("namePrimary_en")
     private String namePrimaryEn;
     @JsonProperty("nameSecondary_ch")
     private String nameSecondaryCh;
+
+    public float getDeliveryCost() {
+        return deliveryCost;
+    }
+
+    public void setDeliveryCost(float deliveryCost) {
+        this.deliveryCost = deliveryCost;
+    }
+
     @JsonProperty("nameSecondary_en")
     private String nameSecondaryEn;
     @JsonProperty("nameTertiary_ch")

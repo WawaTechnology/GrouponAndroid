@@ -11,7 +11,8 @@
 
 <android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/nested_scroll">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,15 +29,20 @@
                 android:layout_height="wrap_content"
                 android:descendantFocusability="blocksDescendants"
                 android:id="@+id/blink_recycler"></android.support.v7.widget.RecyclerView>
-
             <ImageView android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:id="@+id/bottomImage"
                 android:scaleType="centerCrop"
+
+                android:layout_alignParentBottom="true"
                 android:src="@drawable/bottom"></ImageView>
+
+
+
         </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
+
     <ImageView
         android:layout_width="35dp"
         android:layout_height="35dp"

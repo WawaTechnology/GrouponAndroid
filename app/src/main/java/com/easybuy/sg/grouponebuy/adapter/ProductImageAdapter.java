@@ -36,7 +36,7 @@ public class ProductImageAdapter extends RecyclerView.Adapter<ProductImageAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
        Product product= productList.get(position);
-        Glide.with(context).load(Constants.baseUrlStr +product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.imgView);
+        Glide.with(context).load(Constants.newImageUrl +product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.imgView);
 
 
     }

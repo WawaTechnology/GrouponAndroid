@@ -63,7 +63,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
            holder.productNameText.setText(product.getProductInfo().getNameCh());
         holder.priceText.setText("$ "+product.getProductInfo().getPrice());
         holder.quantityText.setText("X "+product.getQuantity());
-        Glide.with(context).load(Constants.baseUrlStr+product.getProductInfo().getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.productImage);
+        Glide.with(context).load(Constants.newImageUrl+product.getProductInfo().getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.productImage);
         if(editClicked)
         {
             holder.quantityText.setVisibility(View.GONE);

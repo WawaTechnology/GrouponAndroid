@@ -31,8 +31,19 @@ public class Customer implements Serializable {
     public void setDistrict(District district) {
         this.district = district;
     }
+    @JsonProperty("refund")
+    private Refund refund;
+
+    public Refund getRefund() {
+        return refund;
+    }
+
+    public void setRefund(Refund refund) {
+        this.refund = refund;
+    }
 
     @JsonProperty("district")
+
     private District district;
     @JsonProperty("favoriteList")
     private List<Product> favoriteList = null;

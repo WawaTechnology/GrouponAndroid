@@ -73,7 +73,7 @@ public class SpecialDetailAdapter extends RecyclerView.Adapter<SpecialDetailAdap
 
             holder.soldOutText.setVisibility(View.GONE);
         }
-        Glide.with(context).load(Constants.baseUrlStr+product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).fitCenter().into(holder.imgview);
+        Glide.with(context).load(Constants.newImageUrl+product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).fitCenter().into(holder.imgview);
         if(product.getTotalNumber()>0)
         {
             Log.d("checksplprouctquantity",product.getTotalNumber()+"");

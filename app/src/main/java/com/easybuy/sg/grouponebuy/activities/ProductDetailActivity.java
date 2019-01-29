@@ -607,7 +607,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
                 }
                 */
-                Glide.with(ProductDetailActivity.this).load(Constants.baseUrlStr + imgList.get(a)).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(imageView);
+                Glide.with(ProductDetailActivity.this).load(Constants.newImageUrl + imgList.get(a)).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(imageView);
 
                //Glide.with(ProductDetailActivity.this).load(Constants.baseUrlStr + imgList.get(a)).asBitmap().format(PREFER_ARGB_8888).override(500, 500).centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 listViews.add(pager);

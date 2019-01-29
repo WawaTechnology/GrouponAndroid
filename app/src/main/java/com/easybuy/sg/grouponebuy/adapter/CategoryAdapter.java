@@ -64,7 +64,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
        Log.d("getii",category.getImage().substring(8));
        String imgName=category.getImage().substring(8);
-       String imgUrl=Constants.baseUrlStr+"uploads/"+imgName;
+       String imgUrl=Constants.newImageUrl+"uploads/"+imgName;
         Log.d("imgs",imgUrl);
         Glide.with(context)
                 .load(imgUrl).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).error(R.drawable.ebuylogo)

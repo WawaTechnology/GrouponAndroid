@@ -91,6 +91,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
        }
 
 
+
        holder.priceText.setText("$"+product.getPrice()+"");
         holder.quantityText.setText(product.getTotalNumber()+"");
         if(product.getPriceOriginal()!=null&&product.getPriceOriginal()>0)
@@ -103,7 +104,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             holder.origPrice.setVisibility(View.GONE);
 
 
-       Glide.with(context).load(Constants.baseUrlStr +product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.imgView);
+       Glide.with(context).load(Constants.newImageUrl +product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.imgView);
        if(cartProduct.isCheck()==true)
        {
            holder.checkBox.setChecked(true);
