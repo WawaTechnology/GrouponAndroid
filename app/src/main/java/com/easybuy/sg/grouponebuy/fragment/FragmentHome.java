@@ -138,7 +138,13 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             imgArray = new String[globalProvider.specialMImages.size()];
 
             for (int i = 0; i < imgArray.length; i++) {
-                imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryCh();
+                if(language.equals("english"))
+                {
+                    imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryEn();
+                }
+                else {
+                    imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryCh();
+                }
                 Log.d("checkimae",imgArray[i]);
 
             }

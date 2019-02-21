@@ -7,6 +7,13 @@
     <string name="shopping_cart">购物车</string>
     <string name="me">我的</string>
     <string name="order_detail">订单详情</string>
+    <string name="consume_history">余额使用记录</string>
+    <string name="withdraw">提现</string>
+    <string name="submit_order">您确定要提交该订单？</string>
+    <string name="type">类型 : </string>
+    <string name="history">使用记录</string>
+    <string name="date">日期 :</string>
+    <string name="transfer">金额 :</string>
     <string name="orderID">订单编号:  </string>
     <string name="orderDate">下单日期: </string>
     <string name="deliveryDate">送货日期:  </string>
@@ -109,6 +116,16 @@
     <string name="waiting">等待处理</string>
     <string name="items">产品个数:</string>
     <string name="total_amount">总价:</string>
+    <string name="consume">支出</string>
+    <string name="consume_tab">支出记录</string>
+    <string name="enter_amount">请输入数额</string>
+    <string name="enter_account">请输入账户号码</string>
+    <string name="less_ecoin">余额不足</string>
+    <string name="withdraw_successful">提现成功</string>
+    <string name="details">填写提现细节</string>
+    <string name="amount">提现金额 : </string>
+    <string name="receiver_account">提至账户: </string>
+
 
     <string name="after_sale">我们承诺——坏果包退：\n
 签收后24小时内，商品腐坏变质，商家承诺24小时内处理。\n\n
@@ -133,9 +150,21 @@
 
     <string name="ebuy_paynow">Ebuy PayNow 信息</string>
     <string name="paynow_phone">手机号码: 8518 9139</string>
+    <string name="not_refund">未退款</string>
 
     <string name="payment">未付款</string>
     <string name="all_order">全部订单</string>
+    <string name="qty">下单量</string>
+    <string name="qty_given">实配量</string>
+    <string name="sub_total">订单总额: </string>
+    <string name="net_balance">余额扣除: </string>
+    <string name="refund">退款</string>
+    <string name="refund_tab">退款记录</string>
+
+    <string name="balance">余额</string>
+    <string name="all_tab">所有记录</string>
+
+
 
     <string name="submit">结算</string>
     <string name="service">商家服务</string>

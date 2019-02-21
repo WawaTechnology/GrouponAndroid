@@ -104,7 +104,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="50dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="8dp"
+
         android:gravity="right"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true">
@@ -158,6 +159,7 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
+        android:layout_marginRight="3dp"
 
 
         android:id="@+id/uparrow"

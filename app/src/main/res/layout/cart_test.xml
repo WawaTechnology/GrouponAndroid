@@ -71,7 +71,7 @@
         android:layout_marginBottom="14dp"
         android:layout_marginStart="8dp"
         android:text="$ 5.0"
-        android:textSize="15sp"
+        android:textSize="14sp"
 
         android:textColor="@color/red"
         app:layout_constraintBottom_toBottomOf="parent"

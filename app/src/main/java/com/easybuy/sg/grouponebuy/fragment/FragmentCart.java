@@ -8,6 +8,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -606,7 +609,19 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
         }
         totalamt=Double.parseDouble(new DecimalFormat("##.##").format(totalamt));
-        amountText.setText("$ "+totalamt);
+        String totalPrice="$"+totalamt;
+
+        String[] each = totalPrice.split("\\.");
+
+        each[0]=each[0]+".";
+        //adding spannable so that textsize of amount before. is more
+
+        Spannable spannable = new SpannableString(totalPrice);
+
+        spannable.setSpan(new AbsoluteSizeSpan(18, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        amountText.setText(spannable, TextView.BufferType.SPANNABLE);
+       // amountText.setText("$ "+totalamt);
         if(Constants.getCustomer(getContext())!=null&&Constants.getCustomer(getContext()).getDistrict()!=null)
         {
             float minamt=Constants.getCustomer(getContext()).getDistrict().getDeliveryCost();

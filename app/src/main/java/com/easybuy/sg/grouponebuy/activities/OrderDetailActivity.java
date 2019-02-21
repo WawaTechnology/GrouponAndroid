@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,6 +44,7 @@ import com.easybuy.sg.grouponebuy.model.ResultClass;
 import com.easybuy.sg.grouponebuy.model.ResultOrder;
 import com.easybuy.sg.grouponebuy.model.ResultProductList;
 import com.easybuy.sg.grouponebuy.model.SingleOrderResult;
+import com.easybuy.sg.grouponebuy.model.Sub;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
@@ -70,11 +72,14 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
     RecyclerView orderListRecycler;
     OrderDetailAdapter orderDetailAdapter;
     List<ProductOrderList> productList;
-    TextView orderIdText,orderDateText,deliveryDateText,statusText,paymentStatusText;
+    TextView orderIdText,orderDateText,deliveryDateText,statusText,paymentStatusText,refundStatusText;
     Order order;
-    TextView totalNumberText;
+   // TextView totalNumberText;
     TextView totalPriceText;
     Button cancelButton,editOrderButton;
+    LinearLayout netBalanceLayout,subTotalLayout;
+
+    TextView subTotalText,netBalanceText;
     GlobalProvider globalProvider;
     boolean editClicked;
     String lang;
@@ -91,15 +96,20 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         setContentView(R.layout.order_detail);
 
         productList=new ArrayList<>();
+        netBalanceLayout=(LinearLayout)findViewById(R.id.net_balancelayout);
+        subTotalLayout=(LinearLayout) findViewById(R.id.subtotal_layout);
         orderListRecycler=(RecyclerView)findViewById(R.id.order_productlist);
         orderIdText=(TextView) findViewById(R.id.order_id);
         orderDateText=(TextView) findViewById(R.id.order_date);
+        subTotalText=(TextView) findViewById(R.id.sub_total);
+        netBalanceText=(TextView) findViewById(R.id.net_balance);
+        refundStatusText=(TextView) findViewById(R.id.refund_status);
         deliveryDateText=(TextView) findViewById(R.id.delivery_date);
         lang=Constants.getLanguage(this);
         statusText=(TextView) findViewById(R.id.status);
         paymentStatusText=(TextView) findViewById(R.id.payment_status);
         orderDetailAdapter=new OrderDetailAdapter(this,productList,this);
-        totalNumberText=(TextView) findViewById(R.id.num_item);
+       // totalNumberText=(TextView) findViewById(R.id.num_item);
         totalPriceText=(TextView) findViewById(R.id.total_amt);
         cancelButton=(Button) findViewById(R.id.cancel);
         editOrderButton=(Button) findViewById(R.id.edit_order);
@@ -125,9 +135,10 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         String orderDateTime= intent.getStringExtra("orderDateTime");
         checkOrderStatus(orderId);
 
-        totalNumberText.setText(getString(R.string.items)+" "+order.getProductList().size());
+       // totalNumberText.setText(getString(R.string.items)+" "+order.getProductList().size());
         String price = String.format("%.2f", order.getTotalPrice());
-        totalPriceText.setText(" ,"+getString(R.string.total_amount)+" $"+price);
+        Log.d("ppprice",price+"");
+        totalPriceText.setText(" $"+price);
         changedtotal=order.getTotalPrice();
 
         orderIdText.setText(order.getOrderCode());
@@ -157,7 +168,92 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         else if(order.getState().equalsIgnoreCase("waiting"))
         {
             statusText.setText(getString(R.string.waiting));
+
+           /* if(order.getRefundCostOrder()>0)
+            {
+                subTotalText.setVisibility(View.VISIBLE);
+                netBalanceText.setVisibility(View.VISIBLE);
+                subTotalText.setText(getString(R.string.sub_total)+" : "+price);
+                netBalanceText.setText(getString(R.string.net_balance)+" : "+order.getRefundCostOrder());
+               double val=order.getTotalPrice()-order.getRefundCostOrder();
+                String total = String.format("%.2f", val);
+                totalPriceText.setText(" $"+total);
+            }
+            else
+            {
+                subTotalText.setVisibility(View.GONE);
+                netBalanceText.setVisibility(View.GONE);
+            }
+            */
+
         }
+        if(order.getRefundCostOrder()>0)
+        {
+            subTotalLayout.setVisibility(View.VISIBLE);
+            netBalanceLayout.setVisibility(View.VISIBLE);
+            subTotalText.setText(" $ "+price);
+            String totalNet=String.format("%.2f",order.getRefundCostOrder());
+            netBalanceText.setText(" $ "+totalNet);
+            double val=order.getTotalPrice()-order.getRefundCostOrder();
+            String total = String.format("%.2f", val);
+            totalPriceText.setText(" $ "+total);
+        }
+        else
+        {
+            subTotalLayout.setVisibility(View.GONE);
+            netBalanceLayout.setVisibility(View.GONE);
+        }
+
+
+            if(Constants.getCustomer(OrderDetailActivity.this).getRefund()!=null&&Constants.getCustomer(OrderDetailActivity.this).getRefund().getSub()!=null)
+            {
+                Log.d("price",order.getTotalPrice()+"");
+                Log.d("priceactual",order.getTotalPriceActual()+"");
+
+
+                List<Sub> subList=Constants.getCustomer(OrderDetailActivity.this).getRefund().getSub();
+                Log.d("sublistsize",subList.size()+"");
+
+                    boolean found=false;
+                    Double coin=0.0;
+
+                    for (Sub sub : subList) {
+                        if (sub.getOrder().equals(orderId)) {
+                            Log.d("subid",sub.getOrder());
+                            coin = sub.getCoin();
+                            found=true;
+                            break;
+
+                        }
+                    }
+                    if(found)
+                    {
+                        String refundStatus="("+getString(R.string.paid)+": $" +order.getTotalPriceActual()+" ,"+getString(R.string.refund)+": $"+coin+")";
+                        refundStatusText.setText(refundStatus);
+                        refundStatusText.setTextColor(getResources().getColor(R.color.green));
+                    }
+                    else if(order.getState().equalsIgnoreCase("waiting"))
+                    {
+
+                    }
+                    else {
+                        Log.d("here","visible");
+                        Log.d("checkprice",order.getTotalPrice()+"");
+                        Log.d("priceactual",order.getTotalPriceActual()+"");
+                        Log.d("refundCost",order.getRefundCostOrder()+"");
+
+                        if(order.getTotalPriceActual()>order.getTotalPrice()-order.getRefundCostOrder()) {
+
+                            refundStatusText.setText("("+getString(R.string.paid)+": $" + order.getTotalPriceActual() +" "+getString(R.string.not_refund)+ ")");
+                            refundStatusText.setTextColor(getResources().getColor(R.color.red));
+                        }
+                    }
+                    refundStatusText.setVisibility(View.VISIBLE);
+
+
+
+            }
+
 
         deliveryDateText.setText(deliveryDate);
         orderDateText.setText(orderDateTime);
@@ -525,9 +621,10 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         }
 
         changedtotal=Double.parseDouble(new DecimalFormat("##.##").format(changedtotal));
+        String total=String.format("%.2f",changedtotal);
 
-        totalPriceText.setText(" ,"+getString(R.string.total_amount)+" $"+changedtotal);
-        totalNumberText.setText(getString(R.string.items)+" "+productList.size());
+        totalPriceText.setText(" ,"+getString(R.string.total_amount)+" $"+total);
+       // totalNumberText.setText(getString(R.string.items)+" "+productList.size());
 
 
 

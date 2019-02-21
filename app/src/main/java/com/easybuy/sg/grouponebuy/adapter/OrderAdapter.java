@@ -111,9 +111,15 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
 
 
-
-
                 String price = String.format("%.2f", order.getTotalPrice());
+              if(order.getRefundCostOrder()!=null||order.getRefundCostOrder()>0)
+              {
+                  double val=order.getTotalPrice()-order.getRefundCostOrder();
+                  price=String.format("%.2f",val);
+
+              }
+
+
                 myholder.totalText.setText("$ " + price);
                 String dateInString = order.getOrderDate();
                 String deliveryDate = order.getShippingDate();
@@ -149,6 +155,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         public void onClick(View view) {
                             Intent intent=new Intent(context, OrderDetailActivity.class);
                            Activity origin = (Activity)context;
+
                             intent.putExtra("Order",order);
                             intent.putExtra("deliverydate",delDate);
                             intent.putExtra("orderDateTime",orderdate + " ," + time);

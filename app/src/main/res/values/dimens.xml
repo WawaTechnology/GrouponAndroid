@@ -5,5 +5,6 @@
     <dimen name="item_offset">5dp</dimen>
     <dimen name="category_size">12sp</dimen>
     <dimen name="scroll_height">210dp</dimen>
+    <dimen name="total_text">40dp</dimen>
 
 </resources>

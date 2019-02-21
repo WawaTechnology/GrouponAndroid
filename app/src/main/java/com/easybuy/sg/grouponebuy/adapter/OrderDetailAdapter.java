@@ -56,6 +56,8 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
+
        final ProductOrderList product=productList.get(position);
        if(lang.equals("english"))
         holder.productNameText.setText(product.getProductInfo().getNameEn());
@@ -64,6 +66,36 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         holder.priceText.setText("$ "+product.getProductInfo().getPrice());
         holder.quantityText.setText("X "+product.getQuantity());
         Glide.with(context).load(Constants.newImageUrl+product.getProductInfo().getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.productImage);
+        if(product.getQuantityActual()!=null&&product.getQuantityActual()!=0&&product.getQuantityActual()!=product.getQuantity())
+        {
+          holder.quantityRequestedText.setVisibility(View.VISIBLE);
+          int space=0;
+
+          if(lang.equals("english"))
+          {
+              space=11;
+          }
+          else {
+              space = 0;
+          }
+          String quantityRequested=context.getResources().getString(R.string.qty);
+          for(int i=0;i<space;i++)
+          {
+              quantityRequested+=" ";
+          }
+
+
+
+
+
+           holder.quantityRequestedText.setText(quantityRequested+" X "+product.getQuantity());
+            holder.quantityText.setText(context.getResources().getString(R.string.qty_given)+" X "+product.getQuantityActual());
+
+        }
+        else
+        {
+            holder.quantityRequestedText.setVisibility(View.GONE);
+        }
         if(editClicked)
         {
             holder.quantityText.setVisibility(View.GONE);
@@ -150,7 +182,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder
     {
         ImageView productImage;
-        TextView priceText,quantityText,productNameText;
+        TextView priceText,quantityText,productNameText,quantityRequestedText;
         LinearLayout editLayout;
         TextView quantityEditText;
         ImageView minusImage,plusImage;
@@ -167,6 +199,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             minusImage=(itemView).findViewById(R.id.sub_quantity);
             productImage=(itemView).findViewById(R.id.product_image);
             plusImage=(itemView).findViewById(R.id.add_quantity);
+            quantityRequestedText=(itemView).findViewById(R.id.quantity_requested);
 
 
 

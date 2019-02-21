@@ -9,9 +9,14 @@
         brand characteristics.\n \nWe will continue to strictly control food quality and provide consumers healthier,safer,
         more nutritious and more assured food.We are trying to get Singaporeans to enjoy the freshest and cheapest fresh food.
     </string>
+    <string name = "submit_order"> Are you sure you want to submit this order? </string>
+    <string name="consume">Consume</string>
     <string name="remove_product">Remove the Product?</string>
     <string name="order_cancelled_success">Order cancelled succesfully</string>
     <string name="order_updated_success">Order Updated successfully</string>
+    <string name="net_balance">NetBalance: </string>
+    <string name="refund">Refund</string>
+    <string name="balance">Balance:</string>
 
     <string name="end_page">End of Page!</string>
     <string name="home">Home</string>
@@ -23,6 +28,7 @@
     <string name="phone">Phone:</string>
     <string name="password">Password:</string>
     <string name="confirm">Confirm:</string>
+    <string name="withdraw">withdraw</string>
 
     <string name="confm">Confirm</string>
     <string name="payment_status">Payment Status:</string>
@@ -39,6 +45,8 @@
     <string name="popular">Popular</string>
     <string name="countdown">Closes in</string>
     <string name="limited_offer">Limited Offer</string>
+    <string name="sub_total">SubTotal: </string>
+
 
 
     <string name="outOfStock">Sold Out</string>
@@ -49,6 +57,9 @@
     <string name="any_question">Do you have any comments or questions? </string>
     <string name="no_order">You have no order....\nLets \'s go Shopping!
     </string>
+    <string name="qty">Qty</string>
+    <string name="qty_given">Qty Given</string>
+
     <string name="stock_available">Stock Available:</string>
     <string name="save_list">Save what you always buy to the list! </string>
     <string name="cancel_order_alert">Are you sure of cancelling order?</string>
@@ -71,6 +82,18 @@
     <string name="processing">Processing</string>
     <string name="customerService">Customer Service</string>
     <string name="more">More</string>
+    <string name="transfer">Transfer :</string>
+    <string name="history">History</string>
+    <string name="refund_tab">Refund</string>
+    <string name="all_tab">All</string>
+    <string name="consume_tab">Consume</string>
+    <string name="enter_amount">Please Enter amount</string>
+    <string name="enter_account">Please enter account number</string>
+    <string name="less_ecoin">You have less ecoins</string>
+    <string name="withdraw_successful">Withdraw Successful</string>
+    <string name="details">Details</string>
+
+
     <string name="min_spend">Minimum spend for free delivery is</string>
     <string name="district_postcode">District Status (Postcode)</string>
     <string name="result_postcode">The result of searching:</string>
@@ -88,6 +111,9 @@
     <string name="message">Message</string>
     <string name="special_needs">If you have special needs type here</string>
     <string name="item">items</string>
+    <string name="type">Type : </string>
+    <string name="amount">Amount : </string>
+    <string name="receiver_account">Receiver Account: </string>
 
     <string name="deliveryTime">Delivery Time Info</string>
     <string name="aboutUs">About Us</string>
@@ -105,10 +131,13 @@
     <string name="paper_bill">Paper Bill:</string>
     <string name="cash">Cash</string>
     <string name="saveOrder">Save</string>
+    <string name="date">Date :</string>
     <string name="change_delivery_date">Change Delivery Date</string>
     <string name="district">District: </string>
     <string name="order_success">Order Successfully Placed</string>
     <string name="updateOrder">Modify</string>
+    <string name="not_refund">not refunded yet</string>
+    <string name="consume_history">Consume History</string>
     <string name="payment">Payment</string>
     <string name="monday">Mon</string>
     <string name="tuesday">Tue</string>

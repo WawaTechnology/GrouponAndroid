@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
@@ -19,7 +20,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -28,6 +34,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -85,13 +92,19 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     RelativeLayout paymentLayout;
     ImageView backButton;
     TextView addressText;
+    TextView totalTextView;
     TextView numItemsText;
+
     TextView deliveryDateText;
     RelativeLayout prodLayout;
     TextView invoiceChoiceText;
     TextView paymentMethodChoice;
+    TextView subTotalText;
+    TextView netBalanceText;
+    LinearLayout ecoinLayout;
     TextView totalAmountText;
     EditText remarkText;
+    double refundCost;
     Button submitButton;
     List<PrevOrder> prevOrderList;
     RelativeLayout invoiceLayout;
@@ -112,42 +125,47 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     ProductImageAdapter productImageAdapter;
 
 
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.payment_layout);
-        backButton=(ImageView) findViewById(R.id.back);
-        prodLayout=(RelativeLayout) findViewById(R.id.pd_layout);
-        deliveryList=new ArrayList<>();
-        prevOrderList=new ArrayList<>();
-        nextDeliveries=new int[2];
-        nextDeliveryDates=new String[2];
-        nextDeliveryTimimgs=new String[2];
-        remarkText=(EditText) findViewById(R.id.payment_msg);
-        paymentLayout=(RelativeLayout) findViewById(R.id.payment_layout);
-         customer=Constants.getCustomer(this);
-        district= customer.getDistrict();
-        lang=Constants.getLanguage(this);
-        Intent intent=getIntent();
-        totalamt= intent.getDoubleExtra("totalamt",0.0);
-        prevOrderList = (ArrayList<PrevOrder>) intent.getSerializableExtra("prevOrderList");
-        addressText=(TextView)findViewById(R.id.delivery_address) ;
-        invoiceLayout=(RelativeLayout) findViewById(R.id.invoice_layout);
-        numItemsText=(TextView)findViewById(R.id.num_item);
-        deliveryDateText=(TextView) findViewById(R.id.delivery_date);
-        invoiceChoiceText=(TextView) findViewById(R.id.invoice_choice);
-        paymentMethodChoice=(TextView) findViewById(R.id.payment_choice);
-        totalAmountText=(TextView) findViewById(R.id.amt);
-        submitButton=(Button) findViewById(R.id.submit);
-        globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
-        imageRecycler=(RecyclerView)findViewById(R.id.img_Recyclers);
-        productImageAdapter=new ProductImageAdapter(PaymentActivity.this,globalProvider.cartList);
-        imageRecycler.setAdapter(productImageAdapter);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false);
-        imageRecycler.setLayoutManager(linearLayoutManager);
 
-      //  addressText.setText(Constants.getCustomer(this).address);
-        totalAmountText.setText("$ "+totalamt);
+        backButton = (ImageView) findViewById(R.id.back);
+        prodLayout = (RelativeLayout) findViewById(R.id.pd_layout);
+        totalTextView = (TextView) findViewById(R.id.total_text);
+        deliveryList = new ArrayList<>();
+        prevOrderList = new ArrayList<>();
+        nextDeliveries = new int[2];
+        nextDeliveryDates = new String[2];
+        nextDeliveryTimimgs = new String[2];
+        remarkText = (EditText) findViewById(R.id.payment_msg);
+        paymentLayout = (RelativeLayout) findViewById(R.id.payment_layout);
+        customer = Constants.getCustomer(this);
+        district = customer.getDistrict();
+        lang = Constants.getLanguage(this);
+        Intent intent = getIntent();
+        totalamt = intent.getDoubleExtra("totalamt", 0.0);
+        prevOrderList = (ArrayList<PrevOrder>) intent.getSerializableExtra("prevOrderList");
+        ecoinLayout = (LinearLayout) findViewById(R.id.ecoin_layout);
+        addressText = (TextView) findViewById(R.id.delivery_address);
+        invoiceLayout = (RelativeLayout) findViewById(R.id.invoice_layout);
+        numItemsText = (TextView) findViewById(R.id.num_item);
+        deliveryDateText = (TextView) findViewById(R.id.delivery_date);
+        invoiceChoiceText = (TextView) findViewById(R.id.invoice_choice);
+        paymentMethodChoice = (TextView) findViewById(R.id.payment_choice);
+        subTotalText = (TextView) findViewById(R.id.subtotal);
+        netBalanceText = (TextView) findViewById(R.id.net_balance);
+        totalAmountText = (TextView) findViewById(R.id.amt);
+        submitButton = (Button) findViewById(R.id.submit);
+        globalProvider = GlobalProvider.getGlobalProviderInstance(getApplicationContext());
+        imageRecycler = (RecyclerView) findViewById(R.id.img_Recyclers);
+        productImageAdapter = new ProductImageAdapter(PaymentActivity.this, globalProvider.cartList);
+        imageRecycler.setAdapter(productImageAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        imageRecycler.setLayoutManager(linearLayoutManager);
+        String total=String.format("%.2f",totalamt);
+
+        //  addressText.setText(Constants.getCustomer(this).address);
+        totalAmountText.setText("$ " + total);
 
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +175,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             }
         });
         final View parent = (View) backButton.getParent();  // button: the view you want to enlarge hit area
-        parent.post( new Runnable() {
+        parent.post(new Runnable() {
             public void run() {
                 final Rect rect = new Rect();
                 backButton.getHitRect(rect);
@@ -165,47 +183,43 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 rect.left -= 10;   // increase left hit area
                 rect.bottom += 10; // increase bottom hit area
                 rect.right += 50;  // increase right hit area
-                parent.setTouchDelegate( new TouchDelegate( rect , backButton));
+                parent.setTouchDelegate(new TouchDelegate(rect, backButton));
             }
         });
 
-        SharedPreferences sp= getPreferences(Context.MODE_PRIVATE);
-        int res=sp.getInt("paymentkey",0);
-        int billres=sp.getInt("billkey",1);
-        if(res==0)
-        {
+        SharedPreferences sp = getPreferences(Context.MODE_PRIVATE);
+        int res = sp.getInt("paymentkey", 0);
+        int billres = sp.getInt("billkey", 1);
+        if (res == 0) {
             paymentMethodChoice.setText(R.string.cash);
-        }
-        else
+        } else
             paymentMethodChoice.setText("PayNow");
-        if(billres==0)
-        {
+        if (billres == 0) {
             invoiceChoiceText.setText(R.string.yes);
-        }
-        else
+        } else
             invoiceChoiceText.setText(R.string.no);
-        String address=null;
-        if(lang.equals("english"))
-            address = district.getNamePrimaryEn() + " - " + district.getNameSecondaryEn() + " - " + district.getNameTertiaryEn();
+        String address = null;
+        if (lang.equals("english"))
+            address = customer.address + " " + district.getNamePrimaryEn() + " - " + district.getNameSecondaryEn() + " - " + district.getNameTertiaryEn();
         else
-            address = district.getNamePrimaryCh() + " - " + district.getNameSecondaryCh() + " - " + district.getNameTertiaryCh();
+            address = customer.address + " " + district.getNamePrimaryCh() + " - " + district.getNameSecondaryCh() + " - " + district.getNameTertiaryCh();
 
         addressText.setText(address);
         calculateDeliveryDate();
         paymentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fragmentManager=getSupportFragmentManager();
-                DialogFragment dialogFragment=new PaymentMethodFragment();
-                dialogFragment.show(fragmentManager,"payment");
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                DialogFragment dialogFragment = new PaymentMethodFragment();
+                dialogFragment.show(fragmentManager, "payment");
             }
         });
         invoiceLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-           FragmentManager fragmentManager=getSupportFragmentManager();
-           DialogFragment dialogFragment=new ChangeInvoiceFragment();
-           dialogFragment.show(fragmentManager,"invoice");
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                DialogFragment dialogFragment = new ChangeInvoiceFragment();
+                dialogFragment.show(fragmentManager, "invoice");
             }
         });
         deliveryDateText.setOnClickListener(new View.OnClickListener() {
@@ -213,44 +227,50 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             public void onClick(View view) {
 
 
-                FragmentManager fragmentManager=getSupportFragmentManager();
-                DialogFragment dialogFragment=new ChangeDateFragment();
-                Bundle args=new Bundle();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                DialogFragment dialogFragment = new ChangeDateFragment();
+                Bundle args = new Bundle();
                 args.putParcelableArrayList("deliveryList", (ArrayList<? extends Parcelable>) deliveryList);
                 dialogFragment.setArguments(args);
-                dialogFragment.show(fragmentManager,"delivery");
+                dialogFragment.show(fragmentManager, "delivery");
             }
         });
         prodLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(PaymentActivity.this,CartListActivity.class);
+                Intent intent = new Intent(PaymentActivity.this, CartListActivity.class);
                 startActivity(intent);
             }
         });
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitButton.setClickable(false);
-                try {
-                    Date deliveryDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
-                            .parse(deliveryDat);
+                // todo add alert box if want to submit order
+                new android.app.AlertDialog.Builder(PaymentActivity.this).setTitle(getString(R.string.alert))
+                        .setMessage(getString(R.string.submit_order)).setCancelable(false)
+                        .setPositiveButton(getString(R.string.confm), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //submit.setEnabled(false);
+                                submitButton.setClickable(false);
+                                try {
+                                    Date deliveryDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+                                            .parse(deliveryDat);
 
-                    //  If any of the previous order's date is equal to selected date,than order will be added to the prevOrder's id
-                    for(PrevOrder order:prevOrderList)
-                    {
-                        Log.d("prevorderdate",order.getShippingDate());
-                        Log.d("deliveryDar",deliveryDate.toString());
+                                    //  If any of the previous order's date is equal to selected date,than order will be added to the prevOrder's id
+                                    for (PrevOrder order : prevOrderList) {
+                                        Log.d("prevorderdate", order.getShippingDate());
+                                        Log.d("deliveryDar", deliveryDate.toString());
 
-                        Date shippingDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
-                                .parse(order.getShippingDate());
-                        Log.d("prevSHIPrdate",shippingDate.toString());
+                                        Date shippingDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                                                .parse(order.getShippingDate());
+                                        Log.d("prevSHIPrdate", shippingDate.toString());
 
-                        if (shippingDate.compareTo(deliveryDate) == 0) {
-                            prevOrder=order.getOrderID();
-                            Log.d("it is ","equal");
-                            break;
-                        }
+                                        if (shippingDate.compareTo(deliveryDate) == 0) {
+                                            prevOrder = order.getOrderID();
+                                            Log.d("it is ", "equal");
+                                            break;
+                                        }
 
                           /*  if(order.getShippingDate().equals(deliveryDat))
                             {
@@ -258,393 +278,383 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                 break;
                             }
                             */
-                    }
+                                    }
 
 
-                }
-                catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-
-
-                if(prevOrder==null) {
-
-                    if (totalamt < customer.getDistrict().getDeliveryCost()) {
-                        Toast.makeText(PaymentActivity.this,getString(R.string.min_spend)+ " $ "+customer.getDistrict().getDeliveryCost(), Toast.LENGTH_LONG).show();
-                        submitButton.setClickable(true);
-                        return;
-                    } else {
-
-
-                        JSONObject jsonObject = new JSONObject();
-                        JSONObject jsonObject1 = new JSONObject();
-                        JSONObject jsonObject2 = new JSONObject();
-                        try {
-                            jsonObject.put("userName", customer.getUserName());
-                            jsonObject.put("phone", customer.phone);
-                            jsonObject.put("email",customer.getEmail());
-                            jsonObject1.put("inactive", jsonObject);
-                            jsonObject1.put("active", customer.customer_id);
-                            jsonObject2.put("userInfo", jsonObject1);
-                            jsonObject2.put("shippingDate", deliveryDat);
-                            jsonObject2.put("remark", remarkText.getText().toString());
-                            jsonObject2.put("totalPrice", totalamt + "");
-                            jsonObject2.put("district", district.getId());
-
-                            //todo use radiobutton value
-                            Log.d("invoicetext",invoiceChoiceText.getText().toString());
-                            String invoiceValue=invoiceChoiceText.getText().toString();
-                            if (invoiceValue.equals(getString(R.string.yes))) {
-                                Log.d("valuesis", "yes");
-                                jsonObject2.put("isPrint", true);
-                            }
-                            else {
-                                jsonObject2.put("isPrint", false);
-                                Log.d("valuesis","no");
-                            }
-                            if (paymentMethodChoice.getText().toString().equals(getString(R.string.cash))) {
-                                Log.d("valueis", "cash");
-                                jsonObject2.put("paymentMethod", "cash");
-                            }
-                            else {
-                                jsonObject2.put("paymentMethod", "PayNow");
-                                Log.d("valueis","paynow");
-                            }
-
-                            final JSONArray jsonArray = new JSONArray();
-                            for (Product product : globalProvider.cartList) {
-
-                                String productId = product.getId();
-                                Double price = product.getPrice();
-                                String specificationch = product.getSpecificationCh();
-                                String specificationen = product.getSpecificationEn();
-
-                                String uniten = product.getUnitEn();
-                                String unitch = product.getUnitCh();
-                                String imageCover = product.getImageCover();
-                                // String category = product.getCategory().getId();
-                                String productName = product.getNameEn();
-                                String productCh = product.getNameCh();
-                                int total = product.getTotalNumber();
-                                JSONObject jsonObject3 = new JSONObject();
-                                if(product.isAttention()==null)
-                                {
-                                    jsonObject3.put("isAttention",false);
-
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
                                 }
-                                else
-                                    jsonObject3.put("isAttention",product.isAttention());
 
 
-                                jsonObject3.put("productID", productId);
-                                jsonObject3.put("name_ch", productCh);
-                                jsonObject3.put("name_en", productName);
-                                jsonObject3.put("price", price + "");
-                                jsonObject3.put("unit_ch", unitch);
-                                jsonObject3.put("unit_en", uniten);
-                                jsonObject3.put("SKU", product.getsKU());
-                                jsonObject3.put("supplier", product.getSupplier());
-                                String category = globalProvider.categoryNameMap.get(productId);
-                                jsonObject3.put("category", category);
-                                jsonObject3.put("imageCover", imageCover);
-                                jsonObject3.put("specification_ch", specificationch);
-                                jsonObject3.put("specification_en", specificationen);
-                                JSONObject jsonObject4 = new JSONObject();
-                                jsonObject4.put("productInfo", jsonObject3);
-                                jsonObject4.put("quantity", total + "");
-                                jsonArray.put(jsonObject4);
-                            }
-                            jsonObject2.put("productList", jsonArray);
-                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.createOrderUrl, jsonObject2, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    Log.d("checkorderResponse", response.toString());
+                                if (prevOrder == null) {
 
-                                    int status = 0;
-                                    try {
-                                        status = response.getInt("status");
-
-                                        if (status == 0) {
-                                            String orderCode=response.getJSONObject("payload").getString("orderCode");
-                                            Log.d("orderCode",orderCode);
+                                    if (totalamt < customer.getDistrict().getDeliveryCost()) {
+                                        Toast.makeText(PaymentActivity.this, getString(R.string.min_spend) + " $ " + customer.getDistrict().getDeliveryCost(), Toast.LENGTH_LONG).show();
+                                        submitButton.setClickable(true);
+                                        return;
+                                    } else {
 
 
-                                            JSONObject object=new JSONObject();
-                                            object.put("productList", jsonArray);
-                                            object.put("orderCode",orderCode);
-                                            object.put("email",customer.getEmail());
-                                            object.put("userName",customer.getUserName());
-                                            object.put("totalPrice",totalamt + "");
-                                            object.put("date",deliveryDat);
-                                            String week= GlobalProvider.deliveryTiming.get(deliveryWeek);
-                                            Log.d("deliveryweek",week);
-                                            object.put("week_en",week);
-                                            object.put("week",globalProvider.deliveryTimingChinese.get(week));
-                                            object.put("duration",duration);
-                                            JsonObjectRequest objectRequest=new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
+                                        JSONObject jsonObject = new JSONObject();
+                                        JSONObject jsonObject1 = new JSONObject();
+                                        JSONObject jsonObject2 = new JSONObject();
+                                        try {
+                                            jsonObject.put("userName", customer.getUserName());
+                                            jsonObject.put("phone", customer.phone);
+                                            jsonObject.put("email", customer.getEmail());
+                                            jsonObject1.put("inactive", jsonObject);
+                                            jsonObject1.put("active", customer.customer_id);
+                                            jsonObject2.put("userInfo", jsonObject1);
+                                            jsonObject2.put("shippingDate", deliveryDat);
+                                            jsonObject2.put("remark", remarkText.getText().toString());
+                                            jsonObject2.put("totalPrice", totalamt + "");
+                                            jsonObject2.put("district", district.getId());
+
+                                            //todo use radiobutton value
+                                            Log.d("invoicetext", invoiceChoiceText.getText().toString());
+                                            String invoiceValue = invoiceChoiceText.getText().toString();
+                                            if (invoiceValue.equals(getString(R.string.yes))) {
+                                                Log.d("valuesis", "yes");
+                                                jsonObject2.put("isPrint", true);
+                                            } else {
+                                                jsonObject2.put("isPrint", false);
+                                                Log.d("valuesis", "no");
+                                            }
+                                            if (paymentMethodChoice.getText().toString().equals(getString(R.string.cash))) {
+                                                Log.d("valueis", "cash");
+                                                jsonObject2.put("paymentMethod", "cash");
+                                            } else {
+                                                jsonObject2.put("paymentMethod", "PayNow");
+                                                Log.d("valueis", "paynow");
+                                            }
+
+                                            final JSONArray jsonArray = new JSONArray();
+                                            for (Product product : globalProvider.cartList) {
+
+                                                String productId = product.getId();
+                                                Double price = product.getPrice();
+                                                String specificationch = product.getSpecificationCh();
+                                                String specificationen = product.getSpecificationEn();
+
+                                                String uniten = product.getUnitEn();
+                                                String unitch = product.getUnitCh();
+                                                String imageCover = product.getImageCover();
+                                                // String category = product.getCategory().getId();
+                                                String productName = product.getNameEn();
+                                                String productCh = product.getNameCh();
+                                                int total = product.getTotalNumber();
+                                                JSONObject jsonObject3 = new JSONObject();
+                                                if (product.isAttention() == null) {
+                                                    jsonObject3.put("isAttention", false);
+
+                                                } else
+                                                    jsonObject3.put("isAttention", product.isAttention());
+
+
+                                                jsonObject3.put("productID", productId);
+                                                jsonObject3.put("name_ch", productCh);
+                                                jsonObject3.put("name_en", productName);
+                                                jsonObject3.put("price", price + "");
+                                                jsonObject3.put("unit_ch", unitch);
+                                                jsonObject3.put("unit_en", uniten);
+                                                jsonObject3.put("SKU", product.getsKU());
+                                                jsonObject3.put("supplier", product.getSupplier());
+                                                String category = globalProvider.categoryNameMap.get(productId);
+                                                jsonObject3.put("category", category);
+                                                jsonObject3.put("imageCover", imageCover);
+                                                jsonObject3.put("specification_ch", specificationch);
+                                                jsonObject3.put("specification_en", specificationen);
+                                                JSONObject jsonObject4 = new JSONObject();
+                                                jsonObject4.put("productInfo", jsonObject3);
+                                                jsonObject4.put("quantity", total + "");
+                                                jsonArray.put(jsonObject4);
+                                            }
+                                            jsonObject2.put("productList", jsonArray);
+                                            if (refundCost > 0) {
+                                                Log.d("hererefund", "here");
+                                                jsonObject2.put("refundCost", refundCost);
+                                            }
+                                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.createOrderUrl, jsonObject2, new Response.Listener<JSONObject>() {
                                                 @Override
                                                 public void onResponse(JSONObject response) {
-                                                    Log.d("emailresponse",response.toString());
-                                                    //  Toast.makeText(getContext(), "Order Successfully placed", Toast.LENGTH_LONG).show();
-                                                    Toast.makeText(PaymentActivity.this, getString(R.string.order_success), Toast.LENGTH_SHORT).show();
-                                                    globalProvider.categoryNameMap.clear();
-                                                    globalProvider.cartList.clear();
-                                                    totalamt=0.0;
-                                                    finish();
+                                                    Log.d("checkorderResponse", response.toString());
+
+                                                    int status = 0;
+                                                    try {
+                                                        status = response.getInt("status");
+
+                                                        if (status == 0) {
+                                                            String orderCode = response.getJSONObject("payload").getString("orderCode");
+                                                            Log.d("orderCode", orderCode);
 
 
+                                                            JSONObject object = new JSONObject();
+                                                            object.put("productList", jsonArray);
+                                                            object.put("orderCode", orderCode);
+                                                            object.put("email", customer.getEmail());
+                                                            object.put("userName", customer.getUserName());
+                                                            object.put("totalPrice", totalamt + "");
+                                                            object.put("date", deliveryDat);
+                                                            String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
+                                                            Log.d("deliveryweek", week);
+                                                            object.put("week_en", week);
+                                                            object.put("week", globalProvider.deliveryTimingChinese.get(week));
+                                                            object.put("duration", duration);
+                                                            JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
+                                                                @Override
+                                                                public void onResponse(JSONObject response) {
+                                                                    Log.d("emailresponse", response.toString());
+                                                                    //  Toast.makeText(getContext(), "Order Successfully placed", Toast.LENGTH_LONG).show();
+                                                                    Toast.makeText(PaymentActivity.this, getString(R.string.order_success), Toast.LENGTH_SHORT).show();
+                                                                    globalProvider.categoryNameMap.clear();
+                                                                    globalProvider.cartList.clear();
+                                                                    totalamt = 0.0;
+                                                                    if (refundCost > 0) {
+                                                                        double ecoin = Constants.getCustomer(PaymentActivity.this).getRefund().getECoins();
+                                                                        Constants.getCustomer(PaymentActivity.this).getRefund().setECoins(ecoin - refundCost);
+                                                                    }
+                                                                    finish();
 
+
+                                                                }
+                                                            }, new Response.ErrorListener() {
+                                                                @Override
+                                                                public void onErrorResponse(VolleyError error) {
+
+                                                                }
+                                                            });
+                                                            globalProvider.addRequest(objectRequest);
+
+
+                                                        } else if (status == 1) {
+                                                            // Log.d("checknoitemResponse", response.toString());
+                                                            JsonFactory jsonFactory = new JsonFactory();
+                                                            ObjectMapper objectMapper = new ObjectMapper();
+                                                            try {
+                                                                JsonParser jsonParser = jsonFactory.createParser(response.toString());
+                                                                ResultProductList resultProductList = (ResultProductList) objectMapper.readValue(jsonParser, ResultProductList.class);
+                                                                List<ProductStock> productStockList = new ArrayList<>();
+                                                                for (ProductInfo product : resultProductList.getPayload()) {
+                                                                    if (lang.equals("english"))
+
+                                                                        productStockList.add(new ProductStock(product.getNameEn(), product.getStock()));
+                                                                    else
+                                                                        productStockList.add(new ProductStock(product.getNameCh(), product.getStock()));
+                                                                }
+                                                                displayStockList(productStockList);
+
+
+                                                            } catch (JsonParseException e) {
+                                                                e.printStackTrace();
+                                                            } catch (IOException e) {
+                                                                e.printStackTrace();
+                                                            }
+
+                                                            Toast.makeText(PaymentActivity.this, getResources().getString(R.string.some_item_na), Toast.LENGTH_LONG).show();
+
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                        Toast.makeText(PaymentActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
+                                                    }
 
 
                                                 }
                                             }, new Response.ErrorListener() {
                                                 @Override
                                                 public void onErrorResponse(VolleyError error) {
+                                                    //  Log.d("checkerror", error.toString());
 
                                                 }
                                             });
-                                            globalProvider.addRequest(objectRequest);
-
-
-
-
-
-
-
-                                        } else if (status == 1) {
-                                            // Log.d("checknoitemResponse", response.toString());
-                                            JsonFactory jsonFactory = new JsonFactory();
-                                            ObjectMapper objectMapper = new ObjectMapper();
-                                            try {
-                                                JsonParser jsonParser = jsonFactory.createParser(response.toString());
-                                                ResultProductList resultProductList = (ResultProductList) objectMapper.readValue(jsonParser, ResultProductList.class);
-                                                List<ProductStock> productStockList=new ArrayList<>();
-                                                for(ProductInfo product:resultProductList.getPayload()) {
-                                                    if (lang.equals("english"))
-
-                                                        productStockList.add(new ProductStock(product.getNameEn(), product.getStock()));
-                                                    else
-                                                        productStockList.add(new ProductStock(product.getNameCh(), product.getStock()));
-                                                }
-                                                displayStockList(productStockList);
-
-
-
-
-
-
-                                            } catch (JsonParseException e) {
-                                                e.printStackTrace();
-                                            } catch (IOException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            Toast.makeText(PaymentActivity.this, getResources().getString(R.string.some_item_na), Toast.LENGTH_LONG).show();
-
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                        Toast.makeText(PaymentActivity.this,getResources().getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
-                                    }
-
-
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-                                    //  Log.d("checkerror", error.toString());
-
-                                }
-                            });
-                            globalProvider.addRequest(jsonObjectRequest);
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                else
-                {
-
-                    new AlertDialog.Builder(PaymentActivity.this).setCancelable(false).setTitle(getResources().getString(R.string.alert)).setMessage(getResources().getString(R.string.add_existing_order)).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            submitButton.setClickable(true);
-                            dialogInterface.dismiss();
-
-
-                        }
-                    }).setPositiveButton(getResources().getString(R.string.confm), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            String modifyOrderUrl=Constants.modifyOrderUrl+prevOrder;
-                            // Log.d("checkmofifyurl",modifyOrderUrl);
-                            JSONObject jsonObject = new JSONObject();
-                            JsonObjectRequest jsonObjectRequest=null;
-                            try {
-                                jsonObject.put("extraPrice",totalamt);
-                                final JSONArray jsonArray = new JSONArray();
-                                for (Product product : globalProvider.cartList) {
-                                    String productId = product.getId();
-                                    Double price = product.getPrice();
-                                    String specificationch = product.getSpecificationCh();
-                                    String specificationen = product.getSpecificationEn();
-                                    String uniten = product.getUnitEn();
-                                    String unitch = product.getUnitCh();
-                                    String imageCover = product.getImageCover();
-                                    // String category = product.getCategory().getId();
-                                    String productName = product.getNameEn();
-                                    String productCh = product.getNameCh();
-                                    int total = product.getTotalNumber();
-                                    JSONObject jsonObject3 = new JSONObject();
-                                    jsonObject3.put("productID", productId);
-                                    jsonObject3.put("name_ch", productCh);
-                                    jsonObject3.put("name_en", productName);
-                                    jsonObject3.put("price", price );
-                                    jsonObject3.put("unit_ch", unitch);
-                                    jsonObject3.put("unit_en", uniten);
-                                    String category=globalProvider.categoryNameMap.get(productId);
-                                    jsonObject3.put("category", category);
-                                    jsonObject3.put("category", category);
-                                    jsonObject3.put("imageCover", imageCover);
-                                    jsonObject3.put("specification_ch", specificationch);
-                                    jsonObject3.put("specification_en", specificationen);
-                                    JSONObject jsonObject4 = new JSONObject();
-                                    jsonObject4.put("productInfo", jsonObject3);
-                                    jsonObject4.put("quantity", total);
-                                    jsonArray.put(jsonObject4);
-                                }
-                                jsonObject.put("extraProducts",jsonArray);
-                                jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, modifyOrderUrl, jsonObject, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-                                        //  Log.d("modifyresponse",response.toString());
-                                        //todo check status
-                                        int status=0;
-
-                                        try {
-
-
-                                            status = response.getInt("status");
-                                            if(response.getInt("status")==0) {
-
-                                                status = response.getInt("status");
-                                                String orderCode=response.getJSONObject("payload").getString("orderCode");
-                                                Log.d("orderCode",orderCode);
-
-                                                JSONObject object=new JSONObject();
-                                                object.put("productList", jsonArray);
-                                                object.put("orderCode",orderCode);
-                                                object.put("email",customer.getEmail());
-                                                object.put("userName",customer.getUserName());
-                                                object.put("totalPrice",totalamt + "");
-                                                object.put("date",deliveryDat);
-                                                String week= GlobalProvider.deliveryTiming.get(deliveryWeek);
-                                                Log.d("deliveryweek",week);
-                                                object.put("week_en",week);
-                                                object.put("week",globalProvider.deliveryTimingChinese.get(week));
-                                                object.put("duration",duration);
-
-
-
-                                                JsonObjectRequest objectRequest=new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
-                                                    @Override
-                                                    public void onResponse(JSONObject response) {
-                                                        Log.d("emailresponse",response.toString());
-                                                        Toast.makeText(PaymentActivity.this, getString(R.string.order_success), Toast.LENGTH_SHORT).show();
-
-
-
-                                                        globalProvider.cartList.clear();
-
-                                                        //cartAdapter.notifyDataSetChanged();
-                                                        globalProvider.categoryNameMap.clear();
-                                                        totalamt=0.0;
-                                                        finish();
-
-
-                                                    }
-                                                }, new Response.ErrorListener() {
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
-
-                                                    }
-                                                });
-                                                globalProvider.addRequest(objectRequest);
-
-                                            }
-                                            else if(status==1) {
-
-
-                                                Log.d("checknoitemResponse", response.toString());
-
-                                                Toast.makeText(PaymentActivity.this, "Some Items are not available", Toast.LENGTH_LONG).show();
-
-                                                ObjectMapper objectMapper=new ObjectMapper();
-                                                JsonFactory jsonFactory = new JsonFactory();
-                                                try
-                                                {
-                                                    JsonParser jsonParser = jsonFactory.createParser(response.toString());
-                                                    ResultProductList resultProductList = (ResultProductList) objectMapper.readValue(jsonParser, ResultProductList.class);
-                                                    List<ProductStock> productStockList=new ArrayList<>();
-                                                    for(ProductInfo product:resultProductList.getPayload()) {
-                                                        if (lang.equals("english"))
-
-                                                            productStockList.add(new ProductStock(product.getNameEn(), product.getStock()));
-                                                        else
-                                                            productStockList.add(new ProductStock(product.getNameCh(), product.getStock()));
-                                                    }
-                                                    displayStockList(productStockList);
-                                                } catch (JsonParseException e) {
-                                                    e.printStackTrace();
-                                                } catch (IOException e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                            }
-
-
+                                            globalProvider.addRequest(jsonObjectRequest);
 
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
                                     }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        // Log.d("modifyerror",error.toString());
-                                        Toast.makeText(PaymentActivity.this,getResources().getString(R.string.something_wrong),Toast.LENGTH_LONG).show();
+                                } else {
+
+                                    new AlertDialog.Builder(PaymentActivity.this).setCancelable(false).setTitle(getResources().getString(R.string.alert)).setMessage(getResources().getString(R.string.add_existing_order)).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            submitButton.setClickable(true);
+                                            dialogInterface.dismiss();
 
 
-                                    }
-                                });
+                                        }
+                                    }).setPositiveButton(getResources().getString(R.string.confm), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            String modifyOrderUrl = Constants.modifyOrderUrl + prevOrder;
+                                            // Log.d("checkmofifyurl",modifyOrderUrl);
+                                            JSONObject jsonObject = new JSONObject();
+                                            JsonObjectRequest jsonObjectRequest = null;
+                                            try {
+                                                jsonObject.put("extraPrice", totalamt);
+                                                final JSONArray jsonArray = new JSONArray();
+                                                for (Product product : globalProvider.cartList) {
+                                                    String productId = product.getId();
+                                                    Double price = product.getPrice();
+                                                    String specificationch = product.getSpecificationCh();
+                                                    String specificationen = product.getSpecificationEn();
+                                                    String uniten = product.getUnitEn();
+                                                    String unitch = product.getUnitCh();
+                                                    String imageCover = product.getImageCover();
+                                                    // String category = product.getCategory().getId();
+                                                    String productName = product.getNameEn();
+                                                    String productCh = product.getNameCh();
+                                                    int total = product.getTotalNumber();
+                                                    JSONObject jsonObject3 = new JSONObject();
+                                                    jsonObject3.put("productID", productId);
+                                                    jsonObject3.put("name_ch", productCh);
+                                                    jsonObject3.put("name_en", productName);
+                                                    jsonObject3.put("price", price);
+                                                    jsonObject3.put("unit_ch", unitch);
+                                                    jsonObject3.put("unit_en", uniten);
+                                                    String category = globalProvider.categoryNameMap.get(productId);
+                                                    jsonObject3.put("category", category);
+                                                    jsonObject3.put("category", category);
+                                                    jsonObject3.put("imageCover", imageCover);
+                                                    jsonObject3.put("specification_ch", specificationch);
+                                                    jsonObject3.put("specification_en", specificationen);
+                                                    JSONObject jsonObject4 = new JSONObject();
+                                                    jsonObject4.put("productInfo", jsonObject3);
+                                                    jsonObject4.put("quantity", total);
+                                                    jsonArray.put(jsonObject4);
+                                                }
+                                                jsonObject.put("extraProducts", jsonArray);
+                                                if (refundCost > 0) {
+                                                    Log.d("refunddd", "here");
+                                                    Log.d("refundcosts",refundCost+"");
+                                                    jsonObject.put("extraRefundCost", refundCost);
+                                                }
+                                                jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, modifyOrderUrl, jsonObject, new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        //  Log.d("modifyresponse",response.toString());
+                                                        //todo check status
+                                                        int status = 0;
+
+                                                        try {
 
 
+                                                            status = response.getInt("status");
+                                                            if (response.getInt("status") == 0) {
 
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                                                status = response.getInt("status");
+                                                                String orderCode = response.getJSONObject("payload").getString("orderCode");
+                                                                Log.d("orderCode", orderCode);
+
+                                                                JSONObject object = new JSONObject();
+                                                                object.put("productList", jsonArray);
+                                                                object.put("orderCode", orderCode);
+                                                                object.put("email", customer.getEmail());
+                                                                object.put("userName", customer.getUserName());
+                                                                object.put("totalPrice", totalamt + "");
+                                                                object.put("date", deliveryDat);
+                                                                String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
+                                                                Log.d("deliveryweek", week);
+                                                                object.put("week_en", week);
+                                                                object.put("week", globalProvider.deliveryTimingChinese.get(week));
+                                                                object.put("duration", duration);
+
+
+                                                                JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
+                                                                    @Override
+                                                                    public void onResponse(JSONObject response) {
+                                                                        Log.d("emailresponse", response.toString());
+                                                                        Toast.makeText(PaymentActivity.this, getString(R.string.order_success), Toast.LENGTH_SHORT).show();
+
+
+                                                                        globalProvider.cartList.clear();
+
+                                                                        //cartAdapter.notifyDataSetChanged();
+                                                                        globalProvider.categoryNameMap.clear();
+                                                                        totalamt = 0.0;
+                                                                        finish();
+
+
+                                                                    }
+                                                                }, new Response.ErrorListener() {
+                                                                    @Override
+                                                                    public void onErrorResponse(VolleyError error) {
+
+                                                                    }
+                                                                });
+                                                                globalProvider.addRequest(objectRequest);
+
+                                                            } else if (status == 1) {
+
+
+                                                                Log.d("checknoitemResponse", response.toString());
+
+                                                                Toast.makeText(PaymentActivity.this, "Some Items are not available", Toast.LENGTH_LONG).show();
+
+                                                                ObjectMapper objectMapper = new ObjectMapper();
+                                                                JsonFactory jsonFactory = new JsonFactory();
+                                                                try {
+                                                                    JsonParser jsonParser = jsonFactory.createParser(response.toString());
+                                                                    ResultProductList resultProductList = (ResultProductList) objectMapper.readValue(jsonParser, ResultProductList.class);
+                                                                    List<ProductStock> productStockList = new ArrayList<>();
+                                                                    for (ProductInfo product : resultProductList.getPayload()) {
+                                                                        if (lang.equals("english"))
+
+                                                                            productStockList.add(new ProductStock(product.getNameEn(), product.getStock()));
+                                                                        else
+                                                                            productStockList.add(new ProductStock(product.getNameCh(), product.getStock()));
+                                                                    }
+                                                                    displayStockList(productStockList);
+                                                                } catch (JsonParseException e) {
+                                                                    e.printStackTrace();
+                                                                } catch (IOException e) {
+                                                                    e.printStackTrace();
+                                                                }
+
+                                                            }
+
+
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
+                                                        }
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+                                                        // Log.d("modifyerror",error.toString());
+                                                        Toast.makeText(PaymentActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
+
+
+                                                    }
+                                                });
+
+
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            globalProvider.addRequest(jsonObjectRequest);
+
+
+                                        }
+                                    }).create().show();
+                                }
+
+
                             }
-                            globalProvider.addRequest(jsonObjectRequest);
 
 
-                        }
-                    }).create().show();
-                }
-
-
+                        }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        submitButton.setEnabled(true);
+                    }
+                }).show();
 
 
             }
-
-
         });
-
-        
-
     }
+
     private void displayStockList(final List<ProductStock> productStockList) {
         submitButton.setClickable(true);
 
@@ -717,10 +727,25 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     {
         super.onResume();
         productImageAdapter.notifyDataSetChanged();
-        if(lang.equals("english"))
-        numItemsText.setText(globalProvider.cartList.size()+" "+getString(R.string.item));
-        else
-            numItemsText.setText("共 "+globalProvider.cartList.size()+" 件"+getString(R.string.item));
+
+        if(lang.equals("english")) {
+            String size=globalProvider.cartList.size() + " ";
+            String text=size+ getString(R.string.item);
+            Spannable spannable = new SpannableString(text);
+
+            spannable.setSpan(new ForegroundColorSpan(Color.RED), 0, size.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            numItemsText.setText(spannable, TextView.BufferType.SPANNABLE);
+        }
+        else {
+            String size=globalProvider.cartList.size() + " ";
+            String text="共 "+size+" 件"+getString(R.string.item);
+            Spannable spannable = new SpannableString(text);
+            spannable.setSpan(new ForegroundColorSpan(Color.RED), 2, 2+size.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            numItemsText.setText(spannable, TextView.BufferType.SPANNABLE);
+
+
+        }
 
         calculateTotal();
 
@@ -735,7 +760,57 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         }
         totalamt=Double.parseDouble(new DecimalFormat("##.##").format(totalamt));
-        totalAmountText.setText("$ "+totalamt);
+        if(customer.getRefund().getECoins()==0) {
+            Log.d("layoutwe","here");
+            ecoinLayout.setVisibility(View.GONE);
+            totalTextView.getLayoutParams().height=getResources().getDimensionPixelSize(R.dimen.total_text);
+            totalAmountText.getLayoutParams().height=getResources().getDimensionPixelSize(R.dimen.total_text);
+            totalAmountText.setGravity(Gravity.CENTER_VERTICAL);
+            totalTextView.setGravity(Gravity.CENTER_VERTICAL);
+
+            totalAmountText.requestLayout();
+            totalTextView.requestLayout();
+            String total=String.format("%.2f",totalamt);
+
+
+            totalAmountText.setText("$ " + total);
+
+
+
+
+
+
+
+        }
+        else {
+            subTotalText.setText(" $ " + totalamt);
+
+            if(customer.getRefund().getECoins()>totalamt)
+            {
+                refundCost=totalamt;
+
+
+
+            }
+            else
+            {
+                refundCost=customer.getRefund().getECoins();
+
+
+
+            }
+            String refundCostInString=String.format("%.2f",refundCost);
+            netBalanceText.setText(" $ "+refundCostInString);
+            double diff=totalamt-refundCost;
+            String total=String.format("%.2f",diff);
+
+            totalAmountText.setText("$ "+total);
+
+
+            ecoinLayout.setVisibility(View.VISIBLE);
+            Log.d("layoutwe","tthere");
+        }
+
     }
 
 

@@ -36,17 +36,19 @@
         android:gravity="center"
         android:visibility="gone"
 
+
         android:orientation="vertical"
         android:layout_height="match_parent">
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
         android:backgroundTint="@color/white"
-        android:scaleType="fitXY"
+        android:scaleType="fitCenter"
         android:padding="8dp"
 
 
-        android:src="@drawable/ebuyas"
+        android:src="@drawable/empfav"
 
 
 
@@ -57,12 +59,16 @@
         android:id="@+id/empty_fav"
 
         />
+        <!--
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:textAlignment="center"
             android:text="@string/save_list"/>
+            -->
+
     </LinearLayout>
 
 

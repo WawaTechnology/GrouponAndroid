@@ -7,27 +7,27 @@ import java.util.List;
 
 public class Refund implements Serializable {
     @JsonProperty("eCoins")
-    private Integer eCoins;
+    private Double eCoins;
     @JsonProperty("sub")
-    private List<Object> sub = null;
+    private List<Sub> sub = null;
 
     @JsonProperty("eCoins")
-    public Integer getECoins() {
+    public Double getECoins() {
         return eCoins;
     }
 
     @JsonProperty("eCoins")
-    public void setECoins(Integer eCoins) {
+    public void setECoins(Double eCoins) {
         this.eCoins = eCoins;
     }
 
     @JsonProperty("sub")
-    public List<Object> getSub() {
+    public List<Sub> getSub() {
         return sub;
     }
 
     @JsonProperty("sub")
-    public void setSub(List<Object> sub) {
+    public void setSub(List<Sub> sub) {
         this.sub = sub;
     }
 }

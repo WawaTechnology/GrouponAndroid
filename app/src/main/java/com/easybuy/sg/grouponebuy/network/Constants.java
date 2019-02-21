@@ -17,8 +17,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Constants  {
-//static public String baseUrlStr = "http://13.250.234.103:4397/";
-
+//static public String baseUrlStr = "http://13.250.234.103:3000/";
+//buisness url
 static public String baseUrlStr = "http://13.251.164.198:3000/";
     static public String loginUrlStr = baseUrlStr + "users/login";
     static public String newImageUrl="https://s3-ap-southeast-1.amazonaws.com/ebuymart/";
@@ -49,6 +49,8 @@ static public String baseUrlStr = "http://13.251.164.198:3000/";
     static public String flashSaleUrl=baseUrlStr+"activities/1";
     static public String singleProductUrl=baseUrlStr+"singleProducts";
     static public String orderBadgeUrl=baseUrlStr+"orders/getOrdersTip";
+    static  public String orderRefundUrl=baseUrlStr+"orders/refundCostHistory";
+    static public String withdrawUrl=baseUrlStr+"withdraws/create";
 
 
 

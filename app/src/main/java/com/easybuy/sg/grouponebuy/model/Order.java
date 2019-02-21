@@ -48,8 +48,26 @@ public class Order implements Serializable {
         @JsonProperty("orderCode")
         private String orderCode;
 
-        @JsonProperty("orderDate")
+    public Boolean getPrint() {
+        return isPrint;
+    }
+
+    public void setPrint(Boolean print) {
+        isPrint = print;
+    }
+
+    public Double getRefundCostOrder() {
+        return refundCostOrder;
+    }
+
+    public void setRefundCostOrder(Double refundCostOrder) {
+        this.refundCostOrder = refundCostOrder;
+    }
+
+    @JsonProperty("orderDate")
         private String orderDate;
+        @JsonProperty("refundCost")
+        private Double refundCostOrder;
 
 
 

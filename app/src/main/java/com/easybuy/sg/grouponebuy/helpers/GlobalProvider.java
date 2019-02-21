@@ -20,6 +20,7 @@ import com.easybuy.sg.grouponebuy.model.CategoryImage;
 import com.easybuy.sg.grouponebuy.model.CategoryPrimary;
 import com.easybuy.sg.grouponebuy.model.CategorySpecial;
 import com.easybuy.sg.grouponebuy.model.CategorySummary;
+import com.easybuy.sg.grouponebuy.model.Consume;
 import com.easybuy.sg.grouponebuy.model.Customer;
 import com.easybuy.sg.grouponebuy.model.FlashSale;
 import com.easybuy.sg.grouponebuy.model.Order;
@@ -42,6 +43,10 @@ public class GlobalProvider {
    public boolean hasSale;
    public Date saleDate;
   String customerId;
+
+
+
+    public List<Consume> consumeList=new ArrayList<>();
 
     public String getCustomerId() {
         return customerId;

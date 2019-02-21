@@ -2,6 +2,7 @@ package com.easybuy.sg.grouponebuy.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -31,18 +32,26 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.easybuy.sg.grouponebuy.R;
+import com.easybuy.sg.grouponebuy.activities.MainActivity;
 import com.easybuy.sg.grouponebuy.adapter.OrderAdapter;
 import com.easybuy.sg.grouponebuy.helpers.CustomRequest;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
+import com.easybuy.sg.grouponebuy.helpers.Utf8JsonRequest;
 import com.easybuy.sg.grouponebuy.model.Order;
+import com.easybuy.sg.grouponebuy.model.Product;
+import com.easybuy.sg.grouponebuy.model.Result;
 import com.easybuy.sg.grouponebuy.model.ResultOrder;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.CategoryListener;
 import com.easybuy.sg.grouponebuy.utils.CircleBadgeView;
 import com.easybuy.sg.grouponebuy.utils.PaginationScrollListener;
 import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,7 +64,7 @@ import java.util.Map;
 
 public class FragmentOrderTOne extends Fragment {
     List<Order> orderList;
-  //  List<Order> allOrderList;
+    //  List<Order> allOrderList;
     RecyclerView orderRecyclerView;
     OrderAdapter orderAdapter;
     LinearLayout noOrderLayOut;
@@ -74,21 +83,19 @@ public class FragmentOrderTOne extends Fragment {
     int TAB_PRESSED = 1;
     Button submitButton;
     TextView paymentBadge;
-    final int Order_Code=113;
+    final int Order_Code = 113;
     public CategoryListener categoryListener;
-  //  private CircleBadgeView numView;
-   // private CircleBadgeView processingView;
-    private  int DEFAULT_LR_PADDING_DIP = 5;
+    //  private CircleBadgeView numView;
+    // private CircleBadgeView processingView;
+    private int DEFAULT_LR_PADDING_DIP = 5;
     TextView badgeText;
-    
-
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //MyApplication.getRefWatcher(getActivity()).watch(this);
         orderList = new ArrayList<>();
-      //  allOrderList=new ArrayList<>();
+        //  allOrderList=new ArrayList<>();
         globalProvider = GlobalProvider.getGlobalProviderInstance(getContext().getApplicationContext());
 
 
@@ -102,6 +109,7 @@ public class FragmentOrderTOne extends Fragment {
         */
 
     }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -109,11 +117,11 @@ public class FragmentOrderTOne extends Fragment {
             categoryListener = (CategoryListener) context;
         }
     }
+
     @Override
-    public void onDetach()
-    {
+    public void onDetach() {
         super.onDetach();
-        categoryListener=null;
+        categoryListener = null;
     }
 
 
@@ -127,8 +135,8 @@ public class FragmentOrderTOne extends Fragment {
         View view = inflater.inflate(R.layout.fragment_ordertone, container, false);
         allOrderLayout = (LinearLayout) view.findViewById(R.id.alllayout);
         paymentLayout = (LinearLayout) view.findViewById(R.id.paymentlayout);
-        paymentBadge=(TextView) view.findViewById(R.id.paymentbadge);
-        badgeText=(TextView) view.findViewById(R.id.badge);
+        paymentBadge = (TextView) view.findViewById(R.id.paymentbadge);
+        badgeText = (TextView) view.findViewById(R.id.badge);
         processingLayout = (LinearLayout) view.findViewById(R.id.processinglayout);
         noOrderLayOut = (LinearLayout) view.findViewById(R.id.no_orderlayout);
         processingImage = (ImageView) view.findViewById(R.id.processingImage);
@@ -137,13 +145,13 @@ public class FragmentOrderTOne extends Fragment {
         processingText = (TextView) view.findViewById(R.id.processingText);
         paymenttext = (TextView) view.findViewById(R.id.paymenttext);
         allordertext = (TextView) view.findViewById(R.id.allordertext);
-        submitButton=(Button)view.findViewById(R.id.submit);
-       // numView = new CircleBadgeView(getContext(), paymentImage);
-      //  numView.setTextColor(Color.WHITE);
-      //  numView.setBackgroundColor(Color.RED);
-      //  processingView = new CircleBadgeView(getContext(), processingImage);
-       // processingView.setTextColor(Color.WHITE);
-       // processingView.setBackgroundColor(Color.RED);
+        submitButton = (Button) view.findViewById(R.id.submit);
+        // numView = new CircleBadgeView(getContext(), paymentImage);
+        //  numView.setTextColor(Color.WHITE);
+        //  numView.setBackgroundColor(Color.RED);
+        //  processingView = new CircleBadgeView(getContext(), processingImage);
+        // processingView.setTextColor(Color.WHITE);
+        // processingView.setBackgroundColor(Color.RED);
 
         oldColors = paymenttext.getTextColors();
 
@@ -156,7 +164,7 @@ public class FragmentOrderTOne extends Fragment {
         orderRecyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
-                Log.d("loadmore","called");
+                Log.d("loadmore", "called");
                 isLoading = true;
                 page += 1;
 
@@ -169,7 +177,7 @@ public class FragmentOrderTOne extends Fragment {
                 }, 1000);
                 */
 
-               loadNextPage();
+                loadNextPage();
 
             }
 
@@ -188,12 +196,11 @@ public class FragmentOrderTOne extends Fragment {
                 return isLoading;
             }
         });
-   //     processingText.setTextColor(getResources().getColor(R.color.red));
-      //  processingImage.setImageResource(R.drawable.shipping);
+        //     processingText.setTextColor(getResources().getColor(R.color.red));
+        //  processingImage.setImageResource(R.drawable.shipping);
 
 
-        if(!globalProvider.isLogin())
-        {
+        if (!globalProvider.isLogin()) {
             noOrderLayOut.setVisibility(View.VISIBLE);
             orderRecyclerView.setVisibility(View.GONE);
         }
@@ -204,18 +211,13 @@ public class FragmentOrderTOne extends Fragment {
             @Override
             public void onClick(View view) {
 
-                    categoryListener.onSelectedCategory();
-
-
-
+                categoryListener.onSelectedCategory();
 
 
             }
         });
         allordertext.setTextColor(getResources().getColor(R.color.red));
         allOrderImage.setImageResource(R.drawable.orders);
-
-
 
 
         processingLayout.setOnClickListener(new View.OnClickListener() {
@@ -228,15 +230,15 @@ public class FragmentOrderTOne extends Fragment {
                 page = 1;
                 orderList.clear();
                 orderAdapter.notifyDataSetChanged();
-               getOrders();
+                getOrders();
 
 
                 paymenttext.setTextColor(oldColors);
-               // paymentImage.setImageResource(R.drawable.card);
+                // paymentImage.setImageResource(R.drawable.card);
                 processingText.setTextColor(getResources().getColor(R.color.red));
-               // processingImage.setImageResource(R.drawable.shipping);
+                // processingImage.setImageResource(R.drawable.shipping);
                 allordertext.setTextColor(oldColors);
-              //  allOrderImage.setImageResource(R.drawable.lst);
+                //  allOrderImage.setImageResource(R.drawable.lst);
 
 
             }
@@ -254,11 +256,11 @@ public class FragmentOrderTOne extends Fragment {
                 orderAdapter.notifyDataSetChanged();
                 getOrders();
                 paymenttext.setTextColor(oldColors);
-               // paymentImage.setImageResource(R.drawable.card);
+                // paymentImage.setImageResource(R.drawable.card);
                 processingText.setTextColor(oldColors);
-              //  processingImage.setImageResource(R.drawable.truck);
+                //  processingImage.setImageResource(R.drawable.truck);
                 allordertext.setTextColor(getResources().getColor(R.color.red));
-               // allOrderImage.setImageResource(R.drawable.orders);
+                // allOrderImage.setImageResource(R.drawable.orders);
 
                 // getAllOrders();
 
@@ -286,11 +288,11 @@ public class FragmentOrderTOne extends Fragment {
                 */
                 // getPendingPaymentOrders();
                 paymenttext.setTextColor(getResources().getColor(R.color.red));
-               // paymentImage.setImageResource(R.drawable.payment);
+                // paymentImage.setImageResource(R.drawable.payment);
                 processingText.setTextColor(oldColors);
-               // processingImage.setImageResource(R.drawable.truck);
+                // processingImage.setImageResource(R.drawable.truck);
                 allordertext.setTextColor(oldColors);
-               // allOrderImage.setImageResource(R.drawable.lst);
+                // allOrderImage.setImageResource(R.drawable.lst);
 
 
             }
@@ -308,19 +310,19 @@ public class FragmentOrderTOne extends Fragment {
             params.put("state", "all");
             params.put("userID", globalProvider.getCustomerId());
             //params.put("userID", globalProvider.getCustomer().customer_id);
-            Log.d("url",url);
-           // Log.d("userId",globalProvider.getCustomer().customer_id);
+            Log.d("url", url);
+            // Log.d("userId",globalProvider.getCustomer().customer_id);
             CustomRequest customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     ObjectMapper objectMapper = new ObjectMapper();
                     JsonFactory jsonFactory = new JsonFactory();
-                  //  Log.d("checkresponse", response.toString());
+                    //  Log.d("checkresponse", response.toString());
                     try {
                         JsonParser jsonParser = jsonFactory.createParser(response.toString());
                         ResultOrder resultOrder = (ResultOrder) objectMapper.readValue(jsonParser, ResultOrder.class);
-                        Log.d("ostatus",resultOrder.getStatus()+"");
-                        Log.d("resultorder",response.toString());
+                        Log.d("ostatus", resultOrder.getStatus() + "");
+                        Log.d("resultorder", response.toString());
                         orderAdapter.removeLoadingFooter();
                         if (resultOrder.getStatus() == 0) {
 
@@ -329,22 +331,21 @@ public class FragmentOrderTOne extends Fragment {
                             orderAdapter.notifyDataSetChanged();
                             noOrderLayOut.setVisibility(View.GONE);
                             orderRecyclerView.setVisibility(View.VISIBLE);
-                           Log.d("checkresultsize",resultOrder.getOrder().size()+"");
+                            Log.d("checkresultsize", resultOrder.getOrder().size() + "");
                             isLoading = false;
 
                             if (pageSize <= resultOrder.getOrder().size()) {
                                 orderAdapter.addLoadingFooter();
-                                TOTAL_PAGE+=1;
-                            }
-                            else
+                                TOTAL_PAGE += 1;
+                            } else
                                 isLastPage = true;
 
-                            Log.d("checkisLatP",isLastPage+"");
-                            Log.d("isLoading",isLoading+"");
+                            Log.d("checkisLatP", isLastPage + "");
+                            Log.d("isLoading", isLoading + "");
                         } else {
                             if (resultOrder.getStatus() == 2) {
                                 isLastPage = true;
-                                orderAdapter.isLoadingAdded=false;
+                                orderAdapter.isLoadingAdded = false;
                                 //orderAdapter.removeLoadingFooter();
                                 orderAdapter.notifyDataSetChanged();
                                 return;
@@ -371,11 +372,9 @@ public class FragmentOrderTOne extends Fragment {
     }
 
 
-
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
-        Log.d("resumecalledhere","here");
+        Log.d("resumecalledhere", "here");
       /*  if(globalProvider.getDeletedOrder()!=null)
         {
             Order order=globalProvider.getDeletedOrder();
@@ -394,30 +393,35 @@ public class FragmentOrderTOne extends Fragment {
             globalProvider.setDeletedOrder(null);
         }
         */
-      if(globalProvider.isLogin())
-      {
-          Log.d("onresumeorder","called");
-          Log.d("ecoin",Constants.getCustomer(getContext()).getRefund().getECoins()+"");
-          Activity activity = getActivity();
-          if(isAdded()&&activity!=null) {
+        if (globalProvider.isLogin()) {
+            Log.d("onresumeorder", "called");
+            Log.d("ecoin", Constants.getCustomer(getContext()).getRefund().getECoins() + "");
+            Activity activity = getActivity();
+            if (isAdded() && activity != null) {
+              //  getEcoins();
 
-              getBadge();
-              Log.d("onresumeorder","here");
-              orderList.clear();
-              orderAdapter.notifyDataSetChanged();
-              TAB_PRESSED = 1;
-              TOTAL_PAGE = 2;
-              page = 1;
 
-              isLoading = false;
-              isLastPage = false;
-              getOrders();
+                getBadge();
+                Log.d("onresumeorder", "here");
+                orderList.clear();
+                orderAdapter.notifyDataSetChanged();
+                TAB_PRESSED = 1;
+                TOTAL_PAGE = 2;
+                page = 1;
 
-          }
-      }
+                isLoading = false;
+                isLastPage = false;
+                getOrders();
+
+            }
+        }
 
 
     }
+
+
+
+
     public void getBadge()
     {
 
@@ -437,10 +441,15 @@ public class FragmentOrderTOne extends Fragment {
                     if (response.getInt("status") == 0) {
                         int waitingPay = response.getJSONObject("payload").getInt("waitingPayNumber");
                         int waitingProcessing = response.getJSONObject("payload").getInt("waitingNumber");
-                        if (waitingPay > 0) {
-                            paymentBadge.setTextColor(getResources().getColor(R.color.white));
-                            paymentBadge.setText(waitingPay + "");
-                            paymentBadge.setVisibility(View.VISIBLE);
+                        Activity activity = getActivity();
+                        if (isAdded() && activity != null) {
+
+
+                            if (waitingPay > 0) {
+
+                                paymentBadge.setTextColor(getResources().getColor(R.color.white));
+                                paymentBadge.setText(waitingPay + "");
+                                paymentBadge.setVisibility(View.VISIBLE);
 
                            /* numView.setText(waitingPay + "");//
 
@@ -463,17 +472,15 @@ public class FragmentOrderTOne extends Fragment {
                             numView.show();
                             */
 
-                            Log.d("getwaitingPay", waitingPay + "");
-                        }
-                        else {
-                           // numView.hide();
-                            paymentBadge.setVisibility(View.INVISIBLE);
-                        }
-                        if(waitingProcessing>0)
-                        {
-                            badgeText.setTextColor(getResources().getColor(R.color.white));
-                            badgeText.setText(waitingProcessing + "");
-                            badgeText.setVisibility(View.VISIBLE);
+                                Log.d("getwaitingPay", waitingPay + "");
+                            } else {
+                                // numView.hide();
+                                paymentBadge.setVisibility(View.INVISIBLE);
+                            }
+                            if (waitingProcessing > 0) {
+                                badgeText.setTextColor(getResources().getColor(R.color.white));
+                                badgeText.setText(waitingProcessing + "");
+                                badgeText.setVisibility(View.VISIBLE);
                             /*processingView.setText(waitingProcessing + "");//
 
 
@@ -491,10 +498,10 @@ public class FragmentOrderTOne extends Fragment {
                             processingView.setGravity(Gravity.CENTER);
                             processingView.show();
                             */
-                        }
-                        else {
-                            badgeText.setVisibility(View.GONE);
-                           // processingView.hide();
+                            } else {
+                                badgeText.setVisibility(View.GONE);
+                                // processingView.hide();
+                            }
                         }
                     }
                 }catch (JSONException e) {
@@ -546,6 +553,8 @@ public class FragmentOrderTOne extends Fragment {
                 params.put("state","waiting");
             }
             params.put("userID", globalProvider.getCustomerId());
+          Log.d("customerid",globalProvider.getCustomerId());
+          Log.d("url",url);
 
            // params.put("userID", globalProvider.getCustomer().customer_id);
 

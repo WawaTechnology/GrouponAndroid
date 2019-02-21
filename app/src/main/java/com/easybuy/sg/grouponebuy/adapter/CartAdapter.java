@@ -3,6 +3,7 @@ package com.easybuy.sg.grouponebuy.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
@@ -10,6 +11,12 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
@@ -32,6 +39,7 @@ import com.easybuy.sg.grouponebuy.network.Constants;
 
 import java.util.List;
 
+import static android.text.Spanned.SPAN_INCLUSIVE_INCLUSIVE;
 import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
@@ -92,7 +100,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
 
 
-       holder.priceText.setText("$"+product.getPrice()+"");
+       String actualPrice="$"+product.getPrice();
+      // Log.d("prc",product.getPrice()+"");
+        String[] each = actualPrice.split("\\.");
+       // Log.d("prc1",each[0]+"");
+       // Log.d("prc2",each[1]+"");
+        each[0]=each[0]+".";
+
+        Spannable spannable = new SpannableString(actualPrice);
+
+        spannable.setSpan(new AbsoluteSizeSpan(16, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+       holder.priceText.setText(spannable, TextView.BufferType.SPANNABLE);
+
+
+       // holder.priceText.setText("$"+product.getPrice()+"");
+       // holder.priceText.setText(finalText);
         holder.quantityText.setText(product.getTotalNumber()+"");
         if(product.getPriceOriginal()!=null&&product.getPriceOriginal()>0)
         {
