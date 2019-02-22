@@ -39,18 +39,25 @@
         android:background="@color/new_grey"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_marginLeft="4dp"
-        android:textColor="@android:color/black"
-        android:padding="5dp"
-        android:textSize="16sp"
-        android:id="@+id/delivery_address"
 
-        android:text="07-02, 03-09 Office, Ebuy Staff Channel"
-        />
+        <TextView
+            android:id="@+id/delivery_address"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginLeft="4dp"
+            android:gravity="center_vertical"
+
+
+            android:background="@color/white"
+            android:paddingBottom="8dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+
+            android:paddingTop="8dp"
+            android:text="07-02, 03-09 Office, Ebuy Staff Channel"
+
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
     <ImageView
         android:background="@color/new_grey"
         android:layout_width="match_parent"
@@ -105,17 +112,19 @@
         ></ImageView>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:padding="5dp">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/white"
             android:layout_marginLeft="4dp"
             android:textSize="16sp"
             android:id="@+id/date_label"
             android:textColor="@android:color/black"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
 
 
@@ -124,35 +133,36 @@
 
         <TextView
 
-            android:layout_width="160dp"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/arrow"
-            android:gravity="right"
-            android:textAlignment="gravity"
-            android:textColor="@android:color/black"
-
-
-
             android:id="@+id/delivery_date"
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_toLeftOf="@id/arrow"
+            android:gravity="right|center_vertical"
 
-            android:minLines="2"
+
             android:maxLines="2"
 
+            android:minLines="2"
             android:scrollHorizontally="false"
 
-            android:layout_marginLeft="16dp"
-            android:textSize="16sp"
-            android:text="14/12/2018,Thursday,18:00~21:00"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/arrow"
-            android:layout_alignParentRight="true"
+            android:text="14/12/2018,Thursday,18:00~21:00"
 
-            android:textSize="16sp"
-            android:layout_marginRight="8dp"
+            android:textAlignment="gravity"
+            android:textColor="@android:color/black"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+
             android:layout_marginLeft="8dp"
-            android:text=">"/>
+            android:layout_marginRight="8dp"
+            android:text=">"
+            android:textSize="14sp" />
     </RelativeLayout>
     <ImageView
         android:background="@color/new_grey"
@@ -176,24 +186,26 @@
 
             android:text="@string/invoice_info"
             />
+
         <TextView
+            android:id="@+id/invoice_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/arrow1"
+            android:text="No"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:id="@+id/invoice_choice"
-            android:text="No"/>
+            android:textSize="14sp" />
+
         <TextView
+            android:id="@+id/arrow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/arrow1"
-            android:textSize="16sp"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
 
-            android:layout_alignParentRight="true"
-            android:text=">"/>
+            android:text=">"
+            android:textSize="14sp" />
     </RelativeLayout>
     <ImageView
         android:background="@color/new_grey"
@@ -217,24 +229,26 @@
 
             android:text="@string/paymentmethod"
             />
+
         <TextView
+            android:id="@+id/payment_choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/arrow3"
-            android:id="@+id/payment_choice"
+            android:text="Cash"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:text="Cash"/>
+            android:textSize="14sp" />
+
         <TextView
+            android:id="@+id/arrow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/arrow3"
-            android:textSize="16sp"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
 
-            android:layout_alignParentRight="true"
-            android:text=">"/>
+            android:text=">"
+            android:textSize="14sp" />
     </RelativeLayout>
     <ImageView
         android:background="@color/new_grey"

@@ -41,14 +41,14 @@
         android:layout_height="match_parent">
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
 
         android:backgroundTint="@color/white"
         android:scaleType="fitCenter"
         android:padding="8dp"
 
 
-        android:src="@drawable/empfav"
+        android:src="@drawable/favempty"
 
 
 
@@ -59,15 +59,17 @@
         android:id="@+id/empty_fav"
 
         />
-        <!--
+
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
 
             android:textAlignment="center"
             android:text="@string/save_list"/>
-            -->
+
 
     </LinearLayout>
 

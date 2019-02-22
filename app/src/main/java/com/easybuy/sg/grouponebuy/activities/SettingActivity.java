@@ -15,7 +15,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+import com.easybuy.sg.grouponebuy.BuildConfig;
 
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
@@ -30,6 +32,7 @@ public class SettingActivity extends AppCompatActivity {
     RelativeLayout changePwdLayout,changeLangLayout,aboutUsLayout,accountLayout;
     ImageView backButton;
     RelativeLayout callLayout;
+    TextView versionNameTextView;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -37,6 +40,7 @@ public class SettingActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        versionNameTextView=(TextView) findViewById(R.id.version_name);
         logoutButton=(Button)findViewById(R.id.logout);
         changePwdLayout=(RelativeLayout) findViewById(R.id.change_pwd);
         changeLangLayout=(RelativeLayout) findViewById(R.id.change_langlayout);
@@ -45,6 +49,10 @@ public class SettingActivity extends AppCompatActivity {
         backButton=(ImageView) findViewById(R.id.back);
         callLayout=(RelativeLayout) findViewById(R.id.call_layout);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
+       // int versionCode = BuildConfig.VERSION_CODE;
+        String versionName = BuildConfig.VERSION_NAME;
+        versionNameTextView.setText("V "+versionName);
+
         if(!globalProvider.isLogin())
         {
             logoutButton.setVisibility(View.GONE);

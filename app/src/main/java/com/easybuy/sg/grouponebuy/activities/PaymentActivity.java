@@ -200,9 +200,11 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             invoiceChoiceText.setText(R.string.no);
         String address = null;
         if (lang.equals("english"))
-            address = customer.address + " " + district.getNamePrimaryEn() + " - " + district.getNameSecondaryEn() + " - " + district.getNameTertiaryEn();
+            address = customer.address + ", " + district.getNameTertiaryEn() + ", " + district.getNameSecondaryEn() + ", " + district.getNamePrimaryEn();
         else
-            address = customer.address + " " + district.getNamePrimaryCh() + " - " + district.getNameSecondaryCh() + " - " + district.getNameTertiaryCh();
+            address = customer.address + ", " + district.getNameTertiaryCh() + ", " + district.getNameSecondaryCh() + ", " +district.getNamePrimaryCh() ;
+        Log.d("address",address);
+
 
         addressText.setText(address);
         calculateDeliveryDate();

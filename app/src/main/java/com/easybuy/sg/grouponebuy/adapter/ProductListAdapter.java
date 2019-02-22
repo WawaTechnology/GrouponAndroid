@@ -13,7 +13,10 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
@@ -112,7 +115,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     myholder.prodDetail.setText(product.getSpecificationCh());
 
                 }
-                myholder.prodPrice.setText("$ " + product.getPrice());
+                String actualPrice="$ "+product.getPrice();
+                // Log.d("prc",product.getPrice()+"");
+                String[] each = actualPrice.split("\\.");
+                // Log.d("prc1",each[0]+"");
+                // Log.d("prc2",each[1]+"");
+                each[0]=each[0]+".";
+
+                Spannable spannable = new SpannableString(actualPrice);
+
+                spannable.setSpan(new AbsoluteSizeSpan(17, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                myholder.prodPrice.setText(spannable, TextView.BufferType.SPANNABLE);
+
+              //  myholder.prodPrice.setText("$ " + product.getPrice());
                 if(product.getStock()==0)
                 {
                     myholder.addButton.setVisibility(View.GONE);

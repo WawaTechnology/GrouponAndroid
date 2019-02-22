@@ -18,6 +18,9 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -585,9 +588,17 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                 }
             }
         });
+        String price="$ " + product.getPrice();
+        String[] each = price.split("\\.");
+        each[0]=each[0]+".";
+        Spannable spannable = new SpannableString(price);
+
+        spannable.setSpan(new AbsoluteSizeSpan(17, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        priceText.setText(spannable, TextView.BufferType.SPANNABLE);
 
 
-        priceText.setText("$ " + product.getPrice());
+       // priceText.setText("$ " + product.getPrice());
         listViews.clear();
 
 
