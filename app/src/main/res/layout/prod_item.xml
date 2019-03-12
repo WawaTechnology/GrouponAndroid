@@ -9,13 +9,12 @@
 
     <ImageView
 
+        android:id="@+id/product_img"
         android:layout_width="100dp"
         android:layout_height="110dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:adjustViewBounds="true"
-        android:id="@+id/product_img"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/prod_name"
@@ -62,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:textSize="15sp"
+        android:textSize="14sp"
 
         android:text="2.50"
         android:textColor="@color/red"
@@ -78,7 +77,7 @@
 
         android:text="3.00"
         android:textColor="@color/grey"
-        android:textSize="13sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/priceunit"
         app:layout_constraintTop_toTopOf="@+id/minusButton" />
 
@@ -119,6 +118,14 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/plusButton" />
+    <FrameLayout
+        android:layout_width="40dp"
+        android:layout_height="60dp"
+
+        android:id="@+id/sublayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/quantity"
+        ></FrameLayout>
 
     <ImageView
         android:id="@+id/minusButton"
@@ -130,8 +137,10 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/quantity"
+        app:layout_constraintBottom_toBottomOf="@id/sublayout"
+        app:layout_constraintStart_toStartOf="@+id/sublayout"
+        android:duplicateParentState="true"
+
         app:srcCompat="@drawable/minus" />
     <TextView
         android:id="@+id/stockstatus"
@@ -144,5 +153,14 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/soldout_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/product_img"
+        app:srcCompat="@drawable/soldout" />
 
 </android.support.constraint.ConstraintLayout>

@@ -35,34 +35,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/check_layout"
-        android:background="#fff"
+        android:background="@color/grey_bkg"
 
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <CheckBox
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="8dp"
-            android:id="@+id/all_check"
-            android:button="@drawable/custom_checkbox"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:textStyle="bold"
 
-            android:textSize="14sp"
-            android:text="@string/all"/>
+
 
         <TextView
-            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/min_spendmsg"
-            android:textSize="12sp"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textAlignment="gravity"
             android:textColor="@color/red"
             android:text="@string/min_spend"/>
+        <SeekBar
+            android:id="@+id/horizontal_progress_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:thumb="@drawable/truck"
+
+
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:minHeight="10dp"
+            android:progress="2"
+            android:progressBackgroundTint="@color/red" />
+
     </LinearLayout>
     <View
         android:layout_below="@id/check_layout"
@@ -112,13 +118,32 @@
 
 
         android:background="#ffff">
+        <CheckBox
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="8dp"
+            android:id="@+id/all_check"
+            android:button="@drawable/custom_checkbox"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textStyle="bold"
+
+            android:textSize="14sp"
+            android:text="@string/all"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"></View>
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="8dp"
+
+            android:layout_marginRight="3dp"
 
 
 
@@ -127,13 +152,13 @@
 
             android:text="@string/total"/>
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:layout_marginLeft="5dp"
+
             android:layout_marginRight="8dp"
             android:textColor="@color/red"
 
-           android:layout_weight="1"
+
             android:id="@+id/amount"
             android:textStyle="bold"
             android:textSize="16sp"
@@ -144,7 +169,7 @@
             android:textStyle="bold"
             android:textAlignment="center"
             android:gravity="center_vertical"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:text="@string/submit"
 
 

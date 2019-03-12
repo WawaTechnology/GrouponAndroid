@@ -180,7 +180,77 @@
 
 
     <!--End of open district -->
+
+    <!--New Not open District-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:id="@+id/notopen_fragment"
+        android:visibility="gone"
+        android:background="@drawable/table_bkg"
+        android:orientation="vertical">
+        
+        <TextView
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="@string/not_open_district"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/green"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:onClick="onButtonClicked"
+            android:id="@+id/email_Clicked"
+
+            android:textColor="@color/white"
+            android:text="@string/email_notification"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/green"
+            android:id="@+id/telephone_clicked"
+
+            android:gravity="center"
+            android:onClick="onButtonClicked"
+            android:textAlignment="gravity"
+
+            android:textColor="@color/white"
+            android:text="@string/telephone_notification"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/green"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:layout_marginBottom="8dp"
+            android:onClick="onButtonClicked"
+            android:id="@+id/no_needClicked"
+
+            android:textColor="@color/white"
+            android:text="@string/no_need"/>
+
+
+    </LinearLayout>
+
     <!--Not Open District-->
+    <!--
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -272,6 +342,7 @@
                 android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
+        -->
 
 
 

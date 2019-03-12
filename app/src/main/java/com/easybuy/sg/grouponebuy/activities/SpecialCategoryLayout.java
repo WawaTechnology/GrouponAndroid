@@ -154,41 +154,67 @@ public class SpecialCategoryLayout extends AppCompatActivity {
     */
     public void onResume()
     {
+        //boolean updateAdapter=false;
+
 
         if(globalProvider.cartList.size()>0) {
-            for (Product cartProduct : globalProvider.cartList) {
-                for (Product product : categorySpecial.getProductList()) {
-                    if (product.getId().equals(cartProduct.getId())&&product.getTotalNumber()!=cartProduct.getTotalNumber()) {
 
-                        product.setTotalNumber(cartProduct.getTotalNumber());
-                        Log.d("setquantityfor", product.getNameEn());
-                        break;
+                for (Product product : categorySpecial.getProductList()) {
+                    if(globalProvider.cartList.contains(product)) {
+                        int index=globalProvider.cartList.indexOf(product);
+                        Log.d("checkindex",index+"");
+                        Product cartProduct=globalProvider.cartList.get(index);
+                        Log.d("checkcartpdname",cartProduct.getNameEn()+" "+cartProduct.getTotalNumber());
+                        Log.d("checkprod",product.getNameEn()+" "+product.getTotalNumber());
+                        Log.d("checkrr",product.isModified(cartProduct)+"");
+
+
+
+
+                            if (product.isModified(cartProduct)) {
+
+                                product.setTotalNumber(cartProduct.getTotalNumber());
+                                Log.d("afterchangprod ",product.getTotalNumber()+"");
+                                // updateAdapter=true;
+                                Log.d("setquantityfor", product.getNameEn());
+                               // break;
+                            }
+
                     }
-                }
+                    else if(product.getTotalNumber()>0)
+                    {
+                        product.setTotalNumber(0);
+                    }
+
             }
             // if cart doesntot have product,but product has quantity>0
+            /*
             for(Product product:productList)
             {
                 if(product.getTotalNumber()>0) {
                     if (!globalProvider.cartList.contains(product)) {
                         product.setTotalNumber(0);
+                        //updateAdapter=true;
 
 
                     }
                 }
             }
+            */
 
         }
         else
         {
             for (Product product : productList) {
                 if (product.getTotalNumber()>0) {
+                   // updateAdapter=true;
 
                     product.setTotalNumber(0);
 
                 }
             }
         }
+     //   if(updateAdapter)
 
 
         specialDetailAdapter.notifyDataSetChanged();

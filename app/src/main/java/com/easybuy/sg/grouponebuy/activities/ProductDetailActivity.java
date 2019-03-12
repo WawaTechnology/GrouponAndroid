@@ -57,6 +57,7 @@ import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.model.SpecialCategoryList;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.CircleBadgeView;
+import com.easybuy.sg.grouponebuy.utils.SpanningPriceTextView;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -81,10 +82,12 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
     ViewPager viewPager;
     List<ViewGroup> listViews;
-    TextView productNameText, originText, specText, priceText, originalPriceText, favText, soldOutText;
+    TextView productNameText, originText, specText,  originalPriceText, favText, soldOutText;
+    TextView priceText;
     ProductDetailViewPagerAdapter productDetailViewPagerAdapter;
     ProductSpecAdapter productSpecAdapter;
     List<CategoryProduct> categoryProducts;
+    int saleAdapterposition;
     //TextView spec1TextView,spec2TextView;
     LinearLayout multipleSpecialLayout;
     LinearLayout indicator;
@@ -109,17 +112,24 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
     ImageView cartImageButton, cartButton2;
     private int DEFAULT_LR_PADDING_DIP = 5;
+   // private int saleMultipleAdapterPosition;
 
 
     @Override
     public void onBackPressed() {
 
-      /*  Intent returnIntent = getIntent();
+    Intent returnIntent = getIntent();
 
         returnIntent.putExtra("productupdated", product);
+        if(saleAdapterposition>-1)
+        {
+            returnIntent.putExtra("saleAdapterPosition",saleAdapterposition);
+           // returnIntent.putExtra("saleMultipleAdapterPosition",saleMultipleAdapterPosition);
+        }
 
         setResult(Activity.RESULT_OK, returnIntent);
-        */
+
+
         finish();
 
         super.onBackPressed();
@@ -209,7 +219,13 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
             public void onClick(View view) {
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("productupdated", product);
+                if(saleAdapterposition>-1)
+                {
+                    returnIntent.putExtra("saleAdapterPosition",saleAdapterposition);
+                   // returnIntent.putExtra("saleMultipleAdapterPosition",saleMultipleAdapterPosition);
+                }
                 setResult(Activity.RESULT_OK, returnIntent);
+
                 finish();
 
             }
@@ -221,6 +237,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
         Intent intent = getIntent();
         product = (Product) intent.getSerializableExtra("product");
+        saleAdapterposition=intent.getIntExtra("saleAdapterPosition",-1);
+      //  saleMultipleAdapterPosition=intent.getIntExtra("saleMultipleAdapterPosition",-1);
         Log.d("pdid",product.getId());
         getProductDetail(product.getId());
 
@@ -316,19 +334,31 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
             public void onClick(View view) {
                 Intent intent = new Intent(ProductDetailActivity.this, MainActivity.class);
 
+                //todo get activity from backstack,use new intent in mainactivity
+               // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+            //    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
+
+
                 globalProvider.adjustToStart = 3;
                 startActivity(intent);
-                finish();
+                //todo remove finish() and pass changed data
+               // finish();
             }
         });
         cartButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProductDetailActivity.this, MainActivity.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+              // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+              //  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK );
 
                 globalProvider.adjustToStart = 3;
                 startActivity(intent);
-                finish();
+                //todo remove finish() and pass changed data
+               // finish();
 
             }
         });
@@ -598,7 +628,8 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         priceText.setText(spannable, TextView.BufferType.SPANNABLE);
 
 
-       // priceText.setText("$ " + product.getPrice());
+
+       // priceText.setText("$ " + product.getPrice(),TextView.BufferType.SPANNABLE);
         listViews.clear();
 
 

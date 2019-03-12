@@ -392,7 +392,7 @@ public class CircleBadgeView extends android.support.v7.widget.AppCompatTextView
             case POSITION_TOP_RIGHT:
                 lp.gravity = Gravity.RIGHT | Gravity.TOP;
                 Log.d("checkmarigin",badgeMarginV+" "+badgeMarginH);
-                lp.setMargins(0, badgeMarginV, badgeMarginH, 0);
+                lp.setMargins(-8, badgeMarginV, 0, 0);
                 //lp.setMargins(0, badgeMarginV, badgeMarginV, 0);
                // lp.setMargins(0,5 , badgeMargin, 0);
                 break;

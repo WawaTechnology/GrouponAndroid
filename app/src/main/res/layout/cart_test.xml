@@ -118,15 +118,13 @@
         app:srcCompat="@drawable/add_on" />
 
 
-
-
     <TextView
         android:id="@+id/quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
         android:layout_marginEnd="4dp"
-        android:text="100"
+        android:text="4"
 
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -134,20 +132,25 @@
     <FrameLayout
         android:layout_width="40dp"
         android:layout_height="80dp"
+
+        android:id="@+id/sublayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/quantity"
-        android:id="@+id/sublayout"
         ></FrameLayout>
+
 
     <ImageView
         android:id="@+id/sub"
         android:layout_width="40dp"
         android:layout_height="30dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="4dp"
 
 
+        android:duplicateParentState="true"
         android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="@id/sublayout"
+        app:layout_constraintEnd_toStartOf="@+id/quantity"
         app:layout_constraintStart_toStartOf="@+id/sublayout"
         app:srcCompat="@drawable/minus" />
 

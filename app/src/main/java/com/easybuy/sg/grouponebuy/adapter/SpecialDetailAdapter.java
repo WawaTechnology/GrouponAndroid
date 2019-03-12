@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +58,15 @@ public class SpecialDetailAdapter extends RecyclerView.Adapter<SpecialDetailAdap
        else
            holder.tv1.setText(product.getNameCh());
        holder.tv2.setTextColor(context.getResources().getColor(R.color.red));
-        holder.tv2.setText("$ "+product.getPrice());
+        //holder.tv2.setText("$ "+product.getPrice());
+        String price="$ " + product.getPrice();
+        String[] each = price.split("\\.");
+        each[0]=each[0]+".";
+        Spannable spannable = new SpannableString(price);
+
+        spannable.setSpan(new AbsoluteSizeSpan(16, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        holder.tv2.setText(spannable, TextView.BufferType.SPANNABLE);
         if(product.getPriceOriginal()!=null&&product.getPriceOriginal()>0) {
             holder.tv3.setText("$ "+product.getPriceOriginal());
             holder.tv3.setPaintFlags(holder.tv3.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

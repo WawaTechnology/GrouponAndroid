@@ -415,6 +415,11 @@ public class FragmentOrderTOne extends Fragment {
 
             }
         }
+        else
+        {
+            noOrderLayOut.setVisibility(View.VISIBLE);
+            orderRecyclerView.setVisibility(View.GONE);
+        }
 
 
     }

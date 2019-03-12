@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -56,11 +57,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DistrictSettingActivity extends AppCompatActivity {
-    TextView resultPostalText, pscode, openResultTextView;
-    Button applyButton;
-    EditText blkEditText, districtEditText,postalTextView;
+public class DistrictSettingActivity extends AppCompatActivity  {
+    TextView resultPostalText,  openResultTextView;
+   // TextView pscode;
+    //Button applyButton;
+    EditText postalTextView;
+   // EditText blkEditText, districtEditText,postalTextView;
     GlobalProvider globalProvider;
+    Button emailButton,telephoneButton,noNeedButton;
+
 
 
     ImageView searchView;
@@ -83,6 +88,9 @@ public class DistrictSettingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_districtsetting);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         backButton=(ImageView)findViewById(R.id.back);
+        emailButton=(Button)findViewById(R.id.email_Clicked);
+        telephoneButton=(Button)findViewById(R.id.telephone_clicked);
+        noNeedButton=(Button)findViewById(R.id.no_needClicked);
         if(globalProvider.getCustomerId()!=null)
         {
            /* if(globalProvider.getCustomer().getAddress()!=null&&globalProvider.getCustomer().getAddress().length()>0)
@@ -97,19 +105,20 @@ public class DistrictSettingActivity extends AppCompatActivity {
         }
         Log.d("hasUnitcheck",hasUnit+"");
 
+
         postalTextView = (EditText) findViewById(R.id.postal);
         resultPostalText = (TextView) findViewById(R.id.result_postal);
 
 
-        pscode = (TextView) findViewById(R.id.pscode);
+        //pscode = (TextView) findViewById(R.id.pscode);
         openResultTextView = (TextView) findViewById(R.id.open_result);
         unitNumberText=(TextView) findViewById(R.id.unit_num);
         bindingButton=(Button) findViewById(R.id.bindingbutton);
         unitNumEdit=(EditText) findViewById(R.id.unit_num_edit);
 
-        applyButton = (Button) findViewById(R.id.apply);
-        blkEditText = (EditText) findViewById(R.id.blkres);
-        districtEditText = (EditText) findViewById(R.id.dsres);
+      //  applyButton = (Button) findViewById(R.id.apply);
+       // blkEditText = (EditText) findViewById(R.id.blkres);
+       // districtEditText = (EditText) findViewById(R.id.dsres);
 
         addressText=(TextView) findViewById(R.id.address);
         cycleText=(TextView) findViewById(R.id.cycle);
@@ -177,7 +186,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
 
                     String resultString = "The result of searching of :" + postalcode;
                     resultPostalText.setText(resultString);
-                    pscode.setText(postalcode);
+                   // pscode.setText(postalcode);
                 }
 
 
@@ -294,7 +303,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
 
                     String resultString = "The result of searching of :" + postalcode;
                     resultPostalText.setText(resultString);
-                    pscode.setText(postalcode);
+                    //pscode.setText(postalcode);
                 }
 
 
@@ -311,7 +320,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
 
 
 
-        applyButton.setOnClickListener(new View.OnClickListener() {
+        /*applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (blkEditText.getText().toString().length() > 0 && districtEditText.getText().toString().length() > 0) {
@@ -370,6 +379,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
 
             }
         });
+        */
     }
 
     private void checkPostalStatus(final String postalcode) {
@@ -392,7 +402,7 @@ public class DistrictSettingActivity extends AppCompatActivity {
                         openResultTextView.setText(getString(R.string.district_not_open));
                         openResultTextView.setTextColor(getResources().getColor(R.color.red));
 
-                        pscode.setText(postalcode);
+                       // pscode.setText(postalcode);
                     }
                     else if(strState==0)
                     {
@@ -510,4 +520,82 @@ public class DistrictSettingActivity extends AppCompatActivity {
         InputMethodManager inputMethodManager =(InputMethodManager)getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-}
+    public void onButtonClicked(View view)
+    {
+        String choice=null;
+
+        switch (view.getId())
+        {
+            case R.id.telephone_clicked:
+            {
+                choice="phone inform";
+                break;
+            }
+            case R.id.email_Clicked:
+            {
+                choice="email inform";
+                break;
+            }
+            case R.id.no_needClicked:
+            {
+                choice="no need";
+                break;
+
+            }
+
+        }
+        Log.d("choice",choice);
+        Log.d("postcodee",postalcode);
+
+
+        String url=Constants.applyDistrictUrl;
+
+        Map<String,String> params=new HashMap<>();
+        params.put("postcode",postalcode);
+        params.put("name",choice);
+        params.put("applicant",globalProvider.getCustomerId());
+        String language=Constants.getLanguage(getApplicationContext());
+        if(language.equals("english"))
+        {
+            params.put("lang","en");
+        }
+        else
+            params.put("lang","ch");
+        CustomRequest customRequest=new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("applyresponse",response.toString());
+                try {
+                    if(response.getInt("status")==0||response.getInt("status")==2) {
+
+                        Toast.makeText(DistrictSettingActivity.this, "Message sent successfully!", Toast.LENGTH_SHORT).show();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(DistrictSettingActivity.this, MainActivity.class);
+
+                                startActivity(intent);
+
+                            }
+                        }, 2000);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        globalProvider.addRequest(customRequest);
+
+
+
+        //Todo add dialog
+    }
+    }
+

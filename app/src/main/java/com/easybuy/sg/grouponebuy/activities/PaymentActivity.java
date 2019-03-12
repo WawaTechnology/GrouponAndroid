@@ -86,28 +86,34 @@ import java.util.List;
 import java.util.Locale;
 
 
-public class PaymentActivity extends AppCompatActivity implements DateChangeListener,InvoiceChoiceListener,PaymentChoiceListener {
+public class PaymentActivity extends AppCompatActivity implements DateChangeListener,PaymentChoiceListener {
     RecyclerView imageRecycler;
     GlobalProvider globalProvider;
     RelativeLayout paymentLayout;
     ImageView backButton;
     TextView addressText;
     TextView totalTextView;
+    TextView totalText;
     TextView numItemsText;
+    LinearLayout freeDeliveryLayout;
+    TextView freeDeliveryCostMsg;
+    double freeDeliveryPrice;
 
     TextView deliveryDateText;
     RelativeLayout prodLayout;
-    TextView invoiceChoiceText;
+   // TextView invoiceChoiceText;
     TextView paymentMethodChoice;
     TextView subTotalText;
     TextView netBalanceText;
-    LinearLayout ecoinLayout;
+    TextView deliveryCostText;
+  //  LinearLayout ecoinLayout;
     TextView totalAmountText;
     EditText remarkText;
+    double subTotal;
     double refundCost;
     Button submitButton;
     List<PrevOrder> prevOrderList;
-    RelativeLayout invoiceLayout;
+   // RelativeLayout invoiceLayout;
     int deliveryWeek;
     String duration;
     String prevOrder;
@@ -117,6 +123,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     String nextDeliveryTimimgs[];
     String deliveryDat;
     List<Delivery> deliveryList;
+    float deliveryPrice=0;
     District district;
     String lang;
     double totalamt;
@@ -130,8 +137,11 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         setContentView(R.layout.payment_layout);
 
         backButton = (ImageView) findViewById(R.id.back);
+        freeDeliveryLayout=(LinearLayout) findViewById(R.id.freedeliverymsg_layout);
+        freeDeliveryCostMsg=(TextView) findViewById(R.id.free_deliverycost_msg);
         prodLayout = (RelativeLayout) findViewById(R.id.pd_layout);
         totalTextView = (TextView) findViewById(R.id.total_text);
+        totalText=(TextView) findViewById(R.id.total);
         deliveryList = new ArrayList<>();
         prevOrderList = new ArrayList<>();
         nextDeliveries = new int[2];
@@ -145,12 +155,14 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         Intent intent = getIntent();
         totalamt = intent.getDoubleExtra("totalamt", 0.0);
         prevOrderList = (ArrayList<PrevOrder>) intent.getSerializableExtra("prevOrderList");
-        ecoinLayout = (LinearLayout) findViewById(R.id.ecoin_layout);
+        prevOrder=intent.getStringExtra("previousOrder");
+      //  ecoinLayout = (LinearLayout) findViewById(R.id.ecoin_layout);
         addressText = (TextView) findViewById(R.id.delivery_address);
-        invoiceLayout = (RelativeLayout) findViewById(R.id.invoice_layout);
+       // invoiceLayout = (RelativeLayout) findViewById(R.id.invoice_layout);
+        deliveryCostText=(TextView) findViewById(R.id.delivery_cost);
         numItemsText = (TextView) findViewById(R.id.num_item);
         deliveryDateText = (TextView) findViewById(R.id.delivery_date);
-        invoiceChoiceText = (TextView) findViewById(R.id.invoice_choice);
+       // invoiceChoiceText = (TextView) findViewById(R.id.invoice_choice);
         paymentMethodChoice = (TextView) findViewById(R.id.payment_choice);
         subTotalText = (TextView) findViewById(R.id.subtotal);
         netBalanceText = (TextView) findViewById(R.id.net_balance);
@@ -189,21 +201,23 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         SharedPreferences sp = getPreferences(Context.MODE_PRIVATE);
         int res = sp.getInt("paymentkey", 0);
-        int billres = sp.getInt("billkey", 1);
+       // int billres = sp.getInt("billkey", 1);
         if (res == 0) {
             paymentMethodChoice.setText(R.string.cash);
         } else
             paymentMethodChoice.setText("PayNow");
-        if (billres == 0) {
+      /*  if (billres == 0) {
             invoiceChoiceText.setText(R.string.yes);
         } else
             invoiceChoiceText.setText(R.string.no);
+            */
         String address = null;
         if (lang.equals("english"))
             address = customer.address + ", " + district.getNameTertiaryEn() + ", " + district.getNameSecondaryEn() + ", " + district.getNamePrimaryEn();
         else
             address = customer.address + ", " + district.getNameTertiaryCh() + ", " + district.getNameSecondaryCh() + ", " +district.getNamePrimaryCh() ;
         Log.d("address",address);
+        freeDeliveryPrice=Constants.getCustomer(PaymentActivity.this).getDistrict().getFreeDeliveryPrice();
 
 
         addressText.setText(address);
@@ -216,7 +230,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 dialogFragment.show(fragmentManager, "payment");
             }
         });
-        invoiceLayout.setOnClickListener(new View.OnClickListener() {
+     /*   invoiceLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -224,6 +238,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 dialogFragment.show(fragmentManager, "invoice");
             }
         });
+        */
         deliveryDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -309,19 +324,18 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             jsonObject2.put("userInfo", jsonObject1);
                                             jsonObject2.put("shippingDate", deliveryDat);
                                             jsonObject2.put("remark", remarkText.getText().toString());
-                                            jsonObject2.put("totalPrice", totalamt + "");
+                                            Log.d("totalpp",subTotal+"");
+                                            jsonObject2.put("freeDeliveryPrice",freeDeliveryPrice);
+                                            jsonObject2.put("deliveryPrice",deliveryPrice);
+                                            jsonObject2.put("totalPrice", subTotal + "");
                                             jsonObject2.put("district", district.getId());
 
                                             //todo use radiobutton value
-                                            Log.d("invoicetext", invoiceChoiceText.getText().toString());
-                                            String invoiceValue = invoiceChoiceText.getText().toString();
-                                            if (invoiceValue.equals(getString(R.string.yes))) {
-                                                Log.d("valuesis", "yes");
+                                          //  Log.d("invoicetext", invoiceChoiceText.getText().toString());
+                                            //String invoiceValue = invoiceChoiceText.getText().toString();
+
                                                 jsonObject2.put("isPrint", true);
-                                            } else {
-                                                jsonObject2.put("isPrint", false);
-                                                Log.d("valuesis", "no");
-                                            }
+
                                             if (paymentMethodChoice.getText().toString().equals(getString(R.string.cash))) {
                                                 Log.d("valueis", "cash");
                                                 jsonObject2.put("paymentMethod", "cash");
@@ -394,8 +408,15 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                             object.put("productList", jsonArray);
                                                             object.put("orderCode", orderCode);
                                                             object.put("email", customer.getEmail());
+                                                            object.put("freeDeliveryPrice",freeDeliveryPrice);
+                                                            if (refundCost > 0) {
+                                                                Log.d("hererefund", "here");
+                                                                object.put("refundCost", refundCost);
+                                                            }
+                                                            object.put("deliveryPrice",deliveryPrice);
                                                             object.put("userName", customer.getUserName());
-                                                            object.put("totalPrice", totalamt + "");
+
+                                                            object.put("totalPrice",subTotal);
                                                             object.put("date", deliveryDat);
                                                             String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
                                                             Log.d("deliveryweek", week);
@@ -411,6 +432,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                                     globalProvider.categoryNameMap.clear();
                                                                     globalProvider.cartList.clear();
                                                                     totalamt = 0.0;
+                                                                    subTotal=0.0;
                                                                     if (refundCost > 0) {
                                                                         double ecoin = Constants.getCustomer(PaymentActivity.this).getRefund().getECoins();
                                                                         Constants.getCustomer(PaymentActivity.this).getRefund().setECoins(ecoin - refundCost);
@@ -575,6 +597,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                                         //cartAdapter.notifyDataSetChanged();
                                                                         globalProvider.categoryNameMap.clear();
                                                                         totalamt = 0.0;
+                                                                        subTotal=0.0;
                                                                         finish();
 
 
@@ -755,6 +778,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     }
     private void calculateTotal() {
         totalamt=0.0;
+        subTotal=0.0;
+
 
 
         for (Product cartproducts : globalProvider.cartList) {
@@ -762,20 +787,44 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         }
         totalamt=Double.parseDouble(new DecimalFormat("##.##").format(totalamt));
+        subTotal=totalamt;
+        subTotalText.setText(" $ " + totalamt);
+        if(totalamt>=customer.getDistrict().getFreeDeliveryPrice())
+        {
+            deliveryCostText.setText("$ 0.0");
+            deliveryPrice=0;
+            freeDeliveryLayout.setVisibility(View.GONE);
+        }
+        else
+        {
+            deliveryCostText.setText("$ "+customer.getDistrict().getDeliveryPrice());
+            deliveryPrice=customer.getDistrict().getDeliveryPrice();
+           float price= (float) (customer.getDistrict().getFreeDeliveryPrice()-totalamt);
+           String val=String.format("%.2f",price);
+           totalamt=totalamt+deliveryPrice;
+            totalamt=Double.parseDouble(new DecimalFormat("##.##").format(totalamt));
+
+           String k="( $"+val+" for free delivery )";
+            freeDeliveryCostMsg.setText(k);
+        }
+
         if(customer.getRefund().getECoins()==0) {
             Log.d("layoutwe","here");
-            ecoinLayout.setVisibility(View.GONE);
-            totalTextView.getLayoutParams().height=getResources().getDimensionPixelSize(R.dimen.total_text);
-            totalAmountText.getLayoutParams().height=getResources().getDimensionPixelSize(R.dimen.total_text);
-            totalAmountText.setGravity(Gravity.CENTER_VERTICAL);
-            totalTextView.setGravity(Gravity.CENTER_VERTICAL);
+          //  ecoinLayout.setVisibility(View.GONE);
+           // totalTextView.getLayoutParams().height=getResources().getDimensionPixelSize(R.dimen.total_text);
+           // totalAmountText.getLayoutParams().height=getResources().getDimensionPixelSize(R.dimen.total_text);
+          //  totalAmountText.setGravity(Gravity.CENTER_VERTICAL);
+          //  totalTextView.setGravity(Gravity.CENTER_VERTICAL);
 
-            totalAmountText.requestLayout();
-            totalTextView.requestLayout();
+          //  totalAmountText.requestLayout();
+          //  totalTextView.requestLayout();
             String total=String.format("%.2f",totalamt);
 
 
             totalAmountText.setText("$ " + total);
+            totalText.setText("$ "+total);
+
+            netBalanceText.setText("-$ "+0.0);
 
 
 
@@ -785,7 +834,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         }
         else {
-            subTotalText.setText(" $ " + totalamt);
+
 
             if(customer.getRefund().getECoins()>totalamt)
             {
@@ -802,14 +851,16 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
             }
             String refundCostInString=String.format("%.2f",refundCost);
-            netBalanceText.setText(" $ "+refundCostInString);
-            double diff=totalamt-refundCost;
-            String total=String.format("%.2f",diff);
+            netBalanceText.setText("-$ "+refundCostInString);
+          totalamt=(totalamt-refundCost);
+            String total=String.format("%.2f",totalamt);
 
             totalAmountText.setText("$ "+total);
+            totalText.setText("$ "+total);
 
 
-            ecoinLayout.setVisibility(View.VISIBLE);
+
+           // ecoinLayout.setVisibility(View.VISIBLE);
             Log.d("layoutwe","tthere");
         }
 
@@ -822,6 +873,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         calendar.setTime(now);
         todayWEEK = calendar.get(Calendar.DAY_OF_WEEK);
         todayWEEK-=1;
+        Log.d("todayweek",todayWEEK+"");
         // e.g todayWeek will be 4 if it is thursday
         List<Cycle> cycleList = district.getCycle();
         deliveryWeek=cycleList.get(0).getWeek();
@@ -932,6 +984,19 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 deliveryList.add(delivery);
             }
         }
+        if(prevOrder!=null)
+        {
+            for(PrevOrder order:prevOrderList)
+            {
+                if(order.getOrderID().equals(prevOrder))
+                {
+                    Log.d("shippingprevdate",order.getShippingDate());
+
+                }
+                break;
+            }
+        }
+        
         if(lang.equals("english"))
             deliveryDateText.setText(deliveryDat+" "+globalProvider.getDeliveryTiming().get(deliveryWeek)+" "+duration);
         else {
@@ -961,7 +1026,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         deliveryDat=delivery.getDate();
 
     }
-
+/*
     @Override
     public void onInvoiceChoiceChange(boolean val) {
         SharedPreferences.Editor e = getPreferences(Context.MODE_PRIVATE).edit();
@@ -977,6 +1042,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         e.commit();
 
     }
+    */
 
     @Override
     public void PaymentMethodSelected(String str) {
@@ -999,6 +1065,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     public static class PaymentMethodFragment extends DialogFragment
     {
         TextView payNowText;
+
         TextView cashText;
         PaymentChoiceListener paymentChoiceListener;
         @Override
@@ -1020,6 +1087,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 // The activity doesn't implement the interface, throw exception
                 throw new ClassCastException(context.toString()
                         + " must implement PaymentChoiceListener");
+
             }
         }
         @Override
@@ -1063,7 +1131,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
     }
 
-    public static class ChangeInvoiceFragment extends DialogFragment
+   /* public static class ChangeInvoiceFragment extends DialogFragment
     {
         TextView yesTextView;
         TextView noTextView;
@@ -1129,6 +1197,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         }
 
     }
+    */
 
     public static class ChangeDateFragment extends DialogFragment implements SelectDateAdapter.MyClickListener
     {

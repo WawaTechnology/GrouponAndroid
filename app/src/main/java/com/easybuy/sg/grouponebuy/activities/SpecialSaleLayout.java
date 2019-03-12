@@ -1,5 +1,6 @@
 package com.easybuy.sg.grouponebuy.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.widget.ImageButton;
@@ -20,6 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.adapter.SaleAdapter;
 import com.easybuy.sg.grouponebuy.model.Layer;
+import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.model.SpecialImage;
 import com.easybuy.sg.grouponebuy.network.Constants;
 
@@ -110,6 +113,39 @@ public class SpecialSaleLayout extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)  {
+
+        if(requestCode==333&&resultCode== Activity.RESULT_OK)
+        {
+            int pos=data.getIntExtra("saleAdapterPosition",-1);
+          //  int multipleAdapterPos=data.getIntExtra("saleMultipleAdapterPosition",-1);
+            Log.d("checkppos",pos+"");
+           Product product=(Product) data.getSerializableExtra("productupdated");
+            if(pos>-1) {
+
+
+
+                saleAdapter.notifyItemChanged(pos,product);
+                blinkRecycler.scrollToPosition(pos);
+
+            }
+
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
+
+
+
+    public void onResume()
+    {
+       // saleAdapter.notifyDataSetChanged();
+
+        super.onResume();
     }
     public void onDestroy(){
         Glide.get(this).clearMemory();

@@ -51,6 +51,8 @@ static public String baseUrlStr = "http://13.250.234.103:3000/";
     static public String orderBadgeUrl=baseUrlStr+"orders/getOrdersTip";
     static  public String orderRefundUrl=baseUrlStr+"orders/refundCostHistory";
     static public String withdrawUrl=baseUrlStr+"withdraws/create";
+    static public String updatePasswordUrl=baseUrlStr+"users/checkEmail";
+
 
 
 

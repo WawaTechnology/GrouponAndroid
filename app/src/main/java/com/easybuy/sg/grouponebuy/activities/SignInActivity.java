@@ -112,6 +112,7 @@ public class SignInActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(TextUtils.isEmpty(phoneText.getText()))
                 {
                     phoneText.setError("Please enter phone number");
@@ -122,6 +123,7 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 if(!TextUtils.isEmpty(phoneText.getText())&&!(TextUtils.isEmpty(pwdText.getText())))
                 {
+                    submitButton.setEnabled(false);
                     Map<String, String> params = new HashMap<>();
 
                     params.put("phone",phoneText.getText().toString() );
@@ -176,12 +178,14 @@ public class SignInActivity extends AppCompatActivity {
                                 {
                                     Toast.makeText(SignInActivity.this,"User doesn't exist!",Toast.LENGTH_LONG).show();
                                     phoneText.setError("Please enter correct number");
+                                    submitButton.setEnabled(true);
                                 }
                                 else if(status==2)
                                 {
                                     Toast.makeText(SignInActivity.this,"Password error",Toast.LENGTH_LONG).show();
 
                                     pwdText.setError("Please enter correct password!");
+                                    submitButton.setEnabled(true);
                                 }
 
 
@@ -215,6 +219,7 @@ public class SignInActivity extends AppCompatActivity {
                                     .setMessage("Connection Issue")
                                     .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
+                                            submitButton.setEnabled(true);
                                         }
                                     }).show();
 
@@ -233,7 +238,7 @@ public class SignInActivity extends AppCompatActivity {
         forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SignInActivity.this,ChangePasswordActivity.class);
+                Intent intent=new Intent(SignInActivity.this,ChangePwdActivity.class);
                 startActivity(intent);
             }
         });

@@ -232,6 +232,13 @@ public class FragmentOrder extends Fragment {
             getEcoins();
         }
 
+             else
+            {
+                loggedInLayout.setVisibility(View.GONE);
+                frameRelative.setVisibility(View.VISIBLE);
+            }
+
+
 
     }
     private void getEcoins() {

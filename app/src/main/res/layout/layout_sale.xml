@@ -27,6 +27,7 @@
             <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/grey_bkg"
                 android:descendantFocusability="blocksDescendants"
                 android:id="@+id/blink_recycler"></android.support.v7.widget.RecyclerView>
             <ImageView android:layout_width="match_parent"

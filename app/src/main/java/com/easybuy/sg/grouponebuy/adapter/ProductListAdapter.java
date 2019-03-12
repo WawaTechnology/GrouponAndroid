@@ -22,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -124,7 +125,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 Spannable spannable = new SpannableString(actualPrice);
 
-                spannable.setSpan(new AbsoluteSizeSpan(17, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.setSpan(new AbsoluteSizeSpan(16, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 myholder.prodPrice.setText(spannable, TextView.BufferType.SPANNABLE);
 
@@ -134,6 +135,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     myholder.addButton.setVisibility(View.GONE);
                     myholder.stockStatusText.setText("Sold Out");
                     myholder.stockStatusText.setVisibility(View.VISIBLE);
+                    if(lang.equals("english"))
+                    myholder.soldOutImage.setImageDrawable(context.getDrawable(R.drawable.soldout));
+                    else
+                        myholder.soldOutImage.setImageDrawable(context.getDrawable(R.drawable.soldout_cn));
+                    myholder.soldOutImage.setVisibility(View.VISIBLE);
 
                 }
                 else
@@ -141,6 +147,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     myholder.addButton.setVisibility(View.VISIBLE);
 
                     myholder.stockStatusText.setVisibility(View.GONE);
+                    myholder.soldOutImage.setVisibility(View.GONE);
                 }
                 if (product.getPriceOriginal() != null&&product.getPriceOriginal()>0) {
                     myholder.originalPriceText.setVisibility(View.VISIBLE);
@@ -169,7 +176,57 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                 Glide.with(context).load(Constants.newImageUrl + product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(myholder.imgView);
                 Log.d("ggimg", product.getImageCover() + "");
-                myholder.minusButton.setOnClickListener(new View.OnClickListener() {
+                myholder.subLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (myholder.quantityText.getText().length() > 0) {
+
+                            String quant = myholder.quantityText.getText().toString();
+
+                            int quantity = Integer.parseInt(quant) - 1;
+                            if (quantity == 0) {
+
+                                myholder.minusButton.setVisibility(View.GONE);
+                                myholder.quantityText.setVisibility(View.GONE);
+                                for (Product cartProduct : globalProvider.cartList) {
+                                    if (product.getId().equals(cartProduct.getId())) {
+                                        globalProvider.cartList.remove(cartProduct);
+                                        break;
+                                    }
+                                }
+
+                            } else {
+                                myholder.quantityText.setText(quantity + "");
+                                int n = globalProvider.cartList.size();
+
+                                for (int i = 0; i < n; i++) {
+                                    if (product.getId().equals(globalProvider.cartList.get(i).getId())) {
+                                        Log.d("getpid", product.getId());
+                                        globalProvider.cartList.get(i).setTotalNumber(quantity);
+                                        break;
+                                    }
+
+
+                                }
+
+
+                            }
+
+
+                            product.setTotalNumber(quantity);
+                            notifyDataSetChanged();
+                            if (changeListener != null)
+                                changeListener.onChange();
+                            if (context instanceof MainActivity) {
+                                ((MainActivity) context).setCartNum();
+                            }
+
+
+                        }
+                    }
+                });
+
+           /*     myholder.minusButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
@@ -225,6 +282,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     }
                 });
+                */
                 myholder.addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -454,8 +512,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      */
 
     protected class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgView,addButton,minusButton;
+        ImageView imgView,addButton,minusButton,soldOutImage;
         TextView prodName,prodDetail,prodPrice,originalPriceText,quantityText,stockStatusText;
+        FrameLayout subLayout;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -468,6 +527,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             minusButton=(ImageView)itemView.findViewById(R.id.minusButton);
             quantityText=(TextView)itemView.findViewById(R.id.quantity);
             stockStatusText=(TextView)itemView.findViewById(R.id.stockstatus);
+            subLayout=(FrameLayout)itemView.findViewById(R.id.sublayout);
+            soldOutImage=(ImageView)itemView.findViewById(R.id.soldout_img);
             final View addParent = (View) addButton.getParent();
             addParent.post( new Runnable() {
 

@@ -109,6 +109,11 @@ public class FavoriteFragment extends Fragment  {
         {
             getFavourite();
         }
+        else
+        {
+            emptyFavLayout.setVisibility(View.VISIBLE);
+            favrecyclerView.setVisibility(View.GONE);
+        }
         super.onResume();
 
     }

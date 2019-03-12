@@ -5,6 +5,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +33,17 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
    List<ProductOrderList> productList;
    QuantityChangedListener quantityChangedListener;
    String lang;
+   String state;
 
  public static boolean editClicked;
 
-    public OrderDetailAdapter(Context context,List<ProductOrderList> productList,QuantityChangedListener quantityChangedListener)
+    public OrderDetailAdapter(Context context,List<ProductOrderList> productList,QuantityChangedListener quantityChangedListener,String state)
     {
         this.context=context;
         this.productList=productList;
         this.quantityChangedListener=quantityChangedListener;
         lang=Constants.getLanguage(context.getApplicationContext());
+        this.state=state;
 
 
     }
@@ -63,10 +68,23 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         holder.productNameText.setText(product.getProductInfo().getNameEn());
        else
            holder.productNameText.setText(product.getProductInfo().getNameCh());
-        holder.priceText.setText("$ "+product.getProductInfo().getPrice());
+        String actualPrice="$ "+product.getProductInfo().getPrice();
+        // Log.d("prc",product.getPrice()+"");
+        String[] each = actualPrice.split("\\.");
+        // Log.d("prc1",each[0]+"");
+        // Log.d("prc2",each[1]+"");
+        each[0]=each[0]+".";
+
+        Spannable spannable = new SpannableString(actualPrice);
+
+        spannable.setSpan(new AbsoluteSizeSpan(16, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        holder.priceText.setText(spannable, TextView.BufferType.SPANNABLE);
+       // holder.priceText.setText("$ "+product.getProductInfo().getPrice());
         holder.quantityText.setText("X "+product.getQuantity());
         Glide.with(context).load(Constants.newImageUrl+product.getProductInfo().getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.productImage);
-        if(product.getQuantityActual()!=null&&product.getQuantityActual()!=0&&product.getQuantityActual()!=product.getQuantity())
+
+        if(!state.equalsIgnoreCase("processing")&&product.getQuantityActual()!=null&&product.getQuantityActual()!=0&&product.getQuantityActual()!=product.getQuantity())
         {
           holder.quantityRequestedText.setVisibility(View.VISIBLE);
           int space=0;
@@ -92,6 +110,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             holder.quantityText.setText(context.getResources().getString(R.string.qty_given)+" X "+product.getQuantityActual());
 
         }
+
         else
         {
             holder.quantityRequestedText.setVisibility(View.GONE);

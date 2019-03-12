@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -111,6 +114,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
 
 
+
                 String price = String.format("%.2f", order.getTotalPrice());
               if(order.getRefundCostOrder()!=null||order.getRefundCostOrder()>0)
               {
@@ -118,9 +122,25 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                   price=String.format("%.2f",val);
 
               }
+              if(order.getDeliveryPrice()>0)
+              {
+               double val  = Double.parseDouble(price)+order.getDeliveryPrice();
+               price=String.format("%.2f",val);
+              }
 
 
-                myholder.totalText.setText("$ " + price);
+                String actualPrice="$ "+price;
+
+                String[] each = actualPrice.split("\\.");
+
+                each[0]=each[0]+".";
+
+                Spannable spannable = new SpannableString(actualPrice);
+
+                spannable.setSpan(new AbsoluteSizeSpan(16, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+                myholder.totalText.setText(spannable, TextView.BufferType.SPANNABLE);
                 String dateInString = order.getOrderDate();
                 String deliveryDate = order.getShippingDate();
 

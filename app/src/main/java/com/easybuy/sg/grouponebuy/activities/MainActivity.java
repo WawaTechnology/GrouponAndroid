@@ -358,20 +358,29 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
 
            buyNumView.setText(globalProvider.cartList.size() + "");//
+            buyNumView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
 
             if (globalProvider.cartList.size() >= 10) {
+                buyNumView.setGravity(Gravity.CENTER_VERTICAL);
+                 buyNumView.setTextAlignment(View.TEXT_ALIGNMENT_GRAVITY);
 
                 DEFAULT_LR_PADDING_DIP = 3;
                 int paddingPixels = dipToPixels(DEFAULT_LR_PADDING_DIP);
+                Log.d("paddingpos",paddingPixels+"");
                 buyNumView.setPadding(paddingPixels, 0, paddingPixels, 0);
-                buyNumView.setTextSize(10);
+
+                buyNumView.setTextSize(11);
 
             } else {
                 DEFAULT_LR_PADDING_DIP = 5;
                 int paddingPixels_ = dipToPixels(DEFAULT_LR_PADDING_DIP);
+                Log.d("paddingpos",paddingPixels_+"");
                 buyNumView.setPadding(paddingPixels_, 0, paddingPixels_, 0);
-               // buyNumView.setPadding(paddingPixels_, 0, 0, 0);
+              // buyNumView.setPadding(paddingPixels_, 0, 0, 0);
                 buyNumView.setTextSize(11);
+               // buyNumView.setGravity(Gravity.CENTER_VERTICAL);
+               // buyNumView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
 
             }
 
@@ -583,6 +592,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
         super.onDestroy();
     }
+
+
 
 
 

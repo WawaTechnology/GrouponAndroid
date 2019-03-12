@@ -3,6 +3,9 @@ package com.easybuy.sg.grouponebuy.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,8 +62,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
       //  String dr= Constants.baseUrlStr+bp.getImageCover();
         String dr="https://s3-ap-southeast-1.amazonaws.com/ebuymart/"+bp.getImageCover();
         Log.d("checkimage",dr);
+        String actualPrice="$ "+price;
 
-        holder.tvprice.setText("$ "+price);
+        String[] each = actualPrice.split("\\.");
+
+        each[0]=each[0]+".";
+
+        Spannable spannable = new SpannableString(actualPrice);
+
+        spannable.setSpan(new AbsoluteSizeSpan(16, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        holder.tvprice.setText(spannable, TextView.BufferType.SPANNABLE);
         holder.tvprice.setTextColor(context.getResources().getColor(R.color.red));
 
 

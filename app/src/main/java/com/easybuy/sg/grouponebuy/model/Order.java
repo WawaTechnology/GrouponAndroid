@@ -15,6 +15,7 @@ public class Order implements Serializable {
 
 
 
+
         @JsonProperty("completedDate")
         private Object completedDate;
         @JsonProperty("remark")
@@ -39,12 +40,23 @@ public class Order implements Serializable {
         private String district;
         @JsonProperty("isPrint")
         private Boolean isPrint;
-        @JsonProperty("paymentMethod")
+
+    public Double getDeliveryPrice() {
+        return deliveryPrice;
+    }
+
+    public void setDeliveryPrice(Double deliveryPrice) {
+        this.deliveryPrice = deliveryPrice;
+    }
+
+    @JsonProperty("paymentMethod")
         private String paymentMethod;
         @JsonProperty("productList")
         private List<ProductOrderList> productList = null;
         @JsonProperty("orderNumber")
         private Integer orderNumber;
+        @JsonProperty("deliveryPrice")
+        Double deliveryPrice;
         @JsonProperty("orderCode")
         private String orderCode;
 

@@ -341,6 +341,20 @@ public class Product implements Serializable{
         public void setImageCover(String imageCover) {
             this.imageCover = imageCover;
         }
+        public boolean isModified(Object object)
+        {
+            boolean result=false;
+            if (object == null || object.getClass() != getClass()) {
+                result = false;
+            } else {
+                Product product = (Product) object;
+                if (this.id.equals(product.getId())   && this.totalNumber != product.getTotalNumber()) {
+                    result = true;
+                }
+            }
+            return result;
+
+        }
 
 
 
@@ -351,7 +365,7 @@ public class Product implements Serializable{
                 result = false;
             } else {
                Product product = (Product) object;
-                if (this.id.equals(product.getId())   && this.totalNumber == product.getTotalNumber()) {
+                if (this.id.equals(product.getId())) {
                     result = true;
                 }
             }

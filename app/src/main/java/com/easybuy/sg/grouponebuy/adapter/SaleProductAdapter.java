@@ -10,6 +10,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +79,16 @@ public SaleProductAdapter(Context context,List<String> productList)
                 ResultProduct resultProduct = (ResultProduct) objectMapper.readValue(jsonParser, ResultProduct.class);
                 final Product product=resultProduct.getPayload();
                 Log.d("descpen",product.getDescriptionEn());
-                holder.offerText.setText(" $" + product.getPrice());
+                String actualPrice="$ "+product.getPrice();
+
+                String[] each = actualPrice.split("\\.");
+
+                each[0]=each[0]+".";
+
+                Spannable spannable = new SpannableString(actualPrice);
+
+                spannable.setSpan(new AbsoluteSizeSpan(16, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+              holder.offerText.setText(spannable, TextView.BufferType.SPANNABLE);
                 if(lan.equals("english")) {
                     holder.prodDesc.setText(product.getDescriptionEn());
 
@@ -103,9 +115,21 @@ public SaleProductAdapter(Context context,List<String> productList)
                    //holder.buyButton.setBackgroundColor(context.getResources().getColor(R.color.grey));
                    holder.buyButton.setEnabled(false);
                    holder.buyButton.setClickable(false);
+                 /*   if(lan.equals("english")) {
+                        holder.soldOutImage.setImageDrawable(context.getDrawable(R.drawable.soldout));
+                    }
+                    else
+                        holder.soldOutImage.setImageDrawable(context.getDrawable(R.drawable.soldout_cn));
+                    holder.soldOutImage.setVisibility(View.VISIBLE);
+                    */
+
+
 
 
                 }
+
+
+
                 holder.buyButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -156,6 +180,7 @@ public SaleProductAdapter(Context context,List<String> productList)
         TextView prodDesc,prodName,prodSpec;
         TextView offerText;
         Button buyButton;
+       // ImageView soldOutImage;
 
 
         public MyViewHolder(View itemView) {
@@ -166,6 +191,7 @@ public SaleProductAdapter(Context context,List<String> productList)
             buyButton=(itemView).findViewById(R.id.buyButton);
             prodName=(itemView).findViewById(R.id.prod_name);
             prodSpec=(itemView).findViewById(R.id.prod_spec);
+           // soldOutImage=(itemView).findViewById(R.id.soldout_img);
         }
     }
 

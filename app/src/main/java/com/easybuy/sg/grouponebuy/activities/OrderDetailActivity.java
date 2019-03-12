@@ -72,12 +72,15 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
     RecyclerView orderListRecycler;
     OrderDetailAdapter orderDetailAdapter;
     List<ProductOrderList> productList;
-    TextView orderIdText,orderDateText,deliveryDateText,statusText,paymentStatusText,refundStatusText;
+    TextView orderIdText,orderDateText,deliveryDateText,statusText,paymentStatusText,refundStatusText,deliveryPriceLabel;
     Order order;
    // TextView totalNumberText;
     TextView totalPriceText;
     Button cancelButton,editOrderButton;
-    LinearLayout netBalanceLayout,subTotalLayout;
+    TextView delivery_price;
+
+   // LinearLayout netBalanceLayout,subTotalLayout;
+    TextView subTotalLabel,netBalanceLabel;
 
     TextView subTotalText,netBalanceText;
     GlobalProvider globalProvider;
@@ -87,34 +90,46 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
     private static final int NO_EDIT = 0;
     private static final int EDIT = 1;
     private double changedtotal=0.0;
+    private double totalDouble=0.0;
+    private double deliveryPriceDouble=0.0;
     private ImageView backButton;
     boolean orderEdited;
 
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_detail);
+        setContentView(R.layout.order_trial);
 
         productList=new ArrayList<>();
-        netBalanceLayout=(LinearLayout)findViewById(R.id.net_balancelayout);
-        subTotalLayout=(LinearLayout) findViewById(R.id.subtotal_layout);
+       // netBalanceLayout=(LinearLayout)findViewById(R.id.net_balancelayout);
+       // subTotalLayout=(LinearLayout) findViewById(R.id.subtotal_layout);
+        deliveryPriceLabel=(TextView) findViewById(R.id.textViewDelivery);
+        subTotalLabel=(TextView) findViewById(R.id.textView13);
+        netBalanceLabel=(TextView) findViewById(R.id.textView15);
         orderListRecycler=(RecyclerView)findViewById(R.id.order_productlist);
         orderIdText=(TextView) findViewById(R.id.order_id);
         orderDateText=(TextView) findViewById(R.id.order_date);
         subTotalText=(TextView) findViewById(R.id.sub_total);
         netBalanceText=(TextView) findViewById(R.id.net_balance);
+        delivery_price=(TextView) findViewById(R.id.delivery_price);
         refundStatusText=(TextView) findViewById(R.id.refund_status);
         deliveryDateText=(TextView) findViewById(R.id.delivery_date);
         lang=Constants.getLanguage(this);
         statusText=(TextView) findViewById(R.id.status);
         paymentStatusText=(TextView) findViewById(R.id.payment_status);
-        orderDetailAdapter=new OrderDetailAdapter(this,productList,this);
+
        // totalNumberText=(TextView) findViewById(R.id.num_item);
         totalPriceText=(TextView) findViewById(R.id.total_amt);
         cancelButton=(Button) findViewById(R.id.cancel);
         editOrderButton=(Button) findViewById(R.id.edit_order);
         backButton=(ImageView) findViewById(R.id.back);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
+        Intent intent=getIntent();
+        order=(Order)intent.getSerializableExtra("Order");
+
+        String orderId=order.getId();
+        orderDetailAdapter=new OrderDetailAdapter(this,productList,this,order.getState());
+
 
         orderListRecycler.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL));
@@ -125,9 +140,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
 
         orderListRecycler.setLayoutManager(linearLayoutManager);
         orderListRecycler.setAdapter(orderDetailAdapter);
-        Intent intent=getIntent();
-        order=(Order)intent.getSerializableExtra("Order");
-        String orderId=order.getId();
+
         Log.d("checkid",orderId);
 
 
@@ -138,7 +151,8 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
        // totalNumberText.setText(getString(R.string.items)+" "+order.getProductList().size());
         String price = String.format("%.2f", order.getTotalPrice());
         Log.d("ppprice",price+"");
-        totalPriceText.setText(" $"+price);
+        //totalPriceText.setText(" $"+price);
+        subTotalText.setText(" $ "+price);
         changedtotal=order.getTotalPrice();
 
         orderIdText.setText(order.getOrderCode());
@@ -189,70 +203,95 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         }
         if(order.getRefundCostOrder()>0)
         {
-            subTotalLayout.setVisibility(View.VISIBLE);
-            netBalanceLayout.setVisibility(View.VISIBLE);
-            subTotalText.setText(" $ "+price);
+           // subTotalLayout.setVisibility(View.VISIBLE);
+           // netBalanceLayout.setVisibility(View.VISIBLE);
+            //subTotalLabel.setVisibility(View.VISIBLE);
+            netBalanceLabel.setVisibility(View.VISIBLE);
+
+
             String totalNet=String.format("%.2f",order.getRefundCostOrder());
             netBalanceText.setText(" $ "+totalNet);
             double val=order.getTotalPrice()-order.getRefundCostOrder();
-            String total = String.format("%.2f", val);
-            totalPriceText.setText(" $ "+total);
+            price = String.format("%.2f", val);
+            //totalPriceText.setText(" $ "+total);
         }
         else
         {
-            subTotalLayout.setVisibility(View.GONE);
-            netBalanceLayout.setVisibility(View.GONE);
+           // subTotalLayout.setVisibility(View.GONE);
+           // netBalanceLayout.setVisibility(View.GONE);
+           // subTotalLabel.setVisibility(View.GONE);
+            netBalanceLabel.setVisibility(View.GONE);
+            netBalanceText.setVisibility(View.GONE);
+          //  subTotalText.setVisibility(View.GONE);
+
+
         }
+        if(order.getDeliveryPrice()>0)
+        {
+            delivery_price.setText("$ "+order.getDeliveryPrice());
+            delivery_price.setVisibility(View.VISIBLE);
+            deliveryPriceLabel.setVisibility(View.VISIBLE);
+           double val= Double.parseDouble(price)+order.getDeliveryPrice();
+           price=String.format("%.2f",val);
+
+        }
+        else
+        {
+            delivery_price.setVisibility(View.GONE);
+            deliveryPriceLabel.setVisibility(View.GONE);
+        }
+        totalPriceText.setText("$ "+price);
+        if(order.getState().equalsIgnoreCase("processing")||order.getState().equalsIgnoreCase("waiting"))
+        {
+            statusText.setTextColor(getResources().getColor(R.color.red));
+
+        }
+        else {
 
 
-            if(Constants.getCustomer(OrderDetailActivity.this).getRefund()!=null&&Constants.getCustomer(OrderDetailActivity.this).getRefund().getSub()!=null)
-            {
-                Log.d("price",order.getTotalPrice()+"");
-                Log.d("priceactual",order.getTotalPriceActual()+"");
+            if (Constants.getCustomer(OrderDetailActivity.this).getRefund() != null && Constants.getCustomer(OrderDetailActivity.this).getRefund().getSub() != null) {
+                Log.d("price", order.getTotalPrice() + "");
+                Log.d("priceactual", order.getTotalPriceActual() + "");
 
 
-                List<Sub> subList=Constants.getCustomer(OrderDetailActivity.this).getRefund().getSub();
-                Log.d("sublistsize",subList.size()+"");
+                List<Sub> subList = Constants.getCustomer(OrderDetailActivity.this).getRefund().getSub();
+                Log.d("sublistsize", subList.size() + "");
 
-                    boolean found=false;
-                    Double coin=0.0;
+                boolean found = false;
+                Double coin = 0.0;
 
-                    for (Sub sub : subList) {
-                        if (sub.getOrder().equals(orderId)) {
-                            Log.d("subid",sub.getOrder());
-                            coin = sub.getCoin();
-                            found=true;
-                            break;
+                for (Sub sub : subList) {
+                    if (sub.getOrder().equals(orderId)) {
+                        Log.d("subid", sub.getOrder());
+                        coin = sub.getCoin();
+                        found = true;
+                        break;
 
-                        }
                     }
-                    if(found)
-                    {
-                        String refundStatus="("+getString(R.string.paid)+": $" +order.getTotalPriceActual()+" ,"+getString(R.string.refund)+": $"+coin+")";
-                        refundStatusText.setText(refundStatus);
-                        refundStatusText.setTextColor(getResources().getColor(R.color.green));
-                    }
-                    else if(order.getState().equalsIgnoreCase("waiting"))
-                    {
-
-                    }
-                    else {
-                        Log.d("here","visible");
-                        Log.d("checkprice",order.getTotalPrice()+"");
-                        Log.d("priceactual",order.getTotalPriceActual()+"");
-                        Log.d("refundCost",order.getRefundCostOrder()+"");
-
-                        if(order.getTotalPriceActual()>order.getTotalPrice()-order.getRefundCostOrder()) {
-
-                            refundStatusText.setText("("+getString(R.string.paid)+": $" + order.getTotalPriceActual() +" "+getString(R.string.not_refund)+ ")");
-                            refundStatusText.setTextColor(getResources().getColor(R.color.red));
-                        }
-                    }
+                }
+                if (found) {
+                    String refundStatus = "(" + getString(R.string.paid) + ": $" + order.getTotalPriceActual() + " ," + getString(R.string.refund) + ": $" + coin + ")";
+                    refundStatusText.setText(refundStatus);
+                    refundStatusText.setTextColor(getResources().getColor(R.color.green));
                     refundStatusText.setVisibility(View.VISIBLE);
+                } else {
+                    Log.d("here", "visible");
+                    Log.d("checkprice", order.getTotalPrice() + "");
+                    Log.d("priceactual", order.getTotalPriceActual() + "");
+                    Log.d("refundCost", order.getRefundCostOrder() + "");
+
+                    if (order.getTotalPriceActual() > order.getTotalPrice() - order.getRefundCostOrder()) {
+
+                        refundStatusText.setText("(" + getString(R.string.paid) + ": $" + order.getTotalPriceActual() + " " + getString(R.string.not_refund) + ")");
+                        refundStatusText.setTextColor(getResources().getColor(R.color.red));
+                        refundStatusText.setVisibility(View.VISIBLE);
+                    }
+                }
 
 
 
             }
+        }
 
 
         deliveryDateText.setText(deliveryDate);
@@ -427,6 +466,9 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
 
             try {
                 jsonObject.put("totalPrice", changedtotal);
+                Log.d("deliveryPrice",deliveryPriceDouble+"");
+                jsonObject.put("deliveryPrice",deliveryPriceDouble);
+                //jsonObject.put
 
                 JSONArray jsonArray = new JSONArray();
                 for (ProductOrderList productOrder : productList) {
@@ -613,6 +655,8 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
 
         }
         changedtotal=0.0;
+        totalDouble=0.0;
+        deliveryPriceDouble=0.0;
         for(ProductOrderList productOrderList:productList)
 
         {
@@ -621,9 +665,30 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         }
 
         changedtotal=Double.parseDouble(new DecimalFormat("##.##").format(changedtotal));
+        totalDouble=changedtotal;
         String total=String.format("%.2f",changedtotal);
 
-        totalPriceText.setText(" ,"+getString(R.string.total_amount)+" $"+total);
+        subTotalText.setText(" $"+total);
+        if(totalDouble>=Constants.getCustomer(getApplicationContext()).getDistrict().getFreeDeliveryPrice())
+        {
+
+            delivery_price.setVisibility(View.GONE);
+            deliveryPriceLabel.setVisibility(View.GONE);
+        }
+        else
+        {
+            deliveryPriceDouble=Constants.getCustomer(getApplicationContext()).getDistrict().getDeliveryPrice();
+            totalDouble=totalDouble+deliveryPriceDouble;
+            delivery_price.setText(" $ "+Constants.getCustomer(getApplicationContext()).getDistrict().getDeliveryPrice());
+            delivery_price.setVisibility(View.VISIBLE);
+            deliveryPriceLabel.setVisibility(View.VISIBLE);
+        }
+        if(order.getRefundCostOrder()>0)
+        {
+            totalDouble=totalDouble-order.getRefundCostOrder();
+        }
+        String totalamt=String.format("%.2f",totalDouble);
+        totalPriceText.setText(" $"+totalamt);
        // totalNumberText.setText(getString(R.string.items)+" "+productList.size());
 
 

@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -180,6 +181,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
            }
        });
+       holder.subLayout.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               String quanityString= holder.quantityText.getText().toString();
+               int value=Integer.parseInt(quanityString);
+               value=value-1;
+               holder.quantityText.setText(value+"");
+
+
+
+
+
+               quantityListener.onQuantityChanged(product,value);
+
+           }
+       });
        holder.subButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -236,6 +253,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView quantityText;
         TextView descTextView;
         TextView origPrice;
+        FrameLayout subLayout;
 
 
 
@@ -252,6 +270,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             subButton=(ImageView) itemView.findViewById(R.id.sub);
             addButton=(ImageView) itemView.findViewById(R.id.add);
             origPrice=(TextView) itemView.findViewById(R.id.orig_price);
+            subLayout=(FrameLayout) itemView.findViewById(R.id.sublayout);
 
             quantityText=(TextView)itemView.findViewById(R.id.quantity);
             descTextView=(TextView)itemView.findViewById(R.id.desc);
@@ -268,7 +287,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     addParent.setTouchDelegate( new TouchDelegate( r , addButton));
                 }
             });
-         /* final View subParent = (View) subButton.getParent();
+       /* final View subParent = (View) subButton.getParent();
             Log.d("parentsub",subParent.toString());
             subParent.post( new Runnable() {
 
@@ -281,6 +300,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                 }
             });
             */
+
 
 
 

@@ -140,7 +140,7 @@ public class SettingActivity extends AppCompatActivity {
         changePwdLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(SettingActivity.this,ChangePasswordActivity.class);
+                Intent intent=new Intent(SettingActivity.this,ChangePwdActivity.class);
                 startActivity(intent);
             }
         });
@@ -154,6 +154,17 @@ public class SettingActivity extends AppCompatActivity {
 
        calculateSize();
       // Log.d("total",total+"");
+    }
+    @Override
+    public void onResume()
+    {
+        if(!globalProvider.isLogin())
+        {
+            logoutButton.setVisibility(View.GONE);
+        }
+        else
+            logoutButton.setVisibility(View.VISIBLE);
+        super.onResume();
     }
     public void calculateSize()
     {

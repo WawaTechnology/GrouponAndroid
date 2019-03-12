@@ -17,6 +17,8 @@
     <string name="net_balance">NetBalance: </string>
     <string name="refund">Refund</string>
     <string name="balance">Balance:</string>
+    <string name="checkout">CheckOut</string>
+    <string name="delivery_cost">Delivery Cost:</string>
 
     <string name="end_page">End of Page!</string>
     <string name="home">Home</string>
@@ -235,8 +237,12 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="login">Login</string>
     <string name="my_order">My Order</string>
     <string name="payment_hint">Hint : If you select Paynow as your payment wasy,please transfer to our account below</string>
+    <string name="email_notification">E-mail notification</string>
+    <string name="telephone_notification">Telephone notification</string>
+    <string name="no_need">No need, thanks</string>
 
     <string name="completed">Completed</string>
     <string name="waiting">Waiting</string>
+    <string name="not_open_district">The postal code of the area that haven’t have delivery service，we will try to open the service for you as soon as possible. You can choose any of the following ways to receive our opening notice.</string>
 
 </resources>

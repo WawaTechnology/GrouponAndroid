@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.model.Layer;
+import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.BoundaryItemDecoration;
 
@@ -132,17 +133,12 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
 
 
       List<String> productList=new ArrayList<>();
-      if(position==3)
-      {
-          for(String prod:layer.getProductList())
-          {
-              Log.d("prodid",prod);
-          }
-      }
 
 
 
        productList.addAll(layer.getProductList());
+
+
        // holder.productListRecycler.setNestedScrollingEnabled(false);
        /* holder.productListRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -160,8 +156,9 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
 
            holder.productListRecycler.setAdapter(saleProductAdapter);
            saleProductAdapter.notifyDataSetChanged();
-           holder.productListRecycler.addItemDecoration(new DividerItemDecoration(context,
+       /*    holder.productListRecycler.addItemDecoration(new DividerItemDecoration(context,
                    DividerItemDecoration.VERTICAL));
+                   */
            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
            linearLayoutManager.setAutoMeasureEnabled(true);
 
@@ -182,12 +179,14 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
                    DividerItemDecoration.VERTICAL));
                    */
 
-          // RecyclerView.ItemDecoration dividerItemDecoration = new BoundaryItemDecoration(context,context.getResources().getColor(R.color.grey_dark),4);
-         //  holder.productListRecycler.addItemDecoration(dividerItemDecoration);
+
+       /*    RecyclerView.ItemDecoration dividerItemDecoration = new BoundaryItemDecoration(context,context.getResources().getColor(R.color.grey_dark),4);
+           holder.productListRecycler.addItemDecoration(dividerItemDecoration);
+           */
 
 
 
-           SaleMultProdAdapter saleMultProdAdapter = new SaleMultProdAdapter(context, productList);
+           SaleMultProdAdapter saleMultProdAdapter = new SaleMultProdAdapter(context, productList,position);
            holder.productListRecycler.setAdapter(saleMultProdAdapter);
            saleMultProdAdapter.notifyDataSetChanged();
 

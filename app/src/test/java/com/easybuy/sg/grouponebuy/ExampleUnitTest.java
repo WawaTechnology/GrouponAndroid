@@ -2,6 +2,9 @@ package com.easybuy.sg.grouponebuy;
 
 import android.support.v4.widget.TextViewCompat;
 
+import com.easybuy.sg.grouponebuy.model.Product;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -19,102 +22,37 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
 
 
-    public class Node {
-        int x;
-        Node next;
+    Product product1;
+    Product product2;
 
-        Node(int data) {
-            x = data;
-            next = null;
-        }
+
+    @Before
+    public void setUp() throws Exception {
+
+        product1=new Product();
+        product2=new Product();
+        product1.setId("213k");
+        product1.setNameEn("grapes");
+        product1.setTotalNumber(3);
+        product2.setId("213k");
+        product2.setNameEn("grapes");
+        product2.setTotalNumber(4);
+
+
+
+
     }
-
-    Node head;
-    Node tail;
-
     @Test
-    public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
-    }
-
-    @Test
-    public void addLinkedList(int x) {
-        if (head == null) {
-            Node node = new Node(x);
-            head = node;
-            tail = node;
-
-        } else {
-            Node node = new Node(x);
-            tail.next = node;
-            tail = node;
-
-        }
-    }
-
-    @Test public boolean detectLoop()
+    public void checkModified()
     {
-        Set<Node> nodeSet=new HashSet<>();
-        while(head!=null)
-        {
-            if(nodeSet.contains(head))
-            {
-                return true;
-            }
-            else
-            {
-                nodeSet.add(head);
-                head=head.next;
-            }
-        }
-        return false;
-
-    }
-
-    @Test
-    public void removeInLinkedList(int data) {
-        if (head == null) {
-            return;
-        } else if (head.x == data) {
-            Node node2Del = head;
-            head = head.next;
-            node2Del.next = null;
-        } else {
-            Node temp = head;
-            while (temp.next != null && temp.next.x != data) {
-                temp = temp.next;
-            }
-
-            if (temp == tail && temp.x != data) {
-                return;
-            } else {
-                Node node2Del = temp.next;
-                //check if it is tail
-                if (node2Del == tail) {
-
-                    tail = temp;
-                } else {
-                    temp.next = temp.next.next;
-                }
-                node2Del.next = null;
-            }
-        }
+        boolean res=product1.isModified(product2);
+        assertTrue(res);
     }
     @Test
-    public boolean checkLoop()
+    public void checkEqual()
     {
-        Node slow_pointer=head;
-        Node fast_pointer=head;
-        while(slow_pointer!=null&&fast_pointer!=null&&fast_pointer.next!=null)
-        {
-            slow_pointer=slow_pointer.next;
-            fast_pointer=fast_pointer.next.next;
-            if(slow_pointer==fast_pointer)
-            {
-                return true;
-            }
-        }
-        return false;
+        boolean res= product1.equals(product2);
+        assertTrue(res);
     }
 
 
