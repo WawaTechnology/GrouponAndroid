@@ -55,6 +55,7 @@ import com.easybuy.sg.grouponebuy.model.Customer;
 import com.easybuy.sg.grouponebuy.model.Cycle;
 import com.easybuy.sg.grouponebuy.model.Delivery;
 import com.easybuy.sg.grouponebuy.model.District;
+import com.easybuy.sg.grouponebuy.model.MyDate;
 import com.easybuy.sg.grouponebuy.model.PrevOrder;
 import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.model.ProductInfo;
@@ -84,6 +85,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class PaymentActivity extends AppCompatActivity implements DateChangeListener,PaymentChoiceListener {
@@ -92,12 +94,14 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     RelativeLayout paymentLayout;
     ImageView backButton;
     TextView addressText;
-    TextView totalTextView;
+
     TextView totalText;
     TextView numItemsText;
     LinearLayout freeDeliveryLayout;
     TextView freeDeliveryCostMsg;
     double freeDeliveryPrice;
+    int res;
+   // String previousOrderDate;
 
     TextView deliveryDateText;
     RelativeLayout prodLayout;
@@ -116,7 +120,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
    // RelativeLayout invoiceLayout;
     int deliveryWeek;
     String duration;
-    String prevOrder;
+    PrevOrder prevOrder;
     int todayWEEK;
     int nextDeliveries[];
     String nextDeliveryDates[];
@@ -140,7 +144,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         freeDeliveryLayout=(LinearLayout) findViewById(R.id.freedeliverymsg_layout);
         freeDeliveryCostMsg=(TextView) findViewById(R.id.free_deliverycost_msg);
         prodLayout = (RelativeLayout) findViewById(R.id.pd_layout);
-        totalTextView = (TextView) findViewById(R.id.total_text);
+
         totalText=(TextView) findViewById(R.id.total);
         deliveryList = new ArrayList<>();
         prevOrderList = new ArrayList<>();
@@ -155,7 +159,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         Intent intent = getIntent();
         totalamt = intent.getDoubleExtra("totalamt", 0.0);
         prevOrderList = (ArrayList<PrevOrder>) intent.getSerializableExtra("prevOrderList");
-        prevOrder=intent.getStringExtra("previousOrder");
+        prevOrder= (PrevOrder) intent.getSerializableExtra("previousOrder");
       //  ecoinLayout = (LinearLayout) findViewById(R.id.ecoin_layout);
         addressText = (TextView) findViewById(R.id.delivery_address);
        // invoiceLayout = (RelativeLayout) findViewById(R.id.invoice_layout);
@@ -200,7 +204,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         });
 
         SharedPreferences sp = getPreferences(Context.MODE_PRIVATE);
-        int res = sp.getInt("paymentkey", 0);
+         res = sp.getInt("paymentkey", 0);
        // int billres = sp.getInt("billkey", 1);
         if (res == 0) {
             paymentMethodChoice.setText(R.string.cash);
@@ -221,12 +225,19 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
 
         addressText.setText(address);
-        calculateDeliveryDate();
+        try {
+            calculateDeliveryDate();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         paymentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 DialogFragment dialogFragment = new PaymentMethodFragment();
+                Bundle bundle=new Bundle();
+                bundle.putInt("res",res);
+                dialogFragment.setArguments(bundle);
                 dialogFragment.show(fragmentManager, "payment");
             }
         });
@@ -247,6 +258,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 DialogFragment dialogFragment = new ChangeDateFragment();
                 Bundle args = new Bundle();
+                args.putString("deliveryDate",deliveryDat);
                 args.putParcelableArrayList("deliveryList", (ArrayList<? extends Parcelable>) deliveryList);
                 dialogFragment.setArguments(args);
                 dialogFragment.show(fragmentManager, "delivery");
@@ -270,42 +282,14 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                             public void onClick(DialogInterface dialog, int which) {
                                 //submit.setEnabled(false);
                                 submitButton.setClickable(false);
-                                try {
-                                    Date deliveryDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
-                                            .parse(deliveryDat);
-
-                                    //  If any of the previous order's date is equal to selected date,than order will be added to the prevOrder's id
-                                    for (PrevOrder order : prevOrderList) {
-                                        Log.d("prevorderdate", order.getShippingDate());
-                                        Log.d("deliveryDar", deliveryDate.toString());
-
-                                        Date shippingDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
-                                                .parse(order.getShippingDate());
-                                        Log.d("prevSHIPrdate", shippingDate.toString());
-
-                                        if (shippingDate.compareTo(deliveryDate) == 0) {
-                                            prevOrder = order.getOrderID();
-                                            Log.d("it is ", "equal");
-                                            break;
-                                        }
-
-                          /*  if(order.getShippingDate().equals(deliveryDat))
-                            {
-                                prevOrder=order.getOrderID();
-                                break;
-                            }
-                            */
-                                    }
 
 
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
 
 
                                 if (prevOrder == null) {
+                                    Log.d("weareprev","here");
 
-                                    if (totalamt < customer.getDistrict().getDeliveryCost()) {
+                                    if (subTotal < customer.getDistrict().getDeliveryCost()) {
                                         Toast.makeText(PaymentActivity.this, getString(R.string.min_spend) + " $ " + customer.getDistrict().getDeliveryCost(), Toast.LENGTH_LONG).show();
                                         submitButton.setClickable(true);
                                         return;
@@ -500,24 +484,14 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                     }
                                 } else {
 
-                                    new AlertDialog.Builder(PaymentActivity.this).setCancelable(false).setTitle(getResources().getString(R.string.alert)).setMessage(getResources().getString(R.string.add_existing_order)).setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            submitButton.setClickable(true);
-                                            dialogInterface.dismiss();
 
-
-                                        }
-                                    }).setPositiveButton(getResources().getString(R.string.confm), new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialogInterface, int i) {
-                                            String modifyOrderUrl = Constants.modifyOrderUrl + prevOrder;
+                                            String modifyOrderUrl = Constants.modifyOrderUrl + prevOrder.getOrderID();
                                             // Log.d("checkmofifyurl",modifyOrderUrl);
                                             JSONObject jsonObject = new JSONObject();
                                             JsonObjectRequest jsonObjectRequest = null;
                                             try {
                                                 jsonObject.put("extraPrice", totalamt);
-                                                final JSONArray jsonArray = new JSONArray();
+                                                JSONArray jsonArray = new JSONArray();
                                                 for (Product product : globalProvider.cartList) {
                                                     String productId = product.getId();
                                                     Double price = product.getPrice();
@@ -557,7 +531,9 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                 jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, modifyOrderUrl, jsonObject, new Response.Listener<JSONObject>() {
                                                     @Override
                                                     public void onResponse(JSONObject response) {
-                                                        //  Log.d("modifyresponse",response.toString());
+
+                                                        //Todo fetch product list from response and send it to sendEmail api
+                                                       Log.d("modifyresponse",response.toString());
                                                         //todo check status
                                                         int status = 0;
 
@@ -568,6 +544,12 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                             if (response.getInt("status") == 0) {
 
                                                                 status = response.getInt("status");
+
+
+                                                               JSONArray jsonArray=response.getJSONObject("payload").getJSONArray("productList");
+                                                               Log.d("checkjsonarr",jsonArray.length()+"");
+                                                               totalamt=response.getJSONObject("payload").getDouble("totalPrice");
+                                                               refundCost=response.getJSONObject("payload").getDouble("refundCost");
                                                                 String orderCode = response.getJSONObject("payload").getString("orderCode");
                                                                 Log.d("orderCode", orderCode);
 
@@ -577,6 +559,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                                 object.put("email", customer.getEmail());
                                                                 object.put("userName", customer.getUserName());
                                                                 object.put("totalPrice", totalamt + "");
+                                                                object.put("refundCost",refundCost);
+                                                                object.put("deliveryPrice",deliveryPrice);
                                                                 object.put("date", deliveryDat);
                                                                 String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
                                                                 Log.d("deliveryweek", week);
@@ -662,11 +646,11 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
 
                                         }
-                                    }).create().show();
+
                                 }
 
 
-                            }
+
 
 
                         }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
@@ -784,18 +768,22 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         for (Product cartproducts : globalProvider.cartList) {
             totalamt = totalamt + cartproducts.getTotalNumber() * cartproducts.getPrice();
-
         }
         totalamt=Double.parseDouble(new DecimalFormat("##.##").format(totalamt));
         subTotal=totalamt;
-        subTotalText.setText(" $ " + totalamt);
-        if(totalamt>=customer.getDistrict().getFreeDeliveryPrice())
+        //subtotal is the actual total of all the price of vegatables
+        //totalamt is the final price after adding deliverycost and subtracting ecoin(if any)
+        subTotalText.setText(" $ " + subTotal);
+        //if subtotal is greater than free delivery ;delivery cost will be 0;no need to check prevorder in that case
+        if(subTotal>=customer.getDistrict().getFreeDeliveryPrice())
         {
             deliveryCostText.setText("$ 0.0");
             deliveryPrice=0;
             freeDeliveryLayout.setVisibility(View.GONE);
         }
-        else
+        //if prevorder is null;thn add delivery cost
+
+        else if(prevOrder==null)
         {
             deliveryCostText.setText("$ "+customer.getDistrict().getDeliveryPrice());
             deliveryPrice=customer.getDistrict().getDeliveryPrice();
@@ -807,17 +795,18 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
            String k="( $"+val+" for free delivery )";
             freeDeliveryCostMsg.setText(k);
         }
+        //if prevorder is not null;thn delivery cost will be 0
+        else if(prevOrder!=null)
+        {
+            deliveryCostText.setText("$ 0.0");
+            deliveryPrice=0;
+            freeDeliveryLayout.setVisibility(View.GONE);
+
+        }
+        //readjust the total if customer has ecoin
 
         if(customer.getRefund().getECoins()==0) {
-            Log.d("layoutwe","here");
-          //  ecoinLayout.setVisibility(View.GONE);
-           // totalTextView.getLayoutParams().height=getResources().getDimensionPixelSize(R.dimen.total_text);
-           // totalAmountText.getLayoutParams().height=getResources().getDimensionPixelSize(R.dimen.total_text);
-          //  totalAmountText.setGravity(Gravity.CENTER_VERTICAL);
-          //  totalTextView.setGravity(Gravity.CENTER_VERTICAL);
 
-          //  totalAmountText.requestLayout();
-          //  totalTextView.requestLayout();
             String total=String.format("%.2f",totalamt);
 
 
@@ -825,11 +814,6 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             totalText.setText("$ "+total);
 
             netBalanceText.setText("-$ "+0.0);
-
-
-
-
-
 
 
         }
@@ -858,22 +842,43 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             totalAmountText.setText("$ "+total);
             totalText.setText("$ "+total);
 
-
-
-           // ecoinLayout.setVisibility(View.VISIBLE);
-            Log.d("layoutwe","tthere");
         }
 
     }
 
 
-    private void calculateDeliveryDate() {
+    private void calculateDeliveryDate() throws ParseException {
+        //*1 First calculate today date ,today week;If today is monday,todayWeek will be 1
+        /*2 Set DeliveryWeek,Duration to customer's 1st cycle for e.g if order can be delivered at tuesday,thursday,friday;cyclList
+        will have values 2,4,5;
+        By Default deliveryWeek=2(tuesday)
+        As same day delivery cannot be done,find week from cycle whose value is more than today week.
+        In that case,it wll be tuesday.
+        So Now deliveryWeek=2(tuesday), durattion=deliveryweek duration(retrieve from cycle)
+        But there can be a case  when todayweek is saturday(6) and delivery can be done on monday(1),so by default deliveryWeek will be monday(1)
+        Now calculate deliveryDate using delivery Week.
+        Calculate Other 2 Delivery Dates,as we have to give our customers options of selecting from 3 delivery date.
+
+
+         */
+
+
+
+
+
+
+
+
+
+
+
+
         Calendar calendar = Calendar.getInstance();
         Date now = new Date();
         calendar.setTime(now);
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
         todayWEEK = calendar.get(Calendar.DAY_OF_WEEK);
         todayWEEK-=1;
-        Log.d("todayweek",todayWEEK+"");
         // e.g todayWeek will be 4 if it is thursday
         List<Cycle> cycleList = district.getCycle();
         deliveryWeek=cycleList.get(0).getWeek();
@@ -881,6 +886,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         //get deliveryweek greater than today
         for (Cycle cycle : cycleList) {
             int week = cycle.getWeek();
+            Log.d("cycleweek",week+"");
 
             if(week>todayWEEK)
             {
@@ -906,14 +912,17 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             }
         }
         //calculating list of other delivery dates
+
+        //we have to give 3 dates to select from;1 is already calculated which is stored in variable now and deliveryWeek
+        //So we just need 2 more, we need those dates and week whose values are more than deliveryWeek(as we have to display next delivery dates)
         Date nextDate=now;
+
 
         int count=1;
 
         int i=0;
         for(int k=0;k<cycleList.size();k++)
         {
-            Log.d("chceckkk",cycleList.get(k).getWeek()+"");
 
             if(cycleList.get(k).getWeek()>deliveryWeek)
             {
@@ -923,7 +932,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 nextDeliveryTimimgs[i]=cycleList.get(k).getDuration();
                 int numOfDays=cycleList.get(k).getWeek()-deliveryWeek;
                 nextDate=addDays(now,numOfDays);
-                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
+
 
                 String nextdeliveryDate= simpleDateFormat1.format(nextDate);
                 nextDeliveryDates[i]=nextdeliveryDate;
@@ -933,6 +942,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 count+=1;
                 if(i==2)
                 {
+                    //2 delivery dates saved, no need to iterate
                     break;
                 }
 
@@ -940,6 +950,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         }
         int j=0;
+        /* If there are less than 2 next delivery dates;for eg,if deliveryWeek is Sunday(7) all week value from cyclist will be less than it,so no next delivery dates will be added,In that case
+        we will iterate below loop*/
         while(count!=3)
         {
             nextDeliveries[i]=cycleList.get(j).getWeek();
@@ -948,7 +960,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             {
                 int numOfDays=7-deliveryWeek+cycleList.get(j).getWeek();
                 nextDate=addDays(now,numOfDays);
-                SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
+
+               // SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
                 String nextdeliveryDate= simpleDateFormat1.format(nextDate);
                 nextDeliveryDates[i]=nextdeliveryDate;
 
@@ -959,8 +972,10 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             i+=1;
 
         }
-        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
+       // SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
+        // We will be adding all 3 delivery dates in Arraylist,It will contain deliveryDate,deliveryWeek,deliveryTime
         deliveryDat = simpleDateFormat1.format(now);
+        // Saving according to Language
         if(lang.equals("english")) {
             Delivery currentDelivery=new Delivery(deliveryDat,globalProvider.getDeliveryTiming().get(deliveryWeek),duration);
             deliveryList.add(currentDelivery);
@@ -984,19 +999,115 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 deliveryList.add(delivery);
             }
         }
+        /*
+        Deciding which date to display in deliveryDateText out of 3 deliverydates
+
+        We will be checking if User has previous Orders that are in waiting state;List of prevOrder is already calculated in FragmentCart
+        and is in variable prevOrderList.
+        We will be checking if users want to create new order(doesnt want to merge with any of the previousOrder)
+        We will be checking if variable prevOrder retrieved from Intent
+        prevOrder is not null
+        2 cases
+        1 case: If user has selected to merge with the previous Order;In that case,prevOrder will not be null.
+        As the prevOrder date is in MM/dd/yyyy format and we are sending to serve in YYYY/mm/dd.
+        We will convert the prevOrderDate to YYYY/mm/dd; and thn calculate its deliveryWeek and duration;
+        This date will be displayed in deliveryDateText
+
+        2 Case: If user wants to create a new order and doesnt want to merge with previous order.we will select that date
+        which is not in prevOrderList
+
+
+
+
+
+
+
+         */
+        //Case 1 User wants to merge
         if(prevOrder!=null)
         {
+
+                    SimpleDateFormat sd=new SimpleDateFormat("MM/dd/yyyy");
+                    Date date=sd.parse(prevOrder.getShippingDate());
+                    deliveryDat=simpleDateFormat1.format(date);
+                   // previousOrderDate=deliveryDat;
+
+
+                    Log.d("deliveryDate",deliveryDat);
+
+                    Calendar c = Calendar.getInstance();
+                    c.setTime(date);
+                    deliveryWeek = c.get(Calendar.DAY_OF_WEEK)-1;
+                    for(Cycle cycle:cycleList)
+                    {
+                        if(cycle.getWeek()==deliveryWeek)
+                        {
+                            duration=cycle.getDuration();
+                            break;
+                        }
+                    }
+
+
+
+
+
+
+
+            submitButton.setText("Merge Order");
+        }
+      //  Case 2: User doesnt want to merge in any of the the previous order
+        else if(prevOrder==null&&prevOrderList!=null&&prevOrderList.size()>0)
+        {
+            List<Date> prevDateList=new ArrayList<>();
+           // List<Date> deliveryDateList=new ArrayList<>();
+           Delivery deliveryChosen=null;
             for(PrevOrder order:prevOrderList)
             {
-                if(order.getOrderID().equals(prevOrder))
-                {
-                    Log.d("shippingprevdate",order.getShippingDate());
+                Date prevDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                        .parse(order.getShippingDate());
 
-                }
-                break;
+                prevDateList.add(prevDate);
+                Log.d("prevlist",order.getShippingDate());
             }
+           for(Delivery delivery:deliveryList)
+           {
+               Date deliveryDate=simpleDateFormat1
+                       .parse(delivery.getDate());
+
+               if(prevDateList.contains(deliveryDate))
+               {
+
+               }
+               //date found which is not in prevDateList
+
+               else
+               {
+                  deliveryDat=delivery.getDate();
+                  deliveryChosen=delivery;
+                   Log.d("deliverdatnew",deliveryDat);
+                  break;
+               }
+
+
+               //Log.d("deliverlist",delivery.getDate());
+           }
+        //  deliveryDat=deliveryList.get(1).getDate();
+            //deliveryList.get(1).getWeek()
+
+
+            //Getting deliveryWeek
+
+            for (Map.Entry<Integer, String> entry : globalProvider.getDeliveryTiming().entrySet()) {
+                if (entry.getValue().equals(deliveryChosen.getWeek())) {
+                    deliveryWeek=entry.getKey();
+                    break;
+                }
+            }
+            duration=deliveryChosen.getTime();
+
+          //  deliveryWeek=nextDeliveries[1];
         }
-        
+
         if(lang.equals("english"))
             deliveryDateText.setText(deliveryDat+" "+globalProvider.getDeliveryTiming().get(deliveryWeek)+" "+duration);
         else {
@@ -1025,6 +1136,43 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         deliveryDateText.setText(delivery.getDate()+" "+delivery.getWeek()+" "+delivery.getTime());
         deliveryDat=delivery.getDate();
 
+        if(prevOrderList.isEmpty())
+        {
+            //no Merge Order Option Available
+            submitButton.setText("CheckOut");
+        }
+        else {
+            try {
+                Date deliveryDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+                        .parse(deliveryDat);
+
+                //  If any of the previous order's date is equal to selected date,than order will be added to the prevOrder's id
+                for (PrevOrder order : prevOrderList) {
+
+
+                    Date shippingDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                            .parse(order.getShippingDate());
+
+                    if (shippingDate.compareTo(deliveryDate) == 0) {
+                        prevOrder = order;
+                        submitButton.setText("Merge Order");
+                        calculateTotal();
+
+                        return;
+                    }
+                }
+                // order date not matches with any of the previous date
+                // prevOrder will be null;recalculate total;submitbutton text will be checkout
+                prevOrder=null;
+                calculateTotal();
+                submitButton.setText("CheckOut");
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 /*
     @Override
@@ -1051,10 +1199,12 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         {
             paymentMethodChoice.setText(R.string.cash);
             e.putInt ("paymentkey",0);
+            res=0;
         }
         else {
             paymentMethodChoice.setText("PayNow");
             e.putInt("paymentkey",1);
+            res=1;
         }
 
 
@@ -1067,6 +1217,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         TextView payNowText;
 
         TextView cashText;
+        int res;
+
         PaymentChoiceListener paymentChoiceListener;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -1082,6 +1234,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             // Verify that the host activity implements the callback interface
             try {
                 // Instantiate the EditNameDialogListener so we can send events to the host
+
                 paymentChoiceListener = (PaymentChoiceListener) context;
             } catch (ClassCastException e) {
                 // The activity doesn't implement the interface, throw exception
@@ -1099,6 +1252,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         }
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+            Bundle mArgs = getArguments();
+            res=mArgs.getInt("res");
         }
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -1107,6 +1262,14 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             View view= inflater.inflate(R.layout.payment_dialog, container);
             payNowText=view.findViewById(R.id.pay_button);
            cashText=view.findViewById(R.id.cashButton);
+           if(res==0)
+           {
+               cashText.setBackground(getContext().getResources().getDrawable(R.drawable.button_rectangle));
+
+           }
+           else
+               payNowText.setBackground(getContext().getResources().getDrawable(R.drawable.button_rectangle));
+
             cashText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -1206,6 +1369,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         List<Delivery> deliveryList;
         SelectDateAdapter selectDateAdapter;
         private DateChangeListener listener;
+        String deliveryDate;
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             Dialog dialog = super.onCreateDialog(savedInstanceState);
@@ -1224,6 +1388,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             super.onCreate(savedInstanceState);
             deliveryList=new ArrayList<>();
             Bundle mArgs = getArguments();
+            deliveryDate=mArgs.getString("deliveryDate");
             deliveryList = mArgs.getParcelableArrayList("deliveryList");
         }
         @Override
@@ -1232,7 +1397,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
             View view= inflater.inflate(R.layout.nextdelivery_dialogfragment, container);
             recyclerView=(view).findViewById(R.id.selectdate_recycler);
-            selectDateAdapter=new SelectDateAdapter(getContext(),deliveryList,this);
+            selectDateAdapter=new SelectDateAdapter(getContext(),deliveryList,deliveryDate,this);
             LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
             recyclerView.setAdapter(selectDateAdapter);
             recyclerView.setLayoutManager(linearLayoutManager);

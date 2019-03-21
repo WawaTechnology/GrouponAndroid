@@ -126,7 +126,7 @@ public class FragmentOrder extends Fragment {
 
             userNameText.setText(getString(R.string.name)+" "+name);
             String ecoins=String.format("%.2f", customer.getRefund().getECoins());
-            balanceTextView.setText(getString(R.string.balance)+" "+ecoins);
+            balanceTextView.setText(getString(R.string.balance)+" $"+ecoins);
         }
         else
         {
@@ -273,7 +273,7 @@ public class FragmentOrder extends Fragment {
                             globalProvider.setCustomerId(Constants.getCustomer(getContext()).customer_id);
                             String ecoins = String.format("%.2f", customer.getRefund().getECoins());
 
-                            balanceTextView.setText(getString(R.string.balance) + " " + ecoins);
+                            balanceTextView.setText(getString(R.string.balance) + " $" + ecoins);
                         }
                         // globalProvider.setCustomer(Constants.getCustomer(MainActivity.this));
                     }

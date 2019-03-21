@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/black"
 
-        android:text="@string/ebuy_paynow"
+        android:text="@string/scan_pay"
         android:id="@+id/ebuy_paynow"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"

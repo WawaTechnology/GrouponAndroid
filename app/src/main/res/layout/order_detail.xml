@@ -153,7 +153,7 @@
                     android:layout_width="70dp"
                     android:layout_height="30dp"
 
-                    android:background="@drawable/yellow_new"
+                    android:background="@drawable/table_greybkg"
                     android:gravity="center"
                     android:paddingBottom="0dp"
                     android:paddingTop="0dp"

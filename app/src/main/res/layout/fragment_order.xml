@@ -67,6 +67,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/history"
                         android:id="@+id/history"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:gravity="center"
+                        android:textAlignment="gravity"
 
                         android:background="@drawable/yellow_wholerectangle"
                         android:layout_marginLeft="12dp"/>

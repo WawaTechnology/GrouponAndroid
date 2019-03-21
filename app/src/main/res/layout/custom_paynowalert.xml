@@ -15,18 +15,12 @@
         android:textColor="@android:color/black"
         android:layout_gravity="center"
         android:textStyle="bold"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:text="@string/paynow_phone"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="8dp"
-        android:text="@string/account_paynow"/>
+  <ImageView
+      android:layout_width="200dp"
+      android:layout_height="250dp"
+      android:layout_marginTop="8dp"
+      android:layout_gravity="center_horizontal"
+      android:src="@drawable/qr"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +29,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/red"
-        android:text="@string/paynow_handle"/>
+        android:text="@string/handle"/>
 
 
     <Button

@@ -199,6 +199,11 @@
     <string name="stock_available">剩余库存:</string>
     <string name="checkout">结算</string>
     <string name="delivery_cost">运费: </string>
+    <string name="scan_pay">扫码支付</string>
+    <string name="handle">我们将在24小时内处理</string>
+    <string name="paynow_hint">注：如果支付方式选择PayNow，请扫描发票上的二维码付费。
+付款成功后订单付款状态显示或有延迟，我们将在 24小时 内处理
+.</string>
 
 
     <string name="your_unit_no">门牌号:</string>

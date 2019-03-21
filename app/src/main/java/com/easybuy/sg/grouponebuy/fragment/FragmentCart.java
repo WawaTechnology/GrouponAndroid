@@ -99,7 +99,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
    // Button editButton;
     //LinearLayout saveBottomLayout;
     LinearLayout editBottomLayout;
-   String prevOrder;
+   PrevOrder prevOrder;
     TextView minSpendTextView;
     boolean addToexistingOrder;
    // public static boolean isSaveClicked;
@@ -250,16 +250,19 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         switch (requestCode) {
             case DIALOG_FRAGMENT:
                 if (resultCode == Activity.RESULT_OK ) {
-                    if(data.getStringExtra("newOrder")=="neworder")
+                   if(data.getSerializableExtra("previousOrder")!=null)
                     {
-                        prevOrder=null;
-                    }
-                    else if(data.getSerializableExtra("previousOrder")!=null)
-                    {
-                        PrevOrder previousOrder= (PrevOrder) data.getSerializableExtra("previousOrder");
-                        prevOrder=previousOrder.getOrderID();
+                        prevOrder= (PrevOrder) data.getSerializableExtra("previousOrder");
+
+
 
                     }
+                    else
+                   {
+
+                           prevOrder=null;
+
+                   }
 
                     startPaymentActivity();
 
@@ -431,7 +434,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         });
         if(prevOrder!=null) {
             minSpendTextView.setVisibility(View.GONE);
-            Log.d("checkpreco",prevOrder);
+           // Log.d("checkpreco",prevOrder);
         }
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -459,7 +462,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                 } else {
 
 
-                    if(prevOrder!=null)
+                    if(prevOrderList!=null&&prevOrderList.size()>0)
                     {
                         FragmentManager fragmentManager = getFragmentManager();
                         DialogFragment dialogFragment = new FragmentCart.MergeOrderDialogFragment();
@@ -491,8 +494,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     public void startPaymentActivity()
     {
         float minOrderValue=Constants.getCustomer(getContext()).getDistrict().getDeliveryCost();
-      //  Log.d("totalamt",totalamt+"");
-      //  Log.d("prevOrder",prevOrder);
+
         if (totalamt > minOrderValue|| prevOrder != null) {
 
             Intent intent=new Intent(getContext(), PaymentActivity.class);
@@ -560,6 +562,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
+                    Log.d("checkprevresponse",response);
                     ObjectMapper objectMapper=new ObjectMapper();
                     JsonFactory jsonFactory=new JsonFactory();
                     try
@@ -574,7 +577,8 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                         else
                         {
                             Log.d("prevorder is something","here");
-                            prevOrder=resultClass.getPayload().get(0).getOrderID();
+
+
                             //String shippingDate=resultClass.getPayload().get(0).getShippingDate();
                             Date todayDate= new Date();
                             SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy");
@@ -589,15 +593,17 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                                 Date prevDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
                                         .parse(order.getShippingDate());
                                 Log.d("odd",order.getShippingDate());
-                                if(prevDate.compareTo(todayDate)!=0)
+                                if(prevDate.compareTo(todayDate)>0)
 
                                 prevOrderList.add(order);
                             }
+                            if(prevOrderList.size()>0) {
+                                prevOrder = prevOrderList.get(0);
 
 
-                          Log.d("prevorder",prevOrder);
-                            minSpendTextView.setVisibility(View.GONE);
-                            checkLayout.setVisibility(View.GONE);
+                                minSpendTextView.setVisibility(View.GONE);
+                                checkLayout.setVisibility(View.GONE);
+                            }
 
                         }
 

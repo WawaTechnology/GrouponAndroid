@@ -23,7 +23,7 @@
         android:layout_marginRight="16dp"
         android:gravity="center"
         android:id="@+id/cashButton"
-        android:background="@drawable/button_rectangle"
+        android:background="@drawable/black_rectangle"
         android:text="@string/cash"/>
     <TextView
         android:layout_marginTop="8dp"
@@ -33,7 +33,7 @@
         android:id="@+id/pay_button"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@drawable/button_rectangle"
+        android:background="@drawable/black_rectangle"
         android:text="PayNow"
         android:layout_marginBottom="24dp"
         />
@@ -44,30 +44,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/payment_hint"/>
+        android:layout_marginBottom="16dp"
+        android:text="@string/paynow_hint"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/paynow_phone"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/account_paynow"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="24dp"
-        android:text="@string/paynow_handle"/>
+
 
 
 

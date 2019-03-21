@@ -76,7 +76,10 @@ public class SpecialCategoryAdapter extends RecyclerView.Adapter<SpecialCategory
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
+
         final CategorySpecial categorySpecial=categorySpecials.get(position);
+
+
         String img=null;
         if(lang.equals("english")&&categorySpecial.getImageCorner()!=null)
             img = Constants.newImageUrl +categorySpecial.getImageCorner();
@@ -154,6 +157,8 @@ public class SpecialCategoryAdapter extends RecyclerView.Adapter<SpecialCategory
 
         }
         List<Product> productList=new ArrayList<>();
+
+        Log.d("splprdfinals",productList.size()+"");
         for(Product product:categorySpecial.getProductList())
         {
             if(product.isOnShelf()==true)
@@ -161,6 +166,7 @@ public class SpecialCategoryAdapter extends RecyclerView.Adapter<SpecialCategory
                 productList.add(product);
             }
         }
+
 
 
         ProductAdapter productAdapter=new ProductAdapter(context,productList);

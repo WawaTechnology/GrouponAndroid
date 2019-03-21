@@ -96,7 +96,7 @@
     <string name="details">Details</string>
 
 
-    <string name="min_spend">Minimum spend for free delivery is</string>
+    <string name="min_spend">Minimum spend for delivery is</string>
     <string name="district_postcode">District Status (Postcode)</string>
     <string name="result_postcode">The result of searching:</string>
     <string name="your_unit_no">Your Unit No. is:</string>
@@ -224,6 +224,9 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="ebuy_paynow">Ebuy PayNow Info</string>
     <string name="service_hotline">Service Hotline</string>
     <string name="account_setting">Account Setting</string>
+    <string name="paynow_hint">Note: If you select PayNow as payment, please scan the payment QR code on our receipt.
+We will handle your payment and display it on your order status within 24 hours
+.</string>
 
     <string name="paynow_phone">Phone: 8518 9139 </string>
     <string name="account_paynow">Account: Ebuy Groupon</string>
@@ -240,6 +243,8 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="email_notification">E-mail notification</string>
     <string name="telephone_notification">Telephone notification</string>
     <string name="no_need">No need, thanks</string>
+    <string name="scan_pay">Scan &amp; Pay</string>
+    <string name="handle">We will handle within 24 hours</string>
 
     <string name="completed">Completed</string>
     <string name="waiting">Waiting</string>

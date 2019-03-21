@@ -158,6 +158,16 @@ public class SplashActivity extends AppCompatActivity {
                             }
                             else
                             {
+                                int count=0;
+                                for(Product product:categorySpecial.getProductList())
+                                {
+                                    if(product.isOnShelf()==true)
+                                    {
+                                        count+=1;
+                                    }
+                                }
+                                if(count>=3)
+
                                 globalProvider.categorySpecialList.add(categorySpecial);
                             }
                         }

@@ -468,6 +468,10 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
                 jsonObject.put("totalPrice", changedtotal);
                 Log.d("deliveryPrice",deliveryPriceDouble+"");
                 jsonObject.put("deliveryPrice",deliveryPriceDouble);
+                if (order.getRefundCostOrder() > 0) {
+                    Log.d("hererefund", "here");
+                    jsonObject.put("refundCost", order.getRefundCostOrder());
+                }
                 //jsonObject.put
 
                 JSONArray jsonArray = new JSONArray();

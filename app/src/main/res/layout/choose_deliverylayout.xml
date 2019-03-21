@@ -1,8 +1,8 @@
 <LinearLayout android:layout_marginTop="12dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/table_bkg"
-
+    android:background="@drawable/black_rectangle"
+    android:id="@+id/textview_bkg"
 
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -10,6 +10,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@drawable/date_selector"
+
 
 
         android:paddingTop="0dp"

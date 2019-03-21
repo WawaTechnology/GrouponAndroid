@@ -7,152 +7,151 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="85dp"
         android:background="#fff"
 
 
-
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
 
         <LinearLayout
 
+            android:id="@+id/processinglayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+
+
             android:gravity="center"
-
-
-          
-            android:id="@+id/processinglayout"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-               >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="5dp"
+                android:layout_height="wrap_content">
 
-                android:paddingBottom="8dp"
-                android:adjustViewBounds="true"
-                android:layout_marginBottom="4dp"
-                android:scaleType="fitXY"
-                android:id="@+id/processingImage"
-                android:src="@drawable/shipping"/>
+                <ImageView
+                    android:id="@+id/processingImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+
+                    android:layout_marginBottom="4dp"
+
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="8dp"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="8dp"
+
+                    android:src="@drawable/shipping" />
 
                 <TextView
                     android:id="@+id/badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3s"
-                    android:layout_marginTop="-5dp"
+                    android:layout_alignRight="@id/processingImage"
+                    android:layout_alignTop="@id/processingImage"
                     android:layout_marginRight="-3dp"
-                    android:visibility="gone"
+                    android:layout_marginTop="-5dp"
 
 
-
-
-                    android:textSize="14sp"
+                    android:background="@drawable/badge"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
 
 
-
-
-
-                    android:layout_alignRight="@id/processingImage"
-                    android:layout_alignTop="@id/processingImage"
-                    android:background="@drawable/badge"
-                    ></TextView>
+                    android:text="3s"
+                    android:textSize="14sp"
+                    android:visibility="gone"></TextView>
 
             </RelativeLayout>
+
             <TextView
+                android:id="@+id/processingText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/processingText"
-                android:text="@string/processing"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="4dp"
+                android:text="@string/processing" />
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/paymentlayout"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
             android:layout_weight="1"
             android:gravity="center"
-   
-            android:id="@+id/paymentlayout"
-            android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="45dp"
-                android:layout_height="40dp"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp"
-                android:layout_marginRight="5dp"
-                android:paddingBottom="8dp"
-                android:id="@+id/paymentimage"
-                android:src="@drawable/payment"/>
+
+                <ImageView
+                    android:id="@+id/paymentimage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="8dp"
+                    android:adjustViewBounds="true"
+                    android:paddingBottom="8dp"
+
+                    android:src="@drawable/payment" />
+
                 <TextView
                     android:id="@+id/paymentbadge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="3s"
-                    android:layout_marginTop="-5dp"
+                    android:layout_alignRight="@id/paymentimage"
+                    android:layout_alignTop="@id/paymentimage"
                     android:layout_marginRight="-3dp"
-                    android:visibility="gone"
+                    android:layout_marginTop="-5dp"
 
 
-
-                    android:textSize="14sp"
+                    android:background="@drawable/badge"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
 
 
-
-
-
-                    android:layout_alignRight="@id/paymentimage"
-                    android:layout_alignTop="@id/paymentimage"
-                    android:background="@drawable/badge"
-                    ></TextView>
+                    android:text="3s"
+                    android:textSize="14sp"
+                    android:visibility="gone"></TextView>
 
             </RelativeLayout>
+
             <TextView
+                android:id="@+id/paymenttext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/paymenttext"
-                android:text="@string/payment"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="4dp"
+                android:text="@string/payment" />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
             android:id="@+id/alllayout"
-            
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:gravity="center"
             android:orientation="vertical">
+
             <ImageView
+                android:id="@+id/allorderimage"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="4dp"
                 android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
-                android:layout_marginBottom="4dp"
-                android:scaleType="fitXY"
-                android:id="@+id/allorderimage"
-                android:src="@drawable/orders"/>
+
+                android:src="@drawable/orders" />
+
             <TextView
+                android:id="@+id/allordertext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/allordertext"
-                android:text="@string/all_order"
-                android:layout_marginBottom="4dp"/>
+                android:layout_marginBottom="4dp"
+                android:text="@string/all_order" />
         </LinearLayout>
 
 
@@ -184,10 +183,12 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_margin="20dp"
+
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_width="wrap_content"
@@ -201,9 +202,13 @@
                     android:text="@string/no_order"/>
             </LinearLayout>
             <Button
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
+                android:layout_marginTop="16dp"
+
                 android:layout_height="35dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textAlignment="gravity"
                 android:text="@string/go_shopping"
                 android:id="@+id/submit"
                 android:background="@drawable/red_wholerectangle"

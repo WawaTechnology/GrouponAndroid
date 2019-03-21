@@ -9,7 +9,7 @@
         android:gravity="center"
         android:scaleType="fitXY"
         android:keepScreenOn="true"
-        android:src="@drawable/lach"/>
+        android:src="@drawable/launcher"/>
 
   <!--  <TextView
         android:layout_width="match_parent"

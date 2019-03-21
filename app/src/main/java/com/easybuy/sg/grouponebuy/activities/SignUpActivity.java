@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -41,6 +42,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -55,6 +57,9 @@ public class SignUpActivity extends AppCompatActivity {
 ActivitySignupBinding activitySignupBinding;
 GlobalProvider globalProvider;
 ImageView backButton;
+int responseCode;
+Handler handler=new Handler();
+int n;
 
 
     public void onCreate(Bundle savedInstanceState)
@@ -83,9 +88,120 @@ ImageView backButton;
                 {
                     activitySignupBinding.phone.setError("Invalid Phone Number");
                 }
+                else if(activitySignupBinding.phone.getText().toString().trim().length()==8)
+                {
+                    String url=Constants.checkPhoneUrl;
+                    Map<String,String> map=new HashMap<>();
+                    map.put("phone",activitySignupBinding.phone.getText().toString().trim());
+                    CustomRequest customRequest=new CustomRequest(Request.Method.POST, url, map, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                if(response.getInt("status")==1)
+                                {
+                                    activitySignupBinding.phone.setError("Phone number already registered");
+                                    activitySignupBinding.submit.setClickable(false);
+                                }
+                                else
+                                {
+                                    activitySignupBinding.submit.setClickable(true);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+                    globalProvider.addRequest(customRequest);
+
+                }
+
 
             }
         });
+
+       activitySignupBinding.getCodeButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               if(activitySignupBinding.email.getText().toString().length()>0&&isEmailValid(activitySignupBinding.email.getText()))
+               {
+                   final Map<String,String> map=new HashMap<>();
+                   map.put("email",activitySignupBinding.email.getText().toString().trim());
+                   CustomRequest customRequest=new CustomRequest(Request.Method.POST, Constants.sendEmailCode, map, new Response.Listener<JSONObject>() {
+                       @Override
+                       public void onResponse(JSONObject response) {
+                           Log.d("responsecode",response.toString());
+                           try {
+                               if(response.getInt("status")==0)
+                               {
+                                   Toast.makeText(SignUpActivity.this,"Verification Code sent to your email",Toast.LENGTH_SHORT).show();
+                                  Log.d("emailse",map.get("email")) ;
+                                  n=20;
+                                 responseCode= response.getInt("payload");
+                                 activitySignupBinding.getCodeButton.setEnabled(false);
+                                   activitySignupBinding.getCodeButton.postDelayed(runnable,1000);
+
+                               }
+                           } catch (JSONException e) {
+                               e.printStackTrace();
+                           }
+
+
+                       }
+                   }, new Response.ErrorListener() {
+                       @Override
+                       public void onErrorResponse(VolleyError error) {
+
+                       }
+                   });
+                   globalProvider.addRequest(customRequest);
+
+               }
+               else {
+                   activitySignupBinding.email.setError("Please Enter Email Address");
+               }
+           }
+       });
+       activitySignupBinding.verificationCode.addTextChangedListener(new TextWatcher() {
+           @Override
+           public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+           }
+
+           @Override
+           public void afterTextChanged(Editable editable) {
+               if(activitySignupBinding.verificationCode.getText().toString().length()>0)
+               {
+                 int code=Integer.parseInt(activitySignupBinding.verificationCode.getText().toString());
+                 if(code!=responseCode)
+                 {
+                     activitySignupBinding.verificationCode.setError("Please enter valid code");
+                     activitySignupBinding.verificationStatus.setVisibility(View.GONE);
+
+
+                 }
+                 else
+                 {
+
+                     activitySignupBinding.verificationStatus.setImageDrawable(getResources().getDrawable(R.drawable.ic_check_box_green_24dp));
+                     activitySignupBinding.verificationStatus.setVisibility(View.VISIBLE);
+
+                 }
+
+               }
+
+           }
+       });
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,6 +220,7 @@ ImageView backButton;
                 parent.setTouchDelegate( new TouchDelegate( rect , backButton));
             }
         });
+
 
 
 
@@ -173,6 +290,14 @@ ImageView backButton;
                 {
                     activitySignupBinding.confirm.setError("Please Enter password correctly");
 
+                }
+                else if(TextUtils.isEmpty(activitySignupBinding.verificationCode.getText()))
+                {
+                    activitySignupBinding.verificationCode.setError("Please Enter Valid Code");
+                }
+                else if(Integer.parseInt(activitySignupBinding.verificationCode.getText().toString())!=responseCode)
+                {
+                    activitySignupBinding.verificationCode.setError("Please Enter Valid Code");
                 }
                else {
                     User user=activitySignupBinding.getUsermodel();
@@ -280,6 +405,17 @@ ImageView backButton;
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email)
                 .matches();
     }
+    public void onDestroy()
+    {
+        handler.removeCallbacks(runnable);
+        activitySignupBinding.getCodeButton.removeCallbacks(runnable);
+        handler=null;
+
+
+
+        super.onDestroy();
+
+    }
     // end of TextWatcher (email)
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -297,5 +433,23 @@ ImageView backButton;
         }
         return super.dispatchTouchEvent( event );
     }
+    final Runnable runnable=new Runnable() {
+        @Override
+        public void run() {
+            activitySignupBinding.getCodeButton.setText("Try again in "+n+" secs");
+            n=n-1;
+            if(n==0)
+            {
+
+                activitySignupBinding.getCodeButton.setText("Get Code");
+                activitySignupBinding.getCodeButton.setEnabled(true);
+                return;
+            }
+            handler.postDelayed(runnable,1000);
+
+
+        }
+    };
+
 
 }

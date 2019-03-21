@@ -4,13 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff">
+    android:background="#fff"
+    >
 
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
+
 
             android:orientation="horizontal">
             <ImageView
@@ -40,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
+
             android:id="@+id/call_layout"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
@@ -71,6 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp"
+
             android:id="@+id/change_pwd"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
@@ -99,6 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+
         android:id="@+id/change_langlayout"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp">
@@ -127,6 +132,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+
         android:id="@+id/account_settinglayout"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp">
@@ -156,6 +162,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:id="@+id/about_usLayout"
+
         android:layout_marginRight="16dp"
         android:padding="5dp">
         <TextView
@@ -183,6 +190,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
+
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp">
         <TextView
@@ -201,6 +209,12 @@
             android:text="V 0.5"/>
 
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="5dp"
+
+        android:background="@color/new_grey"></View>
 
 
 
@@ -212,7 +226,7 @@
         android:layout_height="35dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:id="@+id/logout"
 
 

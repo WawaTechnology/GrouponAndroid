@@ -62,7 +62,9 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:indeterminate="false"
             android:max="100"
             android:minHeight="10dp"

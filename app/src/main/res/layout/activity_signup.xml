@@ -63,17 +63,19 @@
 
             android:text="@string/name"/>
         <EditText
-            android:layout_width="220dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
+
 
             android:text="@={usermodel.userName}"
 
             android:inputType="text"
 
             android:id="@+id/name"
-            android:layout_marginRight="24dp"
+            android:layout_marginRight="36dp"
             android:background="@drawable/table_noround"
             />
     </LinearLayout>
@@ -93,13 +95,14 @@
 
             android:text="@string/email"/>
         <EditText
-            android:layout_width="220dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
 
 
-            android:layout_marginRight="24dp"
+            android:layout_marginRight="36dp"
             android:inputType="textEmailAddress"
             android:text="@={usermodel.email}"
 
@@ -108,6 +111,65 @@
             />
 
     </LinearLayout>
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="Get Code"
+        android:id="@+id/get_code_button"
+        android:layout_marginRight="36dp"
+        android:gravity="center"
+        android:textAlignment="center"
+
+        android:textColor="@color/white"
+        android:background="@color/blue"
+        android:padding="4dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+
+        android:layout_gravity="right"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+
+        android:layout_gravity="right"
+        android:layout_marginRight="36dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+
+
+            android:text="Verification Code:"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <EditText
+            android:layout_marginLeft="5dp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+
+            android:id="@+id/verification_code"
+            android:background="@drawable/table_noround"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/verificationStatus"
+                android:visibility="gone"
+
+
+                android:layout_alignRight="@id/verification_code"
+                android:layout_alignBottom="@id/verification_code"
+                android:src="@drawable/ic_check_box_green_24dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -125,14 +187,15 @@
 
             android:text="@string/phone"/>
         <EditText
-            android:layout_width="220dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
 
+            android:layout_weight="1"
 
 
-            android:layout_marginRight="24dp"
+            android:layout_marginRight="36dp"
             android:inputType="number"
             android:text="@={usermodel.phone}"
 
@@ -159,11 +222,12 @@
 
         <EditText
             android:id="@+id/password"
-            android:layout_width="220dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginRight="36dp"
             android:inputType="textPassword"
             android:text="@{usermodel.password}"
             android:background="@drawable/table_noround"
@@ -190,11 +254,12 @@
 
         <EditText
             android:id="@+id/confirm"
-            android:layout_width="220dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginRight="36dp"
+            android:layout_weight="1"
 
             android:background="@drawable/table_noround"
             android:inputType="textPassword"
@@ -222,11 +287,12 @@
 
         <EditText
             android:id="@+id/postcode"
-            android:layout_width="220dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginRight="36dp"
             android:background="@drawable/table_noround"
             android:inputType="number"
             android:text="@{usermodel.postcode}"
