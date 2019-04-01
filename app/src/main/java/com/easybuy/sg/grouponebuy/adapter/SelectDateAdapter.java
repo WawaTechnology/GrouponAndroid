@@ -39,7 +39,8 @@ String deliveryDate;
     public void onBindViewHolder(final ViewHolder holder, final int position) {
      Delivery delivery= deliveryList.get(position);
 
-     String date=delivery.getDate()+" "+delivery.getWeek()+" "+delivery.getTime();
+
+     String date=delivery.getDate()+"  "+delivery.getWeek()+"  "+delivery.getTime();
      if(delivery.getDate().equals(deliveryDate))
      {
          holder.llayout.setBackground(context.getResources().getDrawable(R.drawable.button_rectangle));

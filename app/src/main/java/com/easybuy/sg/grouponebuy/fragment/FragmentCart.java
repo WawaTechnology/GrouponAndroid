@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
@@ -13,9 +14,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,6 +91,8 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     SeekBar seekBar;
     int progressStatusCounter = 0;
     float freeDeliveryamt;
+   final String ebuyMart="EBuyMart";
+    private  String colorCodeStart = "<font color='#C53635'>";
 
 
     List<PrevOrder> prevOrderList;
@@ -117,18 +122,10 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // Log.d("fragmentoncreate","oncreate");
-       // MyApplication.getRefWatcher(getActivity()).watch(this);
         cartProductList = new ArrayList<>();
         prevOrderList=new ArrayList<>();
         language=Constants.getLanguage(getContext());
-
-
-
-
-
         cartAdapter = new CartAdapter(cartProductList, getContext(), this);
-
         globalProvider = GlobalProvider.getGlobalProviderInstance(getContext().getApplicationContext());
         if(globalProvider.isLogin())
         {
@@ -136,13 +133,10 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             {
                 freeDeliveryamt=Constants.getCustomer(getContext()).getDistrict().getFreeDeliveryPrice();
                 minDelivery=Constants.getCustomer(getContext()).getDistrict().getDeliveryCost();
-                Log.d("minDelivery",minDelivery+"");
-                Log.d("freeDelivery",freeDeliveryamt+"");
             }
         }
 
        if(globalProvider.cartList.size()>0) {
-           //Finding categoryPrimary
            String url = Constants.baseUrlStr + "categoryPrimarys";
            Utf8JsonRequest utf8JsonRequest = new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
                @Override
@@ -661,10 +655,25 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                 minSpendTextView.setVisibility(View.VISIBLE);
                 float reqamt= (float) ((float)minDelivery-totalamt);
                String amt= String.format("%.2f",reqamt);
-               if(language.equals("english"))
-                minSpendTextView.setText("$ "+amt+" to Delivery with EBuyMart");
-               else
-                   minSpendTextView.setText("还差 "+"$ "+amt+" 可以送货上门");
+                amt="$ "+amt;
+                String msg=" ";
+
+               if(language.equals("english")) {
+
+                    msg=amt+" to Delivery with "+ebuyMart;
+
+
+
+
+
+
+                   //minSpendTextView.setText(" $"+amt+" to Delivery with EBuyMart");
+               }
+               else {
+                   msg="还差 "+amt+"  可以送货上门";
+                   //minSpendTextView.setText("还差 " + "$ " + amt + " 可以送货上门");
+               }
+                setSpannableText(msg,amt);
                 progressStatusCounter=(int)totalamt;
               /*  seekBar.post(new Runnable() {
                     @Override
@@ -679,13 +688,24 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             }
             else if(totalamt<freeDeliveryamt)
             {
+                String msg=" ";
                 float amtf= (float) (freeDeliveryamt-totalamt);
                 String amt= String.format("%.2f",amtf);
-                if(language.equals("english"))
-                minSpendTextView.setText("$ "+amt+" to Free Delivery with EBuyMart");
-                else
-                    minSpendTextView.setText("还差 $ "+ amt+" 可以免费送货上门");
-                minSpendTextView.setTextColor(getContext().getResources().getColor(R.color.red));
+                amt="$ "+amt;
+                if(language.equals("english")) {
+
+
+                     msg=amt+"  to Free Delivery with "+ebuyMart;
+
+
+                }
+                else {
+                    msg="还差 "+amt+"  可以免费送货上门";
+
+                   // minSpendTextView.setText("还差 $ " + amt + " 可以免费送货上门");
+                }
+                setSpannableText(msg,amt);
+               // minSpendTextView.setTextColor(getContext().getResources().getColor(R.color.red));
             }
             else if(totalamt>=freeDeliveryamt) {
 
@@ -693,7 +713,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                 minSpendTextView.setText("Free Delivery with EBuyMart!");
                 else
                     minSpendTextView.setText("EBuymart 免费送货上门");
-                minSpendTextView.setTextColor(getContext().getResources().getColor(R.color.red));
+                minSpendTextView.setTextColor(getContext().getResources().getColor(R.color.green));
             }
             seekBar.post(new Runnable() {
                 @Override
@@ -711,6 +731,22 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         }
 
 
+    }
+
+    private void setSpannableText(String msg,String amt) {
+        Spannable spannable1=new SpannableString(msg) ;
+        minSpendTextView.setTextColor(Color.BLACK);
+       int vv= msg.indexOf("$");
+       Log.d("chekk",vv+"");
+
+        spannable1.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.red)),vv, vv+amt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        Log.d("indexof",msg.indexOf(ebuyMart)+"");
+        Log.d("lindexof",msg.indexOf(ebuyMart)+ebuyMart.length()+"");
+        if(language.equals("english"))
+
+        spannable1.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.red)),msg.indexOf(ebuyMart),msg.indexOf(ebuyMart)+ebuyMart.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // minSpendTextView.setText(" $ " + amt + " to Free Delivery with EBuyMart");
+        minSpendTextView.setText(spannable1,TextView.BufferType.SPANNABLE);
     }
 
 
@@ -894,6 +930,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                 order3Text.setText("Yes, update order to deliver on "+prevOrderList.get(2).getShippingDate());
                 order2Text.setVisibility(View.VISIBLE);
                 order3Text.setVisibility(View.VISIBLE);
+                newOrderText.setVisibility(View.GONE);
 
             }
             else if (prevOrderList.size()==2)

@@ -49,6 +49,8 @@ public class Product implements Serializable{
         private String id;
         @JsonProperty("name_ch")
         private String nameCh;
+    @JsonProperty("ifWeigh")
+    private Boolean ifWeigh;
 
     public Boolean getOnShelf() {
         return isOnShelf;
@@ -68,8 +70,12 @@ public class Product implements Serializable{
         private String descriptionEn;
         @JsonProperty("specification_ch")
         private String specificationCh;
-        @JsonProperty("specification_en")
+
+
+
+    @JsonProperty("specification_en")
         private String specificationEn;
+
      //@JsonProperty("categorySpecial")
 //List<Object> categorySList;
 
@@ -131,6 +137,15 @@ public class Product implements Serializable{
     private String sKU;
     @JsonProperty("supplier")
     private String supplier;
+    @JsonProperty("ifWeigh")
+    public Boolean getIfWeigh() {
+        return ifWeigh;
+    }
+
+    @JsonProperty("ifWeigh")
+    public void setIfWeigh(Boolean ifWeigh) {
+        this.ifWeigh = ifWeigh;
+    }
 
 
 

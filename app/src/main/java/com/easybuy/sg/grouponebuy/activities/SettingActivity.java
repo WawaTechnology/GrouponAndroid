@@ -27,7 +27,7 @@ import com.google.gson.Gson;
 import java.io.File;
 
 public class SettingActivity extends AppCompatActivity {
-    Button logoutButton;
+    TextView logoutButton;
     GlobalProvider globalProvider;
     RelativeLayout changePwdLayout,changeLangLayout,aboutUsLayout,accountLayout;
     ImageView backButton;
@@ -41,7 +41,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
         versionNameTextView=(TextView) findViewById(R.id.version_name);
-        logoutButton=(Button)findViewById(R.id.logout);
+        logoutButton=(TextView) findViewById(R.id.logout);
         changePwdLayout=(RelativeLayout) findViewById(R.id.change_pwd);
         changeLangLayout=(RelativeLayout) findViewById(R.id.change_langlayout);
         accountLayout=(RelativeLayout) findViewById(R.id.account_settinglayout);

@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -46,7 +45,7 @@ public class ChangePwdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_pwd);
         phoneEditText = (EditText) findViewById(R.id.phone_edit);
-        emailEditText = (EditText) findViewById(R.id.email_edit);
+        emailEditText = (EditText) findViewById(R.id.email_text);
         backButton = (ImageView) findViewById(R.id.back);
         submitButton = (Button) findViewById(R.id.confirm);
         globalProvider = GlobalProvider.getGlobalProviderInstance(getApplicationContext());

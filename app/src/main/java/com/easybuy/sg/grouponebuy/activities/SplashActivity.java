@@ -271,21 +271,9 @@ public class SplashActivity extends AppCompatActivity {
             }}, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    String message = null;
-                    if (error instanceof NetworkError) {
-                        message = "Cannot connect to Internet...Please check your connection!";
-                    } else if (error instanceof ServerError) {
-                        message = "The server could not be found. Please try again after some time!!";
-                    } else if (error instanceof AuthFailureError) {
-                        message = "Cannot connect to Internet...Please check your connection!";
-                    } else if (error instanceof ParseError) {
-                        message = "Parsing error! Please try again after some time!!";
-                    } else if (error instanceof NoConnectionError) {
-                        message = "Cannot connect to Internet...Please check your connection!";
-                    } else if (error instanceof TimeoutError) {
-                        message = "Connection TimeOut! Please check your internet connection.";
-                    }
+                String message= globalProvider.getErrorMessage(error);
                     Toast.makeText(SplashActivity.this,message,Toast.LENGTH_LONG).show();
+
 
 
                 }
@@ -343,20 +331,20 @@ public class SplashActivity extends AppCompatActivity {
     }
     private void setDeliveryMap() {
       if(globalProvider.deliveryTiming.isEmpty()) {
-          globalProvider.deliveryTiming.put(7, "Sunday");
-          globalProvider.deliveryTiming.put(1, "Monday");
-          globalProvider.deliveryTiming.put(2, "Tuesday");
-          globalProvider.deliveryTiming.put(3, "Wednesday");
-          globalProvider.deliveryTiming.put(4, "Thursday");
-          globalProvider.deliveryTiming.put(5, "Friday");
-          globalProvider.deliveryTiming.put(6, "Saturday");
-           globalProvider.deliveryTimingChinese.put("Monday","星期一");
-          globalProvider.deliveryTimingChinese.put("Tuesday","星期二");
-          globalProvider.deliveryTimingChinese.put("Wednesday","星期三");
-          globalProvider.deliveryTimingChinese.put("Thursday","星期四");
-          globalProvider.deliveryTimingChinese.put("Friday","星期五");
-          globalProvider.deliveryTimingChinese.put("Saturday","星期六");
-          globalProvider.deliveryTimingChinese.put("Sunday","星期天");
+          globalProvider.deliveryTiming.put(7, "Sun");
+          globalProvider.deliveryTiming.put(1, "Mon");
+          globalProvider.deliveryTiming.put(2, "Tue");
+          globalProvider.deliveryTiming.put(3, "Wed");
+          globalProvider.deliveryTiming.put(4, "Thur");
+          globalProvider.deliveryTiming.put(5, "Fri");
+          globalProvider.deliveryTiming.put(6, "Sat");
+           globalProvider.deliveryTimingChinese.put("Mon","星期一");
+          globalProvider.deliveryTimingChinese.put("Tue","星期二");
+          globalProvider.deliveryTimingChinese.put("Wed","星期三");
+          globalProvider.deliveryTimingChinese.put("Thu","星期四");
+          globalProvider.deliveryTimingChinese.put("Fri","星期五");
+          globalProvider.deliveryTimingChinese.put("Sat","星期六");
+          globalProvider.deliveryTimingChinese.put("Sun","星期天");
       }
     }
     private void getCategoryImage()
@@ -649,6 +637,9 @@ public class SplashActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                String message = globalProvider.getErrorMessage(error);
+                Toast.makeText(SplashActivity.this, message, Toast.LENGTH_SHORT).show();
+
 
             }
         });

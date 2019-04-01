@@ -238,6 +238,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         Intent intent = getIntent();
         product = (Product) intent.getSerializableExtra("product");
         saleAdapterposition=intent.getIntExtra("saleAdapterPosition",-1);
+        Log.d("pddd",product.getIfWeigh()+"");
       //  saleMultipleAdapterPosition=intent.getIntExtra("saleMultipleAdapterPosition",-1);
         Log.d("pdid",product.getId());
         getProductDetail(product.getId());
@@ -753,6 +754,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                         int val = categorySArray.getJSONObject(j).getInt("sequence");
                         if (val == 666) {
                             Log.d("categoryId",categorySArray.getJSONObject(j).getString("_id"));
+
 
 
                             getSpecialCategories(categorySArray.getJSONObject(j).getString("_id"));

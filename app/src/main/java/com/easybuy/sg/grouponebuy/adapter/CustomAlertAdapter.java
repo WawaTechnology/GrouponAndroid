@@ -58,7 +58,7 @@ public class CustomAlertAdapter extends BaseAdapter {
 
 
         int pos=position+1;
-        pdName.setText(pos+". "+mData.get(position).getProductName()+"  "+mContext.getResources().getString(R.string.stock_available)+" "+mData.get(position).getStock());
+        pdName.setText(pos+". "+mData.get(position).getProductName()+"\n"+mContext.getResources().getString(R.string.stock_available)+" "+mData.get(position).getStock());
 
 
 

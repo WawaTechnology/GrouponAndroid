@@ -40,19 +40,17 @@
         android:orientation="vertical">
 
 
-
-
         <TextView
-            android:layout_marginTop="4dp"
-            android:layout_marginLeft="16dp"
+            android:id="@+id/min_spendmsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/min_spendmsg"
-            android:textSize="14sp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="4dp"
             android:gravity="center"
+            android:text="@string/min_spend"
             android:textAlignment="gravity"
-            android:textColor="@color/red"
-            android:text="@string/min_spend"/>
+
+            android:textSize="14sp" />
         <SeekBar
             android:id="@+id/horizontal_progress_bar"
             style="?android:attr/progressBarStyleHorizontal"
@@ -62,7 +60,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="4dp"
+            android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="8dp"
             android:indeterminate="false"

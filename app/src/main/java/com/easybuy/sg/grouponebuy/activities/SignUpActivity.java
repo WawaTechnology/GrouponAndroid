@@ -58,7 +58,7 @@ ActivitySignupBinding activitySignupBinding;
 GlobalProvider globalProvider;
 ImageView backButton;
 int responseCode;
-Handler handler=new Handler();
+//Handler handler=new Handler();
 int n;
 
 
@@ -124,6 +124,8 @@ int n;
 
             }
         });
+
+        /*
 
        activitySignupBinding.getCodeButton.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -202,6 +204,7 @@ int n;
 
            }
        });
+       */
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -291,6 +294,7 @@ int n;
                     activitySignupBinding.confirm.setError("Please Enter password correctly");
 
                 }
+                /*
                 else if(TextUtils.isEmpty(activitySignupBinding.verificationCode.getText()))
                 {
                     activitySignupBinding.verificationCode.setError("Please Enter Valid Code");
@@ -299,6 +303,7 @@ int n;
                 {
                     activitySignupBinding.verificationCode.setError("Please Enter Valid Code");
                 }
+                */
                else {
                     User user=activitySignupBinding.getUsermodel();
                     Map<String,String> map=new HashMap<>();
@@ -405,6 +410,7 @@ int n;
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email)
                 .matches();
     }
+    /*
     public void onDestroy()
     {
         handler.removeCallbacks(runnable);
@@ -416,6 +422,7 @@ int n;
         super.onDestroy();
 
     }
+    */
     // end of TextWatcher (email)
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -433,6 +440,7 @@ int n;
         }
         return super.dispatchTouchEvent( event );
     }
+    /*
     final Runnable runnable=new Runnable() {
         @Override
         public void run() {
@@ -450,6 +458,7 @@ int n;
 
         }
     };
+    */
 
 
 }

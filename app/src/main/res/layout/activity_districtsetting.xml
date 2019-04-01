@@ -143,19 +143,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/your_unit_no" />
-            <TextView
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/table_noround"
-                android:id="@+id/unit_num"/>
+
             <EditText
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/table_noround"
                 android:id="@+id/unit_num_edit"
-                android:visibility="gone"
+
                 android:hint="#07-02"
 
                 />

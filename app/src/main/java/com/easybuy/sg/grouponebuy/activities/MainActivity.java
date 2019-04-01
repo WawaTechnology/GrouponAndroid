@@ -8,7 +8,9 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -59,10 +61,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class MainActivity extends AppCompatActivity implements CategoryListener {
     private static final int PERMISSION_REQUEST_CODE =123 ;
@@ -70,14 +80,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
     ImageView homeImage,aboutImage,favImage,productImage,cartImage;
     LinearLayout homeLinearLayout,productLinearLayout,aboutLinearLayout,favLinearLayout,cartLinearLayout;
     GlobalProvider globalProvider;
-   // TextView badgeTextView;
    private CircleBadgeView buyNumView;
     private  int DEFAULT_LR_PADDING_DIP = 5;
-
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,6 +139,20 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
                 setSelect(4);
             }
         });
+      //  new GooglePlayAppVersion(getPackageName(), version -> Log.d("TAG", String.format("App version: %s", version))).execute();
+        new GooglePlayAppVersion(getPackageName(), new GooglePlayAppVersion.Listener() {
+            @Override
+            public void result(String version) {
+
+                Log.d("TAG", String.format("App version: %s", version));
+
+            }
+        }).execute();
+
+
+
+
+
 
 
 
@@ -597,6 +615,5 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
 
 
-
-    }
+}
 

@@ -14,7 +14,7 @@
     <string name="remove_product">Remove the Product?</string>
     <string name="order_cancelled_success">Order cancelled succesfully</string>
     <string name="order_updated_success">Order Updated successfully</string>
-    <string name="net_balance">NetBalance: </string>
+    <string name="net_balance">NetBalance:</string>
     <string name="refund">Refund</string>
     <string name="balance">Balance:</string>
     <string name="checkout">CheckOut</string>
@@ -68,7 +68,7 @@
     <string name="offer">Offer</string>
     <string name="product">Product</string>
     <string name="me">My</string>
-    <string name="order_detail">Order Detail</string>
+    <string name="order_detail">Order Details</string>
     <string name="some_item_na">Some items are not available</string>
     <string name="something_wrong">something went wrong</string>
     <string name="orderID">Order ID: </string>
@@ -245,6 +245,13 @@ We will handle your payment and display it on your order status within 24 hours
     <string name="no_need">No need, thanks</string>
     <string name="scan_pay">Scan &amp; Pay</string>
     <string name="handle">We will handle within 24 hours</string>
+    <string name="update_address">Update Address</string>
+    <string name="update_user_unsuccessful">Failed to update user data</string>
+    <string name="update_user_successful">Successfully updated user data</string>
+    <string name="cancel_address_update">Cancel address update ? </string>
+    <string name="merge_existing_order_ques">We found that you have order to be delivered.Would you like to merge the selected products into your exisiting orders ?</string>
+
+
 
     <string name="completed">Completed</string>
     <string name="waiting">Waiting</string>

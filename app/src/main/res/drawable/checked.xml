@@ -7,5 +7,5 @@
     </item>
 
     <item
-        android:drawable="@drawable/ic_done_white" />
+        android:drawable="@drawable/ic_check_white_24dp" />
 </layer-list>

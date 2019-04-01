@@ -53,11 +53,8 @@ static public String baseUrlStr = "http://13.250.234.103:3000/";
     static public String withdrawUrl=baseUrlStr+"withdraws/create";
     static public String updatePasswordUrl=baseUrlStr+"users/checkEmail";
     static public String checkPhoneUrl=baseUrlStr+"users/checkPhone";
+    static public String checkAppUpdateUrl=baseUrlStr+"notifications/getUpdate";
     static public String sendEmailCode=baseUrlStr+"emails/sendEmailCode";
-
-
-
-
 
 
     public static String getToken(Context context) {

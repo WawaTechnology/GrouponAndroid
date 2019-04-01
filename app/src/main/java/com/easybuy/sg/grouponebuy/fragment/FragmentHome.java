@@ -473,7 +473,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             }};
         activityHomeBinding.catgoryRecycler.setLayoutManager(layoutManager);
 
-        ItemOffSetDecoration itemDecoration = new ItemOffSetDecoration(getContext(), R.dimen.item_offset);
+       ItemOffSetDecoration itemDecoration = new ItemOffSetDecoration(getContext(), R.dimen.item_offset);
         activityHomeBinding.catgoryRecycler.addItemDecoration(itemDecoration);
 
 

@@ -271,6 +271,10 @@ public class FragmentOrder extends Fragment {
 
                             Constants.setCustomer(getContext(), customer);
                             globalProvider.setCustomerId(Constants.getCustomer(getContext()).customer_id);
+                            if(customer.getRefund().getECoins()==-0)
+                            {
+                                customer.getRefund().setECoins(0.0);
+                            }
                             String ecoins = String.format("%.2f", customer.getRefund().getECoins());
 
                             balanceTextView.setText(getString(R.string.balance) + " $" + ecoins);

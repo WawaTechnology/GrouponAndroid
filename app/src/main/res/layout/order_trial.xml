@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/order_detail"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="44dp"
         android:text="@string/order_detail"
         android:textColor="@android:color/black"
@@ -27,7 +27,7 @@
         android:gravity="center"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/back"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -225,45 +225,48 @@
                 android:id="@+id/textView13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="16dp"
                 android:text="@string/sub_total"
+                android:textAlignment="textEnd"
                 app:layout_constraintEnd_toStartOf="@+id/sub_total"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
             <TextView
                 android:id="@+id/sub_total"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
-                android:text="TextView"
+                android:text="$ 226.50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
             <TextView
                 android:id="@+id/textViewDelivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
+                android:textAlignment="textEnd"
                 android:text="@string/delivery_cost"
                 app:layout_constraintEnd_toStartOf="@+id/delivery_price"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/delivery_price"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
+                android:text="$ 0.0"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="textview"
-                android:id="@+id/delivery_price"
-                app:layout_constraintTop_toBottomOf="@+id/sub_total"/>
+                app:layout_constraintTop_toBottomOf="@+id/sub_total" />
 
             <TextView
                 android:id="@+id/textView15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="6dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/net_balance"
                 app:layout_constraintEnd_toStartOf="@+id/net_balance"
@@ -271,11 +274,11 @@
 
             <TextView
                 android:id="@+id/net_balance"
-                android:layout_width="wrap_content"
+                android:layout_width="62dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                android:text="TextView"
+                android:text="-$ 1.84"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/delivery_price" />
 
@@ -284,7 +287,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginEnd="4dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/total_amount"
                 android:textColor="@color/black"
@@ -294,13 +297,13 @@
 
             <TextView
                 android:id="@+id/total_amt"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
+                android:text="$ 30.66"
                 android:textColor="@color/red"
-                android:text="TextView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/net_balance" />

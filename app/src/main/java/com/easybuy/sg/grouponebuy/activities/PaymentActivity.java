@@ -23,6 +23,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -274,8 +275,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // todo add alert box if want to submit order
-                new android.app.AlertDialog.Builder(PaymentActivity.this).setTitle(getString(R.string.alert))
+               final android.app.AlertDialog alertDialog= new android.app.AlertDialog.Builder(PaymentActivity.this).setTitle(getString(R.string.alert))
                         .setMessage(getString(R.string.submit_order)).setCancelable(false)
                         .setPositiveButton(getString(R.string.confm), new DialogInterface.OnClickListener() {
                             @Override
@@ -315,10 +315,10 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             jsonObject2.put("district", district.getId());
 
                                             //todo use radiobutton value
-                                          //  Log.d("invoicetext", invoiceChoiceText.getText().toString());
+                                            //  Log.d("invoicetext", invoiceChoiceText.getText().toString());
                                             //String invoiceValue = invoiceChoiceText.getText().toString();
 
-                                                jsonObject2.put("isPrint", true);
+                                            jsonObject2.put("isPrint", true);
 
                                             if (paymentMethodChoice.getText().toString().equals(getString(R.string.cash))) {
                                                 Log.d("valueis", "cash");
@@ -351,6 +351,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                     jsonObject3.put("isAttention", product.isAttention());
 
 
+
                                                 jsonObject3.put("productID", productId);
                                                 jsonObject3.put("name_ch", productCh);
                                                 jsonObject3.put("name_en", productName);
@@ -359,6 +360,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                 jsonObject3.put("unit_en", uniten);
                                                 jsonObject3.put("SKU", product.getsKU());
                                                 jsonObject3.put("supplier", product.getSupplier());
+                                                jsonObject3.put("ifWeigh",product.getIfWeigh());
                                                 String category = globalProvider.categoryNameMap.get(productId);
                                                 jsonObject3.put("category", category);
                                                 jsonObject3.put("imageCover", imageCover);
@@ -384,6 +386,22 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                         status = response.getInt("status");
 
                                                         if (status == 0) {
+                                                            Toast.makeText(PaymentActivity.this, getString(R.string.order_success), Toast.LENGTH_SHORT).show();
+                                                            globalProvider.categoryNameMap.clear();
+                                                            globalProvider.cartList.clear();
+                                                            totalamt = 0.0;
+                                                            subTotal=0.0;
+                                                            if (refundCost > 0) {
+                                                                double ecoin = Constants.getCustomer(PaymentActivity.this).getRefund().getECoins();
+                                                                double val=ecoin - refundCost;
+
+                                                                Log.d("shudecoin",val+"");
+                                                               Customer customer= Constants.getCustomer(PaymentActivity.this);
+                                                               customer.getRefund().setECoins(val);
+                                                               Constants.setCustomer(PaymentActivity.this,customer);
+                                                              //  Constants.getCustomer(PaymentActivity.this).getRefund().setECoins(ecoin - refundCost);
+                                                            }
+                                                            Log.d("acecoint",Constants.getCustomer(PaymentActivity.this).getRefund().getECoins()+"");
                                                             String orderCode = response.getJSONObject("payload").getString("orderCode");
                                                             Log.d("orderCode", orderCode);
 
@@ -412,15 +430,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                                 public void onResponse(JSONObject response) {
                                                                     Log.d("emailresponse", response.toString());
                                                                     //  Toast.makeText(getContext(), "Order Successfully placed", Toast.LENGTH_LONG).show();
-                                                                    Toast.makeText(PaymentActivity.this, getString(R.string.order_success), Toast.LENGTH_SHORT).show();
-                                                                    globalProvider.categoryNameMap.clear();
-                                                                    globalProvider.cartList.clear();
-                                                                    totalamt = 0.0;
-                                                                    subTotal=0.0;
-                                                                    if (refundCost > 0) {
-                                                                        double ecoin = Constants.getCustomer(PaymentActivity.this).getRefund().getECoins();
-                                                                        Constants.getCustomer(PaymentActivity.this).getRefund().setECoins(ecoin - refundCost);
-                                                                    }
+
                                                                     finish();
 
 
@@ -471,6 +481,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             }, new Response.ErrorListener() {
                                                 @Override
                                                 public void onErrorResponse(VolleyError error) {
+                                                    String message= globalProvider.getErrorMessage(error);
+                                                    Toast.makeText(PaymentActivity.this,message,Toast.LENGTH_LONG).show();
                                                     //  Log.d("checkerror", error.toString());
 
                                                 }
@@ -485,179 +497,192 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                 } else {
 
 
-                                            String modifyOrderUrl = Constants.modifyOrderUrl + prevOrder.getOrderID();
-                                            // Log.d("checkmofifyurl",modifyOrderUrl);
-                                            JSONObject jsonObject = new JSONObject();
-                                            JsonObjectRequest jsonObjectRequest = null;
-                                            try {
-                                                jsonObject.put("extraPrice", totalamt);
-                                                JSONArray jsonArray = new JSONArray();
-                                                for (Product product : globalProvider.cartList) {
-                                                    String productId = product.getId();
-                                                    Double price = product.getPrice();
-                                                    String specificationch = product.getSpecificationCh();
-                                                    String specificationen = product.getSpecificationEn();
-                                                    String uniten = product.getUnitEn();
-                                                    String unitch = product.getUnitCh();
-                                                    String imageCover = product.getImageCover();
-                                                    // String category = product.getCategory().getId();
-                                                    String productName = product.getNameEn();
-                                                    String productCh = product.getNameCh();
-                                                    int total = product.getTotalNumber();
-                                                    JSONObject jsonObject3 = new JSONObject();
-                                                    jsonObject3.put("productID", productId);
-                                                    jsonObject3.put("name_ch", productCh);
-                                                    jsonObject3.put("name_en", productName);
-                                                    jsonObject3.put("price", price);
-                                                    jsonObject3.put("unit_ch", unitch);
-                                                    jsonObject3.put("unit_en", uniten);
-                                                    String category = globalProvider.categoryNameMap.get(productId);
-                                                    jsonObject3.put("category", category);
-                                                    jsonObject3.put("category", category);
-                                                    jsonObject3.put("imageCover", imageCover);
-                                                    jsonObject3.put("specification_ch", specificationch);
-                                                    jsonObject3.put("specification_en", specificationen);
-                                                    JSONObject jsonObject4 = new JSONObject();
-                                                    jsonObject4.put("productInfo", jsonObject3);
-                                                    jsonObject4.put("quantity", total);
-                                                    jsonArray.put(jsonObject4);
-                                                }
-                                                jsonObject.put("extraProducts", jsonArray);
-                                                if (refundCost > 0) {
-                                                    Log.d("refunddd", "here");
-                                                    Log.d("refundcosts",refundCost+"");
-                                                    jsonObject.put("extraRefundCost", refundCost);
-                                                }
-                                                jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, modifyOrderUrl, jsonObject, new Response.Listener<JSONObject>() {
-                                                    @Override
-                                                    public void onResponse(JSONObject response) {
+                                    String modifyOrderUrl = Constants.modifyOrderUrl + prevOrder.getOrderID();
+                                    // Log.d("checkmofifyurl",modifyOrderUrl);
+                                    JSONObject jsonObject = new JSONObject();
+                                    JsonObjectRequest jsonObjectRequest = null;
+                                    try {
+                                        jsonObject.put("extraPrice", subTotal);
+                                        JSONArray jsonArray = new JSONArray();
+                                        for (Product product : globalProvider.cartList) {
+                                            String productId = product.getId();
+                                            Double price = product.getPrice();
+                                            String specificationch = product.getSpecificationCh();
+                                            String specificationen = product.getSpecificationEn();
+                                            String uniten = product.getUnitEn();
+                                            String unitch = product.getUnitCh();
+                                            String imageCover = product.getImageCover();
+                                            // String category = product.getCategory().getId();
+                                            String productName = product.getNameEn();
+                                            String productCh = product.getNameCh();
+                                            int total = product.getTotalNumber();
+                                            JSONObject jsonObject3 = new JSONObject();
+                                            jsonObject3.put("productID", productId);
+                                            jsonObject3.put("name_ch", productCh);
+                                            jsonObject3.put("name_en", productName);
+                                            jsonObject3.put("price", price);
+                                            jsonObject3.put("unit_ch", unitch);
+                                            jsonObject3.put("unit_en", uniten);
+                                            jsonObject3.put("ifWeigh",product.getIfWeigh());
+                                            String category = globalProvider.categoryNameMap.get(productId);
+                                            jsonObject3.put("category", category);
+                                            jsonObject3.put("category", category);
+                                            jsonObject3.put("imageCover", imageCover);
+                                            jsonObject3.put("specification_ch", specificationch);
+                                            jsonObject3.put("specification_en", specificationen);
+                                            JSONObject jsonObject4 = new JSONObject();
+                                            jsonObject4.put("productInfo", jsonObject3);
+                                            jsonObject4.put("quantity", total);
+                                            jsonArray.put(jsonObject4);
+                                        }
+                                        jsonObject.put("extraProducts", jsonArray);
+                                        if (refundCost > 0) {
+                                            Log.d("refunddd", "here");
+                                            Log.d("refundcosts",refundCost+"");
+                                            jsonObject.put("extraRefundCost", refundCost);
+                                        }
+                                        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, modifyOrderUrl, jsonObject, new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
 
-                                                        //Todo fetch product list from response and send it to sendEmail api
-                                                       Log.d("modifyresponse",response.toString());
-                                                        //todo check status
-                                                        int status = 0;
+                                                //Todo fetch product list from response and send it to sendEmail api
+                                                Log.d("modifyresponse",response.toString());
+                                                //todo check status
+                                                int status = 0;
 
-                                                        try {
-
-
-                                                            status = response.getInt("status");
-                                                            if (response.getInt("status") == 0) {
-
-                                                                status = response.getInt("status");
+                                                try {
 
 
-                                                               JSONArray jsonArray=response.getJSONObject("payload").getJSONArray("productList");
-                                                               Log.d("checkjsonarr",jsonArray.length()+"");
-                                                               totalamt=response.getJSONObject("payload").getDouble("totalPrice");
-                                                               refundCost=response.getJSONObject("payload").getDouble("refundCost");
-                                                                String orderCode = response.getJSONObject("payload").getString("orderCode");
-                                                                Log.d("orderCode", orderCode);
-
-                                                                JSONObject object = new JSONObject();
-                                                                object.put("productList", jsonArray);
-                                                                object.put("orderCode", orderCode);
-                                                                object.put("email", customer.getEmail());
-                                                                object.put("userName", customer.getUserName());
-                                                                object.put("totalPrice", totalamt + "");
-                                                                object.put("refundCost",refundCost);
-                                                                object.put("deliveryPrice",deliveryPrice);
-                                                                object.put("date", deliveryDat);
-                                                                String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
-                                                                Log.d("deliveryweek", week);
-                                                                object.put("week_en", week);
-                                                                object.put("week", globalProvider.deliveryTimingChinese.get(week));
-                                                                object.put("duration", duration);
+                                                    status = response.getInt("status");
+                                                    if (status == 0) {
+                                                        Toast.makeText(PaymentActivity.this, getString(R.string.order_success), Toast.LENGTH_SHORT).show();
 
 
-                                                                JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
-                                                                    @Override
-                                                                    public void onResponse(JSONObject response) {
-                                                                        Log.d("emailresponse", response.toString());
-                                                                        Toast.makeText(PaymentActivity.this, getString(R.string.order_success), Toast.LENGTH_SHORT).show();
+                                                        globalProvider.cartList.clear();
+
+                                                        //cartAdapter.notifyDataSetChanged();
+                                                        globalProvider.categoryNameMap.clear();
+                                                        totalamt = 0.0;
+                                                        subTotal=0.0;
+
+                                                        if (refundCost > 0) {
+                                                            Log.d("hereref",refundCost+"");
+                                                            double ecoin = Constants.getCustomer(PaymentActivity.this).getRefund().getECoins();
+                                                            double val=ecoin - refundCost;
 
 
-                                                                        globalProvider.cartList.clear();
-
-                                                                        //cartAdapter.notifyDataSetChanged();
-                                                                        globalProvider.categoryNameMap.clear();
-                                                                        totalamt = 0.0;
-                                                                        subTotal=0.0;
-                                                                        finish();
+                                                            Customer customer= Constants.getCustomer(PaymentActivity.this);
+                                                            customer.getRefund().setECoins(val);
+                                                            Constants.setCustomer(PaymentActivity.this,customer);
+                                                        }
 
 
-                                                                    }
-                                                                }, new Response.ErrorListener() {
-                                                                    @Override
-                                                                    public void onErrorResponse(VolleyError error) {
-
-                                                                    }
-                                                                });
-                                                                globalProvider.addRequest(objectRequest);
-
-                                                            } else if (status == 1) {
 
 
-                                                                Log.d("checknoitemResponse", response.toString());
+                                                        JSONArray jsonArray=response.getJSONObject("payload").getJSONArray("productList");
+                                                        totalamt=response.getJSONObject("payload").getDouble("totalPrice");
+                                                        refundCost=response.getJSONObject("payload").getDouble("refundCost");
+                                                        String orderCode = response.getJSONObject("payload").getString("orderCode");
+                                                        JSONObject object = new JSONObject();
+                                                        object.put("productList", jsonArray);
+                                                        object.put("orderCode", orderCode);
+                                                        object.put("email", customer.getEmail());
+                                                        object.put("userName", customer.getUserName());
+                                                        object.put("totalPrice", totalamt + "");
+                                                        object.put("refundCost",refundCost);
+                                                        object.put("deliveryPrice",deliveryPrice);
+                                                        object.put("date", deliveryDat);
+                                                        String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
+                                                        object.put("week_en", week);
+                                                        object.put("week", globalProvider.deliveryTimingChinese.get(week));
+                                                        object.put("duration", duration);
 
-                                                                Toast.makeText(PaymentActivity.this, "Some Items are not available", Toast.LENGTH_LONG).show();
 
-                                                                ObjectMapper objectMapper = new ObjectMapper();
-                                                                JsonFactory jsonFactory = new JsonFactory();
-                                                                try {
-                                                                    JsonParser jsonParser = jsonFactory.createParser(response.toString());
-                                                                    ResultProductList resultProductList = (ResultProductList) objectMapper.readValue(jsonParser, ResultProductList.class);
-                                                                    List<ProductStock> productStockList = new ArrayList<>();
-                                                                    for (ProductInfo product : resultProductList.getPayload()) {
-                                                                        if (lang.equals("english"))
-
-                                                                            productStockList.add(new ProductStock(product.getNameEn(), product.getStock()));
-                                                                        else
-                                                                            productStockList.add(new ProductStock(product.getNameCh(), product.getStock()));
-                                                                    }
-                                                                    displayStockList(productStockList);
-                                                                } catch (JsonParseException e) {
-                                                                    e.printStackTrace();
-                                                                } catch (IOException e) {
-                                                                    e.printStackTrace();
-                                                                }
+                                                        JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
+                                                            @Override
+                                                            public void onResponse(JSONObject response) {
+                                                                finish();
+                                                            }
+                                                        }, new Response.ErrorListener() {
+                                                            @Override
+                                                            public void onErrorResponse(VolleyError error) {
 
                                                             }
+                                                        });
+                                                        globalProvider.addRequest(objectRequest);
 
+                                                    } else if (status == 1) {
 
-                                                        } catch (JSONException e) {
+                                                        Toast.makeText(PaymentActivity.this, "Some Items are not available", Toast.LENGTH_LONG).show();
+
+                                                        ObjectMapper objectMapper = new ObjectMapper();
+                                                        JsonFactory jsonFactory = new JsonFactory();
+                                                        try {
+                                                            JsonParser jsonParser = jsonFactory.createParser(response.toString());
+                                                            ResultProductList resultProductList = (ResultProductList) objectMapper.readValue(jsonParser, ResultProductList.class);
+                                                            List<ProductStock> productStockList = new ArrayList<>();
+                                                            for (ProductInfo product : resultProductList.getPayload()) {
+                                                                if (lang.equals("english"))
+
+                                                                    productStockList.add(new ProductStock(product.getNameEn(), product.getStock()));
+                                                                else
+                                                                    productStockList.add(new ProductStock(product.getNameCh(), product.getStock()));
+                                                            }
+                                                            displayStockList(productStockList);
+                                                        } catch (JsonParseException e) {
+                                                            e.printStackTrace();
+                                                        } catch (IOException e) {
                                                             e.printStackTrace();
                                                         }
-                                                    }
-                                                }, new Response.ErrorListener() {
-                                                    @Override
-                                                    public void onErrorResponse(VolleyError error) {
-                                                        // Log.d("modifyerror",error.toString());
-                                                        Toast.makeText(PaymentActivity.this, getResources().getString(R.string.something_wrong), Toast.LENGTH_LONG).show();
-
 
                                                     }
-                                                });
 
 
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
                                             }
-                                            globalProvider.addRequest(jsonObjectRequest);
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                // Log.d("modifyerror",error.toString());
+                                                String message= globalProvider.getErrorMessage(error);
+                                                Toast.makeText(PaymentActivity.this,message,Toast.LENGTH_LONG).show();
 
 
-                                        }
+                                            }
+                                        });
+
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                    globalProvider.addRequest(jsonObjectRequest);
+
 
                                 }
+
+                            }
 
 
 
 
 
                         }).setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        submitButton.setEnabled(true);
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                submitButton.setEnabled(true);
+                            }
+                        }).create();
+                alertDialog.setOnShowListener( new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface arg0) {
+                        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.grey));
                     }
-                }).show();
+                });
+
+                alertDialog.show();
+                // todo add alert box if want to submit order
+
 
 
             }
@@ -674,7 +699,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         LayoutInflater inflater = getLayoutInflater();
         View convertView = (View) inflater.inflate(R.layout.custom_listalert, null, false);
 
-        ListView lv = (ListView) convertView.findViewById(R.id.lvw);
+       // ListView lv = (ListView) convertView.findViewById(R.id.lvw);
 
         final CustomAlertAdapter adapter = new CustomAlertAdapter(productStockList, PaymentActivity.this);
         alertDialog.setTitle(getResources().getString(R.string.sorry_insufficient));
@@ -808,10 +833,21 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         if(customer.getRefund().getECoins()==0) {
 
             String total=String.format("%.2f",totalamt);
+            total="$ "+total;
+            String[] each = total.split("\\.");
+
+            each[0]=each[0]+".";
+            //adding spannable so that textsize of amount before. is more
+
+            Spannable spannable = new SpannableString(total);
+
+            spannable.setSpan(new AbsoluteSizeSpan(18, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            totalAmountText.setText(spannable, TextView.BufferType.SPANNABLE);
+            totalText.setText(spannable, TextView.BufferType.SPANNABLE);
 
 
-            totalAmountText.setText("$ " + total);
-            totalText.setText("$ "+total);
+
 
             netBalanceText.setText("-$ "+0.0);
 
@@ -838,9 +874,21 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             netBalanceText.setText("-$ "+refundCostInString);
           totalamt=(totalamt-refundCost);
             String total=String.format("%.2f",totalamt);
+            total="$ "+total;
+            String[] each = total.split("\\.");
 
-            totalAmountText.setText("$ "+total);
-            totalText.setText("$ "+total);
+            each[0]=each[0]+".";
+            //adding spannable so that textsize of amount before. is more
+
+            Spannable spannable = new SpannableString(total);
+
+            spannable.setSpan(new AbsoluteSizeSpan(18, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            totalAmountText.setText(spannable, TextView.BufferType.SPANNABLE);
+            totalText.setText(spannable, TextView.BufferType.SPANNABLE);
+
+           // totalAmountText.setText("$ "+total);
+           // totalText.setText("$ "+total);
 
         }
 
@@ -1133,6 +1181,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
     @Override
     public void onChangeDate(Delivery delivery) {
+
         deliveryDateText.setText(delivery.getDate()+" "+delivery.getWeek()+" "+delivery.getTime());
         deliveryDat=delivery.getDate();
 

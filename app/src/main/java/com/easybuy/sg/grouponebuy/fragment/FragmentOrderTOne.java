@@ -231,6 +231,7 @@ public class FragmentOrderTOne extends Fragment {
                 orderList.clear();
                 orderAdapter.notifyDataSetChanged();
                 getOrders();
+                getBadge();
 
 
                 paymenttext.setTextColor(oldColors);
@@ -276,6 +277,7 @@ public class FragmentOrderTOne extends Fragment {
                 page = 1;
                 orderList.clear();
                 orderAdapter.notifyDataSetChanged();
+                getBadge();
                 getOrders();
                /* orderList.clear();
                 for(Order order:allOrderList)
@@ -404,8 +406,8 @@ public class FragmentOrderTOne extends Fragment {
                 getBadge();
                 Log.d("onresumeorder", "here");
                 orderList.clear();
-                orderAdapter.notifyDataSetChanged();
-                TAB_PRESSED = 1;
+
+                //TAB_PRESSED = 1;
                 TOTAL_PAGE = 2;
                 page = 1;
 
@@ -486,6 +488,8 @@ public class FragmentOrderTOne extends Fragment {
                                 badgeText.setTextColor(getResources().getColor(R.color.white));
                                 badgeText.setText(waitingProcessing + "");
                                 badgeText.setVisibility(View.VISIBLE);
+                                Log.d("getwaitingProcessing", waitingProcessing + "");
+
                             /*processingView.setText(waitingProcessing + "");//
 
 
@@ -533,6 +537,7 @@ public class FragmentOrderTOne extends Fragment {
         {
             globalProvider.getRequestQueue().cancelAll(TAG);
         }
+
         super.onStop();
     }
 
@@ -560,6 +565,7 @@ public class FragmentOrderTOne extends Fragment {
             params.put("userID", globalProvider.getCustomerId());
           Log.d("customerid",globalProvider.getCustomerId());
           Log.d("url",url);
+          Log.d("paramstate",params.get("state"));
 
            // params.put("userID", globalProvider.getCustomer().customer_id);
 

@@ -14,7 +14,7 @@ public class ProductOrderList implements Serializable {
     @JsonProperty("productInfo")
     private ProductInfo productInfo;
     @JsonProperty("quantityActual")
-    private Integer quantityActual;
+    private Double quantityActual;
     @JsonProperty("_id")
     private String id;
     @JsonProperty("quantity")
@@ -31,12 +31,12 @@ public class ProductOrderList implements Serializable {
     }
 
     @JsonProperty("quantityActual")
-    public Integer getQuantityActual() {
+    public Double getQuantityActual() {
         return quantityActual;
     }
 
     @JsonProperty("quantityActual")
-    public void setQuantityActual(Integer quantityActual) {
+    public void setQuantityActual(Double quantityActual) {
         this.quantityActual = quantityActual;
     }
 

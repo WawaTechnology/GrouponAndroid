@@ -25,10 +25,16 @@ public class ProductInfo implements Serializable {
     private String unitCh;
     @JsonProperty("unit_en")
     private String unitEn;
+
+
+
     @JsonProperty("category")
+
     private String category;
     @JsonProperty("imageCover")
     private String imageCover;
+    @JsonProperty("ifWeigh")
+    private Boolean ifWeigh;
 
     public Integer getStock() {
         return stock;
@@ -145,6 +151,15 @@ public class ProductInfo implements Serializable {
     @JsonProperty("specification_en")
     public void setSpecificationEn(String specificationEn) {
         this.specificationEn = specificationEn;
+    }
+    @JsonProperty("ifWeigh")
+    public Boolean getIfWeigh() {
+        return ifWeigh;
+    }
+
+    @JsonProperty("ifWeigh")
+    public void setIfWeigh(Boolean ifWeigh) {
+        this.ifWeigh = ifWeigh;
     }
 
 }

@@ -3,13 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
     android:layout_height="wrap_content"
 
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <TextView
+        android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+
+        android:gravity="center_horizontal"
+        android:textAlignment="gravity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:maxLines="3"
+
 
         android:id="@+id/productName"/>
 

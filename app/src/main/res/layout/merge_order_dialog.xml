@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/white"
+
+
     android:layout_height="wrap_content">
     <View
         android:layout_width="match_parent"
@@ -18,9 +20,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:gravity="center"
         android:textAlignment="gravity"
-        android:text="We find that you have order to be delivered.Would you like to merge the selected products into your exisiting orders ?"/>
+        android:text="@string/merge_existing_order_ques"/>
 <!--
   <android.support.v7.widget.RecyclerView
       android:layout_marginTop="8dp"
@@ -68,23 +72,25 @@
         android:id="@+id/order_3"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/button_rectangle"
 
 
         />
     <TextView
-        android:layout_marginTop="8dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:id="@+id/no_order"
         android:textColor="@drawable/date_selector"
+        android:layout_marginBottom="24dp"
 
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/button_rectangle"
         android:text="No,Create New Order"
-        android:layout_marginBottom="24dp"
+
         />
 
 

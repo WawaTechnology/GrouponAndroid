@@ -215,7 +215,6 @@ public class ConsumeHistoryActivity extends AppCompatActivity implements Withdra
         String ecoins=String.format("%.2f", customer.getRefund().getECoins());
 
         withdrawAmount.setText("$ "+ecoins);
-        if(consumeList.isEmpty())
             getConsumeList();
         super.onResume();
     }

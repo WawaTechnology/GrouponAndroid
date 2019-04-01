@@ -59,29 +59,22 @@ import java.util.Map;
 
 public class DistrictSettingActivity extends AppCompatActivity  {
     TextView resultPostalText,  openResultTextView;
-   // TextView pscode;
-    //Button applyButton;
     EditText postalTextView;
-   // EditText blkEditText, districtEditText,postalTextView;
     GlobalProvider globalProvider;
     Button emailButton,telephoneButton,noNeedButton;
-
-
-
     ImageView searchView;
     String postalcode;
     TextView addressText,cycleText,deliveryText;
     LinearLayout deliveryTimeLayout;
     LinearLayout notOpenLayout,openLayOut;
 
-    TextView unitNumberText;
     Button bindingButton;
     private String districtId;
     EditText unitNumEdit;
     boolean hasUnit;
     boolean postCodeChanged;
-
     ImageView backButton;
+    boolean isEdited;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,11 +86,6 @@ public class DistrictSettingActivity extends AppCompatActivity  {
         noNeedButton=(Button)findViewById(R.id.no_needClicked);
         if(globalProvider.getCustomerId()!=null)
         {
-           /* if(globalProvider.getCustomer().getAddress()!=null&&globalProvider.getCustomer().getAddress().length()>0)
-            {
-                hasUnit=true;
-            }
-            */
             if(Constants.getCustomer(getApplicationContext()).address!=null&&Constants.getCustomer(getApplicationContext()).address.length()>0)
             {
                 hasUnit=true;
@@ -112,7 +100,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
 
         //pscode = (TextView) findViewById(R.id.pscode);
         openResultTextView = (TextView) findViewById(R.id.open_result);
-        unitNumberText=(TextView) findViewById(R.id.unit_num);
+
         bindingButton=(Button) findViewById(R.id.bindingbutton);
         unitNumEdit=(EditText) findViewById(R.id.unit_num_edit);
 
@@ -152,7 +140,23 @@ public class DistrictSettingActivity extends AppCompatActivity  {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if (isEdited) {
+                    new AlertDialog.Builder(DistrictSettingActivity.this).setTitle(R.string.alert).setMessage(R.string.cancel_address_update).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                           finish();
+                        }
+                    }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                        }
+                    }).create().show();
+
+                }
+                else
+                    finish();
             }
         });
      
@@ -180,6 +184,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                     openLayOut.setVisibility(View.GONE);
                 }
                 else if(postalTextView.getText().toString().length()==6) {
+                    isEdited=true;
                     resultPostalText.setVisibility(View.VISIBLE);
                     postalcode = postalTextView.getText().toString();
                     checkPostalStatus(postalcode);
@@ -210,8 +215,6 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                         return;
 
                     }
-
-                    // String url="http://192.168.1.70:3000/users/binding/"+globalProvider.getCustomer().customer_id;
                     String url = Constants.changeDistrictUrl + globalProvider.getCustomerId();
                     Log.d("checkurl", url);
                     final Map<String, String> params = new HashMap<>();
@@ -454,18 +457,18 @@ public class DistrictSettingActivity extends AppCompatActivity  {
 
                                     if(globalProvider.getCustomerId()!=null&&hasUnit&&(Constants.getCustomer(getApplicationContext()).postcode.equals(postalcode))&&!postCodeChanged) {
                                        Log.d("buttonno","no");
-                                        unitNumberText.setText(Constants.getCustomer(getApplicationContext()).address);
-                                        bindingButton.setVisibility(View.GONE);
-                                        unitNumEdit.setVisibility(View.GONE);
-                                        unitNumberText.setVisibility(View.VISIBLE);
+                                       // unitNumberText.setText(Constants.getCustomer(getApplicationContext()).address);
+                                        unitNumEdit.setText(Constants.getCustomer(getApplicationContext()).address);
+                                       // bindingButton.setVisibility(View.GONE);
+                                        //unitNumEdit.setVisibility(View.GONE);
+                                       // unitNumberText.setVisibility(View.VISIBLE);
                                     }
-                                    else
-                                    {
+
                                         Log.d("buttonno","yes");
                                         unitNumEdit.setVisibility(View.VISIBLE);
                                         bindingButton.setVisibility(View.VISIBLE);
-                                        unitNumberText.setVisibility(View.GONE);
-                                    }
+
+
 
 
 
@@ -597,5 +600,28 @@ public class DistrictSettingActivity extends AppCompatActivity  {
 
         //Todo add dialog
     }
+    @Override
+    public void onBackPressed()
+    {
+        if(isEdited) {
+
+            new AlertDialog.Builder(DistrictSettingActivity.this).setTitle(R.string.alert).setMessage(R.string.cancel_address_update).setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                }
+            }).create().show();
+        }
+        else
+            super.onBackPressed();
+
+    }
+
     }
 

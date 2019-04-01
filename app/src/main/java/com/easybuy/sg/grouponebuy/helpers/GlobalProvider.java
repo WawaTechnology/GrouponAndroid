@@ -9,8 +9,14 @@ import android.os.Build;
 import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.activities.MainActivity;
@@ -297,6 +303,22 @@ public class GlobalProvider {
 
     public void setCategoryNameMap(Map<String, String> categoryNameMap) {
         this.categoryNameMap = categoryNameMap;
+    }
+    public  String getErrorMessage(VolleyError error)
+    {
+        String message = null;
+        if (error instanceof NetworkError) {
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (error instanceof ServerError) {
+            message = "The server could not be found. Please try again after some time!!";
+        }  else if (error instanceof ParseError) {
+            message = "Parsing error! Please try again after some time!!";
+        } else if (error instanceof NoConnectionError) {
+            message = "Cannot connect to Internet...Please check your connection!";
+        } else if (error instanceof TimeoutError) {
+            message = "Connection TimeOut! Please check your internet connection.";
+        }
+        return message;
     }
     public static ContextWrapper changeLang(Context context, String lang_code){
         Locale sysLocale;

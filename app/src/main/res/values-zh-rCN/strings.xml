@@ -25,7 +25,7 @@
     <string name="payment_method">支付方式:</string>
     <string name="payment_hint">注: 如果支付方式选择PayNow，请转账至</string>
     <string name="cash">现金</string>
-    <string name="yes">需要</string>
+    <string name="yes">确定</string>
     <string name="no">不需要</string>
     <string name="something_wrong">出错了</string>
     <string name="remove_product">移除该产品?</string>
@@ -105,6 +105,7 @@
     <string name="userName">用户名</string>
     <string name="feedback_successful">留言成功</string>
     <string name="customer_successful">客户服务: </string>
+    <string name="merge_existing_order_ques">检测到您有尚未配送的订单，是否将新添加产品合并到同张订单一起配送？</string>
     <string name="customer_service_hour">注： 客服上班时间为每天 9:30 am - 8:30 pm</string>
     <string name="processing">待收货</string>
     <string name="my_order">订单</string>
@@ -125,6 +126,10 @@
     <string name="details">填写提现细节</string>
     <string name="amount">提现金额 : </string>
     <string name="receiver_account">提至账户: </string>
+    <string name="update_address">修改地址</string>
+    <string name="update_user_unsuccessful">更新用户数据失败</string>
+    <string name="update_user_successful">成功更新用户数据</string>
+    <string name="cancel_address_update">取消地址更新 ?</string>
 
 
     <string name="after_sale">我们承诺——坏果包退：\n

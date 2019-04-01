@@ -8,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AbsoluteSizeSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -84,7 +86,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         holder.quantityText.setText("X "+product.getQuantity());
         Glide.with(context).load(Constants.newImageUrl+product.getProductInfo().getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(holder.productImage);
 
-        if(!state.equalsIgnoreCase("processing")&&product.getQuantityActual()!=null&&product.getQuantityActual()!=0&&product.getQuantityActual()!=product.getQuantity())
+        if(!state.equalsIgnoreCase("processing")&&product.getQuantityActual()!=null&&product.getQuantityActual()!=0&&product.getQuantityActual()<product.getQuantity())
         {
           holder.quantityRequestedText.setVisibility(View.VISIBLE);
           int space=0;
@@ -131,24 +133,27 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         holder.minusImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               final int quant=Integer.parseInt(holder.quantityEditText.getText().toString());
-                if((quant-1)==0)
-                {
-                    String productName=null;
-                    if(lang.equals("english")) {
-                         productName = product.getProductInfo().getNameEn();
-                    }
-                    else
-                        productName=product.getProductInfo().getNameCh();
+                Log.d("minuscalled", "here");
+
+
+                double price = ((OrderDetailActivity) context).changedtotal - product.getProductInfo().getPrice();
+                if (price > Constants.getCustomer(context).getDistrict().getDeliveryCost()) {
+                    final int quant = Integer.parseInt(holder.quantityEditText.getText().toString());
+                    if ((quant - 1) == 0) {
+                        String productName = null;
+                        if (lang.equals("english")) {
+                            productName = product.getProductInfo().getNameEn();
+                        } else
+                            productName = product.getProductInfo().getNameCh();
 
 
                         new AlertDialog.Builder(context).setTitle(productName).setMessage(context.getString(R.string.remove_product)).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                product.setQuantity(quant-1);
-                                holder.quantityEditText.setText(quant-1+"");
-                                quantityChangedListener.onQuantityChanged(product,quant-1,"sub");
+                                product.setQuantity(quant - 1);
+                                holder.quantityEditText.setText(quant - 1 + "");
+                                quantityChangedListener.onQuantityChanged(product, quant - 1, "sub");
                                 dialogInterface.dismiss();
 
 
@@ -159,21 +164,24 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                                 dialogInterface.dismiss();
 
 
-
                             }
                         }).create().show();
+
+                    } else {
+
+                        product.setQuantity(quant - 1);
+                        holder.quantityEditText.setText(quant - 1 + "");
+                        quantityChangedListener.onQuantityChanged(product, quant - 1, "sub");
+                    }
+
 
                 }
                 else
                 {
-
-                    product.setQuantity(quant-1);
-                    holder.quantityEditText.setText(quant-1+"");
-                    quantityChangedListener.onQuantityChanged(product,quant-1,"sub");
+                    Toast.makeText(context,context.getResources().getString(R.string.min_spend)+" $ "+Constants.getCustomer(context).getDistrict().getDeliveryCost(), Toast.LENGTH_LONG).show();
                 }
-
-
             }
+
         });
         holder.plusImage.setOnClickListener(new View.OnClickListener() {
             @Override

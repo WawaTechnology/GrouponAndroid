@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -70,33 +72,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="1dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="#fff"
-
-        >
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="@string/email"
-            />
-        <EditText
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-
-            android:textSize="14sp"
-
-            android:id="@+id/email_edit"
-            android:background="@null"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="#fff"
         android:layout_marginTop="1dp"
 
@@ -117,59 +92,6 @@
             android:layout_height="wrap_content"
 
             android:id="@+id/phone_edit"
-            android:background="@null"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#fff"
-        android:paddingBottom="5dp"
-        android:layout_marginTop="1dp"
-
-        android:paddingTop="5dp"
-        >
-        <TextView
-            android:layout_width="100dp"
-            android:layout_marginLeft="16dp"
-            android:layout_height="wrap_content"
-            android:text="@string/postcode"
-            />
-        <EditText
-            android:layout_width="wrap_content"
-
-            android:textSize="14sp"
-
-            android:layout_height="wrap_content"
-
-            android:id="@+id/postcode_edit"
-            android:background="@null"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@color/white"
-
-        android:layout_marginTop="1dp"
-        >
-        <TextView
-            android:layout_width="100dp"
-            android:layout_marginLeft="16dp"
-            android:layout_height="wrap_content"
-            android:text="@string/unit_no"
-            />
-        <EditText
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-
-            android:id="@+id/unitno_edit"
             android:background="@null"
             />
     </LinearLayout>
@@ -202,11 +124,137 @@
             android:background="@null"
             />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="1dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="#fff"
 
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="@string/email"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:textSize="14sp"
+
+            android:id="@+id/email_text"
+            android:background="@null"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="1dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="#fff"
+
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:text="@string/address"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:textSize="14sp"
+
+            android:id="@+id/address_text"
+            android:background="@null"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="1dp"
+
+        android:paddingTop="5dp"
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_marginLeft="16dp"
+            android:layout_height="wrap_content"
+            android:text="@string/postcode"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:textSize="14sp"
+
+            android:layout_height="wrap_content"
+
+            android:id="@+id/postcode_text"
+            android:background="@null"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="@color/white"
+
+        android:layout_marginTop="1dp"
+        >
+        <TextView
+            android:layout_width="100dp"
+            android:layout_marginLeft="16dp"
+            android:layout_height="wrap_content"
+            android:text="@string/unit_no"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+
+
+            android:id="@+id/unitno_text"
+            android:background="@null"
+            />
+    </LinearLayout>
     <Button
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/button_rectangle"
+
+        android:textColor="@color/red"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:textSize="18sp"
+        android:id="@+id/update_address"
+        android:text="@string/update_address"/>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginTop="8dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:background="@color/red"
