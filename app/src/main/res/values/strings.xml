@@ -227,6 +227,10 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="paynow_hint">Note: If you select PayNow as payment, please scan the payment QR code on our receipt.
 We will handle your payment and display it on your order status within 24 hours
 .</string>
+    <string name="do_not_ask_again">Do Not Ask Again</string>
+    <string name="update">Update</string>
+    <string name="sold_out">Sold Out</string>
+    <string name="sold">Sold</string>
 
     <string name="paynow_phone">Phone: 8518 9139 </string>
     <string name="account_paynow">Account: Ebuy Groupon</string>
@@ -249,9 +253,11 @@ We will handle your payment and display it on your order status within 24 hours
     <string name="update_user_unsuccessful">Failed to update user data</string>
     <string name="update_user_successful">Successfully updated user data</string>
     <string name="cancel_address_update">Cancel address update ? </string>
+    <string name="delivery_address">Delivery Address</string>
+    <string name="account_information">Account Information</string>
     <string name="merge_existing_order_ques">We found that you have order to be delivered.Would you like to merge the selected products into your exisiting orders ?</string>
 
-
+    <string name="almost_sold_out">Almost Sold Out</string>
 
     <string name="completed">Completed</string>
     <string name="waiting">Waiting</string>

@@ -91,18 +91,16 @@
         android:layout_height="200dp"
         android:id="@+id/relative_layout"
         >
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
 
 
-        android:layout_height="match_parent"
+            android:layout_height="match_parent"
 
 
-
-
-
-         />
+            />
     <LinearLayout
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
@@ -149,6 +147,53 @@ paste special banner here-->
 
      android:gravity="center_horizontal"
      android:id="@+id/catgory_recycler"></android.support.v7.widget.RecyclerView>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/board_layout"
+
+                android:orientation="vertical">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/grey_dark"></View>
+                <LinearLayout
+                    android:layout_marginLeft="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+
+                    android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="30dp"
+                    android:adjustViewBounds="true"
+
+                    android:gravity="center"
+                    android:id="@+id/board_img"/>
+                    <TextView
+                        android:layout_marginLeft="5dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="|"
+                        ></TextView>
+
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:id="@+id/board_label"
+                    android:textAlignment="gravity"
+                    android:text="Board Test"></TextView>
+                </LinearLayout>
+            </LinearLayout>
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -157,6 +202,10 @@ paste special banner here-->
         android:visibility="gone"
         android:id="@+id/flashsalelayout"
         android:orientation="vertical">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@color/new_grey"></View>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -271,8 +320,9 @@ paste special banner here-->
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="2dp"
+
         android:id="@+id/double_bottomrecycler"
         ></android.support.v7.widget.RecyclerView>
 
@@ -281,8 +331,9 @@ paste special banner here-->
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:layout_marginLeft="8dp"
-       android:layout_marginRight="8dp"
+
+
+
         android:id="@+id/recycler_threelayout"
         ></android.support.v7.widget.RecyclerView>
 

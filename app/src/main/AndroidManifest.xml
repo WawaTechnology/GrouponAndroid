@@ -55,6 +55,8 @@
         <activity android:name=".activities.ProductActivity"></activity>
         <activity android:name=".activities.SpecialSaleLayout"></activity>
         <activity android:name=".activities.ChangeLanguageActivity"></activity>
+        <activity android:name=".activities.BoardActivity"></activity>
+        <activity android:name=".activities.ChangeInformationActivity"></activity>
 
     </application>
 

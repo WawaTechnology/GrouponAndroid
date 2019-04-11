@@ -1,20 +1,16 @@
 package com.easybuy.sg.grouponebuy.activities;
 
-import android.content.Context;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,35 +42,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EditInfoActivity extends AppCompatActivity {
-    private static final int PICK_PHOTO = 123;
-    EditText nameEdit, phoneEdit, paynowEdit;
-    TextView postcodeText, unitNoText,addressText,emailText;
+
+    TextView nameText, phoneText, paynowText;
+    TextView addressText,emailText;
     //ImageView uploadImageIcon;
     ImageView backButton;
     ImageView bottomImage;
     GlobalProvider globalProvider;
-    Button saveButton,updateAddressButton;
+    private static final int Code=123;
+    TextView addressChangeText;
+    TextView phoneLabel,emailLabel;
+
+
     Map<String, String> params;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_info);
-        params = new HashMap<>();
-        nameEdit = (EditText) findViewById(R.id.name_edit);
+        nameText = (TextView) findViewById(R.id.name_text);
         emailText = (TextView) findViewById(R.id.email_text);
-        phoneEdit = (EditText) findViewById(R.id.phone_edit);
-        postcodeText = (TextView) findViewById(R.id.postcode_text);
-        unitNoText = (TextView) findViewById(R.id.unitno_text);
-        paynowEdit = (EditText) findViewById(R.id.paynow_edit);
+        phoneText = (TextView) findViewById(R.id.phone_text);
+
+
+        paynowText = (TextView) findViewById(R.id.paynow_text);
         addressText=(TextView) findViewById(R.id.address_text);
         backButton=(ImageView)findViewById(R.id.back);
-        saveButton = (Button) findViewById(R.id.save);
-        updateAddressButton=(Button) findViewById(R.id.update_address);
+        phoneLabel=(TextView) findViewById(R.id.phone_label);
+        emailLabel=(TextView)findViewById(R.id.email_label) ;
+        addressChangeText=(TextView) findViewById(R.id.address_next);
+
+
         bottomImage=(ImageView) findViewById(R.id.bottomimage);
+        params = new HashMap<>();
         globalProvider = GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         Customer customer = Constants.getCustomer(getApplicationContext());
-        nameEdit.setText(customer.userName);
-        nameEdit.addTextChangedListener(new TextWatcher() {
+        nameText.setText(customer.userName);
+        String phoneTextLabel=getResources().getString(R.string.phone);
+        phoneLabel.setText(phoneTextLabel.substring(0,phoneTextLabel.length()-1));
+        String emailTextLabel=getResources().getString(R.string.email);
+        emailLabel.setText(emailTextLabel.substring(0,emailTextLabel.length()-1));
+      /*  nameEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -91,20 +98,13 @@ public class EditInfoActivity extends AppCompatActivity {
 
             }
         });
+        */
         emailText.setText(customer.email);
 
-        phoneEdit.setText(customer.phone);
-        //plcing the edit cursor at the end of phoneNumber
-       /* phoneEdit.post(new Runnable() {
-            @Override
-            public void run() {
-                phoneEdit.setSelection(phoneEdit.getText().length());
+        phoneText.setText(customer.phone);
 
-            }
-        });
-        */
 
-        phoneEdit.addTextChangedListener(new TextWatcher() {
+     /*   phoneText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -121,29 +121,31 @@ public class EditInfoActivity extends AppCompatActivity {
 
             }
         });
-        postcodeText.setText(customer.postcode);
+        */
+
         if (customer.address != null) {
-            unitNoText.setText(customer.address);
+
             if(Constants.getLanguage(EditInfoActivity.this).equals("english"))
             {
-                addressText.setText(customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.getDistrict().getNamePrimaryEn());
+                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.getDistrict().getNamePrimaryEn()+" "+customer.postcode);
             }
             else
             {
-                addressText.setText(customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.getDistrict().getNamePrimaryCh());
+                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.getDistrict().getNamePrimaryCh()+" "+customer.postcode);
             }
 
         }
 
         Glide.with(this).load(R.drawable.ebuygrey).fitCenter().into(bottomImage);
-
-        updateAddressButton.setOnClickListener(new View.OnClickListener() {
+        addressChangeText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(EditInfoActivity.this,DistrictSettingActivity.class);
                 startActivity(intent);
             }
         });
+
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,11 +154,11 @@ public class EditInfoActivity extends AppCompatActivity {
             }
         });
         if (customer.getPayNowAccount() != null) {
-            paynowEdit.setText(customer.getPayNowAccount());
+            paynowText.setText(customer.getPayNowAccount());
 
 
         }
-        paynowEdit.addTextChangedListener(new TextWatcher() {
+        /*paynowEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -173,6 +175,7 @@ public class EditInfoActivity extends AppCompatActivity {
 
             }
         });
+        */
 
 
         final View parent = (View) backButton.getParent();  // button: the view you want to enlarge hit area
@@ -187,7 +190,7 @@ public class EditInfoActivity extends AppCompatActivity {
                 parent.setTouchDelegate( new TouchDelegate( rect , backButton));
             }
         });
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        /*saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
@@ -217,8 +220,44 @@ public class EditInfoActivity extends AppCompatActivity {
 
             }
         });
+        */
 
     }
+    public void changeInformation(View view)
+    {
+        int id=view.getId();
+        Log.d("idis",id+"");
+        Intent intent=new Intent(EditInfoActivity.this,ChangeInformationActivity.class);
+
+
+        switch(id)
+        {
+            case R.id.name_next:
+            {
+                Log.d("nameis",R.id.name_next+"");
+                intent.putExtra("changeField","name");
+                break;
+            }
+            case R.id.email_next:
+            {
+                intent.putExtra("changeField","email");
+                break;
+            }
+            case R.id.phone_next:
+            {
+                intent.putExtra("changeField","phone");
+                break;
+            }
+            case R.id.paynow_next:
+            {
+                intent.putExtra("changeField","paynow");
+                break;
+            }
+        }
+
+        startActivityForResult(intent,Code);
+    }
+
     /*
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
@@ -238,6 +277,41 @@ public class EditInfoActivity extends AppCompatActivity {
     }
     */
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode==Code&&resultCode== Activity.RESULT_OK)
+        {
+          Map<String,String> map= (Map<String, String>) data.getSerializableExtra("infoupdated");
+            Map.Entry<String,String> entry=  map.entrySet().iterator().next();
+            String key = entry.getKey();
+            Log.d("key",key);
+          switch(key)
+          {
+              case "userName":
+              {
+                 nameText.setText(entry.getValue());
+                  break;
+
+              }
+              case "phone":
+              {
+                  phoneText.setText(entry.getValue());
+                  break;
+              }
+              case "email":
+              {
+                  emailText.setText(entry.getValue());
+                  break;
+              }
+              case "PayNowAccount":
+              {
+                  paynowText.setText(entry.getValue());
+                  break;
+              }
+          }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     private void updateCustomer() {
         String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
@@ -307,11 +381,11 @@ public class EditInfoActivity extends AppCompatActivity {
                 public void afterTextChanged(Editable editable) {
                     String text = editable.toString();
                     switch (view.getId()) {
-                        case R.id.name_edit: {
+                        case R.id.name_text: {
                             params.put("userName", text);
                             break;
                         }
-                        case R.id.phone_edit:
+                        case R.id.phone_text:
                         {
                             params.put("phone",text);
                             break;
@@ -319,7 +393,7 @@ public class EditInfoActivity extends AppCompatActivity {
 
 
 
-                        case R.id.paynow_edit: {
+                        case R.id.paynow_text: {
                             params.put("PayNowAccount", text);
                             Log.d("paynow",text);
                             break;
@@ -329,5 +403,6 @@ public class EditInfoActivity extends AppCompatActivity {
                     }
                 }
             }
+
 
         }

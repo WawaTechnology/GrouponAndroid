@@ -45,7 +45,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginTop="16dp"
         android:layout_height="wrap_content"
-        android:id="@+id/phone_edit"
+        android:id="@+id/phone_text"
         android:inputType="number"
         android:background="@drawable/table_noround"/>
     <TextView

@@ -28,9 +28,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.easybuy.sg.grouponebuy.network.Constants.getOrderUrl;
-import static com.easybuy.sg.grouponebuy.network.Constants.loginUrlStr;
-
 public class ChangePasswordActivity extends AppCompatActivity {
     EditText phoneEditText, newPassEditText, rePassEditText,oldPassEditText;
     String phoneNumber, newPssword, rePassword;
@@ -44,7 +41,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_password);
-        phoneEditText = (EditText) findViewById(R.id.phone_edit);
+        phoneEditText = (EditText) findViewById(R.id.phone_text);
         newPassEditText = (EditText) findViewById(R.id.new_password);
         rePassEditText = (EditText) findViewById(R.id.confirm_password);
         loginlayout=(LinearLayout) findViewById(R.id.loginlayout);

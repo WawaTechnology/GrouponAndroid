@@ -230,6 +230,7 @@ public class FragmentOrder extends Fragment {
         if(globalProvider.isLogin())
         {
             getEcoins();
+            userNameText.setText(Constants.getCustomer(getContext()).userName);
         }
 
              else

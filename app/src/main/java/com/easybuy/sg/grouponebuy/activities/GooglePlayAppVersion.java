@@ -27,6 +27,7 @@ public class GooglePlayAppVersion extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+
         return getPlayStoreAppVersion(String.format("https://play.google.com/store/apps/details?id=%s", packageName));
     }
 

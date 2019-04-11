@@ -8,7 +8,7 @@ android {
         applicationId "com.easybuy.sg.grouponebuy"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 26
+        versionCode 28
         versionName "4.0.0"
         resConfigs "en","zh-rCN"
         vectorDrawables.useSupportLibrary = true

@@ -103,6 +103,18 @@ public class Product implements Serializable{
         @JsonProperty("price")
         private Double price;
 
+    public Integer getStartStock() {
+        return startStock;
+    }
+
+    public void setStartStock(Integer startStock) {
+        this.startStock = startStock;
+    }
+
+    @JsonProperty("startStock")
+
+        private Integer startStock;
+
     public String getsKU() {
         return sKU;
     }

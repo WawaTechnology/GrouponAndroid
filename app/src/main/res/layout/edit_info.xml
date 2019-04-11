@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:clickable="true"
-    android:focusableInTouchMode="true"
+
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -22,7 +22,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:text="@string/account_setting"
+            android:text="@string/account_information"
             android:textColor="@android:color/black"
 
             android:gravity="center_horizontal|center_vertical"
@@ -50,30 +50,90 @@
 
         >
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
+            android:textStyle="bold"
+            android:textSize="16sp"
 
-            android:text="@string/name"
+            android:text="@string/userName"
             />
-        <EditText
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1"></View>
+        <TextView
             android:layout_width="wrap_content"
             android:textSize="14sp"
+            android:layout_marginRight="8dp"
 
 
             android:layout_height="wrap_content"
 
 
-            android:id="@+id/name_edit"
-            android:background="@null"
+            android:id="@+id/name_text"
+
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
+            android:id="@+id/name_next"
+            android:onClick="changeInformation"
+            android:gravity="right"
+            android:textSize="18sp"
+            android:text=">"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:background="#fff"
+
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/email_label"
+            android:text="Email"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1"></View>
+        <TextView
+            android:layout_width="wrap_content"
+
+            android:layout_height="wrap_content"
+
+            android:textSize="14sp"
+            android:layout_marginRight="8dp"
+
+            android:id="@+id/email_text"
+
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:textSize="18sp"
+            android:onClick="changeInformation"
+            android:id="@+id/email_next"
+            android:text=">"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="#fff"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="3dp"
 
         android:paddingBottom="5dp"
         android:paddingTop="5dp"
@@ -82,18 +142,36 @@
             android:layout_width="100dp"
             android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
-            android:text="@string/phone"
+            android:text="Phone"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:id="@+id/phone_label"
             />
-        <EditText
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1"></View>
+        <TextView
             android:layout_width="wrap_content"
 
             android:textSize="14sp"
 
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
 
-            android:id="@+id/phone_edit"
-            android:background="@null"
+            android:id="@+id/phone_text"
+
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:textSize="18sp"
+            android:onClick="changeInformation"
+            android:id="@+id/phone_next"
+            android:text=">"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,170 +180,113 @@
         android:background="@color/white"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="3dp"
         >
 
         <TextView
             android:layout_width="100dp"
             android:layout_marginLeft="16dp"
             android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textStyle="bold"
 
-            android:text="Paynow: " />
-        <EditText
+            android:text="Paynow" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1"></View>
+        <TextView
             android:layout_width="wrap_content"
             android:textSize="14sp"
 
             android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
 
 
 
-            android:id="@+id/paynow_edit"
-            android:hint="e.g.: ZHANG YUN"
-            android:background="@null"
+
+            android:id="@+id/paynow_text"
+
+
             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:textSize="18sp"
+            android:onClick="changeInformation"
+            android:id="@+id/paynow_next"
+            android:text=">"/>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+
+
+        android:background="@color/new_grey"></View>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginTop="3dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="16sp"
+
+            android:text="Delivery Address" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="8dp"
+            android:layout_weight="1"></View>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="16dp"
+            android:gravity="right"
+            android:textSize="18sp"
+
+            android:id="@+id/address_next"
+            android:text=">"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:background="#fff"
 
         >
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:text="@string/email"
-            />
+
         <TextView
             android:layout_width="wrap_content"
 
             android:layout_height="wrap_content"
-
-            android:textSize="14sp"
-
-            android:id="@+id/email_text"
-            android:background="@null"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="1dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="#fff"
-
-        >
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
-            android:text="@string/address"
-            />
-        <TextView
-            android:layout_width="wrap_content"
 
-            android:layout_height="wrap_content"
 
             android:textSize="14sp"
 
             android:id="@+id/address_text"
-            android:background="@null"
+
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#fff"
-        android:paddingBottom="5dp"
-        android:layout_marginTop="1dp"
-
-        android:paddingTop="5dp"
-        >
-        <TextView
-            android:layout_width="100dp"
-            android:layout_marginLeft="16dp"
-            android:layout_height="wrap_content"
-            android:text="@string/postcode"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-
-            android:textSize="14sp"
-
-            android:layout_height="wrap_content"
-
-            android:id="@+id/postcode_text"
-            android:background="@null"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:background="@color/white"
-
-        android:layout_marginTop="1dp"
-        >
-        <TextView
-            android:layout_width="100dp"
-            android:layout_marginLeft="16dp"
-            android:layout_height="wrap_content"
-            android:text="@string/unit_no"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
 
 
-            android:id="@+id/unitno_text"
-            android:background="@null"
-            />
-    </LinearLayout>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@drawable/button_rectangle"
 
-        android:textColor="@color/red"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:gravity="center"
-        android:textAlignment="gravity"
-        android:textSize="18sp"
-        android:id="@+id/update_address"
-        android:text="@string/update_address"/>
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:background="@color/red"
-        android:textColor="#fff"
-        android:paddingTop="0dp"
-        android:paddingBottom="0dp"
-        android:gravity="center"
-        android:textAlignment="gravity"
-        android:textSize="18sp"
-        android:id="@+id/save"
-        android:text="@string/save"/>
 
     <View
         android:layout_width="match_parent"

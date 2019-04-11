@@ -49,6 +49,26 @@ public class GlobalProvider {
    public boolean hasSale;
    public Date saleDate;
   String customerId;
+ public List<SpecialImage> boardSpecialList=new ArrayList<>();
+  public boolean isVersionCheckedDone;
+
+    public List<SpecialImage> getBoardSpecialList() {
+        return boardSpecialList;
+    }
+
+    public void setBoardSpecialList(List<SpecialImage> boardSpecialList) {
+        this.boardSpecialList = boardSpecialList;
+    }
+
+    public boolean isHasBoardLayout() {
+        return hasBoardLayout;
+    }
+
+    public void setHasBoardLayout(boolean hasBoardLayout) {
+        this.hasBoardLayout = hasBoardLayout;
+    }
+
+    private boolean hasBoardLayout;
 
 
 

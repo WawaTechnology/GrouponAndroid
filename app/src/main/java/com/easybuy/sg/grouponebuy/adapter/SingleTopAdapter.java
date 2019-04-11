@@ -2,6 +2,7 @@ package com.easybuy.sg.grouponebuy.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.activities.ProductDetailActivity;
 import com.easybuy.sg.grouponebuy.helpers.SpannedGridLayoutManager;
@@ -64,6 +67,7 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case TRIPLEVIEWLEFT:
             {
                 View view= inflater.inflate(R.layout.three_left,parent,false);
+
                 viewHolder= new TripleLeftViewHolder(view);
                 break;
             }
@@ -168,7 +172,13 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            case TRIPLEVIEWLEFT:
            {
                final TripleLeftViewHolder tripleLeftViewHolder=(TripleLeftViewHolder)holder;
-               Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(tripleLeftViewHolder.imageView);
+               Log.d("cover",cover);
+               tripleLeftViewHolder.imageView.getLayoutParams().width=(width/2);
+               tripleLeftViewHolder.imageView.getLayoutParams().height=(width/2);
+               tripleLeftViewHolder.imageView.requestLayout();
+
+
+               Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(tripleLeftViewHolder.imageView);
                tripleLeftViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View view) {
@@ -183,8 +193,13 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
            case TRIPLEVIEWTOPUP:
            {
+
                final TripleTopUpViewHolder tripleTopUpViewHolder=(TripleTopUpViewHolder)holder;
-               Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(tripleTopUpViewHolder.imageView);
+               tripleTopUpViewHolder.imageView.getLayoutParams().width=(width/2);
+               tripleTopUpViewHolder.imageView.getLayoutParams().height=(width/4);
+               tripleTopUpViewHolder.imageView.requestLayout();
+               Log.d("topup",cover);
+               Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(tripleTopUpViewHolder.imageView);
                tripleTopUpViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View view) {
@@ -198,6 +213,10 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            case TRIPLEVIEWTOPDOWN:
            {
                final TripleTopDownViewHolder tripleTopDownViewHolder=(TripleTopDownViewHolder)holder;
+               tripleTopDownViewHolder.imageView.getLayoutParams().width=(width/2);
+               tripleTopDownViewHolder.imageView.getLayoutParams().height=(width/4)-4;
+               tripleTopDownViewHolder.imageView.requestLayout();
+               Log.d("topdown",cover);
              /*  if(productImageId.getCategory().contains("three-bottom"))
                {
                    if(productImageId.getCategory().equals("three-bottom-left"))
@@ -214,7 +233,7 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                }
                */
 
-               Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(tripleTopDownViewHolder.imageView);
+               Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(tripleTopDownViewHolder.imageView);
                tripleTopDownViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                    @Override
                    public void onClick(View view) {

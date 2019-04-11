@@ -17,6 +17,7 @@
     <color name="dark_yellow">#FDDF2E</color>
     <color name="grey_bkg">#EAEFEF</color>
     <color name="add_tocart_bkg">#EFEFF4</color>
+    <color name="soldout_color">#888888</color>
 
 
 </resources>

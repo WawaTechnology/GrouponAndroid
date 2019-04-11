@@ -1,0 +1,71 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="100dp"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp">
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="100dp">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:id="@+id/img"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:id="@+id/sold_out"
+            android:layout_alignLeft="@id/img"
+            android:layout_alignTop="@id/img"/>
+    </RelativeLayout>
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="false"
+
+        style="?android:attr/progressBarStyleHorizontal"
+        android:progressBackgroundTint="@color/red"
+        android:id="@+id/prg_bar"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textAlignment="gravity"
+        android:id="@+id/prg_per_text"/>
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/prod_nm"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/black"
+
+
+        android:minLines="2"
+        android:maxLines="2"
+        android:textSize="12sp"
+        android:text="Beef Australia"/>
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+
+        android:textSize="12sp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="center_horizontal"
+        android:textColor="@color/grey_dark"
+        android:id="@+id/product_quantity"/>
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+
+        android:textSize="12sp"
+        android:id="@+id/price"/>
+
+
+
+</LinearLayout>

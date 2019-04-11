@@ -122,7 +122,8 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                   price=String.format("%.2f",val);
 
               }
-              if(order.getDeliveryPrice()>0)
+              Log.d("rderdelivery",order.getDeliveryPrice()+"");
+              if(order.getDeliveryPrice()!=null&&order.getDeliveryPrice()>0)
               {
                double val  = Double.parseDouble(price)+order.getDeliveryPrice();
                price=String.format("%.2f",val);

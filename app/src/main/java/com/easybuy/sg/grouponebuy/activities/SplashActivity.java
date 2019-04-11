@@ -294,12 +294,19 @@ public class SplashActivity extends AppCompatActivity {
                     SpecialImageResult specialImageResult = (SpecialImageResult) objectMapper.readValue(jsonParser, SpecialImageResult.class);
                     globalProvider.specialMImages.clear();
                     if (specialImageResult.getStatus() == 0) {
+
                         //List<SpecialImage> specialImages = new ArrayList<>();
                        // specialImages.addAll(specialImageResult.getPayload());
                         for(SpecialImage specialImage:specialImageResult.getPayload())
                         {
-                            if(specialImage.getSequence()!=666)
+                            if(specialImage.getSequence()!=666&&specialImage.getSequence()!=777)
                             globalProvider.specialMImages.add(specialImage);
+                            if(specialImage.getSequence()==777)
+                            {
+
+                                globalProvider.setHasBoardLayout(true);
+                                globalProvider.boardSpecialList.add(specialImage);
+                            }
                         }
 
 

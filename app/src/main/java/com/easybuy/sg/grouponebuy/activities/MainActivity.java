@@ -1,13 +1,16 @@
 package com.easybuy.sg.grouponebuy.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -16,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -40,6 +44,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
+import com.easybuy.sg.grouponebuy.BuildConfig;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.fragment.FavoriteFragment;
 import com.easybuy.sg.grouponebuy.fragment.FragmentCart;
@@ -60,6 +65,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -97,6 +105,9 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
             Intent intent=new Intent(MainActivity.this,SplashActivity.class);
             startActivity(intent);
             finish();
+            return;
+
+
         }
       //  badgeTextView=(TextView)findViewById(R.id.badge);
 
@@ -120,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
         favLinearLayout=(LinearLayout) findViewById(R.id.fav_linearlayout);
        buyNumView = new CircleBadgeView(this, cartImage);
        buyNumView.setTextColor(Color.WHITE);
+        Log.d("checkthreadnm",Thread.currentThread().getName());
        buyNumView.setBackgroundColor(getResources().getColor(R.color.red));
         homeLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,14 +152,45 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
             }
         });
       //  new GooglePlayAppVersion(getPackageName(), version -> Log.d("TAG", String.format("App version: %s", version))).execute();
-        new GooglePlayAppVersion(getPackageName(), new GooglePlayAppVersion.Listener() {
-            @Override
-            public void result(String version) {
+        if(!globalProvider.isVersionCheckedDone) {
+            new GooglePlayAppVersion(getPackageName(), new GooglePlayAppVersion.Listener() {
+                @Override
+                public void result(String version) {
+                    globalProvider.isVersionCheckedDone=true;
 
-                Log.d("TAG", String.format("App version: %s", version));
 
-            }
-        }).execute();
+                    //Log.d("TAG", String.format("App version: %s", version));
+                    String val[] = version.split("\\.");
+                    String playStoreVersion = "";
+                    if (val.length <= 2) {
+                        playStoreVersion = val[0] + val[1] + 0;
+                    } else
+                        playStoreVersion = val[0] + val[1] + val[2];
+                   // Log.d("playver", Integer.parseInt(playStoreVersion) + "");
+                    String localVersion = "";
+                    String locals[] = BuildConfig.VERSION_NAME.split("\\.");
+                    if (locals.length <= 2) {
+                        localVersion = locals[0] + locals[1] + 0;
+                    } else
+                        localVersion = locals[0] + locals[1] + locals[2];
+                   // Log.d("localver", Integer.parseInt(localVersion) + "");
+
+
+                    if (Integer.parseInt(playStoreVersion) > Integer.parseInt(localVersion)) {
+                        //Log.d("shouldshowalert","here");
+                        if (!isFinishing()) {
+                           // Log.d("showingalert","here");
+                            showVersionAlert();
+                            //show dialog
+                        }
+
+
+                    }
+
+
+                }
+            }).execute();
+        }
 
 
 
@@ -339,6 +382,71 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
 
 
+    }
+
+    private void showVersionAlert() {
+        String url=Constants.checkAppUpdateUrl;
+        Log.d("checkuu",url);
+        Log.d("checkpred",Constants.getAppUpdateChoice(getApplicationContext())+"");
+        Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonFactory jsonFactory = new JsonFactory();
+                ObjectMapper objectMapper = new ObjectMapper();
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    if(jsonObject.getInt("status")==0)
+                    {
+                        if(jsonObject.getJSONObject("payload").getBoolean("updateRequire")==true)
+                        {
+                            new AlertDialog.Builder(MainActivity.this).setMessage("Update your app").setCancelable(false).setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                    }
+
+                                }
+                            }).create().show();
+                        }
+                        else if(jsonObject.getJSONObject("payload").getBoolean("isPopup")==true&&Constants.getAppUpdateChoice(getApplicationContext()))
+                        {
+                            new AlertDialog.Builder(MainActivity.this).setMessage("There is an Update.Do you want to update the app?").setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                                    try {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                    } catch (android.content.ActivityNotFoundException anfe) {
+                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                    }
+
+                                }
+                            }).setNegativeButton(getText(R.string.do_not_ask_again), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Constants.setAppUpdatePreference(getApplicationContext(),false);
+                                    dialogInterface.dismiss();
+                                }
+                            }).create().show();
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        globalProvider.addRequest(utf8JsonRequest);
     }
 
     public void onResume()

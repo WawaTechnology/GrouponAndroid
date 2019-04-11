@@ -101,6 +101,23 @@ static public String baseUrlStr = "http://13.250.234.103:3000/";
 
         editor.commit();
     }
+    public static void setAppUpdatePreference(Context context,boolean value)
+    {
+        SharedPreferences sharedPreferences=PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean("appUpdateChoice", value);
+
+        editor.commit();
+    }
+    public static boolean getAppUpdateChoice(Context context)
+    {
+        SharedPreferences settings = PreferenceManager
+                .getDefaultSharedPreferences(context);
+
+        boolean res = settings.getBoolean("appUpdateChoice",true);
+        //Log.v("err", tokenStr);
+        return res;
+    }
     public static String getLanguage(Context context) {
         SharedPreferences settings = PreferenceManager
                 .getDefaultSharedPreferences(context);

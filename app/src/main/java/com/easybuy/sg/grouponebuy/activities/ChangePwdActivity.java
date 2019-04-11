@@ -44,7 +44,7 @@ public class ChangePwdActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_pwd);
-        phoneEditText = (EditText) findViewById(R.id.phone_edit);
+        phoneEditText = (EditText) findViewById(R.id.phone_text);
         emailEditText = (EditText) findViewById(R.id.email_text);
         backButton = (ImageView) findViewById(R.id.back);
         submitButton = (Button) findViewById(R.id.confirm);

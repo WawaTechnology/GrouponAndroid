@@ -179,6 +179,10 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
             netBalanceText.setVisibility(View.GONE);
         }
         // Display deliveryPrice even when it is 0;add it to the price
+        if(order.getDeliveryPrice()==null)
+        {
+            order.setDeliveryPrice(0.0);
+        }
             delivery_price.setText("$"+order.getDeliveryPrice());
            double val= Double.parseDouble(price)+order.getDeliveryPrice();
            price=String.format("%.2f",val);

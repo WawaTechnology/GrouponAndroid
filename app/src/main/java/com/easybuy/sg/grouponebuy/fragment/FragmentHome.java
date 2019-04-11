@@ -24,10 +24,12 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.easybuy.sg.grouponebuy.R;
 
+import com.easybuy.sg.grouponebuy.activities.BoardActivity;
 import com.easybuy.sg.grouponebuy.activities.ProductDetailActivity;
 import com.easybuy.sg.grouponebuy.activities.SearchActivity;
 import com.easybuy.sg.grouponebuy.activities.SpecialSaleLayout;
 import com.easybuy.sg.grouponebuy.adapter.CategoryAdapter;
+import com.easybuy.sg.grouponebuy.adapter.FlashAdapter;
 import com.easybuy.sg.grouponebuy.adapter.ProductAdapter;
 import com.easybuy.sg.grouponebuy.adapter.ProductDetailViewPagerAdapter;
 import com.easybuy.sg.grouponebuy.adapter.SingleTopAdapter;
@@ -43,6 +45,7 @@ import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.CategoryListener;
 import com.easybuy.sg.grouponebuy.utils.ItemOffSetDecoration;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +54,7 @@ import java.util.TimerTask;
 
 import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
 import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
+import static android.view.View.GONE;
 import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 import static java.lang.Boolean.FALSE;
 
@@ -76,6 +80,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     Product oneImportantProduct;
     Product oneProduct;
     TimerTask timerTask;
+    int boardCounter=0;
    // boolean isScrolling;
 
 
@@ -103,8 +108,29 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     String language;
     Date saleDate;
     private Handler handler = new Handler();
+    private Handler handlerNotice;
+
     private Runnable runnable;
     Timer timer;
+    Runnable boardRunnable=new Runnable() {
+        @Override
+        public void run() {
+            if(boardCounter==globalProvider.boardSpecialList.size())
+            {
+                boardCounter=0;
+            }
+            if(language.equals("english")) {
+
+                activityHomeBinding.boardLabel.setText(globalProvider.boardSpecialList.get(boardCounter).getNameEn());
+            }
+            else
+                activityHomeBinding.boardLabel.setText(globalProvider.boardSpecialList.get(boardCounter).getNameCh());
+
+            boardCounter+=1;
+            handlerNotice.postDelayed(boardRunnable,2000);
+
+        }
+    };
 
 
 
@@ -132,6 +158,10 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
         categoryList=new ArrayList();
         categorySpecials=new ArrayList<>();
+        if(globalProvider.isHasBoardLayout())
+        {
+            handlerNotice=new Handler();
+        }
 
 
 
@@ -148,6 +178,8 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
                 Log.d("checkimae",imgArray[i]);
 
             }
+
+
 
 
 
@@ -178,12 +210,43 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
      //   ((Activity) getContext()). getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
        // int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
+        activityHomeBinding.viewPager.getLayoutParams().height=(int)(width/2);
+        activityHomeBinding.viewPager.requestLayout();
         activityHomeBinding.relativeLayout.getLayoutParams().height= (int) (width/2.2);
         activityHomeBinding.relativeLayout.requestLayout();
         activityHomeBinding.singleOneimage.getLayoutParams().height = width / 2;
         activityHomeBinding.singleOneimage.requestLayout();
         activityHomeBinding.singleImpimage.getLayoutParams().height = width / 2;
         activityHomeBinding.singleImpimage.requestLayout();
+
+        if(globalProvider.isHasBoardLayout())
+        {
+            activityHomeBinding.boardLayout.setVisibility(View.VISIBLE);
+            if(language.equals("english")) {
+
+                activityHomeBinding.boardImg.setImageDrawable(getResources().getDrawable(R.drawable.bulletin_en));
+            }
+            else
+                activityHomeBinding.boardImg.setImageDrawable(getResources().getDrawable(R.drawable.bulletin_cn));
+
+
+
+
+
+            activityHomeBinding.boardLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent=new Intent(getContext(), BoardActivity.class);
+                    intent.putExtra("specialBoardList", (Serializable) globalProvider.boardSpecialList);
+                    startActivity(intent);
+                }
+            });
+
+
+        }
+        else
+            activityHomeBinding.boardLayout.setVisibility(GONE);
+
 
 
 
@@ -197,8 +260,11 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
                 saleDate=globalProvider.saleDate;
                 saleProductList.addAll(globalProvider.getFlashSale().getProductList());
-            ProductAdapter productAdapter=new ProductAdapter(getContext(),saleProductList);
+            /*ProductAdapter productAdapter=new ProductAdapter(getContext(),saleProductList);
             activityHomeBinding.saleProductRecycler.setAdapter(productAdapter);
+            */
+           FlashAdapter flashAdapter=new FlashAdapter(getContext(),saleProductList);
+            activityHomeBinding.saleProductRecycler.setAdapter(flashAdapter);
             LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
             activityHomeBinding.saleProductRecycler.setLayoutManager(linearLayoutManager);
 
@@ -236,11 +302,11 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
         if(oneImportantProduct==null)
         {
-            activityHomeBinding.singleImpimage.setVisibility(View.GONE);
+            activityHomeBinding.singleImpimage.setVisibility(GONE);
         }
         if(oneProduct==null)
         {
-            activityHomeBinding.singleOneimage.setVisibility(View.GONE);
+            activityHomeBinding.singleOneimage.setVisibility(GONE);
         }
 
 
@@ -510,6 +576,12 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         if(saleDate!=null) {
             countDownStart();
         }
+        if(handlerNotice!=null)
+        {
+            handlerNotice.postDelayed(boardRunnable
+                    ,0);
+
+        }
         if(timerTask==null)
         startViewPagerTimer();
         super.onResume();
@@ -581,6 +653,12 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     public void onStop() {
         super.onStop();
         handler.removeCallbacks(runnable);
+        if(handlerNotice!=null)
+        {
+            handlerNotice.removeCallbacks(boardRunnable);
+
+        }
+
         if(timer!=null) {
             timer.cancel();
             timer.purge();

@@ -74,7 +74,7 @@
     <string name="item">物品</string>
     <string name="ok">确定</string>
     <string name="offer">抢购价</string>
-    <string name="email">邮箱: </string>
+    <string name="email">邮箱:</string>
     <string name="name">名称:</string>
     <string name="unit_no">门牌号:</string>
     <string name="outOfStock">已抢光</string>
@@ -130,6 +130,8 @@
     <string name="update_user_unsuccessful">更新用户数据失败</string>
     <string name="update_user_successful">成功更新用户数据</string>
     <string name="cancel_address_update">取消地址更新 ?</string>
+    <string name="do_not_ask_again">不再提示</string>
+    <string name="update">去更新</string>
 
 
     <string name="after_sale">我们承诺——坏果包退：\n
@@ -156,6 +158,8 @@
     <string name="ebuy_paynow">Ebuy PayNow 信息</string>
     <string name="paynow_phone">手机号码: 8518 9139</string>
     <string name="not_refund">未退款</string>
+    <string name="delivery_address">送货地址</string>
+    <string name="account_information">账户信息</string>
 
     <string name="payment">未付款</string>
     <string name="all_order">全部订单</string>
@@ -187,6 +191,9 @@
     <string name="home">主页</string>
     <string name="fill_up">请补充空白处信息 </string>
     <string name="add_to_cart">加入购物车</string>
+    <string name="almost_sold_out">火爆抢购中</string>
+    <string name="sold_out">已抢光</string>
+    <string name="sold">抢购中</string>
 
     <string name="any_question">Do you have any comments or questions? </string>
     <string name="no_order"> 当前无订单记录....去购物！
