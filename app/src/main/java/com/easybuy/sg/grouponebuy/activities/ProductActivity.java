@@ -308,7 +308,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
             productListAdapter.notifyDataSetChanged();
             badgeText.setVisibility(GONE);
         } else {
-            Log.d("pdsize", productList.size() + "");
+           // Log.d("pdsize", productList.size() + "");
 
             if(globalProvider.cartList.size()>=10)
             {
@@ -324,9 +324,9 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                 for (Product product : productList) {
 
                     if (cartProduct.getId().equals(product.getId()) && cartProduct.getTotalNumber() != product.getTotalNumber()) {
-                        Log.d("changingproduct", "here");
-                        Log.d("cartProductNumber", cartProduct.getTotalNumber() + "");
-                        product.setTotalNumber(cartProduct.getTotalNumber());
+                       // Log.d("changingproduct", "here");
+                       // Log.d("cartProductNumber", cartProduct.getTotalNumber() + "");
+                        //product.setTotalNumber(cartProduct.getTotalNumber());
                         break;
                     }
                 }
@@ -385,11 +385,11 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
         if (categoryId != null) {
 
             String url = Constants.productUrl + "/" + categoryId + "/" + sort + "/" + page + "/" + pageSize;
-            Log.d("url", url);
+           // Log.d("url", url);
             Utf8JsonRequest utf8JsonRequest = new Utf8JsonRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("response", response);
+                   // Log.d("response", response);
                     JsonFactory jsonFactory = new JsonFactory();
                     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -404,7 +404,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                         }
                        else if (products.getStatus() == 0) {
                             int totalproducts = products.getTotalNumber();
-                            Log.d("totalprod", totalproducts + "");
+                           // Log.d("totalprod", totalproducts + "");
 
 
                             TOTAL_PAGES = (pageSize + totalproducts - 1) / pageSize;
@@ -415,7 +415,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                                     if (product.getId().equals(cartProduct.getId())) {
 
                                         product.setTotalNumber(cartProduct.getTotalNumber());
-                                        Log.d("getprodmnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
+                                       // Log.d("getprodmnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
                                         break;
                                     }
                                 }
@@ -424,8 +424,8 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                             productList.addAll(products.getProducts());
                             progressBar.setVisibility(View.GONE);
                             productListAdapter.notifyDataSetChanged();
-                            Log.d("checkpage", page + "");
-                            Log.d("checktotalpage", TOTAL_PAGES + "");
+                           // Log.d("checkpage", page + "");
+                           // Log.d("checktotalpage", TOTAL_PAGES + "");
 
                             if (page <= TOTAL_PAGES) productListAdapter.addLoadingFooter();
                             else {
@@ -464,7 +464,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("response", response.toString());
+                       // Log.d("response", response.toString());
                         JsonFactory jsonFactory = new JsonFactory();
                         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -473,7 +473,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                             ProductList products = (ProductList) objectMapper.readValue(jsonParser, ProductList.class);
                             if (products.getStatus() == 0) {
                                 int totalproducts = products.getTotalNumber();
-                                Log.d("totalprod", totalproducts + "");
+                               // Log.d("totalprod", totalproducts + "");
 
 
                                 TOTAL_PAGES = (pageSize + totalproducts - 1) / pageSize;
@@ -484,7 +484,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                                         if (product.getId().equals(cartProduct.getId())) {
 
                                             product.setTotalNumber(cartProduct.getTotalNumber());
-                                            Log.d("getprodmnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
+                                          //  Log.d("getprodmnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
                                             break;
                                         }
                                     }
@@ -493,8 +493,8 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                                 productList.addAll(products.getProducts());
                                 progressBar.setVisibility(View.GONE);
                                 productListAdapter.notifyDataSetChanged();
-                                Log.d("checkpage", page + "");
-                                Log.d("checktotalpage", TOTAL_PAGES + "");
+                               // Log.d("checkpage", page + "");
+                               // Log.d("checktotalpage", TOTAL_PAGES + "");
 
                                 if (page <= TOTAL_PAGES) productListAdapter.addLoadingFooter();
                                 else {
@@ -544,7 +544,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
     }
 
     private void loadNextPage() {
-        Log.d("TAG", "loadNextPage: " + page);
+       // Log.d("TAG", "loadNextPage: " + page);
         if (categoryId != null) {
             String url = Constants.productUrl + "/" + categoryId + "/" + sort + "/" + page + "/" + pageSize;
 
@@ -552,7 +552,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
             Utf8JsonRequest utf8JsonRequest = new Utf8JsonRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("nextresponse", response);
+                   // Log.d("nextresponse", response);
                     JsonFactory jsonFactory = new JsonFactory();
                     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -569,7 +569,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                                     if (product.getId().equals(cartProduct.getId())) {
 
                                         product.setTotalNumber(cartProduct.getTotalNumber());
-                                        Log.d("getprodnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
+                                       // Log.d("getprodnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
                                         break;
                                     }
                                 }
@@ -615,7 +615,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("nextresponse", response.toString());
+                       // Log.d("nextresponse", response.toString());
                         JsonFactory jsonFactory = new JsonFactory();
                         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -632,7 +632,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                                         if (product.getId().equals(cartProduct.getId())) {
 
                                             product.setTotalNumber(cartProduct.getTotalNumber());
-                                            Log.d("getprodnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
+                                           // Log.d("getprodnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
                                             break;
                                         }
                                     }

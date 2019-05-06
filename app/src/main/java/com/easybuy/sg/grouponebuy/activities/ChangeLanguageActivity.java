@@ -39,7 +39,7 @@ public class ChangeLanguageActivity extends AppCompatActivity  {
         confirmButton=(Button) findViewById(R.id.confirm);
         radioGroup=(RadioGroup) findViewById(R.id.radioGroup);
         backButton=(ImageView) findViewById(R.id.back);
-        Log.d("langis", Constants.getLanguage(getApplicationContext()));
+       // Log.d("langis", Constants.getLanguage(getApplicationContext()));
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         englishButton = (RadioButton) findViewById(R.id.english_button);
         chineseButton = (RadioButton) findViewById(R.id.chinese_button);
@@ -82,7 +82,7 @@ public class ChangeLanguageActivity extends AppCompatActivity  {
                 }
                 else
                 {
-                    Log.d("langchanged","chinese");
+                   // Log.d("langchanged","chinese");
 
                    // config.locale = Locale.SIMPLIFIED_CHINESE;
 
@@ -115,7 +115,7 @@ public class ChangeLanguageActivity extends AppCompatActivity  {
                 }
 
                 globalProvider.isNotFirstTime=false;
-                Log.d("checkchangedlang",config.locale.getDisplayLanguage());
+               // Log.d("checkchangedlang",config.locale.getDisplayLanguage());
                 GlobalProvider.changeLang(ChangeLanguageActivity.this,config.locale.getDisplayLanguage());
                 Intent intent=new Intent(ChangeLanguageActivity.this,MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

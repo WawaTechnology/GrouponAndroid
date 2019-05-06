@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -159,7 +160,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                     if(product.getTotalNumber()>0)
                     {
-                        Log.d("checkprouctquantity",product.getTotalNumber()+"");
+                       // Log.d("checkprouctquantity",product.getTotalNumber()+"");
                         myholder.minusButton.setVisibility(View.VISIBLE);
                         myholder.quantityText.setVisibility(View.VISIBLE);
                         myholder.quantityText.setText(product.getTotalNumber()+"");
@@ -175,7 +176,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
 
                 Glide.with(context).load(Constants.newImageUrl + product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(myholder.imgView);
-                Log.d("ggimg", product.getImageCover() + "");
+               // Log.d("ggimg", product.getImageCover() + "");
                 myholder.subLayout.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -201,7 +202,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
                                 for (int i = 0; i < n; i++) {
                                     if (product.getId().equals(globalProvider.cartList.get(i).getId())) {
-                                        Log.d("getpid", product.getId());
+                                       // Log.d("getpid", product.getId());
                                         globalProvider.cartList.get(i).setTotalNumber(quantity);
                                         break;
                                     }
@@ -300,6 +301,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 quantity = Integer.parseInt(myholder.quantityText.getText().toString()) + 1;
 
                             }
+                            if(product.limitPurchase>0) {
+                                if (quantity > product.limitPurchase) {
+                                    Toast.makeText(context,context.getResources().getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
 
 
                             myholder.quantityText.setText(quantity + "");
@@ -314,7 +321,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             if (n > 0) {
                                 for (int i = 0; i < n; i++) {
                                     if (product.getId().equals(globalProvider.cartList.get(i).getId())) {
-                                        Log.d("getpid", product.getId());
+                                       // Log.d("getpid", product.getId());
                                         globalProvider.cartList.get(i).setTotalNumber(quantity);
                                         break;
                                     }
@@ -326,7 +333,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 }
                             } else
                                 globalProvider.cartList.add(product);
-                            Log.d("checkcategorynm",product.getCategory().getNameEn());
+                          //  Log.d("checkcategorynm",product.getCategory().getNameEn());
 
 
 
@@ -419,13 +426,10 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        {
-            if(productList!=null)
-            {
-                Log.d("checpdsi",productList.size()+"");
-            }
+
+
             return productList == null ? 0 : productList.size();
-        }
+
     }
     @Override
     public int getItemViewType(int position) {

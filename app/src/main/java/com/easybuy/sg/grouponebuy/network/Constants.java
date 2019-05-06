@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Constants  {
+    //testing url
 static public String baseUrlStr = "http://13.250.234.103:3000/";
 //buisness url
 //static public String baseUrlStr = "http://13.251.164.198:3000/";
@@ -26,6 +27,7 @@ static public String baseUrlStr = "http://13.250.234.103:3000/";
     static public String districtUrl=baseUrlStr+"districts/search";
     static public String categoryUrl=baseUrlStr+"categories";
     static public String specialCategoryUrl=baseUrlStr+"categoriesSpecial";
+    static public String removeAddressUrl=baseUrlStr+"users/removeAddress/";
     static public String adwordsUrl=baseUrlStr+"adwords";
     static public String tokenStr = "token";
     static public String Language= "language";

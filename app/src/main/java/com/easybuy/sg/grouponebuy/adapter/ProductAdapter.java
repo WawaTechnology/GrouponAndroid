@@ -56,12 +56,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             holder.tvname.setText(bp.getNameCh());
             holder.tvquantity.setText(bp.getSpecificationCh());
         }
-        Log.d("prodname",bp.getNameEn());
+      //  Log.d("prodname",bp.getNameEn());
 
         double price=bp.getPrice();
       //  String dr= Constants.baseUrlStr+bp.getImageCover();
         String dr="https://s3-ap-southeast-1.amazonaws.com/ebuymart/"+bp.getImageCover();
-        Log.d("checkimage",dr);
+       // Log.d("checkimage",dr);
         String actualPrice="$ "+price;
 
         String[] each = actualPrice.split("\\.");

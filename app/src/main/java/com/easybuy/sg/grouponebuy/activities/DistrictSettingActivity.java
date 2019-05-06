@@ -91,7 +91,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                 hasUnit=true;
             }
         }
-        Log.d("hasUnitcheck",hasUnit+"");
+       // Log.d("hasUnitcheck",hasUnit+"");
 
 
         postalTextView = (EditText) findViewById(R.id.postal);
@@ -209,41 +209,40 @@ public class DistrictSettingActivity extends AppCompatActivity  {
         bindingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (globalProvider.isLogin()) {
+                if(globalProvider.isLogin())
+                {
                     if (TextUtils.isEmpty(unitNumEdit.getText())) {
                         unitNumEdit.setError("Please enter unitNumber");
                         return;
 
                     }
-                    String url = Constants.changeDistrictUrl + globalProvider.getCustomerId();
-                    Log.d("checkurl", url);
-                    final Map<String, String> params = new HashMap<>();
-
-                    params.put("district", districtId);
-                    Log.d("checldistid", districtId);
-                    params.put("postcode", postalcode);
-                    //PATCH REQUEST NOT SUPPORTED PRE LOLIPOP
-                    CustomRequest customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
+                    String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
+                    Map<String, String> param = new HashMap<>();
+                    param.put("address", unitNumEdit.getText().toString());
+                    CustomRequest unitChangeRequest = new CustomRequest(Request.Method.PATCH, url, param, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("checkbinding", response.toString());
+                           // Log.d("checlres", response.toString());
                             try {
-                                int status = response.getInt("status");
-                                if (status == 0) {
-                                    String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
-                                    Log.d("getu", url);
-                                    Map<String, String> param = new HashMap<>();
-                                    Log.d("unitnum", unitNumEdit.getText().toString());
-                                    param.put("address", unitNumEdit.getText().toString());
-                                    CustomRequest unitChangeRequest = new CustomRequest(Request.Method.PATCH, url, param, new Response.Listener<JSONObject>() {
+                                if (response.getInt("status") == 0) {
+                                    String url = Constants.changeDistrictUrl + globalProvider.getCustomerId();
+                                    final Map<String, String> params = new HashMap<>();
+
+                                    params.put("district", districtId);
+
+                                    params.put("postcode", postalcode);
+                                    //PATCH REQUEST NOT SUPPORTED PRE LOLIPOP
+
+                                    CustomRequest customRequest=new CustomRequest(Request.Method.POST, url,params, new Response.Listener<JSONObject>() {
                                         @Override
                                         public void onResponse(JSONObject response) {
-                                            Log.d("checlres", response.toString());
                                             try {
-                                                if (response.getInt("status") == 0) {
+                                                if(response.getInt("status")==0)
+                                                {
                                                     Intent intent = new Intent(DistrictSettingActivity.this, MainActivity.class);
                                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                                     startActivity(intent);
+
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -253,36 +252,38 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                                     }, new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
-                                            Log.d("bindingerror", error.toString());
 
                                         }
                                     });
+                                    globalProvider.addRequest(customRequest);
 
-                                    globalProvider.addRequest(unitChangeRequest);
+
+
+
 
                                 }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
 
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                           // Log.d("bindingerror", error.toString());
 
                         }
                     });
 
-                    globalProvider.addRequest(customRequest);
-
+                    globalProvider.addRequest(unitChangeRequest);
 
                 }
+                else
+                {
+                    Toast.makeText(DistrictSettingActivity.this,"You need to login first!",Toast.LENGTH_LONG).show();
+                }
 
-            else
-            {
-                Toast.makeText(DistrictSettingActivity.this,"You need to login first!",Toast.LENGTH_LONG).show();
-            }
         }});
 
 
@@ -291,7 +292,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("searchviewclicked","yes");
+               // Log.d("searchviewclicked","yes");
                 if(TextUtils.isEmpty(postalTextView.getText()))
                 {
                     postalTextView.setError("Please enter district!");
@@ -392,10 +393,10 @@ public class DistrictSettingActivity extends AppCompatActivity  {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Log.d("getre",response.toString());
+                   // Log.d("getre",response.toString());
 
                     int strState=response.getInt("status");
-                    Log.d("mystate",strState+"");
+                   // Log.d("mystate",strState+"");
                     if(strState==2)
                     {
                         openLayOut.setVisibility(View.GONE);
@@ -416,7 +417,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                         try {
                             JsonParser jsonParser = jsonFactory.createParser(response.toString());
                            ResultDistrict resultDistrict = (ResultDistrict) objectMapper.readValue(jsonParser, ResultDistrict.class);
-                           Log.d("checkdis",resultDistrict.getPayload().getNamePrimaryEn());
+                          // Log.d("checkdis",resultDistrict.getPayload().getNamePrimaryEn());
 
                           District district= resultDistrict.getPayload();
 
@@ -428,7 +429,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                             for(Cycle cycle:district.getCycle())
                             {
                                int week= cycle.getWeek();
-                               Log.d("checkwe",week+"");
+                              // Log.d("checkwe",week+"");
                                String weekDay=globalProvider.deliveryTiming.get(week);
                                if(!lang.equalsIgnoreCase("english"))
                                {
@@ -456,7 +457,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
 
 
                                     if(globalProvider.getCustomerId()!=null&&hasUnit&&(Constants.getCustomer(getApplicationContext()).postcode.equals(postalcode))&&!postCodeChanged) {
-                                       Log.d("buttonno","no");
+                                      // Log.d("buttonno","no");
                                        // unitNumberText.setText(Constants.getCustomer(getApplicationContext()).address);
                                         unitNumEdit.setText(Constants.getCustomer(getApplicationContext()).address);
                                        // bindingButton.setVisibility(View.GONE);
@@ -464,7 +465,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                                        // unitNumberText.setVisibility(View.VISIBLE);
                                     }
 
-                                        Log.d("buttonno","yes");
+                                       // Log.d("buttonno","yes");
                                         unitNumEdit.setVisibility(View.VISIBLE);
                                         bindingButton.setVisibility(View.VISIBLE);
 
@@ -547,8 +548,8 @@ public class DistrictSettingActivity extends AppCompatActivity  {
             }
 
         }
-        Log.d("choice",choice);
-        Log.d("postcodee",postalcode);
+       // Log.d("choice",choice);
+        //Log.d("postcodee",postalcode);
 
 
         String url=Constants.applyDistrictUrl;
@@ -567,7 +568,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
         CustomRequest customRequest=new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("applyresponse",response.toString());
+               // Log.d("applyresponse",response.toString());
                 try {
                     if(response.getInt("status")==0||response.getInt("status")==2) {
 

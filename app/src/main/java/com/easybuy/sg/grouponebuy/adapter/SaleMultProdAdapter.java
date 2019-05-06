@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -97,7 +98,7 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
                                 holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.red));
 
 
-                                Log.d("getprodmnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
+                               // Log.d("getprodmnum", product.getNameEn() + " " + cartProduct.getTotalNumber());
                                 break;
                             }
 
@@ -182,7 +183,7 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
                     });
                     if(product.getTotalNumber()>0)
                     {
-                        Log.d("checkprouctquantity",product.getTotalNumber()+"");
+                       // Log.d("checkprouctquantity",product.getTotalNumber()+"");
                         holder.cartAddedLayout.setVisibility(View.VISIBLE);
                         holder.buyButton.setVisibility(View.GONE);
 
@@ -258,11 +259,11 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
 
                                 int n = globalProvider.cartList.size();
                                 int quant=Integer.parseInt(quantity);
-                                Log.d("getquant",quant+"");
+                               // Log.d("getquant",quant+"");
                                 if (n > 0) {
                                     for (int i = 0; i < n; i++) {
                                         if (product.getId().equals(globalProvider.cartList.get(i).getId())) {
-                                            Log.d("getpid", product.getId());
+                                           // Log.d("getpid", product.getId());
                                             globalProvider.cartList.get(i).setTotalNumber(quant);
                                             //break;
                                             return;
@@ -280,7 +281,7 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
                                 holder.mainLayout.setBackgroundColor(context.getResources().getColor(R.color.red));
                                 //holder.mainLayout.setBackground(context.getResources().getDrawable(R.drawable.border));
                                     globalProvider.cartList.add(product);
-                                Log.d("checkcategorynm", product.getCategory().getNameEn());
+                               // Log.d("checkcategorynm", product.getCategory().getNameEn());
                             }
 
 
@@ -299,7 +300,13 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
                                 quantity = Integer.parseInt(holder.quantityText.getText().toString()) + 1;
 
                             }
-                            Log.d("quantityadd",quantity+"");
+                            if(product.limitPurchase>0) {
+                                if (quantity > product.limitPurchase) {
+                                    Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                           // Log.d("quantityadd",quantity+"");
 
 
                             holder.quantityText.setText(quantity + "");
@@ -361,7 +368,7 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
 
     @Override
     public int getItemCount() {
-        Log.d("productListSize",productList.size()+"");
+       // Log.d("productListSize",productList.size()+"");
 
         return productList.size();
     }

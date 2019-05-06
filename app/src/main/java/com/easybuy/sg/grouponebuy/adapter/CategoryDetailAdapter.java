@@ -81,7 +81,7 @@ public class CategoryDetailAdapter extends RecyclerView.Adapter<CategoryDetailAd
 
     @Override
     public int getItemCount() {
-        Log.d("checkdsize",categoryList.size()+"");
+      //  Log.d("checkdsize",categoryList.size()+"");
         return categoryList.size();
     }
 

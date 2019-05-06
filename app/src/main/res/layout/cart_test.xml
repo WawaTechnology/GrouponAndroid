@@ -58,7 +58,7 @@
         android:layout_marginTop="16dp"
         android:ellipsize="end"
 
-        android:maxLines="2"
+        android:maxLines="1"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/pd_img"

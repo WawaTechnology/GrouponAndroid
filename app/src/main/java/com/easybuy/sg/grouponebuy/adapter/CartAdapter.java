@@ -27,6 +27,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -173,6 +174,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
               String quanityString= holder.quantityText.getText().toString();
                int value=Integer.parseInt(quanityString);
                value+=1;
+               if(product.limitPurchase>0) {
+                   if (value > product.limitPurchase) {
+                       Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                       return;
+                   }
+               }
                holder.quantityText.setText(value+"");
                quantityListener.onQuantityChanged(product,value);
 
@@ -239,7 +246,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
     @Override
     public int getItemCount() {
-        Log.d("checkadapsize",cartProductList.size()+"");
+       // Log.d("checkadapsize",cartProductList.size()+"");
         return cartProductList.size();
     }
 
@@ -276,7 +283,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             descTextView=(TextView)itemView.findViewById(R.id.desc);
 
             final View addParent = (View) addButton.getParent();
-         Log.d("parentadd",addParent.toString());
+        // Log.d("parentadd",addParent.toString());
             addParent.post( new Runnable() {
 
                 public void run() {

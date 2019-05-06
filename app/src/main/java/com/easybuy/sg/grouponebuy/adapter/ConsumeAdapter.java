@@ -106,14 +106,14 @@ public class ConsumeAdapter extends RecyclerView.Adapter<ConsumeAdapter.MyViewHo
             try {
                 d = input.parse(consume.getDate());
                 Date date = formatter.parse(dateInString);
-                Log.d("gettime", date.toString());
+               // Log.d("gettime", date.toString());
                 Date shippingDate = formatter.parse(deliveryDate);
                 long ts = System.currentTimeMillis();
                 Date localTime = new Date(ts);
                 // Convert UTC to Local Time
                 Date fromGmt = new Date(date.getTime() + TimeZone.getDefault().getOffset(localTime.getTime()));
                 Date ShippingGmt = new Date(shippingDate.getTime() + TimeZone.getDefault().getOffset(localTime.getTime()));
-                Log.d("getgmttime", fromGmt.toString());
+               // Log.d("getgmttime", fromGmt.toString());
                 SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                 final String orderdate = simpleDateFormat.format(fromGmt);
@@ -122,7 +122,7 @@ public class ConsumeAdapter extends RecyclerView.Adapter<ConsumeAdapter.MyViewHo
 
                 String formatted = output.format(d);
                 holder.dateTextView.setText(formatted);
-                Log.d("formatted", formatted);
+               // Log.d("formatted", formatted);
 
 
                 holder.moreButton.setOnClickListener(new View.OnClickListener() {

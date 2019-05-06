@@ -96,7 +96,7 @@ public class FragmentOrder extends Fragment {
         balanceTextView=(TextView) view.findViewById(R.id.balance);
         historyButton=(Button) view.findViewById(R.id.history);
 
-        Log.d("fragmentordertag","here");
+       // Log.d("fragmentordertag","here");
         imgProfile=(ImageView) view.findViewById(R.id.change_info);
      DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
@@ -226,7 +226,7 @@ public class FragmentOrder extends Fragment {
     public void onResume()
     {
         super.onResume();
-        Log.d("fragmentordertag","hereresume");
+       // Log.d("fragmentordertag","hereresume");
         if(globalProvider.isLogin())
         {
             getEcoins();
@@ -253,7 +253,7 @@ public class FragmentOrder extends Fragment {
         Utf8JsonRequest utf8JsonRequest = new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("getcuresponse", response);
+               // Log.d("getcuresponse", response);
 
                 JsonFactory jsonFactory = new JsonFactory();
                 ObjectMapper objectMapper = new ObjectMapper();
@@ -294,7 +294,7 @@ public class FragmentOrder extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Log.d("geterror", error.toString());
+               // Log.d("geterror", error.toString());
                 String message = null;
                 if (error instanceof NetworkError) {
                     message = "Cannot connect to Internet...Please check your connection!";
@@ -330,13 +330,13 @@ public class FragmentOrder extends Fragment {
     public void onStop()
     {
         super.onStop();
-        Log.d("fragmentordertag","herestop");
+       // Log.d("fragmentordertag","herestop");
 
     }
     public void onDestroy()
     {
         super.onDestroy();
-        Log.d("fragmentordertag","hereDestroy");
+       // Log.d("fragmentordertag","hereDestroy");
 
     }
     public void wrapTabIndicatorToTitle(TabLayout tabLayout, int externalMargin, int internalMargin) {

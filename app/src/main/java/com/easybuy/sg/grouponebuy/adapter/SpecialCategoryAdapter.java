@@ -158,7 +158,7 @@ public class SpecialCategoryAdapter extends RecyclerView.Adapter<SpecialCategory
         }
         List<Product> productList=new ArrayList<>();
 
-        Log.d("splprdfinals",productList.size()+"");
+       // Log.d("splprdfinals",productList.size()+"");
         for(Product product:categorySpecial.getProductList())
         {
             if(product.isOnShelf()==true)
@@ -247,7 +247,7 @@ public class SpecialCategoryAdapter extends RecyclerView.Adapter<SpecialCategory
 
     @Override
     public int getItemCount() {
-        Log.d("categoryspecialsize",categorySpecials.size()+"");
+       // Log.d("categoryspecialsize",categorySpecials.size()+"");
         return categorySpecials.size();
     }
 

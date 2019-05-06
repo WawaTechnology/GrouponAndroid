@@ -221,7 +221,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             address = customer.address + ", " + district.getNameTertiaryEn() + ", " + district.getNameSecondaryEn() + ", " + district.getNamePrimaryEn();
         else
             address = customer.address + ", " + district.getNameTertiaryCh() + ", " + district.getNameSecondaryCh() + ", " +district.getNamePrimaryCh() ;
-        Log.d("address",address);
+       // Log.d("address",address);
         freeDeliveryPrice=Constants.getCustomer(PaymentActivity.this).getDistrict().getFreeDeliveryPrice();
 
 
@@ -287,7 +287,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
 
                                 if (prevOrder == null) {
-                                    Log.d("weareprev","here");
+                                   // Log.d("weareprev","here");
 
                                     if (subTotal < customer.getDistrict().getDeliveryCost()) {
                                         Toast.makeText(PaymentActivity.this, getString(R.string.min_spend) + " $ " + customer.getDistrict().getDeliveryCost(), Toast.LENGTH_LONG).show();
@@ -308,7 +308,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             jsonObject2.put("userInfo", jsonObject1);
                                             jsonObject2.put("shippingDate", deliveryDat);
                                             jsonObject2.put("remark", remarkText.getText().toString());
-                                            Log.d("totalpp",subTotal+"");
+                                           // Log.d("totalpp",subTotal+"");
                                             jsonObject2.put("freeDeliveryPrice",freeDeliveryPrice);
                                             jsonObject2.put("deliveryPrice",deliveryPrice);
                                             jsonObject2.put("totalPrice", subTotal + "");
@@ -321,11 +321,11 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             jsonObject2.put("isPrint", true);
 
                                             if (paymentMethodChoice.getText().toString().equals(getString(R.string.cash))) {
-                                                Log.d("valueis", "cash");
+                                               // Log.d("valueis", "cash");
                                                 jsonObject2.put("paymentMethod", "cash");
                                             } else {
                                                 jsonObject2.put("paymentMethod", "PayNow");
-                                                Log.d("valueis", "paynow");
+                                               // Log.d("valueis", "paynow");
                                             }
 
                                             final JSONArray jsonArray = new JSONArray();
@@ -366,6 +366,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                 jsonObject3.put("imageCover", imageCover);
                                                 jsonObject3.put("specification_ch", specificationch);
                                                 jsonObject3.put("specification_en", specificationen);
+                                                jsonObject3.put("limitPurchase",product.limitPurchase);
                                                 JSONObject jsonObject4 = new JSONObject();
                                                 jsonObject4.put("productInfo", jsonObject3);
                                                 jsonObject4.put("quantity", total + "");
@@ -373,13 +374,13 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             }
                                             jsonObject2.put("productList", jsonArray);
                                             if (refundCost > 0) {
-                                                Log.d("hererefund", "here");
+                                               // Log.d("hererefund", "here");
                                                 jsonObject2.put("refundCost", refundCost);
                                             }
                                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, Constants.createOrderUrl, jsonObject2, new Response.Listener<JSONObject>() {
                                                 @Override
                                                 public void onResponse(JSONObject response) {
-                                                    Log.d("checkorderResponse", response.toString());
+                                                  //  Log.d("checkorderResponse", response.toString());
 
                                                     int status = 0;
                                                     try {
@@ -395,15 +396,15 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                                 double ecoin = Constants.getCustomer(PaymentActivity.this).getRefund().getECoins();
                                                                 double val=ecoin - refundCost;
 
-                                                                Log.d("shudecoin",val+"");
+                                                               // Log.d("shudecoin",val+"");
                                                                Customer customer= Constants.getCustomer(PaymentActivity.this);
                                                                customer.getRefund().setECoins(val);
                                                                Constants.setCustomer(PaymentActivity.this,customer);
                                                               //  Constants.getCustomer(PaymentActivity.this).getRefund().setECoins(ecoin - refundCost);
                                                             }
-                                                            Log.d("acecoint",Constants.getCustomer(PaymentActivity.this).getRefund().getECoins()+"");
+                                                           // Log.d("acecoint",Constants.getCustomer(PaymentActivity.this).getRefund().getECoins()+"");
                                                             String orderCode = response.getJSONObject("payload").getString("orderCode");
-                                                            Log.d("orderCode", orderCode);
+                                                           // Log.d("orderCode", orderCode);
 
 
                                                             JSONObject object = new JSONObject();
@@ -412,7 +413,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                             object.put("email", customer.getEmail());
                                                             object.put("freeDeliveryPrice",freeDeliveryPrice);
                                                             if (refundCost > 0) {
-                                                                Log.d("hererefund", "here");
+                                                               // Log.d("hererefund", "here");
                                                                 object.put("refundCost", refundCost);
                                                             }
                                                             object.put("deliveryPrice",deliveryPrice);
@@ -421,14 +422,14 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                             object.put("totalPrice",subTotal);
                                                             object.put("date", deliveryDat);
                                                             String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
-                                                            Log.d("deliveryweek", week);
+                                                           // Log.d("deliveryweek", week);
                                                             object.put("week_en", week);
                                                             object.put("week", globalProvider.deliveryTimingChinese.get(week));
                                                             object.put("duration", duration);
                                                             JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
                                                                 @Override
                                                                 public void onResponse(JSONObject response) {
-                                                                    Log.d("emailresponse", response.toString());
+                                                                   // Log.d("emailresponse", response.toString());
                                                                     //  Toast.makeText(getContext(), "Order Successfully placed", Toast.LENGTH_LONG).show();
 
                                                                     finish();
@@ -530,6 +531,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             jsonObject3.put("imageCover", imageCover);
                                             jsonObject3.put("specification_ch", specificationch);
                                             jsonObject3.put("specification_en", specificationen);
+                                            jsonObject3.put("limitPurchase",product.limitPurchase);
                                             JSONObject jsonObject4 = new JSONObject();
                                             jsonObject4.put("productInfo", jsonObject3);
                                             jsonObject4.put("quantity", total);
@@ -537,8 +539,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                         }
                                         jsonObject.put("extraProducts", jsonArray);
                                         if (refundCost > 0) {
-                                            Log.d("refunddd", "here");
-                                            Log.d("refundcosts",refundCost+"");
+                                           // Log.d("refunddd", "here");
+                                           // Log.d("refundcosts",refundCost+"");
                                             jsonObject.put("extraRefundCost", refundCost);
                                         }
                                         jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, modifyOrderUrl, jsonObject, new Response.Listener<JSONObject>() {
@@ -546,7 +548,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             public void onResponse(JSONObject response) {
 
                                                 //Todo fetch product list from response and send it to sendEmail api
-                                                Log.d("modifyresponse",response.toString());
+                                              //  Log.d("modifyresponse",response.toString());
                                                 //todo check status
                                                 int status = 0;
 
@@ -566,7 +568,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                         subTotal=0.0;
 
                                                         if (refundCost > 0) {
-                                                            Log.d("hereref",refundCost+"");
+                                                           // Log.d("hereref",refundCost+"");
                                                             double ecoin = Constants.getCustomer(PaymentActivity.this).getRefund().getECoins();
                                                             double val=ecoin - refundCost;
 
@@ -934,7 +936,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         //get deliveryweek greater than today
         for (Cycle cycle : cycleList) {
             int week = cycle.getWeek();
-            Log.d("cycleweek",week+"");
+           // Log.d("cycleweek",week+"");
 
             if(week>todayWEEK)
             {
@@ -1081,7 +1083,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                    // previousOrderDate=deliveryDat;
 
 
-                    Log.d("deliveryDate",deliveryDat);
+                   // Log.d("deliveryDate",deliveryDat);
 
                     Calendar c = Calendar.getInstance();
                     c.setTime(date);
@@ -1115,7 +1117,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                         .parse(order.getShippingDate());
 
                 prevDateList.add(prevDate);
-                Log.d("prevlist",order.getShippingDate());
+               // Log.d("prevlist",order.getShippingDate());
             }
            for(Delivery delivery:deliveryList)
            {
@@ -1132,7 +1134,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                {
                   deliveryDat=delivery.getDate();
                   deliveryChosen=delivery;
-                   Log.d("deliverdatnew",deliveryDat);
+                  // Log.d("deliverdatnew",deliveryDat);
                   break;
                }
 

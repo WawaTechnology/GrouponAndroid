@@ -19,6 +19,14 @@
     <string name="balance">Balance:</string>
     <string name="checkout">CheckOut</string>
     <string name="delivery_cost">Delivery Cost:</string>
+    <string name="singapore">Singapore</string>
+    <string name="delete">Delete</string>
+    <string name="default_address">Default Address</string>
+    <string name="set_as_default">Set as Default</string>
+    <string name="add_delivery_address">Add Delivery Address</string>
+
+    <string name="limit_sale_msg">Cannot Buy more than sale limit</string>
+
 
     <string name="end_page">End of Page!</string>
     <string name="home">Home</string>
@@ -48,6 +56,7 @@
     <string name="countdown">Closes in</string>
     <string name="limited_offer">Limited Offer</string>
     <string name="sub_total">SubTotal: </string>
+    <string name="back">Back</string>
 
 
 
@@ -158,6 +167,8 @@
     <string name="againPassword">Confirm</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+
+    <string name="click_if_paid">Click Me if You have paid</string>
 
 
     <string name="signUp">Sign Up</string>

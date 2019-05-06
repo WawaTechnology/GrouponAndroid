@@ -47,6 +47,9 @@ import com.easybuy.sg.grouponebuy.utils.ItemOffSetDecoration;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -68,11 +71,11 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     RecyclerView categoryRecyclerView;
     GlobalProvider globalProvider;
     CategoryAdapter categoryAdapter;
-    SingleTopAdapter singleTopAdapter;
+   // SingleTopAdapter singleTopAdapter;
     SingleTopAdapter singleTopAdapter1;
     SingleTopAdapter singleTopAdapter2;
     List<ProductImageId> productImageIdList;
-    List<ProductImageId> singleTopList;
+   // List<ProductImageId> singleTopList;
     List<ProductImageId> doubleImageList;
     List<ProductImageId> doubleTopList;
     List<ProductImageId> tripleTopList;
@@ -112,6 +115,22 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
     private Runnable runnable;
     Timer timer;
+ /*   Runnable timerRunnable=new Runnable() {
+        @Override
+        public void run() {
+
+            activityHomeBinding.viewPager.post(new Runnable(){
+
+                @Override
+                public void run() {
+
+                    //  isScrolling=true;
+                    activityHomeBinding.viewPager.setCurrentItem((activityHomeBinding.viewPager.getCurrentItem()+1)%imgArray.length);
+                }
+            });
+        }
+    };
+    */
     Runnable boardRunnable=new Runnable() {
         @Override
         public void run() {
@@ -145,7 +164,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
        // MyApplication.getRefWatcher(getActivity()).watch(this);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getContext().getApplicationContext());
 
-        singleTopList=new ArrayList();
+       // singleTopList=new ArrayList();
         productImageIdList=new ArrayList<>();
         tripleTopList=new ArrayList<>();
         doubleImageList=new ArrayList<>();
@@ -175,7 +194,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
                 else {
                     imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryCh();
                 }
-                Log.d("checkimae",imgArray[i]);
+               // Log.d("checkimae",imgArray[i]);
 
             }
 
@@ -277,7 +296,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         }
         for(ProductImageId productImageId:globalProvider.singleProductList) {
             if (productImageId.getCategory().equals("one-important")) {
-                Log.d("oneimp","visible");
+               // Log.d("oneimp","visible");
 
                 String cover = Constants.newImageUrl + productImageId.getProductCover();
                 Glide.with(getContext()).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).fitCenter().into(activityHomeBinding.singleImpimage);
@@ -288,7 +307,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
             }
             if (productImageId.getCategory().equals("one")) {
-                Log.d("onesingle","visible");
+               // Log.d("onesingle","visible");
 
                 String cover = Constants.newImageUrl + productImageId.getProductCover();
                 Glide.with(getContext()).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).fitCenter().into(activityHomeBinding.singleOneimage);
@@ -351,7 +370,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
                 ViewGroup pager = (ViewGroup) getLayoutInflater().inflate(R.layout.viewpager_image, null);
 
                 ImageView imageView = (ImageView) pager.findViewById(R.id.viewpagerimg);
-                Log.d("checkimage",imgArray[a]);
+               // Log.d("checkimage",imgArray[a]);
 
                 Glide.with(container.getContext()).load(imgArray[a]).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 listViews.add(pager);
@@ -412,15 +431,26 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             activityHomeBinding.catgoryRecycler.requestLayout();
         }
         */
-        singleTopList.addAll(globalProvider.singleProductList);
+       // singleTopList.addAll(globalProvider.singleProductList);
         doubleImageList.addAll(globalProvider.doubleProductImageList);
         productImageIdList.addAll(globalProvider.threeImageLayout);
+
         doubleTopList.addAll(globalProvider.doubleProductList);
         tripleTopList.addAll(globalProvider.threeTopImageLayout);
-        Log.d("doubletoplistsize",doubleTopList.size()+"");
+        // sorting it for the cases when three top right image is added first,
+        if(productImageIdList.size()>0)
+        {
+            Collections.sort(productImageIdList, new Comparator<ProductImageId>() {
+                @Override
+                public int compare(ProductImageId p1, ProductImageId p2) {
+                    return p1.getViewType()-p2.getViewType();
+                }
+            });
+        }
+       // Log.d("doubletoplistsize",doubleTopList.size()+"");
 
         singleTopAdapter0=new SingleTopAdapter(getContext(),doubleTopList);
-         singleTopAdapter=new SingleTopAdapter(getContext(),singleTopList);
+        // singleTopAdapter=new SingleTopAdapter(getContext(),singleTopList);
 
 
       singleTopAdapter1=new SingleTopAdapter(getContext(),productImageIdList);
@@ -443,13 +473,17 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
       //  LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
        // activityHomeBinding.singleToprecycler.setLayoutManager(linearLayoutManager);
         //activityHomeBinding.singleToprecycler.setAdapter(singleTopAdapter);
+        if(globalProvider.specialBanner!=null) {
 
-        int bannerHeight= (int) (width/3.3);
-        activityHomeBinding.specialBanner.getLayoutParams().height=bannerHeight;
-        activityHomeBinding.specialBanner.requestLayout();
+            int bannerHeight = (int) (width / 3.3);
+            activityHomeBinding.specialBanner.getLayoutParams().height = bannerHeight;
+            activityHomeBinding.specialBanner.requestLayout();
 
-        Glide.with(getContext()).load(Constants.newImageUrl+globalProvider.specialBanner.getProductCover()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
-        Log.d("checkimage",Constants.baseUrlStr+globalProvider.specialBanner.getProductCover());
+            Glide.with(getContext()).load(Constants.newImageUrl + globalProvider.specialBanner.getProductCover()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
+        }
+        else
+            activityHomeBinding.specialBanner.setVisibility(GONE);
+        //Log.d("checkimage",Constants.baseUrlStr+globalProvider.specialBanner.getProductCover());
         activityHomeBinding.specialBanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -597,6 +631,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
                     @Override
                     public void run() {
+
                       //  isScrolling=true;
                         activityHomeBinding.viewPager.setCurrentItem((activityHomeBinding.viewPager.getCurrentItem()+1)%imgArray.length);
                     }
@@ -613,6 +648,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             @Override
             public void run() {
                 try {
+
                     handler.postDelayed(this, 1000);
                     Date today=new Date();
                     long secs = (saleDate.getTime() - today.getTime()) / 1000;
@@ -652,10 +688,11 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
     public void onStop() {
         super.onStop();
-        handler.removeCallbacks(runnable);
+        handler.removeCallbacksAndMessages(runnable);
         if(handlerNotice!=null)
         {
-            handlerNotice.removeCallbacks(boardRunnable);
+            handlerNotice.removeCallbacksAndMessages(boardRunnable);
+
 
         }
 
@@ -783,12 +820,21 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         productDetailViewPagerAdapter=null;
 
     }
+    @Override
+    public void onDestroyView() {
+     activityHomeBinding.recyclerThreelayout.setAdapter(null);
+     activityHomeBinding.doubleBottomrecycler.setAdapter(null);
+     activityHomeBinding.recyclerDoubleTop.setAdapter(null);
+     activityHomeBinding.saleProductRecycler.setAdapter(null);
+     activityHomeBinding.recyclerSpecial.setAdapter(null);
+        super.onDestroyView();
+    }
 
 
     @Override
     public void onItemClick(int position) {
         timer.cancel();
-        Log.d("clicked at pos",position+"");
+       // Log.d("clicked at pos",position+"");
         SpecialImage specialImage=globalProvider.specialMImages.get(position);
         Intent intent=new Intent(getContext(),SpecialSaleLayout.class);
         intent.putExtra("specialImage",specialImage);

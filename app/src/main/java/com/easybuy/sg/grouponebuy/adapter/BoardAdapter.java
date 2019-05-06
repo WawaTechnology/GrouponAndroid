@@ -49,7 +49,7 @@ public class BoardAdapter extends RecyclerView.Adapter<BoardAdapter.MyViewHolder
         if(specialImage.getImageHeaderSize()!=null)
         {
             int height= (int) (width*specialImage.getImageHeaderSize());
-            Log.d("height",height+"");
+           // Log.d("height",height+"");
             holder.imgView.getLayoutParams().height=height;
             holder.imgView.requestLayout();
 

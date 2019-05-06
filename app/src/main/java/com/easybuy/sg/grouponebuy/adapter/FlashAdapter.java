@@ -58,8 +58,8 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.ViewHolder> 
 
         if(bp.getStartStock()!=null)
         {
-            Log.d("checkbpstock",bp.getStock()+"");
-            Log.d("checkbpstartstock",bp.getStartStock()+"");
+           // Log.d("checkbpstock",bp.getStock()+"");
+            //Log.d("checkbpstartstock",bp.getStartStock()+"");
 
          int per=  (int)(bp.getStock()*100)/bp.getStartStock();
          per=100-per;
@@ -91,7 +91,7 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.ViewHolder> 
         double price = bp.getPrice();
         //  String dr= Constants.baseUrlStr+bp.getImageCover();
         String dr = "https://s3-ap-southeast-1.amazonaws.com/ebuymart/" + bp.getImageCover();
-        Log.d("checkimage", dr);
+       // Log.d("checkimage", dr);
         String actualPrice = "$ " + price;
 
         String[] each = actualPrice.split("\\.");
@@ -104,6 +104,13 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.ViewHolder> 
 
         holder.tvprice.setText(spannable, TextView.BufferType.SPANNABLE);
         holder.tvprice.setTextColor(context.getResources().getColor(R.color.red));
+        if(bp.getPriceDiscount()!=null&&bp.getPriceDiscount()!="")
+        {
+            holder.discountText.setText(bp.getPriceDiscount()+" OFF");
+            holder.discountText.setVisibility(View.VISIBLE);
+        }
+        else
+            holder.discountText.setVisibility(View.GONE);
 
 
         // Glide.with(context).load(dr).into(holder.imgview);
@@ -113,11 +120,11 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.ViewHolder> 
                 .into(holder.imgview);
         if(isSoldOut)
         {
-            Log.d("soldout","true");
+           // Log.d("soldout","true");
             if(lang.equals("english"))
-                holder.soldOutImg.setImageDrawable(context.getDrawable(R.drawable.soldout));
+                holder.soldOutImg.setImageDrawable(context.getDrawable(R.drawable.soldoutn));
             else
-                holder.soldOutImg.setImageDrawable(context.getDrawable(R.drawable.soldout_cn));
+                holder.soldOutImg.setImageDrawable(context.getDrawable(R.drawable.soldoutch));
             holder.soldOutImg.setVisibility(View.VISIBLE);
         }
         else
@@ -142,7 +149,7 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.ViewHolder> 
 
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgview,soldOutImg;
-        TextView tvname, tvprice, tvquantity,soldOutStatusText;
+        TextView tvname, tvprice, tvquantity,soldOutStatusText,discountText;
         ProgressBar progressBar;
 
         public ViewHolder(View itemView) {
@@ -154,6 +161,7 @@ public class FlashAdapter extends RecyclerView.Adapter<FlashAdapter.ViewHolder> 
             progressBar=(ProgressBar)itemView.findViewById(R.id.prg_bar);
             soldOutStatusText=(TextView)itemView.findViewById(R.id.prg_per_text);
             soldOutImg=(ImageView)itemView.findViewById(R.id.sold_out);
+            discountText=(TextView)itemView.findViewById(R.id.discount_per);
 
 
         }

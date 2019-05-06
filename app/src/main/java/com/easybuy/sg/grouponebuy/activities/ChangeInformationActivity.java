@@ -143,7 +143,7 @@ public class ChangeInformationActivity extends AppCompatActivity {
                }, new Response.ErrorListener() {
                    @Override
                    public void onErrorResponse(VolleyError error) {
-                       Log.d("checkerror", error.toString());
+                     //  Log.d("checkerror", error.toString());
 
                    }
                });
@@ -214,22 +214,44 @@ public class ChangeInformationActivity extends AppCompatActivity {
         {
             case "name":
             {
-                infoText.setText("UserName");
+
                 infoEdit.setText(customer.userName);
                 map.put("userName",customer.userName);
+                if(Constants.getLanguage(getApplicationContext()).equals("english"))
+                {
+                    infoText.setText("UserName");
+                }
+                else
+                    infoText.setText(getResources().getString(R.string.userName));
                 break;
 
             }
             case "phone":
             {
-                infoText.setText("Phone");
+                if(Constants.getLanguage(getApplicationContext()).equals("english"))
+                {
+                    infoText.setText("Phone");
+                }
+                else {
+                    String phone=getString(R.string.phone);
+                    infoText.setText(phone.substring(0,phone.length()-1));
+                }
+
                 infoEdit.setText(customer.phone);
                 map.put("phone",customer.phone);
                 break;
             }
             case "email":
             {
-                infoText.setText("Email");
+                if(Constants.getLanguage(getApplicationContext()).equals("english")) {
+                    infoText.setText("Email");
+                }
+                else
+                {
+                    String email=getString(R.string.phone);
+                    infoText.setText(email.substring(0,email.length()-1));
+                }
+
                 infoEdit.setText(customer.email);
                 map.put("email",customer.email);
                 break;

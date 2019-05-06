@@ -41,20 +41,25 @@
         android:layout_height="1dp" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:layout_height="35dp"
+
         android:background="#fff"
+        android:id="@+id/name_next"
+        android:onClick="changeInformation"
         android:orientation="horizontal"
 
 
         >
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:gravity="center"
+
+            android:textAlignment="gravity"
+
 
             android:text="@string/userName"
             />
@@ -66,9 +71,11 @@
             android:layout_width="wrap_content"
             android:textSize="14sp"
             android:layout_marginRight="8dp"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
 
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
 
 
             android:id="@+id/name_text"
@@ -78,26 +85,29 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="16dp"
-            android:id="@+id/name_next"
-            android:onClick="changeInformation"
-            android:gravity="right"
+
+
+            android:gravity="right|center_vertical"
             android:textSize="18sp"
             android:text=">"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:orientation="horizontal"
         android:layout_marginTop="3dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+
         android:background="#fff"
+        android:id="@+id/email_next"
+        android:onClick="changeInformation"
 
         >
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
             android:textSize="16sp"
             android:textStyle="bold"
             android:id="@+id/email_label"
@@ -110,7 +120,9 @@
         <TextView
             android:layout_width="wrap_content"
 
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
             android:textSize="14sp"
             android:layout_marginRight="8dp"
@@ -122,27 +134,29 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="16dp"
-            android:gravity="right"
+            android:gravity="right|center_vertical"
             android:textSize="18sp"
-            android:onClick="changeInformation"
-            android:id="@+id/email_next"
+
+
             android:text=">"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:orientation="horizontal"
         android:background="#fff"
         android:layout_marginTop="3dp"
+        android:id="@+id/phone_next"
+        android:onClick="changeInformation"
 
-        android:paddingBottom="5dp"
-        android:paddingTop="5dp"
         >
         <TextView
             android:layout_width="100dp"
             android:layout_marginLeft="16dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Phone"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
             android:textSize="16sp"
             android:textStyle="bold"
             android:id="@+id/phone_label"
@@ -155,8 +169,10 @@
             android:layout_width="wrap_content"
 
             android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginRight="8dp"
 
             android:id="@+id/phone_text"
@@ -167,28 +183,32 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="16dp"
-            android:gravity="right"
+            android:gravity="right|center_vertical"
             android:textSize="18sp"
-            android:onClick="changeInformation"
-            android:id="@+id/phone_next"
+
+
             android:text=">"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:orientation="horizontal"
         android:background="@color/white"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+
+        android:onClick="changeInformation"
+
         android:layout_marginTop="3dp"
+        android:id="@+id/paynow_next"
         >
 
         <TextView
             android:layout_width="100dp"
             android:layout_marginLeft="16dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
             android:text="Paynow" />
         <View
@@ -198,8 +218,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:textSize="14sp"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginRight="8dp"
 
 
@@ -213,10 +235,10 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="16dp"
-            android:gravity="right"
+            android:gravity="right|center_vertical"
             android:textSize="18sp"
-            android:onClick="changeInformation"
-            android:id="@+id/paynow_next"
+
+
             android:text=">"/>
     </LinearLayout>
     <View
@@ -227,22 +249,24 @@
         android:background="@color/new_grey"></View>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:orientation="horizontal"
         android:background="@color/white"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+
         android:layout_marginTop="3dp"
+        android:id="@+id/address_next"
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
-            android:text="Delivery Address" />
+            android:text="@string/delivery_address" />
         <View
             android:layout_width="0dp"
             android:layout_height="8dp"
@@ -251,20 +275,19 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="16dp"
-            android:gravity="right"
+            android:gravity="right|center_vertical"
             android:textSize="18sp"
 
-            android:id="@+id/address_next"
+
             android:text=">"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:orientation="horizontal"
         android:layout_marginTop="3dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+
         android:background="#fff"
 
         >
@@ -272,9 +295,11 @@
         <TextView
             android:layout_width="wrap_content"
 
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
 
             android:textSize="14sp"

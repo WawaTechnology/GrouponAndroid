@@ -45,6 +45,18 @@ public class Customer implements Serializable {
     @JsonProperty("district")
 
     private District district;
+
+    public List<Address> getAddressList() {
+        return addressList;
+    }
+
+    public void setAddressList(List<Address> addressList) {
+        this.addressList = addressList;
+    }
+
+    @JsonProperty("addressList")
+
+    private List<Address> addressList;
     @JsonProperty("favoriteList")
     private List<Product> favoriteList = null;
 

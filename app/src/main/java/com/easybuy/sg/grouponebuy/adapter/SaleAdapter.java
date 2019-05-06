@@ -54,7 +54,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Log.d("checkposi",position+"");
+       // Log.d("checkposi",position+"");
        Layer layer= layerList.get(position);
        if(layer.imageTitleCh==null) {
            holder.imgHeader.setVisibility(View.GONE);
@@ -62,7 +62,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
 
 
            if (layer.getBgColor() != null) {
-               Log.d("getcolor", layer.getBgColor());
+              // Log.d("getcolor", layer.getBgColor());
                if(layer.getBgColor().contains("rgb"))
                {
                    String layercolor=layer.getBgColor();
@@ -93,7 +93,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
       //     Log.d("checkcolor",layer.getColor());
            try {
                if (layer.getColor() != null) {
-                   Log.d("checkcolor",layer.getColor());
+                  // Log.d("checkcolor",layer.getColor());
                    holder.titleHeader.setTextColor(Color.parseColor(layer.getColor()));
                }
            }
@@ -106,7 +106,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
                holder.titleHeader.setText(layer.getNameEn());
            else
                holder.titleHeader.setText(layer.getNameCh());
-           Log.d("checkname",layer.getNameEn());
+          // Log.d("checkname",layer.getNameEn());
        }
        else
        {
@@ -121,11 +121,8 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
                bkg=Constants.newImageUrl+layer.imageTitleCh;
            Glide.with(context).load(bkg).fitCenter().into(holder.imgHeader);
        }
-       Log.d("checktitleheader",layer.getNameEn());
-       if(layer.getNameEn().equalsIgnoreCase("Favourite choice"))
-       {
-           Log.d("layers",layer.getLayer()+"");
-       }
+      // Log.d("checktitleheader",layer.getNameEn());
+
 
 
 
@@ -201,7 +198,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        Log.d("checklayerlistsize",layerList.size()+"");
+       // Log.d("checklayerlistsize",layerList.size()+"");
         return layerList.size();
     }
 

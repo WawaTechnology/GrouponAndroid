@@ -316,7 +316,7 @@ int n;
                         @Override
                         public void onResponse(JSONObject response) {
 
-                         Log.d("checksignupres",response.toString());
+                        // Log.d("checksignupres",response.toString());
                          String result=response.toString();
                             JsonFactory jsonFactory = new JsonFactory();
                             ObjectMapper objectMapper = new ObjectMapper();
@@ -334,7 +334,7 @@ int n;
                                 }
                                 else {
                                     Customer customer = op.getCustomer();
-                                    Log.d("checkcus",customer.getUserName());
+                                   // Log.d("checkcus",customer.getUserName());
                                     Constants.setCustomer(SignUpActivity.this,customer);
                                     globalProvider.setCustomerId(customer.customer_id);
                                     globalProvider.setLogin(true);

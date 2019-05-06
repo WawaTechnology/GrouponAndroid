@@ -1,24 +1,37 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="100dp"
+    android:orientation="vertical" android:layout_width="120dp"
     android:layout_height="wrap_content"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp">
     <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="100dp">
+        android:layout_width="120dp"
+        android:layout_height="120dp">
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:scaleType="centerCrop"
         android:id="@+id/img"/>
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
             android:visibility="gone"
             android:id="@+id/sold_out"
             android:layout_alignLeft="@id/img"
             android:layout_alignTop="@id/img"/>
+        <TextView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:textColor="@color/white"
+            android:text="30% OFF"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:layout_alignRight="@id/img"
+
+            android:layout_alignTop="@id/img"
+            android:id="@+id/discount_per"
+            android:background="@drawable/discount"/>
     </RelativeLayout>
     <ProgressBar
         android:layout_width="match_parent"
@@ -37,7 +50,7 @@
         android:id="@+id/prg_per_text"/>
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:id="@+id/prod_nm"
         android:gravity="center_horizontal"
@@ -49,17 +62,17 @@
         android:textSize="12sp"
         android:text="Beef Australia"/>
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
 
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:maxLines="1"
         android:ellipsize="end"
         android:gravity="center_horizontal"
         android:textColor="@color/grey_dark"
         android:id="@+id/product_quantity"/>
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
 

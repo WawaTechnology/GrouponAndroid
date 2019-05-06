@@ -80,7 +80,7 @@ public class FragmentOrderTOne extends Fragment {
     TextView processingText, paymenttext, allordertext;
     LinearLayout allOrderLayout, paymentLayout, processingLayout;
     ColorStateList oldColors;
-    int TAB_PRESSED = 1;
+    public int TAB_PRESSED = 1;
     Button submitButton;
     TextView paymentBadge;
     final int Order_Code = 113;
@@ -157,14 +157,14 @@ public class FragmentOrderTOne extends Fragment {
 
 
         orderRecyclerView = (RecyclerView) view.findViewById(R.id.status_recycler);
-        orderAdapter = new OrderAdapter(getActivity(), orderList);
+        orderAdapter = new OrderAdapter(getActivity(), orderList,FragmentOrderTOne.this);
         orderRecyclerView.setAdapter(orderAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         orderRecyclerView.setLayoutManager(linearLayoutManager);
         orderRecyclerView.addOnScrollListener(new PaginationScrollListener(linearLayoutManager) {
             @Override
             protected void loadMoreItems() {
-                Log.d("loadmore", "called");
+
                 isLoading = true;
                 page += 1;
 
@@ -304,15 +304,25 @@ public class FragmentOrderTOne extends Fragment {
     }
 
     private void loadNextPage() {
-        Log.d("called", "loadNextPage");
+       // Log.d("called", "loadNextPage");
         if (globalProvider.isLogin()) {
             String url = Constants.getOrderUrl + page + "/" + pageSize;
             Map<String, String> params = new HashMap<>();
 
-            params.put("state", "all");
+            if(TAB_PRESSED==1) {
+                params.put("state", "all");
+            }
+            else if(TAB_PRESSED==2)
+            {
+                params.put("state","waitingPay");
+            }
+            else
+            {
+                params.put("state","waiting");
+            }
             params.put("userID", globalProvider.getCustomerId());
             //params.put("userID", globalProvider.getCustomer().customer_id);
-            Log.d("url", url);
+
             // Log.d("userId",globalProvider.getCustomer().customer_id);
             CustomRequest customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                 @Override
@@ -323,8 +333,7 @@ public class FragmentOrderTOne extends Fragment {
                     try {
                         JsonParser jsonParser = jsonFactory.createParser(response.toString());
                         ResultOrder resultOrder = (ResultOrder) objectMapper.readValue(jsonParser, ResultOrder.class);
-                        Log.d("ostatus", resultOrder.getStatus() + "");
-                        Log.d("resultorder", response.toString());
+
                         orderAdapter.removeLoadingFooter();
                         if (resultOrder.getStatus() == 0) {
 
@@ -333,7 +342,7 @@ public class FragmentOrderTOne extends Fragment {
                             orderAdapter.notifyDataSetChanged();
                             noOrderLayOut.setVisibility(View.GONE);
                             orderRecyclerView.setVisibility(View.VISIBLE);
-                            Log.d("checkresultsize", resultOrder.getOrder().size() + "");
+
                             isLoading = false;
 
                             if (pageSize <= resultOrder.getOrder().size()) {
@@ -342,8 +351,7 @@ public class FragmentOrderTOne extends Fragment {
                             } else
                                 isLastPage = true;
 
-                            Log.d("checkisLatP", isLastPage + "");
-                            Log.d("isLoading", isLoading + "");
+
                         } else {
                             if (resultOrder.getStatus() == 2) {
                                 isLastPage = true;
@@ -376,7 +384,7 @@ public class FragmentOrderTOne extends Fragment {
 
     public void onResume() {
         super.onResume();
-        Log.d("resumecalledhere", "here");
+
       /*  if(globalProvider.getDeletedOrder()!=null)
         {
             Order order=globalProvider.getDeletedOrder();
@@ -396,15 +404,14 @@ public class FragmentOrderTOne extends Fragment {
         }
         */
         if (globalProvider.isLogin()) {
-            Log.d("onresumeorder", "called");
-            Log.d("ecoin", Constants.getCustomer(getContext()).getRefund().getECoins() + "");
+
             Activity activity = getActivity();
             if (isAdded() && activity != null) {
               //  getEcoins();
 
 
                 getBadge();
-                Log.d("onresumeorder", "here");
+
                 orderList.clear();
 
                 //TAB_PRESSED = 1;
@@ -434,7 +441,7 @@ public class FragmentOrderTOne extends Fragment {
 
 
         String url=Constants.orderBadgeUrl;
-        Log.d("checkurl",url);
+
         Map<String,String> params=new HashMap<>();
         params.put("userID", globalProvider.getCustomerId());
        // params.put("userID", globalProvider.getCustomer().customer_id);
@@ -479,7 +486,7 @@ public class FragmentOrderTOne extends Fragment {
                             numView.show();
                             */
 
-                                Log.d("getwaitingPay", waitingPay + "");
+
                             } else {
                                 // numView.hide();
                                 paymentBadge.setVisibility(View.INVISIBLE);
@@ -488,7 +495,7 @@ public class FragmentOrderTOne extends Fragment {
                                 badgeText.setTextColor(getResources().getColor(R.color.white));
                                 badgeText.setText(waitingProcessing + "");
                                 badgeText.setVisibility(View.VISIBLE);
-                                Log.d("getwaitingProcessing", waitingProcessing + "");
+
 
                             /*processingView.setText(waitingProcessing + "");//
 
@@ -563,9 +570,7 @@ public class FragmentOrderTOne extends Fragment {
                 params.put("state","waiting");
             }
             params.put("userID", globalProvider.getCustomerId());
-          Log.d("customerid",globalProvider.getCustomerId());
-          Log.d("url",url);
-          Log.d("paramstate",params.get("state"));
+
 
            // params.put("userID", globalProvider.getCustomer().customer_id);
 
@@ -598,7 +603,8 @@ public class FragmentOrderTOne extends Fragment {
                             */
 
                             orderList.addAll(resultOrder.getOrder());
-                           // Log.d("orderleistsize",orderList.size()+"");
+
+
                            // orderAdapter.notifyDataSetChanged();
 
                             orderAdapter.notifyDataSetChanged();
@@ -611,13 +617,11 @@ public class FragmentOrderTOne extends Fragment {
                                 noOrderLayOut.setVisibility(View.GONE);
 
                                 orderRecyclerView.setVisibility(View.VISIBLE);
-                                Log.d("checkorders",orderList.size()+"");
+
 
                                 if (pageSize<=orderList.size()) {
                                     orderAdapter.addLoadingFooter();
-                                    Log.d("footeradded","here");
-                                    Log.d("isLoading1",isLoading+"");
-                                    Log.d("isLastpage",isLastPage+"");
+
                                 }
                                 else {
                                     isLastPage = true;

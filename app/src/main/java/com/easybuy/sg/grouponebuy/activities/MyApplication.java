@@ -27,7 +27,7 @@ public class MyApplication extends Application {
         //whenever local language is changed ;change the share preference
 
         String languaged= Locale.getDefault().getDisplayLanguage();
-        Log.d("checkconfigchange",languaged);
+       // Log.d("checkconfigchange",languaged);
         if(languaged.contains("中文"))
         {
             Constants.setLanguage(getApplicationContext(),"chinese");
@@ -56,7 +56,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("application","oncreate");
+       // Log.d("application","oncreate");
 
        // refWatcher = LeakCanary.install(this);
 
@@ -104,25 +104,25 @@ public class MyApplication extends Application {
 
             @Override
             public void onActivityStarted(Activity activity) {
-                Log.d("applicationstate","started");
+               // Log.d("applicationstate","started");
 
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
-                Log.d("applicationstate","resumed");
+               // Log.d("applicationstate","resumed");
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
-                Log.d("applicationstate","paused");
+               // Log.d("applicationstate","paused");
 
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
 
-                Log.d("applicationstate","stopped");
+               // Log.d("applicationstate","stopped");
 
             }
 
@@ -133,7 +133,7 @@ public class MyApplication extends Application {
 
             @Override
             public void onActivityDestroyed(Activity activity) {
-                Log.d("applicationstate","des");
+               // Log.d("applicationstate","des");
 
             }
 
@@ -151,7 +151,7 @@ public class MyApplication extends Application {
 
     @Override
     public void onTerminate() {
-        Log.d("onterminate","called");
+       // Log.d("onterminate","called");
         super.onTerminate();
 
 

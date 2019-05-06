@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("maincalled","yes");
+
         setContentView(R.layout.activity_main);
 
         //todo check if splashactivity is loaded when app goes in background with many apps opened
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
         favLinearLayout=(LinearLayout) findViewById(R.id.fav_linearlayout);
        buyNumView = new CircleBadgeView(this, cartImage);
        buyNumView.setTextColor(Color.WHITE);
-        Log.d("checkthreadnm",Thread.currentThread().getName());
+
        buyNumView.setBackgroundColor(getResources().getColor(R.color.red));
         homeLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,11 +218,11 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
         //check if there customer record is in sharedpreference, reload it with api data;add products cart in global provider variable
         if(Constants.getCustomer(this)!=null) {
-            Log.d("logintrue","here");
-            Log.d("checkfavl",Constants.getCustomer(this).getFavoriteList().size()+"");
+            //Log.d("logintrue","here");
+           // Log.d("checkfavl",Constants.getCustomer(this).getFavoriteList().size()+"");
 
             String customerid=Constants.getCustomer(this).customer_id;
-            Log.d("checkcustomerid",customerid);
+           // Log.d("checkcustomerid",customerid);
            // Log.d("getdistrictid",Constants.getCustomer(this).getDistrict().getId());
 
 
@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
             Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("getcuresponse",response);
+                   // Log.d("getcuresponse",response);
 
                     JsonFactory jsonFactory = new JsonFactory();
                     ObjectMapper objectMapper = new ObjectMapper();
@@ -310,7 +310,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Log.d("geterror",error.toString());
+                   // Log.d("geterror",error.toString());
                     String message = null;
                     if (error instanceof NetworkError) {
                         message = "Cannot connect to Internet...Please check your connection!";
@@ -358,12 +358,12 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
         Point point=new Point();
         display.getSize(point);
-        Log.d("getsize",point.x+" " +point.y);
+       // Log.d("getsize",point.x+" " +point.y);
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        Log.d("checkwidthindp",dpWidth+" "+dpHeight);
-        Log.d("checkdensity",displayMetrics.density+" "+displayMetrics.densityDpi);
+       // Log.d("checkwidthindp",dpWidth+" "+dpHeight);
+        //Log.d("checkdensity",displayMetrics.density+" "+displayMetrics.densityDpi);
 
 
         if(globalProvider.adjustToStart!=0)
@@ -386,8 +386,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
     private void showVersionAlert() {
         String url=Constants.checkAppUpdateUrl;
-        Log.d("checkuu",url);
-        Log.d("checkpred",Constants.getAppUpdateChoice(getApplicationContext())+"");
+       // Log.d("checkuu",url);
+       // Log.d("checkpred",Constants.getAppUpdateChoice(getApplicationContext())+"");
         Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
 
     public void setCartNum() {
-        Log.d("cartset","here");
+       // Log.d("cartset","here");
         if(!globalProvider.cartList.isEmpty()) {
           /*  badgeTextView.setText(globalProvider.cartList.size()+"");
             if(globalProvider.cartList.size()>=10)
@@ -492,7 +492,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
                 DEFAULT_LR_PADDING_DIP = 3;
                 int paddingPixels = dipToPixels(DEFAULT_LR_PADDING_DIP);
-                Log.d("paddingpos",paddingPixels+"");
+               // Log.d("paddingpos",paddingPixels+"");
                 buyNumView.setPadding(paddingPixels, 0, paddingPixels, 0);
 
                 buyNumView.setTextSize(11);
@@ -500,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
             } else {
                 DEFAULT_LR_PADDING_DIP = 5;
                 int paddingPixels_ = dipToPixels(DEFAULT_LR_PADDING_DIP);
-                Log.d("paddingpos",paddingPixels_+"");
+                //Log.d("paddingpos",paddingPixels_+"");
                 buyNumView.setPadding(paddingPixels_, 0, paddingPixels_, 0);
               // buyNumView.setPadding(paddingPixels_, 0, 0, 0);
                 buyNumView.setTextSize(11);
@@ -686,7 +686,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("onActivityresult","called");
+       // Log.d("onActivityresult","called");
       /*  if(requestCode==111) {
             Fragment fragment = getSupportFragmentManager().findFragmentByTag("productTag");
             if (fragment != null) {
@@ -712,7 +712,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
     }
     public void onDestroy()
     {
-        Log.d("maindestory","here");
+       // Log.d("maindestory","here");
 
         Glide.get(this).clearMemory();
 

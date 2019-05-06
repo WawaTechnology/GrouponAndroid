@@ -125,8 +125,7 @@ public class ProductSpecAdapter extends RecyclerView.Adapter<ProductSpecAdapter.
 
     @Override
     public int getItemCount() {
-        Log.d("pdsizeis",productList.size()+"" +
-                "");
+
         return productList.size();
     }
 

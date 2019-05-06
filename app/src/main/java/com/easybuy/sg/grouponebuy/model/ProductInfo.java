@@ -25,8 +25,16 @@ public class ProductInfo implements Serializable {
     private String unitCh;
     @JsonProperty("unit_en")
     private String unitEn;
+    @JsonProperty("limitPurchase")
+    private Integer limitPurchase;
 
+    public Integer getLimitPurchase() {
+        return limitPurchase;
+    }
 
+    public void setLimitPurchase(Integer limitPurchase) {
+        this.limitPurchase = limitPurchase;
+    }
 
     @JsonProperty("category")
 

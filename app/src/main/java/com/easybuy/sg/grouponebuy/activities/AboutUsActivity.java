@@ -25,7 +25,7 @@ public class AboutUsActivity extends AppCompatActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_us);
-        Log.d("hii","justchecking");
+        //Log.d("hii","justchecking");
         backButton=(ImageView)findViewById(R.id.back);
         recyclerView=(RecyclerView) findViewById(R.id.img_Recyclers);
         backButton.setOnClickListener(new View.OnClickListener() {

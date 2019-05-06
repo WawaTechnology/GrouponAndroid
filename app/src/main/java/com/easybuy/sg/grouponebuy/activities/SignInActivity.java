@@ -133,15 +133,11 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
-                                // Log.d("responsevolley", response.getString("token"));
+
                                 JsonFactory jsonFactory = new JsonFactory();
                                 ObjectMapper objectMapper = new ObjectMapper();
                                 String result=response.toString();
-                                Log.d("checkuser",response.toString());
 
-
-                                Log.d("contractresponse", result);
-                                Log.d("getmessage",response.getString("msg"));
                                // String uname=response.getString("userName");
                                 //Log.d("checkuname",uname);
                                 try
@@ -150,7 +146,7 @@ public class SignInActivity extends AppCompatActivity {
 
                                 JsonParser jsonParser = jsonFactory.createParser(result);
                                  Result customer =(Result) objectMapper.readValue(jsonParser, Result.class);
-                                 Log.d("check",customer.getStatus()+"");
+
                                 int status=customer.getStatus();
                                 if(status==0) {
                                     globalProviderInstance.setCustomerId(customer.getCustomer().customer_id);
@@ -163,7 +159,7 @@ public class SignInActivity extends AppCompatActivity {
 
                                     Constants.setCustomer(SignInActivity.this,customer.getCustomer());
                                     Customer customers=Constants.getCustomer(SignInActivity.this);
-                                    Log.d("checkcknm",customers.getUserName());
+                                   // Log.d("checkcknm",customers.getUserName());
                                     saveHistory(customer.getCustomer().userName);
 
                                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
@@ -211,8 +207,7 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onErrorResponse(VolleyError error) {
 
-                            Log.d("errorvolley", error.toString());
-                            Log.d("checkerror",error.getCause().toString());
+
 
 
                             new AlertDialog.Builder(SignInActivity.this)

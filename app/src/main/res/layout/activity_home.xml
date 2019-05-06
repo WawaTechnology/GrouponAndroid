@@ -161,7 +161,7 @@ paste special banner here-->
                     android:layout_height="1dp"
                     android:background="@color/grey_dark"></View>
                 <LinearLayout
-                    android:layout_marginLeft="3dp"
+                    android:layout_marginLeft="16dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -209,13 +209,14 @@ paste special banner here-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
+
                 android:textColor="@color/red"
                 android:text="@string/limited_offer"
                 android:id="@+id/saleName"/>
@@ -244,8 +245,11 @@ paste special banner here-->
 
 
         <android.support.v7.widget.RecyclerView
+            android:layout_marginTop="8dp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:id="@+id/sale_productRecycler"></android.support.v7.widget.RecyclerView>
     </LinearLayout>
 

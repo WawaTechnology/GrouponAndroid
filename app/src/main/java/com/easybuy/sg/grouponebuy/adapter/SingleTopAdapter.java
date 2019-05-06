@@ -130,8 +130,7 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            {
                final SingleViewHolder myholder = (SingleViewHolder) holder;
 
-               Log.d("cover",cover);
-               Log.d("checkwidthh",width+"");
+
                myholder.imgView.getLayoutParams().height=width/2;
                myholder.imgView.requestLayout();
                Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).error(R.drawable.ebuylogo).fitCenter().into(myholder.imgView);
@@ -148,7 +147,7 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            }
            case DOUBLEVIEW:
            {
-               Log.d("checkdoublecover",cover);
+
                final MultipleViewHolder multipleViewHolder=(MultipleViewHolder)holder;
             /*   Log.d("checkwidth",width+"");
               multipleViewHolder.imageView.getLayoutParams().height= (int) (width*0.6);
@@ -172,7 +171,7 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            case TRIPLEVIEWLEFT:
            {
                final TripleLeftViewHolder tripleLeftViewHolder=(TripleLeftViewHolder)holder;
-               Log.d("cover",cover);
+              // Log.d("tripleleftcover",cover);
                tripleLeftViewHolder.imageView.getLayoutParams().width=(width/2);
                tripleLeftViewHolder.imageView.getLayoutParams().height=(width/2);
                tripleLeftViewHolder.imageView.requestLayout();
@@ -198,7 +197,7 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                tripleTopUpViewHolder.imageView.getLayoutParams().width=(width/2);
                tripleTopUpViewHolder.imageView.getLayoutParams().height=(width/4);
                tripleTopUpViewHolder.imageView.requestLayout();
-               Log.d("topup",cover);
+              // Log.d("topup",cover);
                Glide.with(context).load(cover).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(tripleTopUpViewHolder.imageView);
                tripleTopUpViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                    @Override
@@ -214,9 +213,9 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
            {
                final TripleTopDownViewHolder tripleTopDownViewHolder=(TripleTopDownViewHolder)holder;
                tripleTopDownViewHolder.imageView.getLayoutParams().width=(width/2);
-               tripleTopDownViewHolder.imageView.getLayoutParams().height=(width/4)-4;
+               tripleTopDownViewHolder.imageView.getLayoutParams().height=(width/4)-8;
                tripleTopDownViewHolder.imageView.requestLayout();
-               Log.d("topdown",cover);
+              // Log.d("topdown",cover);
              /*  if(productImageId.getCategory().contains("three-bottom"))
                {
                    if(productImageId.getCategory().equals("three-bottom-left"))
@@ -256,7 +255,7 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public int getItemCount() {
 
-        Log.d("productsize",productImageIdList.size()+"");
+       // Log.d("productsize",productImageIdList.size()+"");
         return productImageIdList.size();
     }
     public class SingleViewHolder extends RecyclerView.ViewHolder
@@ -278,10 +277,10 @@ public class SingleTopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             imageView=(itemView).findViewById(R.id.single_image);
           imageView.getLayoutParams().height= (int) (width*0.6);
-          Log.d("herewidth",width+"");
+         // Log.d("herewidth",width+"");
 
           imageView.requestLayout();
-          Log.d("checkhh",imageView.getLayoutParams().height+"");
+         // Log.d("checkhh",imageView.getLayoutParams().height+"");
         }
     }
     public class TripleLeftViewHolder extends RecyclerView.ViewHolder

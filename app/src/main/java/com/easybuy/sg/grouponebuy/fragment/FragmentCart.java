@@ -287,7 +287,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("fragmentoncreate","oncreateview");
+       // Log.d("fragmentoncreate","oncreateview");
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
 
@@ -371,7 +371,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         */
     if(freeDeliveryamt>0)
     {
-        Log.d("checkvalue",(int)Constants.getCustomer(getContext()).getDistrict().getFreeDeliveryPrice()+"");
+       // Log.d("checkvalue",(int)Constants.getCustomer(getContext()).getDistrict().getFreeDeliveryPrice()+"");
         seekBar.setMax((int)freeDeliveryamt);
 
     }
@@ -552,11 +552,11 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
            // String url= Constants.checkOrderUrl+globalProvider.getCustomer().customer_id;
             String url= Constants.checkOrderUrl+globalProvider.getCustomerId();
-            Log.d("checkprevorderurl",url);
+          //  Log.d("checkprevorderurl",url);
             Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.d("checkprevresponse",response);
+                   // Log.d("checkprevresponse",response);
                     ObjectMapper objectMapper=new ObjectMapper();
                     JsonFactory jsonFactory=new JsonFactory();
                     try
@@ -570,7 +570,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                         }
                         else
                         {
-                            Log.d("prevorder is something","here");
+                           // Log.d("prevorder is something","here");
 
 
                             //String shippingDate=resultClass.getPayload().get(0).getShippingDate();
@@ -586,7 +586,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                             {
                                 Date prevDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
                                         .parse(order.getShippingDate());
-                                Log.d("odd",order.getShippingDate());
+                               // Log.d("odd",order.getShippingDate());
                                 if(prevDate.compareTo(todayDate)>0)
 
                                 prevOrderList.add(order);
@@ -737,11 +737,11 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         Spannable spannable1=new SpannableString(msg) ;
         minSpendTextView.setTextColor(Color.BLACK);
        int vv= msg.indexOf("$");
-       Log.d("chekk",vv+"");
+      // Log.d("chekk",vv+"");
 
         spannable1.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.red)),vv, vv+amt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        Log.d("indexof",msg.indexOf(ebuyMart)+"");
-        Log.d("lindexof",msg.indexOf(ebuyMart)+ebuyMart.length()+"");
+       // Log.d("indexof",msg.indexOf(ebuyMart)+"");
+       // Log.d("lindexof",msg.indexOf(ebuyMart)+ebuyMart.length()+"");
         if(language.equals("english"))
 
         spannable1.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.red)),msg.indexOf(ebuyMart),msg.indexOf(ebuyMart)+ebuyMart.length(),Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -816,7 +816,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
     @Override
     public void onCheckedChanged(Product product, int quantity, boolean checked) {
-        Log.d("getchecked", checked + "");
+       // Log.d("getchecked", checked + "");
 
         if (checked) {
 

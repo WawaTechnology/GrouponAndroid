@@ -105,7 +105,7 @@ public class ChangePwdActivity extends AppCompatActivity {
 
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("checkres",response.toString());
+                           // Log.d("checkres",response.toString());
                             try {
                                 if(response.getInt("status")==0)
                                 {

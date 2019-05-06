@@ -78,7 +78,7 @@ public SaleProductAdapter(Context context,List<String> productList)
                 JsonParser jsonParser = jsonFactory.createParser(response);
                 ResultProduct resultProduct = (ResultProduct) objectMapper.readValue(jsonParser, ResultProduct.class);
                 final Product product=resultProduct.getPayload();
-                Log.d("descpen",product.getDescriptionEn());
+               // Log.d("descpen",product.getDescriptionEn());
                 String actualPrice="$ "+product.getPrice();
 
                 String[] each = actualPrice.split("\\.");

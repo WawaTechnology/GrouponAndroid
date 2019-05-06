@@ -93,12 +93,13 @@ public class FragmentProductCategory extends Fragment implements CategoryTitleAd
         GridLayoutManager LayoutManager=new GridLayoutManager(getActivity(),3);
         categoryDetailRecycler.setLayoutManager(LayoutManager);
         categoryDetailRecycler.setAdapter(categoryDetailAdapter);
-        if(globalProvider.selectedCategory!=null)
+        /*if(globalProvider.selectedCategory!=null)
         {
             Log.d("selctedcatid",globalProvider.selectedCategory);
             Log.d("selctedcatname",globalProvider.selectedCategoryName);
 
         }
+        */
         getCategoryPrimary();
 
         return view;
@@ -135,8 +136,8 @@ public class FragmentProductCategory extends Fragment implements CategoryTitleAd
 
     @Override
     public void onClick(final String id) {
-        Log.d("onclickcalled","here");
-        Log.d("pid",id);
+       // Log.d("onclickcalled","here");
+       // Log.d("pid",id);
         String url= Constants.baseUrlStr+"categoryPrimarys/"+id;
         categoryList.clear();
         categoryDetailAdapter.notifyDataSetChanged();

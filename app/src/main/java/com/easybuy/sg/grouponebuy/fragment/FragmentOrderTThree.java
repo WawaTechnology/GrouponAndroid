@@ -72,7 +72,7 @@ public class FragmentOrderTThree extends Fragment {
         aboutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("clicked","here");
+               // Log.d("clicked","here");
                 Intent intent=new Intent(getActivity(), AboutUsActivity.class);
                 startActivity(intent);
             }
@@ -239,7 +239,7 @@ public class FragmentOrderTThree extends Fragment {
 
 
                 for (Cycle cycle : cycleList) {
-                    Log.d("checkcycle",cycle.getWeek()+"");
+                   // Log.d("checkcycle",cycle.getWeek()+"");
                     int week = cycle.getWeek();
                     String weekDay = globalProvider.deliveryTiming.get(week);
                     if(!lang.equalsIgnoreCase("english"))
@@ -253,7 +253,7 @@ public class FragmentOrderTThree extends Fragment {
             }
             else
                 deliveryString="District not set";
-            Log.d("checkdeliverytext",deliveryString);
+           // Log.d("checkdeliverytext",deliveryString);
                 timingText.setText(deliveryString);
                 okButton.setOnClickListener(new View.OnClickListener() {
                     @Override

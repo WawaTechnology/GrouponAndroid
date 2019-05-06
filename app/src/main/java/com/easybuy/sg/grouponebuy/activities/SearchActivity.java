@@ -207,7 +207,7 @@ public class SearchActivity extends AppCompatActivity implements  HotAdapter.Hot
         Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.POST, Constants.hotKeywordUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.d("checkresponse",response);
+              //  Log.d("checkresponse",response);
                 JsonFactory jsonFactory = new JsonFactory();
                 ObjectMapper objectMapper = new ObjectMapper();
 
@@ -216,7 +216,7 @@ public class SearchActivity extends AppCompatActivity implements  HotAdapter.Hot
                     ProductList products = (ProductList) objectMapper.readValue(jsonParser, ProductList.class);
                     if (products.getStatus() == 0) {
                         int totalproducts = products.getProducts().size();
-                        Log.d("checktotalproducts",totalproducts+"");
+                       // Log.d("checktotalproducts",totalproducts+"");
                         if(language.equals("english")) {
 
                             for (Product product : products.getProducts()) {
@@ -275,7 +275,7 @@ public class SearchActivity extends AppCompatActivity implements  HotAdapter.Hot
 
                     if(cartProduct.getId().equals(product.getId()))
                     {
-                        Log.d("changingproduct","here");
+                       // Log.d("changingproduct","here");
                         product.setTotalNumber(cartProduct.getTotalNumber());
                         break;
                     }
@@ -325,7 +325,7 @@ public class SearchActivity extends AppCompatActivity implements  HotAdapter.Hot
             CustomRequest customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.d("checkresponse", response.toString());
+                   // Log.d("checkresponse", response.toString());
                     JsonFactory jsonFactory = new JsonFactory();
                     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -334,7 +334,7 @@ public class SearchActivity extends AppCompatActivity implements  HotAdapter.Hot
                         ProductList products = (ProductList) objectMapper.readValue(jsonParser, ProductList.class);
                         if (products.getStatus() == 0) {
                             int totalproducts = products.getProducts().size();
-                            Log.d("checktotalproducts", totalproducts + "");
+                           // Log.d("checktotalproducts", totalproducts + "");
                             for (Product product : products.getProducts()) {
                                 for (Product cartProduct : globalProvider.cartList) {
 

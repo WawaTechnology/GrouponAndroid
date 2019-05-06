@@ -33,8 +33,20 @@ public class Product implements Serializable{
     //  private List<Object> categorySpecial = null;
     @JsonProperty("isAttention")
     private boolean isAttention;
+
+    public Integer getLimitPurchase() {
+        return limitPurchase;
+    }
+
+    public void setLimitPurchase(Integer limitPurchase) {
+        this.limitPurchase = limitPurchase;
+    }
+
     @JsonProperty("isOnShelf")
+
     private Boolean isOnShelf;
+    @JsonProperty("limitPurchase")
+    public Integer limitPurchase;
 
     public Boolean isAttention() {
         return isAttention;
@@ -51,6 +63,17 @@ public class Product implements Serializable{
         private String nameCh;
     @JsonProperty("ifWeigh")
     private Boolean ifWeigh;
+
+    public String getPriceDiscount() {
+        return priceDiscount;
+    }
+
+    public void setPriceDiscount(String priceDiscount) {
+        this.priceDiscount = priceDiscount;
+    }
+
+    @JsonProperty("priceDiscount")
+    private String priceDiscount;
 
     public Boolean getOnShelf() {
         return isOnShelf;
@@ -79,12 +102,14 @@ public class Product implements Serializable{
      //@JsonProperty("categorySpecial")
 //List<Object> categorySList;
 
-      //  @JsonProperty("categorySpecial")
+
+    //  @JsonProperty("categorySpecial")
     //   List<String> categorySpecialList;
         @JsonProperty("unit_ch")
         private String unitCh;
         @JsonProperty("unit_en")
         private String unitEn;
+
 
   /*  public List<String> getSpecialCategoryList() {
         return categorySpecialList;
@@ -335,6 +360,7 @@ public class Product implements Serializable{
         public Double getPrice() {
             return price;
         }
+
 
         @JsonProperty("price")
         public void setPrice(Double price) {

@@ -419,7 +419,7 @@ public class ConsumeHistoryActivity extends AppCompatActivity implements Withdra
                         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, Constants.withdrawUrl, jsonObject, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                Log.d("res",response.toString());
+                               // Log.d("res",response.toString());
                                 try {
                                     int status = response.getInt("status");
                                     if(status==0)

@@ -42,6 +42,8 @@
     <string name="feedback">意见反馈</string>
     <string name="quality_assuarance">24小时内坏果包退、品控质检、专享客服</string>
     <string name="end_page">没有更多了</string>
+    <string name="back">保存</string>
+    <string name="click_if_paid">显示有误? 点我</string>
 
     <string name="password">密码:</string>
     <string name="phone">手机号码:</string>
@@ -133,6 +135,8 @@
     <string name="do_not_ask_again">不再提示</string>
     <string name="update">去更新</string>
 
+    <string name="limit_sale_msg">不能购买超过限购量</string>
+
 
     <string name="after_sale">我们承诺——坏果包退：\n
 签收后24小时内，商品腐坏变质，商家承诺24小时内处理。\n\n
@@ -186,6 +190,9 @@
         brand characteristics.\n \nWe will continue to strictly control food quality and provide consumers healthier,safer,
         more nutritious and more assured food.We are trying to get Singaporeans to enjoy the freshest and cheapest fresh food.
     </string>
+    <string name="singapore">新加坡</string>
+    <string name="delete">删除</string>
+    <string name="default_address">默认地址</string>
     <string name="version">当前版本</string>
     <string name="setting">设置</string>
     <string name="home">主页</string>
@@ -194,6 +201,9 @@
     <string name="almost_sold_out">火爆抢购中</string>
     <string name="sold_out">已抢光</string>
     <string name="sold">抢购中</string>
+    <string name="add_delivery_address">添加送货地址</string>
+
+    <string name="set_as_default">设为默认</string>
 
     <string name="any_question">Do you have any comments or questions? </string>
     <string name="no_order"> 当前无订单记录....去购物！

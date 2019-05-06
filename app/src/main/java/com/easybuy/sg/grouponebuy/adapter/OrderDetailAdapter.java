@@ -133,7 +133,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
         holder.minusImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("minuscalled", "here");
+               // Log.d("minuscalled", "here");
 
 
                 double price = ((OrderDetailActivity) context).changedtotal - product.getProductInfo().getPrice();
@@ -188,6 +188,15 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             public void onClick(View view) {
                 int quant=Integer.parseInt(holder.quantityEditText.getText().toString());
                 quant+=1;
+                Log.d("checklimitpur",product.getProductInfo().getLimitPurchase()+"");
+                if(product.getProductInfo().getLimitPurchase()>0) {
+                    if (quant > product.getProductInfo().getLimitPurchase()) {
+                        Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
+
+
                 holder.quantityEditText.setText(quant+"");
                 product.setQuantity(quant);
                 quantityChangedListener.onQuantityChanged(product,quant,"add");

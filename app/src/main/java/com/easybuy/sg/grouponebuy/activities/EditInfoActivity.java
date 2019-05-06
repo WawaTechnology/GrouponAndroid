@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,8 +51,10 @@ public class EditInfoActivity extends AppCompatActivity {
     ImageView bottomImage;
     GlobalProvider globalProvider;
     private static final int Code=123;
-    TextView addressChangeText;
+    private static final int ADDRESS_CHANGE_CODE=120;
+    LinearLayout addressChangeNext;
     TextView phoneLabel,emailLabel;
+    Customer customer;
 
 
     Map<String, String> params;
@@ -69,18 +72,31 @@ public class EditInfoActivity extends AppCompatActivity {
         backButton=(ImageView)findViewById(R.id.back);
         phoneLabel=(TextView) findViewById(R.id.phone_label);
         emailLabel=(TextView)findViewById(R.id.email_label) ;
-        addressChangeText=(TextView) findViewById(R.id.address_next);
+        addressChangeNext=(LinearLayout) findViewById(R.id.address_next);
 
 
         bottomImage=(ImageView) findViewById(R.id.bottomimage);
         params = new HashMap<>();
         globalProvider = GlobalProvider.getGlobalProviderInstance(getApplicationContext());
-        Customer customer = Constants.getCustomer(getApplicationContext());
+        customer = Constants.getCustomer(getApplicationContext());
         nameText.setText(customer.userName);
         String phoneTextLabel=getResources().getString(R.string.phone);
         phoneLabel.setText(phoneTextLabel.substring(0,phoneTextLabel.length()-1));
         String emailTextLabel=getResources().getString(R.string.email);
         emailLabel.setText(emailTextLabel.substring(0,emailTextLabel.length()-1));
+        if (customer.address != null) {
+
+
+            if(Constants.getLanguage(EditInfoActivity.this).equals("english"))
+            {
+                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.getDistrict().getNamePrimaryEn()+" "+customer.postcode);
+            }
+            else
+            {
+                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.getDistrict().getNamePrimaryCh()+" "+customer.postcode);
+            }
+
+        }
       /*  nameEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -123,25 +139,15 @@ public class EditInfoActivity extends AppCompatActivity {
         });
         */
 
-        if (customer.address != null) {
 
-            if(Constants.getLanguage(EditInfoActivity.this).equals("english"))
-            {
-                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.getDistrict().getNamePrimaryEn()+" "+customer.postcode);
-            }
-            else
-            {
-                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.getDistrict().getNamePrimaryCh()+" "+customer.postcode);
-            }
-
-        }
 
         Glide.with(this).load(R.drawable.ebuygrey).fitCenter().into(bottomImage);
-        addressChangeText.setOnClickListener(new View.OnClickListener() {
+        addressChangeNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(EditInfoActivity.this,DistrictSettingActivity.class);
-                startActivity(intent);
+               // Intent intent=new Intent(EditInfoActivity.this,DistrictSettingActivity.class);
+                Intent intent=new Intent(EditInfoActivity.this,DeliveryAddressActivity.class);
+                startActivityForResult(intent,ADDRESS_CHANGE_CODE);
             }
         });
 
@@ -223,10 +229,16 @@ public class EditInfoActivity extends AppCompatActivity {
         */
 
     }
+    public void onResume()
+    {
+
+        super.onResume();
+
+    }
     public void changeInformation(View view)
     {
         int id=view.getId();
-        Log.d("idis",id+"");
+        //Log.d("idis",id+"");
         Intent intent=new Intent(EditInfoActivity.this,ChangeInformationActivity.class);
 
 
@@ -234,7 +246,7 @@ public class EditInfoActivity extends AppCompatActivity {
         {
             case R.id.name_next:
             {
-                Log.d("nameis",R.id.name_next+"");
+               // Log.d("nameis",R.id.name_next+"");
                 intent.putExtra("changeField","name");
                 break;
             }
@@ -284,7 +296,7 @@ public class EditInfoActivity extends AppCompatActivity {
           Map<String,String> map= (Map<String, String>) data.getSerializableExtra("infoupdated");
             Map.Entry<String,String> entry=  map.entrySet().iterator().next();
             String key = entry.getKey();
-            Log.d("key",key);
+           // Log.d("key",key);
           switch(key)
           {
               case "userName":
@@ -309,6 +321,23 @@ public class EditInfoActivity extends AppCompatActivity {
                   break;
               }
           }
+        }
+        else if(requestCode==ADDRESS_CHANGE_CODE&&resultCode==Activity.RESULT_OK)
+        {
+            if (Constants.getCustomer(getApplicationContext()).postcode != null) {
+                Customer customer=Constants.getCustomer(getApplicationContext());
+
+
+                if(Constants.getLanguage(EditInfoActivity.this).equals("english"))
+                {
+                    addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.getDistrict().getNamePrimaryEn()+" "+customer.postcode);
+                }
+                else
+                {
+                    addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.getDistrict().getNamePrimaryCh()+" "+customer.postcode);
+                }
+
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -395,7 +424,7 @@ public class EditInfoActivity extends AppCompatActivity {
 
                         case R.id.paynow_text: {
                             params.put("PayNowAccount", text);
-                            Log.d("paynow",text);
+                           // Log.d("paynow",text);
                             break;
                         }
 

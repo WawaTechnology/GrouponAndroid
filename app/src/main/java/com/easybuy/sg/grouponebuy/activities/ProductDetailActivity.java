@@ -34,6 +34,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -173,7 +174,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         multipleSpecLayout=(RecyclerView) findViewById(R.id.spec_list);
 
-        Log.d("heights",dpHeight+"");
+       // Log.d("heights",dpHeight+"");
         multipleSameProduct=new SpecialCategory();
         favoriteList=new ArrayList<>();
         backButton = (ImageView) findViewById(R.id.bkbutton);
@@ -238,9 +239,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         Intent intent = getIntent();
         product = (Product) intent.getSerializableExtra("product");
         saleAdapterposition=intent.getIntExtra("saleAdapterPosition",-1);
-        Log.d("pddd",product.getIfWeigh()+"");
+      //  Log.d("pddd",product.getIfWeigh()+"");
       //  saleMultipleAdapterPosition=intent.getIntExtra("saleMultipleAdapterPosition",-1);
-        Log.d("pdid",product.getId());
+       // Log.d("pdid",product.getId());
         getProductDetail(product.getId());
 
 
@@ -310,7 +311,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
             //String imgTransitionName = intent.getStringExtra("imgtransition");
             productNameText.setText(product.getNameEn());
             originText.setText(origin);
-            Log.d("getspec", product.getSpecificationEn());
+           // Log.d("getspec", product.getSpecificationEn());
             specText.setText(product.getSpecificationEn());
             if (product.getDescriptionEn() != null) {
                 descriptionText.setText(product.getDescriptionEn());
@@ -405,7 +406,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                 if (product.getStock() > 0) {
                     String num = quantityText.getText().toString();
                     int quant = Integer.parseInt(num);
+
                     quant += 1;
+                    if(product.limitPurchase>0) {
+                        if (quant > product.limitPurchase) {
+                            Toast.makeText(ProductDetailActivity.this,getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
                     quantityText.setText(String.valueOf(quant));
                     int n = globalProvider.cartList.size();
                     product.setTotalNumber(quant);
@@ -559,11 +567,11 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                         favClicked = false;
                         favText.setTextColor(getResources().getColor(R.color.grey_dark));
                         favText.setText(getString(R.string.favorite));
-                        Log.d("removefav", product.getId());
+                       // Log.d("removefav", product.getId());
                         for (Product globalpd : favoriteList) {
                             if (globalpd.getId().equals(product.getId())) {
 
-                                Log.d("foundeq", "here");
+                               // Log.d("foundeq", "here");
 
                                 favoriteList.remove(globalpd);
                                 break;
@@ -575,7 +583,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                     String favprds[] = new String[n];
                     for (int i = 0; i < n; i++) {
                         favprds[i] = favoriteList.get(i).getId();
-                        Log.d("getfavprodid", favprds[i]);
+                       // Log.d("getfavprodid", favprds[i]);
                     }
 
                     JSONArray jsonArray = new JSONArray();
@@ -594,13 +602,13 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                         jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, url, obj, new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                Log.d("checkfavres", response.toString());
+                               // Log.d("checkfavres", response.toString());
 
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d("geterror", error.toString());
+                               // Log.d("geterror", error.toString());
 
 
                             }
@@ -696,10 +704,10 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
             }
         }
-        Log.d("checkpd", product.getId());
+       // Log.d("checkpd", product.getId());
         if (globalProvider != null&&globalProvider.isLogin()) {
             for (Product globalproduct : favoriteList) {
-                Log.d("favids", globalproduct.getId());
+                //Log.d("favids", globalproduct.getId());
 
                 if (globalproduct.getId().equals(product.getId())) {
                     favImgView.setImageResource(R.drawable.fav_red);
@@ -753,7 +761,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                     for(int j=0;j<categorySArray.length();j++) {
                         int val = categorySArray.getJSONObject(j).getInt("sequence");
                         if (val == 666) {
-                            Log.d("categoryId",categorySArray.getJSONObject(j).getString("_id"));
+                           // Log.d("categoryId",categorySArray.getJSONObject(j).getString("_id"));
 
 
 
@@ -796,7 +804,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
 private void getSpecialCategories(final String categoryId) {
         String url=Constants.specialCategoryUrl;
-        Log.d("thisurl",url);
+       // Log.d("thisurl",url);
         Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -810,7 +818,7 @@ private void getSpecialCategories(final String categoryId) {
                     SpecialCategoryList splcategories = (SpecialCategoryList) objectMapper.readValue(jsonParser, SpecialCategoryList.class);
 
                     int status = splcategories.getStatus();
-                    Log.d("statusres",status+"");
+                   // Log.d("statusres",status+"");
 
                     if (status == 0) {
 
@@ -824,7 +832,7 @@ private void getSpecialCategories(final String categoryId) {
                                 if(categoryId.equals(specialCategory.getId()))
                                 {
                                     multipleSpecLayout.setVisibility(View.VISIBLE);
-                                    Log.d("pdname",specialCategory.getNameEn());
+                                    //Log.d("pdname",specialCategory.getNameEn());
 
 
                                     multipleSameProduct=specialCategory;
@@ -884,7 +892,7 @@ private void getSpecialCategories(final String categoryId) {
 
 
     public void setCartNum(CircleBadgeView badgeView) {
-        Log.d("cartset", "here");
+        //Log.d("cartset", "here");
 
 
         badgeView.setText(globalProvider.cartList.size() + "");//
@@ -938,7 +946,7 @@ private void getSpecialCategories(final String categoryId) {
                     cartLinearLayout.setVisibility(View.GONE);
                     productSelectedLayout.setVisibility(View.VISIBLE);
                     prodSelected = true;
-                    Log.d("checkquntity",globalProvider.cartList.get(i).getTotalNumber() + "");
+                   // Log.d("checkquntity",globalProvider.cartList.get(i).getTotalNumber() + "");
 
                     quantityText.setText(globalProvider.cartList.get(i).getTotalNumber() + "");
                     break;

@@ -104,7 +104,7 @@ public class FavoriteFragment extends Fragment  {
     }
     public void onResume()
     {
-        Log.d("favresumecalled","called");
+       // Log.d("favresumecalled","called");
         if(globalProvider.isLogin())
         {
             getFavourite();
@@ -121,12 +121,12 @@ public class FavoriteFragment extends Fragment  {
     public void onPause()
     {
         super.onPause();
-        Log.d("favpausecalled","called");
+       // Log.d("favpausecalled","called");
     }
     public void onStop()
     {
         super.onStop();
-        Log.d("favstopcalled","called");
+       // Log.d("favstopcalled","called");
 
 
             Gson gson=new Gson();
@@ -173,7 +173,7 @@ public class FavoriteFragment extends Fragment  {
                     try {
                         JsonParser jsonParser = jsonFactory.createParser(response);
                         Result favResult = (Result) objectMapper.readValue(jsonParser, Result.class);
-                        Log.d("checkfavstatus",favResult.getStatus()+"");
+                       // Log.d("checkfavstatus",favResult.getStatus()+"");
 
                         for(Product cartProduct:globalProvider.cartList)
                         {

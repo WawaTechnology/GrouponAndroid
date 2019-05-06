@@ -473,7 +473,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.d("editerror", error.toString());
+
 
                     }
                 });

@@ -36,7 +36,7 @@ public class ProductDetailViewPagerAdapter extends PagerAdapter {
             listViews.get(position).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("clicked","here");
+                  //  Log.d("clicked","here");
                     onItemClickListener.onItemClick(position);
                 }
             });

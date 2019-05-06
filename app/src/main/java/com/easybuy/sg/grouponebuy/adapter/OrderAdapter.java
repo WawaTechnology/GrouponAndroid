@@ -5,21 +5,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.text.style.AbsoluteSizeSpan;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.activities.OrderDetailActivity;
+import com.easybuy.sg.grouponebuy.fragment.FragmentOrderTOne;
 import com.easybuy.sg.grouponebuy.model.Order;
 import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.network.Constants;
@@ -31,19 +38,24 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import static java.lang.Boolean.TRUE;
+
 public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
     Context context;
     List<Order> orderList;
     private static final int ITEM = 0;
     private static final int LOADING = 1;
    public boolean isLoadingAdded=false;
-    String lang;
+   public String lang;
+    FragmentOrderTOne fragmentOrderTOne;
 
-    public OrderAdapter(Context context,List<Order> orderList)
+
+    public OrderAdapter(Context context,List<Order> orderList,FragmentOrderTOne fragmentOrderTOne)
     {
         this.context=context;
         this.orderList=orderList;
         lang= Constants.getLanguage(context.getApplicationContext());
+        this.fragmentOrderTOne=fragmentOrderTOne;
     }
 
 
@@ -112,6 +124,55 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
 
                 }
+                if(fragmentOrderTOne.TAB_PRESSED==2)
+                {
+                    myholder.paymentLayout.setVisibility(View.VISIBLE);
+
+                }
+                else
+                    myholder.paymentLayout.setVisibility(View.GONE);
+                myholder.paymentStatusText.setText("UnPaid- ");
+                myholder.clickText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                     /*   AlertDialog alertDialog=null;
+                        if(lang.equals("english")) {
+                             alertDialog = new AlertDialog.Builder(context).setView(R.layout.paymentchangeen).setCancelable(true).create();
+                        }
+                        else {
+                             alertDialog = new AlertDialog.Builder(context).setView(R.layout.paymentchangch).setCancelable(true).create();
+                        }
+
+
+                        alertDialog.setCanceledOnTouchOutside(TRUE);
+                        alertDialog.show();
+                        */
+                        MyCustomAlertDialog alertRating = new MyCustomAlertDialog(context);
+                        alertRating.showAlert();
+
+
+
+
+                    }
+                });
+
+              /* String s="Click Me if You have paid";
+               SpannableString ss=new SpannableString(s);
+                ClickableSpan clickableSpan=new ClickableSpan() {
+                    @Override
+                    public void onClick(View view) {
+                        new AlertDialog.Builder(context).setView(R.layout.paymentchangeen).create().show();
+
+                    }
+                };
+                ss.setSpan(clickableSpan,0,s.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                myholder.clickText.setText(ss);
+                myholder.clickText.setMovementMethod(LinkMovementMethod.getInstance());
+                myholder.clickText.setTextColor(Color.BLUE);
+                myholder.clickText.setHighlightColor(Color.TRANSPARENT);
+                */
+
 
 
 
@@ -122,7 +183,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                   price=String.format("%.2f",val);
 
               }
-              Log.d("rderdelivery",order.getDeliveryPrice()+"");
+
               if(order.getDeliveryPrice()!=null&&order.getDeliveryPrice()>0)
               {
                double val  = Double.parseDouble(price)+order.getDeliveryPrice();
@@ -151,10 +212,10 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                 dateInString = dateInString.substring(0, dateInString.length() - 1);
                 deliveryDate = deliveryDate.substring(0, deliveryDate.length() - 1);
-                Log.d("checkdeateInstring", dateInString);
+
                 try {
                     Date date = formatter.parse(dateInString);
-                    Log.d("gettime", date.toString());
+
                     Date shippingDate = formatter.parse(deliveryDate);
 
                     long ts = System.currentTimeMillis();
@@ -162,13 +223,13 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     // Convert UTC to Local Time
                     Date fromGmt = new Date(date.getTime() + TimeZone.getDefault().getOffset(localTime.getTime()));
                     Date ShippingGmt = new Date(shippingDate.getTime() + TimeZone.getDefault().getOffset(localTime.getTime()));
-                    Log.d("getgmttime", fromGmt.toString());
+
                     SimpleDateFormat localDateFormat = new SimpleDateFormat("HH:mm:ss");
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                     final String orderdate = simpleDateFormat.format(fromGmt);
                     final String time = localDateFormat.format(fromGmt);
                     final String delDate = simpleDateFormat.format(ShippingGmt);
-                    Log.d("gettime", time);
+
                     myholder.orderDateText.setText(orderdate + " ," + time);
                     myholder.deliveryDateText.setText(delDate);
                     myholder.orderDetailButton.setOnClickListener(new View.OnClickListener() {
@@ -185,6 +246,8 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                         }
                     });
+
+
 
 
                 } catch (ParseException e) {
@@ -210,7 +273,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        Log.d("checkordersize",orderList.size()+"");
+
 
         return orderList.size();
     }
@@ -221,6 +284,44 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+
+    private static class MyCustomAlertDialog extends AlertDialog {
+        Context context;
+
+        protected MyCustomAlertDialog(Context context) {
+
+            super(context);
+            this.context=context;
+
+
+
+        }
+        public void showAlert()
+        {
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+            LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+            View alertView = inflater.inflate(R.layout.paymentchangeen, null);
+            alertDialog.setView(alertView);
+
+
+            final AlertDialog show = alertDialog.show();
+
+            ImageView alertImage = (ImageView) alertView.findViewById(R.id.img);
+            if(Constants.getLanguage(context).equals("english"))
+                alertImage.setImageResource(R.drawable.paymentboarden);
+            else
+                alertImage.setImageResource(R.drawable.paymentboardch);
+
+            alertImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    show.dismiss();
+                }
+            });
+        }
+
     }
 
      /*
@@ -297,6 +398,9 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     {
         TextView orderNumberText,orderDateText,orderTimeText,deliveryDateText,deliveryTimeText,orderStatusText,totalText;
         Button orderDetailButton;
+        LinearLayout paymentLayout;
+        TextView paymentStatusText;
+        TextView clickText;
 
 
         public OrderViewHolder(View itemView) {
@@ -309,6 +413,9 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             orderStatusText=(TextView)itemView.findViewById(R.id.order_status);
             orderDetailButton=(Button)itemView.findViewById(R.id.o_detail);
             totalText=(TextView)itemView.findViewById(R.id.total_num);
+            paymentLayout=(LinearLayout)itemView.findViewById(R.id.payment_layout);
+            paymentStatusText=(TextView)itemView.findViewById(R.id.payment_status);
+            clickText=(TextView)itemView.findViewById(R.id.click);
 
         }
 

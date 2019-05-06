@@ -123,13 +123,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
                       url=Constants.ChangePasswordUrlA+globalProvider.getCustomerId();
                   }
                     params.put("newPassword", newPassEditText.getText().toString());
-                  Log.d("checkurl",url);
+                 // Log.d("checkurl",url);
 
                     CustomRequest jsonObjectRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
-                      Log.d("respo",response.toString());
+                     // Log.d("respo",response.toString());
                             try {
                                 if(response.getInt("status")==0)
                                 {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -98,7 +99,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
 
 
         Glide.with(context).load(Constants.newImageUrl+ product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(holder.imgView);
-        Log.d("ggimg", product.getImageCover() + "");
+       // Log.d("ggimg", product.getImageCover() + "");
        holder.minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +132,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
 
                     for (int i = 0; i < n; i++) {
                         if (product.getId().equals(globalProvider.cartList.get(i).getId())) {
-                            Log.d("getpid",product.getId());
+                           // Log.d("getpid",product.getId());
                             globalProvider.cartList.get(i).setTotalNumber(quantity);
                             break;
                         }
@@ -171,6 +172,12 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
                         quantity = Integer.parseInt(holder.quantityText.getText().toString()) + 1;
 
                     }
+                if(product.limitPurchase>0) {
+                    if (quantity > product.limitPurchase) {
+                        Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }
 
 
                     holder.quantityText.setText(quantity + "");
@@ -185,7 +192,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
                     if (n > 0) {
                         for (int i = 0; i < n; i++) {
                             if (product.getId().equals(globalProvider.cartList.get(i).getId())) {
-                                Log.d("getpid", product.getId());
+                               // Log.d("getpid", product.getId());
                                 globalProvider.cartList.get(i).setTotalNumber(quantity);
                                 break;
                             }
@@ -197,7 +204,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
                         }
                     } else
                         globalProvider.cartList.add(product);
-                    Log.d("checkcategorynm",product.getCategory().getNameEn());
+                   // Log.d("checkcategorynm",product.getCategory().getNameEn());
 
 
 

@@ -63,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
         //Log.d("heyya","there");
 
         String languaged= Locale.getDefault().getDisplayLanguage();
-        Log.d("checkhlang",languaged);
+       // Log.d("checkhlang",languaged);
         Configuration config = getResources().getConfiguration();
 
 
@@ -82,7 +82,7 @@ public class SplashActivity extends AppCompatActivity {
         }
         else
         {
-            Log.d("langchanged","chinese");
+           // Log.d("langchanged","chinese");
 
             // config.locale = Locale.SIMPLIFIED_CHINESE;
 
@@ -114,7 +114,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
         }
-        Log.d("langch",config.locale.getDisplayLanguage());
+       // Log.d("langch",config.locale.getDisplayLanguage());
         GlobalProvider.changeLang(getApplicationContext(),config.locale.getDisplayLanguage());
         progressBar=(ProgressBar) findViewById(R.id.loading_spinner);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
@@ -212,7 +212,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
 
-                Log.d("checkflashresponse",response);
+               // Log.d("checkflashresponse",response);
                 JsonFactory jsonFactory = new JsonFactory();
                 ObjectMapper objectMapper = new ObjectMapper();
                 try {
@@ -230,8 +230,8 @@ public class SplashActivity extends AppCompatActivity {
                             Date saleDate = isoFormat.parse(deadline);
                             globalProvider.saleDate = saleDate;
                             Date today = new Date();
-                            Log.d("saleDate", saleDate.toString());
-                            Log.d("today", today.toString());
+                           // Log.d("saleDate", saleDate.toString());
+                           // Log.d("today", today.toString());
 
                             if (today.before(saleDate)) {
                                 //Log.d("flashstuas","wiil be displayed");
@@ -240,7 +240,7 @@ public class SplashActivity extends AppCompatActivity {
 
 
                             }
-                            Log.d("hasSale", globalProvider.hasSale + "");
+                           // Log.d("hasSale", globalProvider.hasSale + "");
 
                             //  Log.d("flashstuas","wiil not be displayed");
                            // getSingleProducts();
@@ -409,12 +409,12 @@ public class SplashActivity extends AppCompatActivity {
                   OtherImageResult otherImageResult=(OtherImageResult) objectMapper.readValue(jsonParser, OtherImageResult.class);
                   if(otherImageResult.getStatus()==0)
                   {
-                      Log.d("checksize",otherImageResult.getPayload().size()+"");
+                     // Log.d("checksize",otherImageResult.getPayload().size()+"");
 
                       for(Payload payload:otherImageResult.getPayload())
                       {
                           String category=payload.getCategory();
-                          Log.d("categoryname",category);
+                         // Log.d("categoryname",category);
                           //todo check why space
 
 
@@ -431,10 +431,10 @@ public class SplashActivity extends AppCompatActivity {
                                   imageCover=payload.getImageEn();
                               if(category.equals("specialBanner"))
                               {
-                                  Log.d("categorypayload",payload.getProduct().getNameEn());
+                                 // Log.d("categorypayload",payload.getProduct().getNameEn());
                                   //todo checkhere
-                                  Log.d("checkpdname",product.getNameEn());
-                                  Log.d("checkimgurl",payload.getImageEn());
+                                 // Log.d("checkpdname",product.getNameEn());
+                                 // Log.d("checkimgurl",payload.getImageEn());
                                   ProductImageId productImageId = new ProductImageId(category, imageCover, product,0);
                                   globalProvider.specialBanner=productImageId;
 
@@ -470,7 +470,7 @@ public class SplashActivity extends AppCompatActivity {
                           else if(category.contains("two-bottom")) {
 
 
-                              Log.d("checkcategorynametwo",category);
+                             // Log.d("checkcategorynametwo",category);
                               //if doubles images are displayed
 
 
@@ -506,16 +506,20 @@ public class SplashActivity extends AppCompatActivity {
                                   imageCover=payload.getImageEn();
 
                              if(category.equals("three-bottom-left")) {
+
                                  //setviewtype as 2
                                  ProductImageId productImageId = new ProductImageId(category, imageCover, product, 2);
+                                 //Log.d("bottompdname",product.getNameEn());
                                  globalProvider.threeImageLayout.add(productImageId);
 
                              }
                              else if(category.equals("three-bottom-right-up"))
                              {
+
                                  //setviewtype as 3
                                  ProductImageId productImageId = new ProductImageId(category, imageCover, product, 3);
                                  globalProvider.threeImageLayout.add(productImageId);
+                                 //Log.d("threebottomrightup",product.getNameEn());
 
                              }
                              else
@@ -523,6 +527,7 @@ public class SplashActivity extends AppCompatActivity {
                                  //set viewtype as 4
                                  ProductImageId productImageId = new ProductImageId(category, imageCover, product, 4);
                                  globalProvider.threeImageLayout.add(productImageId);
+                                // Log.d("threebottomrightdown",product.getNameEn());
 
                              }
 
@@ -616,8 +621,8 @@ public class SplashActivity extends AppCompatActivity {
 
                     for(CategoryPrimary categoryPrimary:categoryPList.getPayload())
                     {
-                        Log.d("catgoryprimaryname",categoryPrimary.getNameEn());
-                        Log.d("categoryprimaryid",categoryPrimary.getId());
+                       // Log.d("catgoryprimaryname",categoryPrimary.getNameEn());
+                       // Log.d("categoryprimaryid",categoryPrimary.getId());
                         globalProvider.categoryMap.put(categoryPrimary.getNameEn(),categoryPrimary.getId());
                         CategorySummary categorySummary=new CategorySummary(categoryPrimary.getId(),categoryPrimary.getNameCh(),categoryPrimary.getNameEn(),categoryPrimary.getImage());
                         globalProvider.categoryList.add(categorySummary);

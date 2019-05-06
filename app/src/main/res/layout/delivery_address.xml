@@ -1,0 +1,64 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:id="@+id/header"
+
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="5dp"
+
+            android:layout_height="match_parent"
+
+
+            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
+            android:id="@+id/back"
+            android:layout_alignParentLeft="true"
+            android:text="Back"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/delivery_address"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:textColor="@color/black"
+
+            android:layout_centerInParent="true"
+
+            />
+
+    </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:id="@+id/border"
+        android:layout_below="@id/header"
+        android:background="@color/black"></View>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/border"
+        android:id="@+id/recycler_address"></android.support.v7.widget.RecyclerView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:text="@string/add_delivery_address"
+        android:id="@+id/add_delivery_button"
+        android:textColor="@color/white"
+        android:background="@color/red"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>

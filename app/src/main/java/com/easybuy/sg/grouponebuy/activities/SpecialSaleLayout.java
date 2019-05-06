@@ -122,7 +122,7 @@ public class SpecialSaleLayout extends AppCompatActivity {
         {
             int pos=data.getIntExtra("saleAdapterPosition",-1);
           //  int multipleAdapterPos=data.getIntExtra("saleMultipleAdapterPosition",-1);
-            Log.d("checkppos",pos+"");
+
            Product product=(Product) data.getSerializableExtra("productupdated");
             if(pos>-1) {
 

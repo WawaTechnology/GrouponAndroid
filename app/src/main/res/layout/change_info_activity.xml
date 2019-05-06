@@ -6,7 +6,7 @@
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="44dp"
 
         >
         <TextView
@@ -18,7 +18,7 @@
             android:id="@+id/back"
             android:textColor="@color/black"
             android:layout_alignParentLeft="true"
-            android:text="Back"/>
+            android:text="@string/back"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -31,33 +31,42 @@
 
             android:id="@+id/fieldChange"/>
         <Button
-            android:layout_width="50dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="8dp"
-            android:gravity="center"
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+
+
+
             android:textColor="@color/white"
             android:id="@+id/save"
 
-            android:textAlignment="gravity"
-            android:text="Save"
+
+            android:layout_centerInParent="true"
+            android:layout_marginRight="4dp"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="0dp"
+            android:paddingBottom="0dp"
+            android:text="@string/save"
             android:layout_alignParentRight="true"
-            android:background="@color/green"/>
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:background="@drawable/green_drawable"/>
     </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:orientation="horizontal"
         android:background="@color/white"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+
 
         >
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_marginLeft="16dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:focusableInTouchMode="true"
+            android:gravity="center_vertical"
+            android:textAlignment="gravity"
 
 
             android:id="@+id/field_value"
@@ -71,7 +80,9 @@
             android:layout_weight="1"></View>
   <ImageView
       android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_marginRight="3dp"
+      android:layout_gravity="center_vertical"
       android:id="@+id/delete_button"
       android:src="@drawable/ic_cancel_black_24dp"/>
     </LinearLayout>

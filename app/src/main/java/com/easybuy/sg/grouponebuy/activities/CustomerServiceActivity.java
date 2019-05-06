@@ -70,7 +70,7 @@ public class CustomerServiceActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            Log.d("checkfeedbackresponse",response.toString());
+                           // Log.d("checkfeedbackresponse",response.toString());
                             if(response.getInt("status")==0)
                             {
                               new AlertDialog.Builder(CustomerServiceActivity.this).setView(R.layout.customerservice_alert).setPositiveButton("OK", new DialogInterface.OnClickListener() {
