@@ -89,11 +89,11 @@ public class EditInfoActivity extends AppCompatActivity {
 
             if(Constants.getLanguage(EditInfoActivity.this).equals("english"))
             {
-                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.getDistrict().getNamePrimaryEn()+" "+customer.postcode);
+                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.postcode);
             }
             else
             {
-                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.getDistrict().getNamePrimaryCh()+" "+customer.postcode);
+                addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.postcode);
             }
 
         }
@@ -141,7 +141,7 @@ public class EditInfoActivity extends AppCompatActivity {
 
 
 
-        Glide.with(this).load(R.drawable.ebuygrey).fitCenter().into(bottomImage);
+       // Glide.with(this).load(R.drawable.ebuygrey).fitCenter().into(bottomImage);
         addressChangeNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -330,11 +330,11 @@ public class EditInfoActivity extends AppCompatActivity {
 
                 if(Constants.getLanguage(EditInfoActivity.this).equals("english"))
                 {
-                    addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.getDistrict().getNamePrimaryEn()+" "+customer.postcode);
+                    addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.postcode);
                 }
                 else
                 {
-                    addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.getDistrict().getNamePrimaryCh()+" "+customer.postcode);
+                    addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.postcode);
                 }
 
             }

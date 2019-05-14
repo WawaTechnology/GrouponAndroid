@@ -174,7 +174,10 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
                     }
                 if(product.limitPurchase>0) {
                     if (quantity > product.limitPurchase) {
-                        Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+
+                        String msg = context.getString(R.string.limit_sale_msg,product.limitPurchase);
+                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }

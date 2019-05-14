@@ -191,7 +191,9 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
                 Log.d("checklimitpur",product.getProductInfo().getLimitPurchase()+"");
                 if(product.getProductInfo().getLimitPurchase()>0) {
                     if (quant > product.getProductInfo().getLimitPurchase()) {
-                        Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                        String msg=context.getResources().getString(R.string.limit_sale_msg,product.getProductInfo().getLimitPurchase());
+
+                        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }

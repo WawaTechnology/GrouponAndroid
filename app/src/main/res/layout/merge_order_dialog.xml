@@ -40,6 +40,7 @@
         android:id="@+id/order_1"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginBottom="8dp"
         android:textColor="@drawable/date_selector"
 
         android:background="@drawable/button_rectangle"
@@ -47,7 +48,7 @@
 
         />
     <TextView
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -62,7 +63,7 @@
 
         />
     <TextView
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -72,7 +73,7 @@
         android:id="@+id/order_3"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
+
         android:background="@drawable/button_rectangle"
 
 
@@ -84,12 +85,13 @@
         android:gravity="center"
         android:id="@+id/no_order"
         android:textColor="@drawable/date_selector"
+
         android:layout_marginBottom="24dp"
 
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:background="@drawable/button_rectangle"
-        android:text="No,Create New Order"
+        android:text="@string/create_new_order"
 
         />
 

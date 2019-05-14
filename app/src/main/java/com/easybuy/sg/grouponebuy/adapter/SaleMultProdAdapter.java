@@ -79,6 +79,8 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
         String productId=productList.get(position);
 
         String url= Constants.productUrl+"/"+productId;
+        Log.d("pdid",productId);
+
         Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest( Request.Method.GET,url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -105,6 +107,7 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
                     }
 
                     String actualPrice="$ "+product.getPrice();
+                    Log.d("actualPrice",actualPrice);
 
                     String[] each = actualPrice.split("\\.");
 
@@ -164,6 +167,11 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
                     }
                     else
                         holder.originalPrice.setVisibility(View.GONE);
+                    if (context instanceof Activity){
+                        if (((Activity) context).isDestroyed()){
+                            return;
+                        }
+                    }
                     Glide.with(context).load(Constants.newImageUrl+product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(holder.prodCover);
                     holder.buyButton.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -302,7 +310,7 @@ public class SaleMultProdAdapter extends RecyclerView.Adapter<SaleMultProdAdapte
                             }
                             if(product.limitPurchase>0) {
                                 if (quantity > product.limitPurchase) {
-                                    Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context,context.getString(R.string.limit_sale_msg,product.limitPurchase),Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                             }

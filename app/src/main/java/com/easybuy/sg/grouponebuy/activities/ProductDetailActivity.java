@@ -79,7 +79,7 @@ import java.util.Map;
 import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 import static java.lang.Integer.parseInt;
 
-public class ProductDetailActivity extends AppCompatActivity implements ProductDetailViewPagerAdapter.OnItemClickListener {
+public class ProductDetailActivity extends AppCompatActivity implements ProductDetailViewPagerAdapter.OnItemClickListener,ProductSpecAdapter.SpecChangeListener {
 
     ViewPager viewPager;
     List<ViewGroup> listViews;
@@ -89,6 +89,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
     ProductSpecAdapter productSpecAdapter;
     List<CategoryProduct> categoryProducts;
     int saleAdapterposition;
+    public String productId;
     //TextView spec1TextView,spec2TextView;
     LinearLayout multipleSpecialLayout;
     LinearLayout indicator;
@@ -106,6 +107,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
     ScrollView scrollView;
     SpecialCategory multipleSameProduct;
     RecyclerView multipleSpecLayout;
+    List<CategoryProduct> products;
 
 
     private CircleBadgeView buyNumView;
@@ -303,27 +305,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         */
 
 
-        List<String> imgList = product.getImageDisplay();
-        if (Constants.getLanguage(this).equals("english")) {
 
-            String origin = product.getOriginEn();
+        setProductDetail();
 
-            //String imgTransitionName = intent.getStringExtra("imgtransition");
-            productNameText.setText(product.getNameEn());
-            originText.setText(origin);
-           // Log.d("getspec", product.getSpecificationEn());
-            specText.setText(product.getSpecificationEn());
-            if (product.getDescriptionEn() != null) {
-                descriptionText.setText(product.getDescriptionEn());
-            }
-        } else {
-            productNameText.setText(product.getNameCh());
-            originText.setText(product.getOriginCh());
-            specText.setText(product.getSpecificationCh());
-            if (product.getDescriptionCh() != null) {
-                descriptionText.setText(product.getDescriptionCh());
-            }
-        }
 
 
        // boolean prodSelected = false;
@@ -410,7 +394,17 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                     quant += 1;
                     if(product.limitPurchase>0) {
                         if (quant > product.limitPurchase) {
-                            Toast.makeText(ProductDetailActivity.this,getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                            String msg=" ";
+                          /*  if (Constants.getLanguage(getApplicationContext()).equals("english")) {
+                                 msg = getString(R.string.limit_sale_msg) + " " + product.limitPurchase + " per order";
+                            }
+                            else
+                                msg=getString(R.string.limit_sale_msg)+" "+product.limitPurchase+" 份";
+                                */
+                          msg=String.format(getResources().getString(R.string.limit_sale_msg),product.limitPurchase);
+
+
+                            Toast.makeText(ProductDetailActivity.this,msg,Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }
@@ -507,13 +501,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
        // productNameText.setTransitionName(product.getNameEn());
 
 
-        if (product.getPriceOriginal() != null && product.getPriceOriginal() > 0) {
-            originalPriceText.setVisibility(View.VISIBLE);
-            originalPriceText.setText("$ " + product.getPriceOriginal());
-            originalPriceText.setPaintFlags(originalPriceText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        } else {
-            originalPriceText.setVisibility(View.GONE);
-        }
+
         cartAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -627,6 +615,77 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                 }
             }
         });
+
+
+
+
+       // priceText.setText("$ " + product.getPrice(),TextView.BufferType.SPANNABLE);
+
+
+
+       // Log.d("checkpd", product.getId());
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
+
+        {
+            @Override
+            public void onPageScrolled(int position, float positionOffset,
+                                       int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < indicator.getChildCount(); i++) {
+                    if (i == position) {
+                        ((ImageView) indicator.getChildAt(i)).setImageResource(R.drawable.selected_dot);
+
+                    } else {
+                        ((ImageView) indicator.getChildAt(i)).setImageResource(R.drawable.default_dot);
+                    }
+                }
+
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+    }
+
+    private void setProductDetail() {
+        if (Constants.getLanguage(this).equals("english")) {
+
+            String origin = product.getOriginEn();
+
+            //String imgTransitionName = intent.getStringExtra("imgtransition");
+            productNameText.setText(product.getNameEn());
+            originText.setText(origin);
+            // Log.d("getspec", product.getSpecificationEn());
+            specText.setText(product.getSpecificationEn());
+            if (product.getDescriptionEn() != null) {
+                descriptionText.setText(product.getDescriptionEn());
+            }
+        } else {
+            productNameText.setText(product.getNameCh());
+            originText.setText(product.getOriginCh());
+            specText.setText(product.getSpecificationCh());
+            if (product.getDescriptionCh() != null) {
+                descriptionText.setText(product.getDescriptionCh());
+            }
+        }
+        if (product.getPriceOriginal() != null && product.getPriceOriginal() > 0) {
+            originalPriceText.setVisibility(View.VISIBLE);
+            originalPriceText.setText("$ " + product.getPriceOriginal());
+            originalPriceText.setPaintFlags(originalPriceText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        } else {
+            originalPriceText.setVisibility(View.GONE);
+        }
+
         String price="$ " + product.getPrice();
         String[] each = price.split("\\.");
         each[0]=each[0]+".";
@@ -635,16 +694,12 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         spannable.setSpan(new AbsoluteSizeSpan(17, true), 0, each[0].length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         priceText.setText(spannable, TextView.BufferType.SPANNABLE);
-
-
-
-       // priceText.setText("$ " + product.getPrice(),TextView.BufferType.SPANNABLE);
         listViews.clear();
 
 
         //imgs.clear();
         indicator.removeAllViews();
-
+        List<String> imgList = product.getImageDisplay();
         if (imgList.size() > 0)
 
         {
@@ -660,13 +715,14 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                 */
                 Glide.with(ProductDetailActivity.this).load(Constants.newImageUrl + imgList.get(a)).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).into(imageView);
 
-               //Glide.with(ProductDetailActivity.this).load(Constants.baseUrlStr + imgList.get(a)).asBitmap().format(PREFER_ARGB_8888).override(500, 500).centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+                //Glide.with(ProductDetailActivity.this).load(Constants.baseUrlStr + imgList.get(a)).asBitmap().format(PREFER_ARGB_8888).override(500, 500).centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 listViews.add(pager);
 
 
             }
             productDetailViewPagerAdapter = new ProductDetailViewPagerAdapter(listViews, this);
             viewPager.setAdapter(productDetailViewPagerAdapter);
+
 
 
             if (imgList.size() > 1) {
@@ -704,7 +760,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
             }
         }
-       // Log.d("checkpd", product.getId());
+
+
+
         if (globalProvider != null&&globalProvider.isLogin()) {
             for (Product globalproduct : favoriteList) {
                 //Log.d("favids", globalproduct.getId());
@@ -717,37 +775,9 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                 }
             }
         }
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener()
-
-        {
-            @Override
-            public void onPageScrolled(int position, float positionOffset,
-                                       int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                for (int i = 0; i < indicator.getChildCount(); i++) {
-                    if (i == position) {
-                        ((ImageView) indicator.getChildAt(i)).setImageResource(R.drawable.selected_dot);
-
-                    } else {
-                        ((ImageView) indicator.getChildAt(i)).setImageResource(R.drawable.default_dot);
-                    }
-                }
-
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-
 
     }
+
     private void getProductDetail(String id)
     {
         String url=Constants.productUrl+"/"+id;
@@ -836,8 +866,10 @@ private void getSpecialCategories(final String categoryId) {
 
 
                                     multipleSameProduct=specialCategory;
-                                List<CategoryProduct> products= specialCategory.getProductList();
-                                    productSpecAdapter=new ProductSpecAdapter(ProductDetailActivity.this,products,product.getId());
+                                products= specialCategory.getProductList();
+                                productId=product.getId();
+
+                                    productSpecAdapter=new ProductSpecAdapter(ProductDetailActivity.this,products,ProductDetailActivity.this);
                                     LinearLayoutManager linearLayoutManager=new LinearLayoutManager(ProductDetailActivity.this,LinearLayoutManager.HORIZONTAL,false);
                                     multipleSpecLayout.setAdapter(productSpecAdapter);
                                     multipleSpecLayout.setLayoutManager(linearLayoutManager);
@@ -937,16 +969,26 @@ private void getSpecialCategories(final String categoryId) {
     }
     public void onResume()
     {
+        Log.d("onResumedetail","here");
+       checkProductInCart();
+
+        super.onResume();
+
+    }
+
+    private void checkProductInCart() {
         boolean prodSelected=false;
+        Log.d("productId",product.getId());
+
         if (globalProvider.cartList.size() > 0) {
 
-
+            Log.d("cartid",globalProvider.cartList.get(0).getId());
             for (int i=0;i< globalProvider.cartList.size();i++) {
                 if (globalProvider.cartList.get(i).getId().equals(product.getId())) {
                     cartLinearLayout.setVisibility(View.GONE);
                     productSelectedLayout.setVisibility(View.VISIBLE);
                     prodSelected = true;
-                   // Log.d("checkquntity",globalProvider.cartList.get(i).getTotalNumber() + "");
+                    // Log.d("checkquntity",globalProvider.cartList.get(i).getTotalNumber() + "");
 
                     quantityText.setText(globalProvider.cartList.get(i).getTotalNumber() + "");
                     break;
@@ -961,7 +1003,7 @@ private void getSpecialCategories(final String categoryId) {
             if (prodSelected) {
                 setCartNum(buyNumView);
             } else
-              setCartNum(numBadge);
+                setCartNum(numBadge);
 
 
 
@@ -971,9 +1013,6 @@ private void getSpecialCategories(final String categoryId) {
             cartLinearLayout.setVisibility(View.VISIBLE);
             HideCartNum();
         }
-
-        super.onResume();
-
     }
 
     private int dipToPixels(int dip) {
@@ -988,4 +1027,14 @@ private void getSpecialCategories(final String categoryId) {
     }
 
 
+    @Override
+    public void onSpecChange(Product pr) {
+        this.product=pr;
+        productId=product.getId();
+        productSpecAdapter.notifyDataSetChanged();
+        setProductDetail();
+        checkProductInCart();
+
+
+    }
 }

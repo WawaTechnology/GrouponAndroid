@@ -444,7 +444,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                             String result=getString(R.string.state)+"           "+getString(R.string.open);
 
                             openResultTextView.setText(result);
-                            String address=getString(R.string.address)+"     "+district.getNamePrimaryEn()+" - "+district.getNameSecondaryEn()+" - "+district.getNameTertiaryEn();
+                            String address=getString(R.string.address)+"     "+district.getNameSecondaryEn()+" - "+district.getNameTertiaryEn();
                             addressText.setText(address);
                             String cycle="";
                             for(String timing:timingList)

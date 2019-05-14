@@ -3,6 +3,7 @@ package com.easybuy.sg.grouponebuy.fragment;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -47,15 +49,22 @@ import com.easybuy.sg.grouponebuy.activities.DistrictSettingActivity;
 import com.easybuy.sg.grouponebuy.activities.MainActivity;
 import com.easybuy.sg.grouponebuy.activities.PaymentActivity;
 import com.easybuy.sg.grouponebuy.adapter.CartAdapter;
+import com.easybuy.sg.grouponebuy.adapter.CustomAlertAdapter;
 import com.easybuy.sg.grouponebuy.adapter.MergeDateAdapter;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.helpers.Utf8JsonRequest;
 import com.easybuy.sg.grouponebuy.model.CartProduct;
 import com.easybuy.sg.grouponebuy.model.Category;
 import com.easybuy.sg.grouponebuy.model.CategoryPrimaryList;
+import com.easybuy.sg.grouponebuy.model.Order;
+import com.easybuy.sg.grouponebuy.model.OrderPayload;
 import com.easybuy.sg.grouponebuy.model.OrderResult;
 import com.easybuy.sg.grouponebuy.model.PrevOrder;
 import com.easybuy.sg.grouponebuy.model.Product;
+import com.easybuy.sg.grouponebuy.model.ProductOrderList;
+import com.easybuy.sg.grouponebuy.model.ProductStock;
+import com.easybuy.sg.grouponebuy.model.Result;
+import com.easybuy.sg.grouponebuy.model.SingleOrderResult;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.DateChangeListener;
 import com.easybuy.sg.grouponebuy.utils.PrevOrderSelectedListener;
@@ -65,7 +74,13 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.DataInput;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DecimalFormat;
@@ -74,6 +89,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -85,8 +101,10 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     public List<CartProduct> cartProductList;
     CartAdapter cartAdapter;
     RecyclerView recyclerView;
+    List<ProductStock> limitPurchaseProductList=new ArrayList<>();
     GlobalProvider globalProvider;
     String language;
+
     RelativeLayout cartLayout;
     SeekBar seekBar;
     int progressStatusCounter = 0;
@@ -247,6 +265,17 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                    if(data.getSerializableExtra("previousOrder")!=null)
                     {
                         prevOrder= (PrevOrder) data.getSerializableExtra("previousOrder");
+                        for(CartProduct product:cartProductList)
+                        {
+                            if(product.getProduct().limitPurchase>0)
+                            {
+                                Log.d("limitfunccalled",product.getProduct().getNameEn());
+                                checkLimitPreviousOrder(prevOrder);
+                                return;
+                            }
+                        }
+
+
 
 
 
@@ -265,12 +294,180 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         }
     }
 
+   private void checkLimitPreviousOrder(PrevOrder prevOrder) {
+        String url=Constants.editOrderUrl+prevOrder.getOrderID();
+        Log.d("hurl",url);
+
+        Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest( Request.Method.GET,url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JsonFactory jsonFactory = new JsonFactory();
+                ObjectMapper objectMapper = new ObjectMapper();
+
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    JSONObject res=jsonObject.getJSONObject("payload");
+                  JSONArray jsonArray=  res.getJSONArray("productList");
+                  limitPurchaseProductList.clear();
+
+                    Log.d("checkstatus",jsonArray.length()+"");
+
+
+                    for(int i=0;i<jsonArray.length();i++)
+                    {
+                        int limitOrder=jsonArray.getJSONObject(i).getJSONObject("productInfo").getInt("limitPurchase");
+                        if(limitOrder>0) {
+                            int quantity = jsonArray.getJSONObject(i).getInt("quantity");
+                            String productId=jsonArray.getJSONObject(i).getJSONObject("productInfo").getString("productID");
+                            Log.d("checkqq",quantity+"");
+
+                            for (Iterator<CartProduct> it = cartProductList.iterator(); it.hasNext(); ) {
+                                CartProduct cartProduct = it.next();
+                                if (productId.equals(cartProduct.getProduct().getId()))
+                                {
+                                    int limitP=0;
+                                    Log.d("checkpdtotal",cartProduct.getProduct().getTotalNumber()+"");
+                                if (cartProduct.getProduct().getTotalNumber()+quantity>cartProduct.getProduct().limitPurchase) {
+                                    if(quantity==cartProduct.getProduct().limitPurchase)
+
+                                    {
+                                         limitP=0;
+                                    }
+                                    else
+                                    {
+                                       int val= (cartProduct.getProduct().getTotalNumber()+quantity)-cartProduct.getProduct().limitPurchase;
+                                        limitP=cartProduct.getProduct().getTotalNumber()-val;
+                                    }
+                                    Log.d("limitP",limitP+"");
+
+                                    if(language.equals("english"))
+                                    limitPurchaseProductList.add(new ProductStock(cartProduct.getProduct().getNameEn(),limitP));
+                                    else
+                                        limitPurchaseProductList.add(new ProductStock(cartProduct.getProduct().getNameCh(),limitP));
+
+                                //  String msg = getContext().getString(R.string.limit_sale_msg,cartProduct.getProduct().limitPurchase);
+                                   // Toast.makeText(getContext(),msg,Toast.LENGTH_SHORT).show();
+                                    if(limitP==0) {
+
+                                        globalProvider.cartList.remove(cartProduct.getProduct());
+                                        Log.d("pdname", cartProduct.getProduct().getNameEn());
+
+                                        it.remove();
+                                    }
+                                    else
+                                    {
+                                        cartProduct.getProduct().setTotalNumber(limitP);
+                                        for(int j=0;j<globalProvider.cartList.size();j++)
+                                        {
+
+
+                                            if(globalProvider.cartList.get(j).getId().equals(cartProduct.getProduct().getId()))
+                                            {
+                                                globalProvider.cartList.get(j).setTotalNumber(limitP);
+                                                break;
+                                            }
+                                        }
+
+                                    }
+                                    cartAdapter.notifyDataSetChanged();
+
+
+                                }
+
+
+
+                                }
+                            }
+
+
+                        }
+
+                    }
+                    if(limitPurchaseProductList.size()>0)
+                    {
+                        showLimitAlert();
+                    }
+                    else
+                        startPaymentActivity();
+
+
+                    //JsonParser jsonParser = jsonFactory.createParser( res.toString());
+                   // Order order =  objectMapper.readValue(jsonParser, Order.class);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        globalProvider.addRequest(utf8JsonRequest);
+
+
+    }
+
+    private void showLimitAlert() {
 
 
 
 
 
-            public void onStop()
+
+
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+            LayoutInflater inflater = getLayoutInflater();
+            View convertView = (View) inflater.inflate(R.layout.custom_listalert, null, false);
+
+
+            // ListView lv = (ListView) convertView.findViewById(R.id.lvw);
+
+            final CustomAlertAdapter adapter = new CustomAlertAdapter(limitPurchaseProductList, getContext());
+            alertDialog.setTitle(getContext().getString(R.string.limit_sale_alert));
+            alertDialog.setCancelable(false);
+
+
+
+
+            alertDialog.setView(convertView);
+
+            alertDialog.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    if(globalProvider.cartList.size()>0)
+                    startPaymentActivity();
+                    else {
+                        dialogInterface.dismiss();
+
+                    }
+
+
+                }
+            });
+            alertDialog.setAdapter(adapter,null);
+
+
+
+
+
+            alertDialog.show();
+            if(globalProvider.cartList.isEmpty())
+            {
+                noCartLayout.setVisibility(View.VISIBLE);
+                cartLayout.setVisibility(View.GONE);
+            }
+
+
+        }
+
+
+
+    public void onStop()
             {
 
                 Gson gson=new Gson();
@@ -279,6 +476,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                 SharedPreferences.Editor editor=sharedPreferences.edit();
                 editor.putString("productList",productList);
                 editor.apply();
+                seekBar.removeCallbacks(null);
                 super.onStop();
             }
 
@@ -489,14 +687,17 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     {
         float minOrderValue=Constants.getCustomer(getContext()).getDistrict().getDeliveryCost();
 
-        if (totalamt > minOrderValue|| prevOrder != null) {
+        if ((totalamt > minOrderValue|| prevOrder != null)&&globalProvider.cartList.size()>0) {
+
+
 
             Intent intent=new Intent(getContext(), PaymentActivity.class);
 
 
             intent.putExtra("prevOrderList", (Serializable) prevOrderList);
             intent.putExtra("previousOrder",prevOrder);
-            intent.putExtra("totalamt",totalamt);
+            Log.d("cartlistSize",globalProvider.cartList.size()+"");
+           // intent.putExtra("totalamt",totalamt);
 
             startActivity(intent);
 
@@ -750,10 +951,13 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     }
 
 
+
+
     @Override
     public void onQuantityChanged(Product product, int quantity) {
         if (quantity == 0) {
             globalProvider.cartList.remove(product);
+
             for(CartProduct cp:cartProductList)
             {
                 if(cp.getProduct().getId().equals(product.getId()))
@@ -813,6 +1017,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
 
     }
+
 
     @Override
     public void onCheckedChanged(Product product, int quantity, boolean checked) {
@@ -923,11 +1128,13 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             order2Text=(TextView)view.findViewById(R.id.order_2);
             order3Text=(TextView)view.findViewById(R.id.order_3);
             newOrderText=(TextView) view.findViewById(R.id.no_order);
-            order1Text.setText("Yes, update order to deliver on "+prevOrderList.get(0).getShippingDate());
+            String formatted = getString(R.string.update_order_date, prevOrderList.get(0).getShippingDate());
+           // order1Text.setText("Yes, update order to deliver on "+prevOrderList.get(0).getShippingDate());
+            order1Text.setText(formatted);
             if(prevOrderList.size()>=3)
             {
-                order2Text.setText("Yes, update order to deliver on "+prevOrderList.get(1).getShippingDate());
-                order3Text.setText("Yes, update order to deliver on "+prevOrderList.get(2).getShippingDate());
+                order2Text.setText(getString(R.string.update_order_date, prevOrderList.get(1).getShippingDate()));
+                order3Text.setText(getString(R.string.update_order_date, prevOrderList.get(2).getShippingDate()));
                 order2Text.setVisibility(View.VISIBLE);
                 order3Text.setVisibility(View.VISIBLE);
                 newOrderText.setVisibility(View.GONE);
@@ -935,7 +1142,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             }
             else if (prevOrderList.size()==2)
             {
-                order2Text.setText("Yes, update order to deliver on "+prevOrderList.get(1).getShippingDate());
+                order2Text.setText(getString(R.string.update_order_date, prevOrderList.get(1).getShippingDate()));
                 order2Text.setVisibility(View.VISIBLE);
             }
             order1Text.setOnClickListener(new View.OnClickListener() {

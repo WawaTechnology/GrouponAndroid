@@ -70,7 +70,7 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
            // Log.d("checkunit",address.getUnit());
 
         holder.primaryAddressText.setText(address.getUnit()+" , "+address.getDistrict().getNameTertiaryEn()+" "+address.getDistrict().getNameSecondaryEn());
-        holder.districtText.setText(address.getDistrict().getNamePrimaryEn());
+      //  holder.districtText.setText(address.getDistrict().getNamePrimaryEn());
         holder.postCodeText.setText(context.getResources().getString(R.string.singapore)+" "+address.getDistrict().getPostcode());
         if(position==0)
         {
@@ -209,7 +209,7 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView primaryAddressText,districtText,postCodeText;
+        TextView primaryAddressText,postCodeText;
         Button deleteButton,defaultButton;
 
 
@@ -218,7 +218,7 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
             deleteButton=(Button)itemView.findViewById(R.id.delete);
             defaultButton=(Button)itemView.findViewById(R.id.default_button);
             primaryAddressText=(TextView)itemView.findViewById(R.id.primary_address);
-            districtText=(TextView)itemView.findViewById(R.id.district);
+           // districtText=(TextView)itemView.findViewById(R.id.district);
             postCodeText=(TextView)itemView.findViewById(R.id.postcode);
 
         }

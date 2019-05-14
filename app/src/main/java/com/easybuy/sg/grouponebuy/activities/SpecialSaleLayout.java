@@ -50,6 +50,7 @@ public class SpecialSaleLayout extends AppCompatActivity {
         layerList=new ArrayList<>();
         Intent intent=getIntent();
         SpecialImage specialImage=(SpecialImage)intent.getSerializableExtra("specialImage");
+
         String lang=Constants.getLanguage(getApplicationContext());
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);

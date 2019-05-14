@@ -175,8 +175,13 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                int value=Integer.parseInt(quanityString);
                value+=1;
                if(product.limitPurchase>0) {
+
+
                    if (value > product.limitPurchase) {
-                       Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+
+
+                      String msg = context.getString(R.string.limit_sale_msg,product.limitPurchase);
+                       Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
                        return;
                    }
                }

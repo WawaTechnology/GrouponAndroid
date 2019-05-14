@@ -1,8 +1,8 @@
 package com.easybuy.sg.grouponebuy.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,19 +14,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.easybuy.sg.grouponebuy.R;
+import com.easybuy.sg.grouponebuy.activities.ProductDetailActivity;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.helpers.Utf8JsonRequest;
 import com.easybuy.sg.grouponebuy.model.CategoryProduct;
-import com.easybuy.sg.grouponebuy.model.OtherImageResult;
 import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,14 +35,21 @@ public class ProductSpecAdapter extends RecyclerView.Adapter<ProductSpecAdapter.
 
     public Context context;
     public List<CategoryProduct> productList;
-    String productId;
+
     GlobalProvider globalProvider;
-    public ProductSpecAdapter(Context context,List<CategoryProduct> productList,String id)
+    SpecChangeListener specChangeListener;
+    public interface SpecChangeListener
+    {
+        public void onSpecChange(Product product);
+    }
+    public ProductSpecAdapter(Context context,List<CategoryProduct> productList,SpecChangeListener specChangeListener)
     {
         this.context=context;
         this.productList=productList;
-        this.productId=id;
+
         globalProvider=GlobalProvider.getGlobalProviderInstance(context);
+        this.specChangeListener=specChangeListener;
+
     }
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -57,14 +62,25 @@ public class ProductSpecAdapter extends RecyclerView.Adapter<ProductSpecAdapter.
     public void onBindViewHolder(MyViewHolder holder, int position) {
      final  CategoryProduct product= productList.get(position);
        holder.productSpecText.setText("$"+product.getPrice()+"/ "+product.getSpecificationEn());
+
+            String productId=((ProductDetailActivity)context).productId;
+            Log.d("detailpdid",productId);
+
+
         if(productId.equals(product.getId()))
         {
-            holder.productSpecText.setBackground(context.getResources().getDrawable(R.drawable.yellow_new));
+            holder.productSpecText.setBackground(context.getResources().getDrawable(R.drawable.orange_new));
+            holder.productSpecText.setTextColor(Color.WHITE);
            // spec2TextView.setBackground(getResources().getDrawable(R.drawable.table_bkg));
         }
         else
         {
+
+
+
             holder.productSpecText.setBackground(context.getResources().getDrawable(R.drawable.table_bkg));
+            holder.productSpecText.setPadding(8,6,8,6);
+            holder.productSpecText.setTextColor(Color.BLACK);
         }
         holder.productSpecText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,12 +100,14 @@ public class ProductSpecAdapter extends RecyclerView.Adapter<ProductSpecAdapter.
                             try {
                                 jsonObj = new JSONObject(response).getJSONObject("payload");
                               Product pd=  objectMapper.readValue(jsonObj.toString(),Product.class);
-                                ((Activity)context).finish();
+                              specChangeListener.onSpecChange(pd);
+                              /*  ((Activity)context).finish();
                                 Intent intent=((Activity)context).getIntent();
 
 
                                 intent.putExtra("product",pd);
                                 context.startActivity(intent);
+                                */
 
 
 

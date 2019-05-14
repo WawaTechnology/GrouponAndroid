@@ -354,6 +354,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
 
   private void checkOrderPaymentStatus(String id) {
         String url= Constants.editOrderUrl+id;
+        Log.d("checkurl",url);
        Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest(Request.Method.GET, url, new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {

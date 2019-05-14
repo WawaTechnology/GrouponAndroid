@@ -130,7 +130,7 @@ public class SpecialDetailAdapter extends RecyclerView.Adapter<SpecialDetailAdap
                     }
                     if(product.limitPurchase>0) {
                         if (quantity > product.limitPurchase) {
-                            Toast.makeText(context,context.getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context,context.getString(R.string.limit_sale_msg,product.limitPurchase),Toast.LENGTH_SHORT).show();
                             return;
                         }
                     }

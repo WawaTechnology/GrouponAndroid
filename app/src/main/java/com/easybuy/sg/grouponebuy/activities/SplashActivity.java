@@ -348,7 +348,7 @@ public class SplashActivity extends AppCompatActivity {
            globalProvider.deliveryTimingChinese.put("Mon","星期一");
           globalProvider.deliveryTimingChinese.put("Tue","星期二");
           globalProvider.deliveryTimingChinese.put("Wed","星期三");
-          globalProvider.deliveryTimingChinese.put("Thu","星期四");
+          globalProvider.deliveryTimingChinese.put("Thur","星期四");
           globalProvider.deliveryTimingChinese.put("Fri","星期五");
           globalProvider.deliveryTimingChinese.put("Sat","星期六");
           globalProvider.deliveryTimingChinese.put("Sun","星期天");

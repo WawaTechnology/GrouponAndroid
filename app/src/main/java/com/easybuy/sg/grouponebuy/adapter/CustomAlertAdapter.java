@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.easybuy.sg.grouponebuy.R;
+import com.easybuy.sg.grouponebuy.activities.PaymentActivity;
 import com.easybuy.sg.grouponebuy.model.ProductStock;
 
 import java.util.List;
@@ -58,7 +59,10 @@ public class CustomAlertAdapter extends BaseAdapter {
 
 
         int pos=position+1;
-        pdName.setText(pos+". "+mData.get(position).getProductName()+"\n"+mContext.getResources().getString(R.string.stock_available)+" "+mData.get(position).getStock());
+        if(mContext instanceof PaymentActivity)
+        pdName.setText(pos+". "+mData.get(position).getProductName()+"  "+mContext.getResources().getString(R.string.stock_available)+" "+mData.get(position).getStock());
+        else
+            pdName.setText(pos+". "+mData.get(position).getProductName()+"   "+mContext.getResources().getString(R.string.limit_sale)+ " "+mData.get(position).getStock());
 
 
 

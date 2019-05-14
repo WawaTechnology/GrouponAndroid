@@ -158,7 +158,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         district = customer.getDistrict();
         lang = Constants.getLanguage(this);
         Intent intent = getIntent();
-        totalamt = intent.getDoubleExtra("totalamt", 0.0);
+       // totalamt = intent.getDoubleExtra("totalamt", 0.0);
         prevOrderList = (ArrayList<PrevOrder>) intent.getSerializableExtra("prevOrderList");
         prevOrder= (PrevOrder) intent.getSerializableExtra("previousOrder");
       //  ecoinLayout = (LinearLayout) findViewById(R.id.ecoin_layout);
@@ -179,10 +179,10 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         imageRecycler.setAdapter(productImageAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         imageRecycler.setLayoutManager(linearLayoutManager);
-        String total=String.format("%.2f",totalamt);
+      //  String total=String.format("%.2f",totalamt);
 
         //  addressText.setText(Constants.getCustomer(this).address);
-        totalAmountText.setText("$ " + total);
+       // totalAmountText.setText("$ " + total);
 
 
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -218,9 +218,9 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             */
         String address = null;
         if (lang.equals("english"))
-            address = customer.address + ", " + district.getNameTertiaryEn() + ", " + district.getNameSecondaryEn() + ", " + district.getNamePrimaryEn();
+            address = customer.address + ", " + district.getNameTertiaryEn() + ", " + district.getNameSecondaryEn() ;
         else
-            address = customer.address + ", " + district.getNameTertiaryCh() + ", " + district.getNameSecondaryCh() + ", " +district.getNamePrimaryCh() ;
+            address = customer.address + ", " + district.getNameTertiaryCh() + ", " + district.getNameSecondaryCh()  ;
        // Log.d("address",address);
         freeDeliveryPrice=Constants.getCustomer(PaymentActivity.this).getDistrict().getFreeDeliveryPrice();
 

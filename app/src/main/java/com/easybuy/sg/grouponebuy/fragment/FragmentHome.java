@@ -1,3 +1,7 @@
+
+
+
+
 package com.easybuy.sg.grouponebuy.fragment;
 
 import android.content.Context;
@@ -46,8 +50,8 @@ import com.easybuy.sg.grouponebuy.utils.CategoryListener;
 import com.easybuy.sg.grouponebuy.utils.ItemOffSetDecoration;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -67,15 +71,15 @@ import static java.lang.Boolean.FALSE;
 
 public class FragmentHome extends Fragment implements CategoryAdapter.MyClickListener,ProductDetailViewPagerAdapter.OnItemClickListener {
 
-
+    private static final String Tag="LFCHECK";
     RecyclerView categoryRecyclerView;
     GlobalProvider globalProvider;
     CategoryAdapter categoryAdapter;
-   // SingleTopAdapter singleTopAdapter;
+    // SingleTopAdapter singleTopAdapter;
     SingleTopAdapter singleTopAdapter1;
     SingleTopAdapter singleTopAdapter2;
     List<ProductImageId> productImageIdList;
-   // List<ProductImageId> singleTopList;
+    // List<ProductImageId> singleTopList;
     List<ProductImageId> doubleImageList;
     List<ProductImageId> doubleTopList;
     List<ProductImageId> tripleTopList;
@@ -84,7 +88,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     Product oneProduct;
     TimerTask timerTask;
     int boardCounter=0;
-   // boolean isScrolling;
+    // boolean isScrolling;
 
 
 
@@ -93,11 +97,11 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
     //SearchView searchView;
     ImageView mainImage;
-   String[] imgArray;
+    String[] imgArray;
     int[] arr;
     int i=0;
 
-    LinearLayout indicatorLayout;
+
 
     ActivityHomeBinding activityHomeBinding;
     public CategoryListener categoryListener;
@@ -110,12 +114,53 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     SingleTopAdapter singleTopAdapter0;
     String language;
     Date saleDate;
-    private Handler handler = new Handler();
+    private  Handler handler = new Handler();
     private Handler handlerNotice;
 
-    private Runnable runnable;
+
+
     Timer timer;
- /*   Runnable timerRunnable=new Runnable() {
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Log.d("handlerRunnable",runnable.toString());
+
+                handler.postDelayed(this, 1000);
+                Date today=new Date();
+                long secs = (saleDate.getTime() - today.getTime()) / 1000;
+                int hours =(int) secs / 3600;
+                secs = secs % 3600;
+                int mins =(int) secs / 60;
+                secs = secs % 60;
+                String format="";
+                if(hours<10)
+                {
+                    format+="0";
+                }
+                format+=hours+":";
+                if(mins<10)
+                {
+                    format+="0";
+                }
+                format+=mins+":";
+                if(secs<10)
+                {
+                    format+="0";
+                }
+                format+=secs;
+                activityHomeBinding.timeRemaining.setText(format);
+
+
+
+                // activityHomeBinding.hh.setText(hours+"");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    Runnable timerRunnable=new Runnable() {
         @Override
         public void run() {
 
@@ -123,6 +168,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
                 @Override
                 public void run() {
+                    Log.d("timerRunnable",timerRunnable.toString());
 
                     //  isScrolling=true;
                     activityHomeBinding.viewPager.setCurrentItem((activityHomeBinding.viewPager.getCurrentItem()+1)%imgArray.length);
@@ -130,8 +176,15 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             });
         }
     };
-    */
-    Runnable boardRunnable=new Runnable() {
+ /*   private static final class boardRunnable implements Runnable
+    {
+        int boardC;
+        private final WeakReference<TextView> boardText;
+
+        private boardRunnable(WeakReference<TextView> boardText) {
+            this.boardText = boardText;
+        }
+
         @Override
         public void run() {
             if(boardCounter==globalProvider.boardSpecialList.size())
@@ -148,8 +201,38 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             boardCounter+=1;
             handlerNotice.postDelayed(boardRunnable,2000);
 
+
         }
+    }
+    */
+
+    Runnable boardRunnable=new Runnable() {
+
+
+
+        @Override
+        public void run() {
+            Log.d("boardRunnable",boardRunnable.toString());
+
+            if(boardCounter==globalProvider.boardSpecialList.size())
+            {
+                boardCounter=0;
+            }
+            if(language.equals("english")) {
+
+                activityHomeBinding.boardLabel.setText(globalProvider.boardSpecialList.get(boardCounter).getNameEn());
+            }
+            else
+                activityHomeBinding.boardLabel.setText(globalProvider.boardSpecialList.get(boardCounter).getNameCh());
+
+            boardCounter+=1;
+            handlerNotice.postDelayed(boardRunnable,2000);
+
+        }
+
+
     };
+
 
 
 
@@ -161,14 +244,15 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // MyApplication.getRefWatcher(getActivity()).watch(this);
+        // MyApplication.getRefWatcher(getActivity()).watch(this);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getContext().getApplicationContext());
+        Log.d(Tag,"oncreate");
 
-       // singleTopList=new ArrayList();
+        // singleTopList=new ArrayList();
         productImageIdList=new ArrayList<>();
         tripleTopList=new ArrayList<>();
         doubleImageList=new ArrayList<>();
-        listViews=new ArrayList<>();
+
         doubleTopList=new ArrayList<>();
         saleProductList=new ArrayList<>();
 
@@ -184,19 +268,19 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
 
 
-            imgArray = new String[globalProvider.specialMImages.size()];
+        imgArray = new String[globalProvider.specialMImages.size()];
 
-            for (int i = 0; i < imgArray.length; i++) {
-                if(language.equals("english"))
-                {
-                    imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryEn();
-                }
-                else {
-                    imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryCh();
-                }
-               // Log.d("checkimae",imgArray[i]);
-
+        for (int i = 0; i < imgArray.length; i++) {
+            if(language.equals("english"))
+            {
+                imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryEn();
             }
+            else {
+                imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryCh();
+            }
+            // Log.d("checkimae",imgArray[i]);
+
+        }
 
 
 
@@ -215,8 +299,13 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d(Tag,"oncreateviewcalled");
+
         activityHomeBinding = DataBindingUtil.inflate(inflater, R.layout.activity_home, null, false);
+
         View view = activityHomeBinding.getRoot();
+        listViews=new ArrayList<>();
+
 
 
 
@@ -226,8 +315,8 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
 
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-     //   ((Activity) getContext()). getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-       // int height = displayMetrics.heightPixels;
+        //   ((Activity) getContext()). getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
         activityHomeBinding.viewPager.getLayoutParams().height=(int)(width/2);
         activityHomeBinding.viewPager.requestLayout();
@@ -277,18 +366,18 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
 
 
-                saleDate=globalProvider.saleDate;
-                saleProductList.addAll(globalProvider.getFlashSale().getProductList());
+            saleDate=globalProvider.saleDate;
+            saleProductList.addAll(globalProvider.getFlashSale().getProductList());
             /*ProductAdapter productAdapter=new ProductAdapter(getContext(),saleProductList);
             activityHomeBinding.saleProductRecycler.setAdapter(productAdapter);
             */
-           FlashAdapter flashAdapter=new FlashAdapter(getContext(),saleProductList);
+            FlashAdapter flashAdapter=new FlashAdapter(getContext(),saleProductList);
             activityHomeBinding.saleProductRecycler.setAdapter(flashAdapter);
             LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
             activityHomeBinding.saleProductRecycler.setLayoutManager(linearLayoutManager);
 
 
-           // countDownStart();
+            // countDownStart();
 
 
 
@@ -296,7 +385,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         }
         for(ProductImageId productImageId:globalProvider.singleProductList) {
             if (productImageId.getCategory().equals("one-important")) {
-               // Log.d("oneimp","visible");
+                // Log.d("oneimp","visible");
 
                 String cover = Constants.newImageUrl + productImageId.getProductCover();
                 Glide.with(getContext()).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).fitCenter().into(activityHomeBinding.singleImpimage);
@@ -307,7 +396,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
             }
             if (productImageId.getCategory().equals("one")) {
-               // Log.d("onesingle","visible");
+                // Log.d("onesingle","visible");
 
                 String cover = Constants.newImageUrl + productImageId.getProductCover();
                 Glide.with(getContext()).load(cover).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).fitCenter().into(activityHomeBinding.singleOneimage);
@@ -329,7 +418,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         }
 
 
-    activityHomeBinding.singleImpimage.setOnClickListener(new View.OnClickListener() {
+        activityHomeBinding.singleImpimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -363,14 +452,14 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         */
 
 
-      // displaying set of images in viewpager
+        // displaying set of images in viewpager
         if(imgArray!=null&&imgArray.length>0)
         {
             for (int a = 0; a < imgArray.length; a++) {
                 ViewGroup pager = (ViewGroup) getLayoutInflater().inflate(R.layout.viewpager_image, null);
 
                 ImageView imageView = (ImageView) pager.findViewById(R.id.viewpagerimg);
-               // Log.d("checkimage",imgArray[a]);
+                // Log.d("checkimage",imgArray[a]);
 
                 Glide.with(container.getContext()).load(imgArray[a]).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 listViews.add(pager);
@@ -418,7 +507,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
             }
         }
-       // startViewPagerTimer();
+        // startViewPagerTimer();
 
    /*     if(language.equals("english"))
         {
@@ -431,7 +520,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             activityHomeBinding.catgoryRecycler.requestLayout();
         }
         */
-       // singleTopList.addAll(globalProvider.singleProductList);
+        // singleTopList.addAll(globalProvider.singleProductList);
         doubleImageList.addAll(globalProvider.doubleProductImageList);
         productImageIdList.addAll(globalProvider.threeImageLayout);
 
@@ -447,18 +536,18 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
                 }
             });
         }
-       // Log.d("doubletoplistsize",doubleTopList.size()+"");
+        // Log.d("doubletoplistsize",doubleTopList.size()+"");
 
         singleTopAdapter0=new SingleTopAdapter(getContext(),doubleTopList);
         // singleTopAdapter=new SingleTopAdapter(getContext(),singleTopList);
 
 
-      singleTopAdapter1=new SingleTopAdapter(getContext(),productImageIdList);
-      singleTopAdapter2=new SingleTopAdapter(getContext(),doubleImageList);
-      SingleTopAdapter singleTopAdapter3=new SingleTopAdapter(getContext(),tripleTopList);
+        singleTopAdapter1=new SingleTopAdapter(getContext(),productImageIdList);
+        singleTopAdapter2=new SingleTopAdapter(getContext(),doubleImageList);
+        SingleTopAdapter singleTopAdapter3=new SingleTopAdapter(getContext(),tripleTopList);
 
 
- //setting adapter for 3 image layout
+        //setting adapter for 3 image layout
         StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         activityHomeBinding.recyclerThreelayout.setAdapter(singleTopAdapter1);
@@ -470,8 +559,8 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         activityHomeBinding.recyclerThreeTop.setAdapter(singleTopAdapter3);
         activityHomeBinding.recyclerThreeTop.setLayoutManager(staggeredGridLayoutManager1);
         //setting adapter for single images
-      //  LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-       // activityHomeBinding.singleToprecycler.setLayoutManager(linearLayoutManager);
+        //  LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+        // activityHomeBinding.singleToprecycler.setLayoutManager(linearLayoutManager);
         //activityHomeBinding.singleToprecycler.setAdapter(singleTopAdapter);
         if(globalProvider.specialBanner!=null) {
 
@@ -495,9 +584,9 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
 
 
-  //setting adapter for double images
-       // int hieght= (int) (width*0.6);
-       // activityHomeBinding.recyclerDoubleTop.getLayoutParams().height=hieght;
+        //setting adapter for double images
+        // int hieght= (int) (width*0.6);
+        // activityHomeBinding.recyclerDoubleTop.getLayoutParams().height=hieght;
 
         GridLayoutManager gridManager=new GridLayoutManager(getContext(),2);
         activityHomeBinding.recyclerDoubleTop.setLayoutManager(gridManager);
@@ -505,11 +594,11 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
 
 
-    GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
+        GridLayoutManager gridLayoutManager=new GridLayoutManager(getContext(),2);
 
 
 
-     activityHomeBinding.doubleBottomrecycler.setLayoutManager(gridLayoutManager);
+        activityHomeBinding.doubleBottomrecycler.setLayoutManager(gridLayoutManager);
 
 
         activityHomeBinding.doubleBottomrecycler.setAdapter(singleTopAdapter2);
@@ -555,8 +644,8 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
                 if(state==SCROLL_STATE_DRAGGING)
                 {
 
-                  //  timer.cancel();
-                   // timer.purge();
+                    //  timer.cancel();
+                    // timer.purge();
                 }
 
             }
@@ -573,12 +662,12 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             }};
         activityHomeBinding.catgoryRecycler.setLayoutManager(layoutManager);
 
-       ItemOffSetDecoration itemDecoration = new ItemOffSetDecoration(getContext(), R.dimen.item_offset);
+        ItemOffSetDecoration itemDecoration = new ItemOffSetDecoration(getContext(), R.dimen.item_offset);
         activityHomeBinding.catgoryRecycler.addItemDecoration(itemDecoration);
 
 
-      //  ProductAdapter productAdapter = new ProductAdapter(getActivity(), basicProductList);
-         specialCategoryAdapter=new SpecialCategoryAdapter(getActivity(),categorySpecials);
+        //  ProductAdapter productAdapter = new ProductAdapter(getActivity(), basicProductList);
+        specialCategoryAdapter=new SpecialCategoryAdapter(getActivity(),categorySpecials);
         activityHomeBinding.recyclerSpecial.setAdapter(specialCategoryAdapter);
         activityHomeBinding.searchbarHeight.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -607,35 +696,32 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     }
     public void onResume()
     {
+        Log.d(Tag,"onresume");
         if(saleDate!=null) {
             countDownStart();
         }
+
         if(handlerNotice!=null)
         {
+
+
+
             handlerNotice.postDelayed(boardRunnable
                     ,0);
 
         }
         if(timerTask==null)
-        startViewPagerTimer();
+            startViewPagerTimer();
         super.onResume();
 
 
     }
     private void startViewPagerTimer()
     {
-         timerTask = new TimerTask() {
+        timerTask = new TimerTask() {
             @Override
             public void run() {
-                activityHomeBinding.viewPager.post(new Runnable(){
-
-                    @Override
-                    public void run() {
-
-                      //  isScrolling=true;
-                        activityHomeBinding.viewPager.setCurrentItem((activityHomeBinding.viewPager.getCurrentItem()+1)%imgArray.length);
-                    }
-                });
+                activityHomeBinding.viewPager.post(timerRunnable);
             }
         };
         timer = new Timer();
@@ -644,54 +730,17 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         timer.schedule(timerTask, 5000, 5000);
     }
     private void countDownStart() {
-        runnable = new Runnable() {
-            @Override
-            public void run() {
-                try {
 
-                    handler.postDelayed(this, 1000);
-                    Date today=new Date();
-                    long secs = (saleDate.getTime() - today.getTime()) / 1000;
-                    int hours =(int) secs / 3600;
-                    secs = secs % 3600;
-                    int mins =(int) secs / 60;
-                    secs = secs % 60;
-                    String format="";
-                    if(hours<10)
-                    {
-                        format+="0";
-                    }
-                    format+=hours+":";
-                    if(mins<10)
-                    {
-                        format+="0";
-                    }
-                    format+=mins+":";
-                    if(secs<10)
-                    {
-                        format+="0";
-                    }
-                    format+=secs;
-                    activityHomeBinding.timeRemaining.setText(format);
-
-
-
-                   // activityHomeBinding.hh.setText(hours+"");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        };
         handler.postDelayed(runnable, 0);
     }
 
     public void onStop() {
         super.onStop();
-        handler.removeCallbacksAndMessages(runnable);
+        Log.d(Tag,"onstop");
+        handler.removeCallbacksAndMessages(null);
         if(handlerNotice!=null)
         {
-            handlerNotice.removeCallbacksAndMessages(boardRunnable);
+            handlerNotice.removeCallbacksAndMessages(null);
 
 
         }
@@ -705,7 +754,9 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         if(timerTask!=null)
         {
             timerTask.cancel();
+
             timerTask=null;
+
 
 
         }
@@ -716,7 +767,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         if(globalProvider.categorySpecialList.size()>0&&categorySpecials.size()<=0) {
 
 
-                categorySpecials.addAll(globalProvider.categorySpecialList);
+            categorySpecials.addAll(globalProvider.categorySpecialList);
 
 
 
@@ -778,16 +829,16 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
     private void getCategories() {
 
-                     if(globalProvider.categoryList.size()>0) {
-                         for(int i=0;i<8;i++)
-                         {
-                             categoryList.add(new CategorySummary(globalProvider.categoryList.get(i).getId(),globalProvider.categoryList.get(i).getNameCh(),globalProvider.categoryList.get(i).getNameEn(),globalProvider.categoryImageList.get(i).getImageEn()));
-                            // categoryList.add(globalProvider.categoryList.get(i));
-                         }
+        if(globalProvider.categoryList.size()>0) {
+            for(int i=0;i<8;i++)
+            {
+                categoryList.add(new CategorySummary(globalProvider.categoryList.get(i).getId(),globalProvider.categoryList.get(i).getNameCh(),globalProvider.categoryList.get(i).getNameEn(),globalProvider.categoryImageList.get(i).getImageEn()));
+                // categoryList.add(globalProvider.categoryList.get(i));
+            }
 
 
 
-                     }
+        }
 
 
     }
@@ -795,6 +846,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d(Tag,"onattach");
       /*  if(context instanceof CategorySelectedListener){
             fragmentCallback = (CategorySelectedListener)context;
         }
@@ -806,7 +858,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
     @Override
     public void onCategorySelected() {
-       // fragmentCallback.onSelectedCategory();
+        // fragmentCallback.onSelectedCategory();
         categoryListener.onSelectedCategory();
 
 
@@ -815,18 +867,34 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     public void onDetach()
     {
         super.onDetach();
+        Log.d(Tag,"ondetach");
         categoryListener=null;
         categoryAdapter=null;
         productDetailViewPagerAdapter=null;
+      /*  categoryListener=null;
+        categoryAdapter=null;
+        productDetailViewPagerAdapter=null;
+        singleTopAdapter1=null;
+        singleTopAdapter2=null;
+        singleTopAdapter0=null;
+        */
+
+
+
+
 
     }
     @Override
     public void onDestroyView() {
+       /* listViews=null;
      activityHomeBinding.recyclerThreelayout.setAdapter(null);
      activityHomeBinding.doubleBottomrecycler.setAdapter(null);
      activityHomeBinding.recyclerDoubleTop.setAdapter(null);
      activityHomeBinding.saleProductRecycler.setAdapter(null);
      activityHomeBinding.recyclerSpecial.setAdapter(null);
+     */
+
+        Log.d(Tag,"ondestroycalled");
         super.onDestroyView();
     }
 
@@ -834,7 +902,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
     @Override
     public void onItemClick(int position) {
         timer.cancel();
-       // Log.d("clicked at pos",position+"");
+        // Log.d("clicked at pos",position+"");
         SpecialImage specialImage=globalProvider.specialMImages.get(position);
         Intent intent=new Intent(getContext(),SpecialSaleLayout.class);
         intent.putExtra("specialImage",specialImage);
@@ -842,7 +910,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
 
     }
+
+
+
 }
-
-
-

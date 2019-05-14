@@ -18,6 +18,8 @@
     <string name="refund">Refund</string>
     <string name="balance">Balance:</string>
     <string name="checkout">CheckOut</string>
+    <string name="limit_sale_alert">Limit Sale Alert</string>
+    <string name="limit_sale">Limit Sale: </string>
     <string name="delivery_cost">Delivery Cost:</string>
     <string name="singapore">Singapore</string>
     <string name="delete">Delete</string>
@@ -25,7 +27,9 @@
     <string name="set_as_default">Set as Default</string>
     <string name="add_delivery_address">Add Delivery Address</string>
 
-    <string name="limit_sale_msg">Cannot Buy more than sale limit</string>
+    <string name="limit_sale_msg">Current Product Purchase limit : %1$d per order </string>
+    <string name="create_new_order">No,Create New Order</string>
+    <string name="update_order_date">Yes, update order to deliver on %1$s </string>
 
 
     <string name="end_page">End of Page!</string>

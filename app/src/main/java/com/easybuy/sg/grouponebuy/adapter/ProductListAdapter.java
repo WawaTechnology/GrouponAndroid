@@ -303,7 +303,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                             }
                             if(product.limitPurchase>0) {
                                 if (quantity > product.limitPurchase) {
-                                    Toast.makeText(context,context.getResources().getString(R.string.limit_sale_msg),Toast.LENGTH_SHORT).show();
+
+                                    String msg=context.getResources().getString(R.string.limit_sale_msg,product.limitPurchase);
+
+
+                                    Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                             }

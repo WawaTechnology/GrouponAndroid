@@ -134,8 +134,13 @@
     <string name="cancel_address_update">取消地址更新 ?</string>
     <string name="do_not_ask_again">不再提示</string>
     <string name="update">去更新</string>
+    <string name="limit_sale">剩余限购量: </string>
+    <string name="limit_sale_alert">限购提示</string>
 
-    <string name="limit_sale_msg">不能购买超过限购量</string>
+    <string name="limit_sale_msg">当前产品每单限购 %1$d 份</string>
+    <string name="create_new_order">不，创建新订单</string>
+    <string name="update_order_date"> 是，修改已有 %1$s 订单</string>
+
 
 
     <string name="after_sale">我们承诺——坏果包退：\n
