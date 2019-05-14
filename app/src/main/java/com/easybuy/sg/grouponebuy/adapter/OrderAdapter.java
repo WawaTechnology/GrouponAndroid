@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.easybuy.sg.grouponebuy.R;
@@ -131,7 +132,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 }
                 else
                     myholder.paymentLayout.setVisibility(View.GONE);
-                myholder.paymentStatusText.setText("UnPaid- ");
+                myholder.paymentStatusText.setText("UnPaid");
                 myholder.clickText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -398,7 +399,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     {
         TextView orderNumberText,orderDateText,orderTimeText,deliveryDateText,deliveryTimeText,orderStatusText,totalText;
         Button orderDetailButton;
-        LinearLayout paymentLayout;
+        RelativeLayout paymentLayout;
         TextView paymentStatusText;
         TextView clickText;
 
@@ -413,7 +414,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             orderStatusText=(TextView)itemView.findViewById(R.id.order_status);
             orderDetailButton=(Button)itemView.findViewById(R.id.o_detail);
             totalText=(TextView)itemView.findViewById(R.id.total_num);
-            paymentLayout=(LinearLayout)itemView.findViewById(R.id.payment_layout);
+            paymentLayout=(RelativeLayout)itemView.findViewById(R.id.payment_layout);
             paymentStatusText=(TextView)itemView.findViewById(R.id.payment_status);
             clickText=(TextView)itemView.findViewById(R.id.click);
 

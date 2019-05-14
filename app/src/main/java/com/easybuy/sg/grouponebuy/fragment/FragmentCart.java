@@ -240,6 +240,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         else
             minSpendTextView.setText(getString(R.string.min_spend)+" $ "+Constants.getCustomer(getContext()).getDistrict().getDeliveryCost());
             */
+
         if(globalProvider.cartList.isEmpty()||!globalProvider.isLogin())
         {
             noCartLayout.setVisibility(View.VISIBLE);
@@ -257,6 +258,8 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
@@ -269,7 +272,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                         {
                             if(product.getProduct().limitPurchase>0)
                             {
-                                Log.d("limitfunccalled",product.getProduct().getNameEn());
+                               // Log.d("limitfunccalled",product.getProduct().getNameEn());
                                 checkLimitPreviousOrder(prevOrder);
                                 return;
                             }
@@ -296,7 +299,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
    private void checkLimitPreviousOrder(PrevOrder prevOrder) {
         String url=Constants.editOrderUrl+prevOrder.getOrderID();
-        Log.d("hurl",url);
+      //  Log.d("hurl",url);
 
         Utf8JsonRequest utf8JsonRequest=new Utf8JsonRequest( Request.Method.GET,url, new Response.Listener<String>() {
             @Override
@@ -310,7 +313,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                   JSONArray jsonArray=  res.getJSONArray("productList");
                   limitPurchaseProductList.clear();
 
-                    Log.d("checkstatus",jsonArray.length()+"");
+                  //  Log.d("checkstatus",jsonArray.length()+"");
 
 
                     for(int i=0;i<jsonArray.length();i++)
@@ -319,14 +322,14 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                         if(limitOrder>0) {
                             int quantity = jsonArray.getJSONObject(i).getInt("quantity");
                             String productId=jsonArray.getJSONObject(i).getJSONObject("productInfo").getString("productID");
-                            Log.d("checkqq",quantity+"");
+                           // Log.d("checkqq",quantity+"");
 
                             for (Iterator<CartProduct> it = cartProductList.iterator(); it.hasNext(); ) {
                                 CartProduct cartProduct = it.next();
                                 if (productId.equals(cartProduct.getProduct().getId()))
                                 {
                                     int limitP=0;
-                                    Log.d("checkpdtotal",cartProduct.getProduct().getTotalNumber()+"");
+                                  //  Log.d("checkpdtotal",cartProduct.getProduct().getTotalNumber()+"");
                                 if (cartProduct.getProduct().getTotalNumber()+quantity>cartProduct.getProduct().limitPurchase) {
                                     if(quantity==cartProduct.getProduct().limitPurchase)
 
@@ -338,7 +341,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                                        int val= (cartProduct.getProduct().getTotalNumber()+quantity)-cartProduct.getProduct().limitPurchase;
                                         limitP=cartProduct.getProduct().getTotalNumber()-val;
                                     }
-                                    Log.d("limitP",limitP+"");
+                                  //  Log.d("limitP",limitP+"");
 
                                     if(language.equals("english"))
                                     limitPurchaseProductList.add(new ProductStock(cartProduct.getProduct().getNameEn(),limitP));
@@ -350,7 +353,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                                     if(limitP==0) {
 
                                         globalProvider.cartList.remove(cartProduct.getProduct());
-                                        Log.d("pdname", cartProduct.getProduct().getNameEn());
+                                       // Log.d("pdname", cartProduct.getProduct().getNameEn());
 
                                         it.remove();
                                     }
@@ -413,6 +416,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     }
 
     private void showLimitAlert() {
+       // Log.d("showlimitalert","here");
 
 
 
@@ -442,7 +446,14 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                     if(globalProvider.cartList.size()>0)
                     startPaymentActivity();
                     else {
+
+
+
                         dialogInterface.dismiss();
+
+
+
+
 
                     }
 
@@ -458,8 +469,12 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             alertDialog.show();
             if(globalProvider.cartList.isEmpty())
             {
+               // Log.d("showlimitalert","there");
                 noCartLayout.setVisibility(View.VISIBLE);
                 cartLayout.setVisibility(View.GONE);
+                ((MainActivity)getContext()).HideCartNum();
+
+
             }
 
 
@@ -696,7 +711,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
             intent.putExtra("prevOrderList", (Serializable) prevOrderList);
             intent.putExtra("previousOrder",prevOrder);
-            Log.d("cartlistSize",globalProvider.cartList.size()+"");
+           // Log.d("cartlistSize",globalProvider.cartList.size()+"");
            // intent.putExtra("totalamt",totalamt);
 
             startActivity(intent);
@@ -724,6 +739,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     }
 
     private void getCartProducts() {
+     //   Log.d("getcartprod","here");
 
 
             cartProductList.clear();
@@ -736,6 +752,8 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             {
                 cartProductList.add(new CartProduct(product,true));
             }
+            allCheckBox.setChecked(true);
+
 
 
 
