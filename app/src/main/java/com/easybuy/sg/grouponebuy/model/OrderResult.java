@@ -44,5 +44,14 @@ public class OrderResult implements Serializable{
     public void setPayload(List<PrevOrder> payload) {
         this.payload = payload;
     }
+    @JsonProperty("payload2")
+    Payload2 payload2;
 
+    public Payload2 getPayload2() {
+        return payload2;
+    }
+
+    public void setPayload2(Payload2 payload2) {
+        this.payload2 = payload2;
+    }
 }

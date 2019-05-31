@@ -19,9 +19,12 @@
         <meta-data
             android:name="com.easybuy.sg.grouponebuy.utils.LimitCacheSizeGlideModule"
             android:value="GlideModule" />
-        <activity android:name=".activities.PaymentActivity"></activity>
+        <activity android:name=".activities.PaymentActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            ></activity>
         <activity android:name=".activities.CartListActivity"></activity>
         <activity android:name=".activities.ChangePwdActivity"></activity>
+        <activity android:name=".activities.NewAddressActivity"></activity>
 
         <activity android:name=".activities.SplashActivity"
             android:noHistory="true"
@@ -46,7 +49,7 @@
         <activity android:name=".activities.SignInActivity"></activity>
         <activity android:name=".activities.DeliveryAddressActivity"></activity>
         <activity android:name=".activities.DistrictSettingActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity android:name=".activities.ConsumeHistoryActivity"></activity>
         <activity android:name=".activities.ChangePasswordActivity"></activity>
         <activity android:name=".activities.EditInfoActivity"></activity>

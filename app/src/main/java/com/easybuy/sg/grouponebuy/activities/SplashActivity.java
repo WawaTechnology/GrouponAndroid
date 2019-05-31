@@ -299,8 +299,15 @@ public class SplashActivity extends AppCompatActivity {
                        // specialImages.addAll(specialImageResult.getPayload());
                         for(SpecialImage specialImage:specialImageResult.getPayload())
                         {
-                            if(specialImage.getSequence()!=666&&specialImage.getSequence()!=777)
-                            globalProvider.specialMImages.add(specialImage);
+                            if(specialImage.getSequence()!=666&&specialImage.getSequence()!=777) {
+                                globalProvider.specialMImages.add(specialImage);
+                            }
+                            if(specialImage.getSequence()==666)
+                            {
+                                globalProvider.specialBannerList=specialImage;
+
+                            }
+
                             if(specialImage.getSequence()==777)
                             {
 

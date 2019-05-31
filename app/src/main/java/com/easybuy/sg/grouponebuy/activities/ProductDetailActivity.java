@@ -32,6 +32,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -164,7 +165,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         //spec2TextView=(TextView) findViewById(R.id.spec2);
 
 
-       // scrollView=(ScrollView) findViewById(R.id.scroll_view);
+       scrollView=(ScrollView) findViewById(R.id.scroll_view);
         Display display = getWindowManager(). getDefaultDisplay();
         Point size = new Point();
         display. getSize(size);
@@ -175,6 +176,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         float dpHeight = displayMetrics.heightPixels / displayMetrics.density;
         multipleSpecLayout=(RecyclerView) findViewById(R.id.spec_list);
+
 
        // Log.d("heights",dpHeight+"");
         multipleSameProduct=new SpecialCategory();
@@ -237,6 +239,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
         {
             favoriteList.addAll(Constants.getCustomer(getApplicationContext()).getFavoriteList());
         }
+
 
         Intent intent = getIntent();
         product = (Product) intent.getSerializableExtra("product");
@@ -656,6 +659,18 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
 
 
     }
+    @Override
+    public void onStart()
+    {
+
+        super.onStart();
+
+    /*
+        */
+
+    }
+
+
 
     private void setProductDetail() {
         if (Constants.getLanguage(this).equals("english")) {
@@ -678,6 +693,15 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
                 descriptionText.setText(product.getDescriptionCh());
             }
         }
+     /*   scrollView.setLayoutParams(new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 350));*/
+
+      /*  if(product.getStock()<=0)
+        {
+            cartAddButton.setVisibility(View.GONE);
+
+        }
+        */
         if (product.getPriceOriginal() != null && product.getPriceOriginal() > 0) {
             originalPriceText.setVisibility(View.VISIBLE);
             originalPriceText.setText("$ " + product.getPriceOriginal());
@@ -977,41 +1001,50 @@ private void getSpecialCategories(final String categoryId) {
     }
 
     private void checkProductInCart() {
-        boolean prodSelected=false;
-        Log.d("productId",product.getId());
+        if(product.getStock()>0) {
+            soldOutText.setVisibility(View.GONE);
+            boolean prodSelected = false;
+            Log.d("productId", product.getId());
 
-        if (globalProvider.cartList.size() > 0) {
+            if (globalProvider.cartList.size() > 0) {
 
-            Log.d("cartid",globalProvider.cartList.get(0).getId());
-            for (int i=0;i< globalProvider.cartList.size();i++) {
-                if (globalProvider.cartList.get(i).getId().equals(product.getId())) {
-                    cartLinearLayout.setVisibility(View.GONE);
-                    productSelectedLayout.setVisibility(View.VISIBLE);
-                    prodSelected = true;
-                    // Log.d("checkquntity",globalProvider.cartList.get(i).getTotalNumber() + "");
+                Log.d("cartid", globalProvider.cartList.get(0).getId());
+                for (int i = 0; i < globalProvider.cartList.size(); i++) {
+                    if (globalProvider.cartList.get(i).getId().equals(product.getId())) {
+                        cartLinearLayout.setVisibility(View.GONE);
+                        productSelectedLayout.setVisibility(View.VISIBLE);
+                        prodSelected = true;
+                        // Log.d("checkquntity",globalProvider.cartList.get(i).getTotalNumber() + "");
 
-                    quantityText.setText(globalProvider.cartList.get(i).getTotalNumber() + "");
-                    break;
+                        quantityText.setText(globalProvider.cartList.get(i).getTotalNumber() + "");
+                        break;
+                    }
+                    if (i == globalProvider.cartList.size() - 1) {
+                        productSelectedLayout.setVisibility(View.GONE);
+                        cartLinearLayout.setVisibility(View.VISIBLE);
+                        cartAddButton.setVisibility(View.VISIBLE);
+                    }
                 }
-                if(i==globalProvider.cartList.size()-1)
-                {
-                    productSelectedLayout.setVisibility(View.GONE);
-                    cartLinearLayout.setVisibility(View.VISIBLE);
-                }
+
+                if (prodSelected) {
+                    setCartNum(buyNumView);
+                } else
+                    setCartNum(numBadge);
+
+
+            } else {
+                productSelectedLayout.setVisibility(View.GONE);
+                cartLinearLayout.setVisibility(View.VISIBLE);
+                cartAddButton.setVisibility(View.VISIBLE);
+                HideCartNum();
             }
-
-            if (prodSelected) {
-                setCartNum(buyNumView);
-            } else
-                setCartNum(numBadge);
-
-
-
         }
-        else {
-            productSelectedLayout.setVisibility(View.GONE);
+        else
+        {
             cartLinearLayout.setVisibility(View.VISIBLE);
-            HideCartNum();
+            soldOutText.setVisibility(View.VISIBLE);
+            cartAddButton.setVisibility(View.GONE);
+            productSelectedLayout.setVisibility(View.GONE);
         }
     }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:clickable="true"
     android:focusableInTouchMode="true"
@@ -89,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="gone"
             android:id="@+id/open_fragment"
             >
 
@@ -150,6 +152,7 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/table_noround"
                 android:id="@+id/unit_num_edit"
+                android:textColor="@color/black"
 
                 android:hint="#07-02"
 
@@ -181,13 +184,20 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:id="@+id/notopen_fragment"
         android:visibility="gone"
-        android:background="@drawable/table_bkg"
+
+        android:id="@+id/notopen_fragment"
+
+
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/table_bkg"
+            android:orientation="vertical">
         
         <TextView
             android:layout_marginLeft="16dp"
@@ -197,27 +207,30 @@
             android:textColor="@color/red"
             android:text="@string/not_open_district"/>
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_width="290dp"
+            android:layout_height="54dp"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="@color/green"
+            android:background="@drawable/rounded_shape"
             android:gravity="center"
+
             android:textAlignment="gravity"
+            android:layout_gravity="center_horizontal"
             android:onClick="onButtonClicked"
             android:id="@+id/email_Clicked"
 
             android:textColor="@color/white"
             android:text="@string/email_notification"/>
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_width="290dp"
+            android:layout_height="54dp"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="@color/green"
+            android:background="@drawable/rounded_shape"
             android:id="@+id/telephone_clicked"
+            android:layout_gravity="center_horizontal"
 
             android:gravity="center"
             android:onClick="onButtonClicked"
@@ -226,13 +239,14 @@
             android:textColor="@color/white"
             android:text="@string/telephone_notification"/>
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
+            android:layout_width="290dp"
+            android:layout_height="54dp"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:background="@color/green"
+            android:background="@drawable/rounded_shape"
             android:gravity="center"
+            android:layout_gravity="center_horizontal"
             android:textAlignment="gravity"
             android:layout_marginBottom="8dp"
             android:onClick="onButtonClicked"
@@ -240,6 +254,137 @@
 
             android:textColor="@color/white"
             android:text="@string/no_need"/>
+    </LinearLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/table_bkg"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="4dp"
+            >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/watsapp_label"
+
+
+
+            android:text="@string/whatsapp_us"/>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="4dp"
+                android:id="@+id/whatsapp_copy"
+                android:layout_toRightOf="@id/watsapp_label"
+
+                android:src="@drawable/ic_action_copy"/>
+            </RelativeLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/wechat"
+            android:text="@string/wechat_us"/>
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginLeft="4dp"
+        android:layout_toRightOf="@id/wechat"
+        android:id="@+id/wechat_copy"
+
+        android:src="@drawable/ic_action_copy"/>
+
+
+</RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="4dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+
+             android:layout_toLeftOf="@id/qrcode"
+
+            android:text="@string/third"/>
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+
+                android:id="@+id/qrcode"
+
+                android:src="@drawable/sunshine"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scan_qr_code"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:layout_below="@id/qrcode"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+
+        android:layout_marginTop="20dp"
+        android:padding="2dp"
+
+
+        android:layout_centerHorizontal="true"
+
+
+
+        android:background="#ffffff"
+        android:text="@string/contact_us"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+
+
+
+
+
+</RelativeLayout>
 
 
     </LinearLayout>

@@ -2,6 +2,9 @@ package com.easybuy.sg.grouponebuy.activities;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -79,6 +82,7 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
     Button cancelButton,editOrderButton;
     TextView delivery_price;
     double eCoin;
+    ImageView copyImageView;
 
    // LinearLayout netBalanceLayout,subTotalLayout;
     TextView subTotalLabel,netBalanceLabel;
@@ -123,10 +127,12 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         cancelButton=(Button) findViewById(R.id.cancel);
         editOrderButton=(Button) findViewById(R.id.edit_order);
         backButton=(ImageView) findViewById(R.id.back);
+        copyImageView=(ImageView) findViewById(R.id.copy_img);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         Intent intent=getIntent();
         order=(Order)intent.getSerializableExtra("Order");
         String orderId=order.getId();
+        Log.d("checkorderid",orderId);
         orderDetailAdapter=new OrderDetailAdapter(this,productList,this,order.getState());
         orderListRecycler.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
@@ -197,6 +203,15 @@ public class OrderDetailActivity  extends AppCompatActivity implements OrderDeta
         }
         else
         checkOrderPaymentStatus(orderId);
+        copyImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newPlainText("orderId copied", order.getOrderCode());
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(OrderDetailActivity.this, "Saved to clip board", Toast.LENGTH_SHORT).show();
+            }
+        });
         // Checking If we need to refund anything to customer,cases where user has paid more than the total amount
         //If the Order state is processing or waiting,we will not check
         if(order.getState().equalsIgnoreCase("processing")||order.getState().equalsIgnoreCase("waiting"))

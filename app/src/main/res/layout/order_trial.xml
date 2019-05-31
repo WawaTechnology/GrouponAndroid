@@ -44,7 +44,8 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view">
+        app:layout_constraintTop_toTopOf="@+id/view"
+        app:layout_constraintVertical_bias="0.0">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -132,8 +133,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/orange"
                 android:text="TextView"
+                android:textColor="@color/orange"
                 app:layout_constraintStart_toEndOf="@+id/status_text"
                 app:layout_constraintTop_toBottomOf="@+id/delivery_datetext" />
 
@@ -241,14 +242,15 @@
                 android:text="$ 226.50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
             <TextView
                 android:id="@+id/textViewDelivery"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
-                android:textAlignment="textEnd"
                 android:text="@string/delivery_cost"
+                android:textAlignment="textEnd"
                 app:layout_constraintEnd_toStartOf="@+id/delivery_price"
                 app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
@@ -308,7 +310,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/net_balance" />
 
-
+            <ImageView
+                android:id="@+id/copy_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toEndOf="@+id/order_id"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_action_copy" />
 
 
         </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,84 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/red"></View>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:text="@string/tip"
+        android:gravity="center_horizontal"
+        android:textAlignment="gravity"/>
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+
+
+        android:text="@string/please_give_unit_num"/>
+
+    <EditText
+        android:layout_marginTop="16dp"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/black_rectangle"
+
+        android:id="@+id/unit_value_edittext"
+        android:hint="e.g. #07-02"
+
+        />
+    <View
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="1dp"
+        android:background="@color/grey_dark"></View>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAlignment="gravity"
+            android:id="@+id/no_unit_no"
+            android:layout_height="35dp"
+            android:text="@string/no_unit_no"/>
+
+        <View
+            android:layout_width="1dp"
+
+            android:layout_height="30dp"
+
+            android:background="@color/grey_dark"></View>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="35dp"
+            android:gravity="center"
+            android:id="@+id/confirm"
+            android:textAlignment="gravity"
+            android:text="@string/determine"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+</LinearLayout>

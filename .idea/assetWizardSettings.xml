@@ -33,8 +33,11 @@
                                   </option>
                                   <option name="values">
                                     <map>
+                                      <entry key="assetType" value="IMAGE" />
+                                      <entry key="imageAsset" value="$USER_HOME$/Desktop/copy.png" />
+                                      <entry key="outputName" value="ic_action_copy" />
                                       <entry key="theme" value="CUSTOM" />
-                                      <entry key="themeColor" value="008000" />
+                                      <entry key="themeColor" value="000000" />
                                     </map>
                                   </option>
                                 </PersistentState>

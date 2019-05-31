@@ -128,7 +128,7 @@ public class SpecialDetailAdapter extends RecyclerView.Adapter<SpecialDetailAdap
                         quantity = Integer.parseInt(holder.quantityText.getText().toString()) + 1;
 
                     }
-                    if(product.limitPurchase>0) {
+                    if(product.limitPurchase!=null&&product.limitPurchase>0) {
                         if (quantity > product.limitPurchase) {
                             Toast.makeText(context,context.getString(R.string.limit_sale_msg,product.limitPurchase),Toast.LENGTH_SHORT).show();
                             return;

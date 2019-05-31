@@ -7,12 +7,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Trace;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -96,6 +98,18 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+        //Signature[] sigs = new Signature[0];
+        try {
+            Signature[] sigs = getPackageManager().getPackageInfo(getPackageName(),PackageManager.GET_SIGNATURES).signatures;
+            for (Signature sig : sigs)
+            {
+
+                Log.d("MyAppsign", "Signature hashcode : " + sig.hashCode());
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
         //todo check if splashactivity is loaded when app goes in background with many apps opened
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());

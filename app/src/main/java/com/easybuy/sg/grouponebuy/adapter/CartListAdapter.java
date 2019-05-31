@@ -172,7 +172,7 @@ public class CartListAdapter extends RecyclerView.Adapter<CartListAdapter.MyView
                         quantity = Integer.parseInt(holder.quantityText.getText().toString()) + 1;
 
                     }
-                if(product.limitPurchase>0) {
+                if(product.limitPurchase!=null&&product.limitPurchase>0) {
                     if (quantity > product.limitPurchase) {
 
                         String msg = context.getString(R.string.limit_sale_msg,product.limitPurchase);

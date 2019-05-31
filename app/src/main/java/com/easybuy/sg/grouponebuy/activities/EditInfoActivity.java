@@ -84,16 +84,27 @@ public class EditInfoActivity extends AppCompatActivity {
         phoneLabel.setText(phoneTextLabel.substring(0,phoneTextLabel.length()-1));
         String emailTextLabel=getResources().getString(R.string.email);
         emailLabel.setText(emailTextLabel.substring(0,emailTextLabel.length()-1));
-        if (customer.address != null) {
+
+
+        if (customer.address != null&&customer.getDistrict()!=null) {
 
 
             if(Constants.getLanguage(EditInfoActivity.this).equals("english"))
             {
+
+                if(customer.address!=null&&customer.address.length()>1)
                 addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.postcode);
+                else
+                    addressText.setText(customer.getDistrict().getNameTertiaryEn()+" "+customer.getDistrict().getNameSecondaryEn()+" "+customer.postcode);
+
             }
             else
             {
+                if(customer.address!=null&&customer.address.length()>1)
                 addressText.setText(customer.address+" "+customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.postcode);
+                else
+                    addressText.setText(customer.getDistrict().getNameTertiaryCh()+" "+customer.getDistrict().getNameSecondaryCh()+" "+customer.postcode);
+
             }
 
         }

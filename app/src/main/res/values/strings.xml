@@ -62,6 +62,19 @@
     <string name="sub_total">SubTotal: </string>
     <string name="back">Back</string>
 
+    <string name="postal_code">Postal Code</string>
+    <string name="set_postal_code">Set Postal Code</string>
+    <string name="building_name">Building Name</string>
+    <string name="set_building_name">Set Building Name</string>
+    <string name="street_name">Street Name</string>
+    <string name="set_street_name">Set Street Name</string>
+    <string name="unitno">Unit No #</string>
+    <string name="set_unit_no">Set Unit No</string>
+    <string name="new_address">New Address</string>
+
+
+
+
 
 
     <string name="outOfStock">Sold Out</string>
@@ -107,6 +120,7 @@
     <string name="less_ecoin">You have less ecoins</string>
     <string name="withdraw_successful">Withdraw Successful</string>
     <string name="details">Details</string>
+    <string name="note">Note:</string>
 
 
     <string name="min_spend">Minimum spend for delivery is</string>
@@ -173,6 +187,15 @@
     <string name="no">No</string>
 
     <string name="click_if_paid">Click Me if You have paid</string>
+    <string name="none">None</string>
+    <string name="inform_by_phone">If no one is at home, inform by phone call</string>
+    <string name="inform_without_phone">If no one is at home, place products on doorway without phone call</string>
+    <string name="optional">Optional</string>
+    <string name="tip">Tip</string>
+    <string name="please_give_unit_num">Please give your unit number</string>
+    <string name="no_unit_no">No Unit No.</string>
+    <string name="determine">Confirm</string>
+
 
 
     <string name="signUp">Sign Up</string>
@@ -239,13 +262,17 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="ebuy_paynow">Ebuy PayNow Info</string>
     <string name="service_hotline">Service Hotline</string>
     <string name="account_setting">Account Setting</string>
-    <string name="paynow_hint">Note: If you select PayNow as payment, please scan the payment QR code on our receipt.
-We will handle your payment and display it on your order status within 24 hours
-.</string>
+    <string name="payment_hint1">1.You can scan QR code on receipt to pay by PayNow or PayLah.</string>
+    <string name="payment_hint2">2.We will handle your payment and display it on your order status within 24 hours.</string>
     <string name="do_not_ask_again">Do Not Ask Again</string>
     <string name="update">Update</string>
     <string name="sold_out">Sold Out</string>
     <string name="sold">Sold</string>
+    <string name="required">Required</string>
+    <string name="enter_pwd_again">Please Enter Password again</string>
+    <string name="fill_referrer_code">Please fill in the referrer\'s phone number if applicable</string>
+    <string name="invitation_code">Invitation Code</string>
+
 
     <string name="paynow_phone">Phone: 8518 9139 </string>
     <string name="account_paynow">Account: Ebuy Groupon</string>
@@ -271,11 +298,15 @@ We will handle your payment and display it on your order status within 24 hours
     <string name="delivery_address">Delivery Address</string>
     <string name="account_information">Account Information</string>
     <string name="merge_existing_order_ques">We found that you have order to be delivered.Would you like to merge the selected products into your exisiting orders ?</string>
-
+    <string name="scan_qr_code">Scan QR code</string>
     <string name="almost_sold_out">Almost Sold Out</string>
+    <string name="contact_us">Contact us for more information</string>
+    <string name="whatsapp_us">1. Whatsapp us at</string>
+    <string name="wechat_us">2. Search our wechat ID at</string>
+    <string name="third">3. </string>
 
     <string name="completed">Completed</string>
     <string name="waiting">Waiting</string>
-    <string name="not_open_district">The postal code of the area that haven’t have delivery service，we will try to open the service for you as soon as possible. You can choose any of the following ways to receive our opening notice.</string>
+    <string name="not_open_district">This address is waiting for open. Please select a way for us to inform you once the address is open.</string>
 
 </resources>

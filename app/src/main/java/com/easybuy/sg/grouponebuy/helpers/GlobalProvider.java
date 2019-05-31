@@ -32,6 +32,7 @@ import com.easybuy.sg.grouponebuy.model.FlashSale;
 import com.easybuy.sg.grouponebuy.model.Order;
 import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.model.ProductImageId;
+import com.easybuy.sg.grouponebuy.model.ShippingDate;
 import com.easybuy.sg.grouponebuy.model.SpecialImage;
 import com.easybuy.sg.grouponebuy.model.User;
 import com.easybuy.sg.grouponebuy.network.Constants;
@@ -49,6 +50,9 @@ public class GlobalProvider {
    public boolean hasSale;
    public Date saleDate;
   String customerId;
+ public int maxCount;
+ public List<ShippingDate> shippingDateList=new ArrayList<>();
+
  public List<SpecialImage> boardSpecialList=new ArrayList<>();
   public boolean isVersionCheckedDone;
 
@@ -88,6 +92,7 @@ public class GlobalProvider {
     public String selectedCategory;
   // private Customer customer;
     public ProductImageId specialBanner;
+    public SpecialImage specialBannerList;
 
     public List<ProductImageId> getDoubleProductImageList() {
         return doubleProductImageList;

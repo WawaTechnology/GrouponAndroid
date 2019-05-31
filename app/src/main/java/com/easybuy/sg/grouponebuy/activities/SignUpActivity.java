@@ -60,6 +60,8 @@ ImageView backButton;
 int responseCode;
 //Handler handler=new Handler();
 int n;
+boolean open=false;
+String invitationCode;
 
 
     public void onCreate(Bundle savedInstanceState)
@@ -71,6 +73,52 @@ int n;
         User user=new User();
         activitySignupBinding.setUsermodel(user);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
+        activitySignupBinding.code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(activitySignupBinding.code.getText().toString().trim().length()>0)
+                {
+                    invitationCode=activitySignupBinding.code.getText().toString();
+                }
+                else
+                    invitationCode=null;
+
+            }
+        });
+        activitySignupBinding.postcode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(activitySignupBinding.postcode.getText().toString().trim().length()<6)
+                {
+                    activitySignupBinding.postcode.setError("Invalid Postal Number");
+                }
+                else
+                {
+                    checkPostalStatus();
+                }
+
+            }
+        });
         activitySignupBinding.phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -229,6 +277,7 @@ int n;
 
 
 
+
         activitySignupBinding.email.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -284,6 +333,10 @@ int n;
                     activitySignupBinding.postcode.setError("Please Enter Postal");
 
                 }
+              else if(activitySignupBinding.postcode.getText().toString().length()<6)
+                {
+                    activitySignupBinding.postcode.setError("Incorrect Postal");
+                }
 
 
 
@@ -306,15 +359,25 @@ int n;
                 */
                else {
                     User user=activitySignupBinding.getUsermodel();
-                    Map<String,String> map=new HashMap<>();
+
+
+
+
+                            Map < String, String > map = new HashMap<>();
                     map.put("userName",activitySignupBinding.name.getText().toString());
                     map.put("email",activitySignupBinding.email.getText().toString());
                     map.put("phone",activitySignupBinding.phone.getText().toString());
                     map.put("password",activitySignupBinding.password.getText().toString());
                     map.put("postcode",activitySignupBinding.postcode.getText().toString());
+                    if(invitationCode!=null)
+                    {
+                        map.put("code",invitationCode);
+                    }
+
                     CustomRequest customRequest=new CustomRequest(Request.Method.POST, signUpUrl, map, new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+
 
                         // Log.d("checksignupres",response.toString());
                          String result=response.toString();
@@ -323,6 +386,12 @@ int n;
 
 
                             try {
+                                if(response.getInt("status")==404)
+                                {
+                                    Toast.makeText(SignUpActivity.this,response.getString("msg"),Toast.LENGTH_SHORT).show();
+                                    return;
+
+                                }
 
 
                                 JsonParser jsonParser = jsonFactory.createParser(result);
@@ -338,15 +407,29 @@ int n;
                                     Constants.setCustomer(SignUpActivity.this,customer);
                                     globalProvider.setCustomerId(customer.customer_id);
                                     globalProvider.setLogin(true);
-                                    Intent intent = new Intent(SignUpActivity.this, DistrictSettingActivity.class);
-                                    intent.putExtra("postal",activitySignupBinding.postcode.getText().toString());
-                                    startActivity(intent);
+                                    Log.d("open",open+"");
+                                    if(open) {
+                                        Intent intent = new Intent(SignUpActivity.this, DistrictSettingActivity.class);
+                                        intent.putExtra("postal", activitySignupBinding.postcode.getText().toString());
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                    else
+                                    {
+                                        Intent intent = new Intent(SignUpActivity.this, NewAddressActivity.class);
+                                        intent.putExtra("postal",activitySignupBinding.postcode.getText().toString());
+                                       // intent.putExtra("postal", activitySignupBinding.postcode.getText().toString());
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
 
 
                             }
                             catch(IOException e)
                             {
+                                e.printStackTrace();
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
@@ -439,6 +522,44 @@ int n;
             }
         }
         return super.dispatchTouchEvent( event );
+    }
+    private void checkPostalStatus()
+    {
+        int postal=Integer.parseInt(activitySignupBinding.postcode.getText().toString());
+        if((postal>=625000&&postal<629999)||(postal>=635000&&postal<639999)||(postal>=715000&&postal<719999)||(postal>=725000&&postal<=729999)||(postal>=98000&&postal<=98999)||(postal>=58000&&postal<=60000))
+        {
+            open=true;
+            return;
+        }
+        Map<String,String> postCodeMap=new HashMap<>();
+        postCodeMap.put("postcode",activitySignupBinding.postcode.getText().toString());
+        CustomRequest customRequest=new CustomRequest(Request.Method.POST, Constants.districtUrl, postCodeMap, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    int strState=response.getInt("status");
+                    if(strState==2)
+                    {
+                        open=false;
+
+                    }
+                    else if(strState==0)
+                    {
+                        open=true;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        globalProvider.addRequest(customRequest);
     }
     /*
     final Runnable runnable=new Runnable() {

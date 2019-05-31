@@ -3,9 +3,12 @@ package com.easybuy.sg.grouponebuy.activities;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -67,6 +71,8 @@ public class DistrictSettingActivity extends AppCompatActivity  {
     TextView addressText,cycleText,deliveryText;
     LinearLayout deliveryTimeLayout;
     LinearLayout notOpenLayout,openLayOut;
+    ImageView whatsAppCopyImageView,weChatCopyImageView;
+    TextView weChatText,whatsAppText;
 
     Button bindingButton;
     private String districtId;
@@ -84,6 +90,10 @@ public class DistrictSettingActivity extends AppCompatActivity  {
         emailButton=(Button)findViewById(R.id.email_Clicked);
         telephoneButton=(Button)findViewById(R.id.telephone_clicked);
         noNeedButton=(Button)findViewById(R.id.no_needClicked);
+        weChatCopyImageView=(ImageView)findViewById(R.id.wechat_copy);
+        whatsAppCopyImageView=(ImageView)findViewById(R.id.whatsapp_copy);
+        weChatText=(TextView)findViewById(R.id.wechat);
+        whatsAppText=(TextView)findViewById(R.id.watsapp_label);
         if(globalProvider.getCustomerId()!=null)
         {
             if(Constants.getCustomer(getApplicationContext()).address!=null&&Constants.getCustomer(getApplicationContext()).address.length()>0)
@@ -121,6 +131,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
 
 
 
+
         Intent intent = getIntent();
         postalcode = intent.getStringExtra("postal");
         postCodeChanged=intent.getBooleanExtra("postCodeChanged",false);
@@ -136,6 +147,11 @@ public class DistrictSettingActivity extends AppCompatActivity  {
             resultPostalText.setText(resultString);
 
         }
+        String watsAPPContact=getString(R.string.whatsapp_us)+" "+"<font color='red'>85189139</font>";
+        whatsAppText.setText(Html.fromHtml(watsAPPContact), TextView.BufferType.SPANNABLE);
+        String weChatContact=getString(R.string.wechat_us)+" "+"<font color='red'>EbuyAssistant</font>";
+        weChatText.setText(Html.fromHtml(weChatContact),TextView.BufferType.SPANNABLE);
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +175,32 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                     finish();
             }
         });
+        weChatCopyImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                copyToClipBoard("Copied WeChatId","EbuyAssistant");
+
+
+            }
+        });
+        whatsAppCopyImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                copyToClipBoard("Copied Watsapp Number","85189139");
+
+            }
+        });
+    emailButton.getLayoutParams().width=500;
+        emailButton.getLayoutParams().height=70;
+        emailButton.requestLayout();
+        telephoneButton.getLayoutParams().width=500;
+        telephoneButton.getLayoutParams().height=70;
+        telephoneButton.requestLayout();
+        noNeedButton.getLayoutParams().width=500;
+        noNeedButton.getLayoutParams().height=70;
+        noNeedButton.requestLayout();
+
      
 
 
@@ -218,6 +260,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                     }
                     String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
                     Map<String, String> param = new HashMap<>();
+                    Log.d("checkaddres",unitNumEdit.getText().toString());
                     param.put("address", unitNumEdit.getText().toString());
                     CustomRequest unitChangeRequest = new CustomRequest(Request.Method.PATCH, url, param, new Response.Listener<JSONObject>() {
                         @Override
@@ -386,6 +429,13 @@ public class DistrictSettingActivity extends AppCompatActivity  {
         */
     }
 
+    private void copyToClipBoard(String label, String text) {
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText(label, text);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(DistrictSettingActivity.this, "Saved to clip board", Toast.LENGTH_SHORT).show();
+    }
+
     private void checkPostalStatus(final String postalcode) {
         Map<String,String> params=new HashMap<>();
         params.put("postcode",postalcode);
@@ -464,10 +514,10 @@ public class DistrictSettingActivity extends AppCompatActivity  {
                                         //unitNumEdit.setVisibility(View.GONE);
                                        // unitNumberText.setVisibility(View.VISIBLE);
                                     }
+                            unitNumEdit.setVisibility(View.VISIBLE);
+                            bindingButton.setVisibility(View.VISIBLE);
 
-                                       // Log.d("buttonno","yes");
-                                        unitNumEdit.setVisibility(View.VISIBLE);
-                                        bindingButton.setVisibility(View.VISIBLE);
+
 
 
 
@@ -526,6 +576,7 @@ public class DistrictSettingActivity extends AppCompatActivity  {
     }
     public void onButtonClicked(View view)
     {
+
         String choice=null;
 
         switch (view.getId())
@@ -548,54 +599,62 @@ public class DistrictSettingActivity extends AppCompatActivity  {
             }
 
         }
+        Log.d("choice",choice);
        // Log.d("choice",choice);
         //Log.d("postcodee",postalcode);
+        if(globalProvider.isLogin()) {
 
 
-        String url=Constants.applyDistrictUrl;
+            String url = Constants.applyDistrictUrl;
 
-        Map<String,String> params=new HashMap<>();
-        params.put("postcode",postalcode);
-        params.put("name",choice);
-        params.put("applicant",globalProvider.getCustomerId());
-        String language=Constants.getLanguage(getApplicationContext());
-        if(language.equals("english"))
-        {
-            params.put("lang","en");
+            Map<String, String> params = new HashMap<>();
+            params.put("postcode", postalcode);
+            params.put("name", choice);
+            params.put("applicant", globalProvider.getCustomerId());
+            String language = Constants.getLanguage(getApplicationContext());
+            if (language.equals("english")) {
+                params.put("lang", "en");
+            } else
+                params.put("lang", "ch");
+
+            CustomRequest customRequest = new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Log.d("applyresponse",response.toString());
+                    try {
+                        if (response.getInt("status") == 0 || response.getInt("status") == 2) {
+
+                            Toast.makeText(DistrictSettingActivity.this, "Message sent successfully!", Toast.LENGTH_SHORT).show();
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(DistrictSettingActivity.this, MainActivity.class);
+
+                                    startActivity(intent);
+
+                                }
+                            }, 2000);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+            globalProvider.addRequest(customRequest);
         }
         else
-            params.put("lang","ch");
-        CustomRequest customRequest=new CustomRequest(Request.Method.POST, url, params, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-               // Log.d("applyresponse",response.toString());
-                try {
-                    if(response.getInt("status")==0||response.getInt("status")==2) {
-
-                        Toast.makeText(DistrictSettingActivity.this, "Message sent successfully!", Toast.LENGTH_SHORT).show();
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(DistrictSettingActivity.this, MainActivity.class);
-
-                                startActivity(intent);
-
-                            }
-                        }, 2000);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        globalProvider.addRequest(customRequest);
+        {
+            Intent intent=new Intent(DistrictSettingActivity.this,SignInActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
 
 

@@ -13,7 +13,15 @@ public class User extends BaseObservable implements Serializable{
    private String email,userName,password;
    String phone,postcode;
    String address;
+   String code;
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getEmail() {
         return email;

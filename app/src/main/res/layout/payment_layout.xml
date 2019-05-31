@@ -264,6 +264,60 @@
             android:background="@color/new_grey"></ImageView>
 
         <RelativeLayout
+            android:id="@+id/optional_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:background="@color/white"
+                android:text="@string/optional"
+                android:id="@+id/label"
+                android:textColor="@android:color/black"
+
+
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/optional_choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="32dp"
+
+                android:layout_toRightOf="@id/label"
+                android:layout_toLeftOf="@id/arrow4"
+                android:maxLines="1"
+                android:maxEms="5"
+
+
+                android:ellipsize="end"
+
+
+
+                android:textColor="@android:color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/arrow4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+
+                android:text=">"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/new_grey"></ImageView>
+
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="5dp">

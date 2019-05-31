@@ -23,7 +23,8 @@
     <string name="order_updated_success">订单修改成功</string>
     <string name="some_item_na">部分产品库存暂时不足</string>
     <string name="payment_method">支付方式:</string>
-    <string name="payment_hint">注: 如果支付方式选择PayNow，请转账至</string>
+    <string name="payment_hint1">1.PayNow付款可以直接扫描收据上的二维码</string>
+    <string name="payment_hint2">2.付款信息将会在付款之后24小时内更新</string>
     <string name="cash">现金</string>
     <string name="yes">确定</string>
     <string name="no">不需要</string>
@@ -44,6 +45,20 @@
     <string name="end_page">没有更多了</string>
     <string name="back">保存</string>
     <string name="click_if_paid">显示有误? 点我</string>
+    <string name="scan_qr_code">扫描二维码</string>
+    <string name="none">无</string>
+    <string name="inform_by_phone">如果人不在家，电话通知</string>
+    <string name="inform_without_phone">如果人不在家，货物放门口，不需要电话通知</string>
+    <string name="optional">特殊要求</string>
+    <string name="tip">提示</string>
+    <string name="please_give_unit_num">请输入门牌号</string>
+    <string name="no_unit_no">无门牌号</string>
+    <string name="determine">确定</string>
+    <string name="contact_us">联系小助手，获取更多信息</string>
+    <string name="whatsapp_us">方式一: Whatsapp联系</string>
+    <string name="wechat_us">方式二：微信搜索</string>
+    <string name="third">方式三: </string>
+
 
     <string name="password">密码:</string>
     <string name="phone">手机号码:</string>
@@ -169,6 +184,10 @@
     <string name="not_refund">未退款</string>
     <string name="delivery_address">送货地址</string>
     <string name="account_information">账户信息</string>
+    <string name="required">必填</string>
+    <string name="enter_pwd_again">请再次输入密码</string>
+    <string name="fill_referrer_code">选填，若有填写推荐人手机号即可</string>
+    <string name="invitation_code">邀请码</string>
 
     <string name="payment">未付款</string>
     <string name="all_order">全部订单</string>
@@ -181,10 +200,11 @@
 
     <string name="balance">余额</string>
     <string name="all_tab">所有记录</string>
+    <string name="note">注意:</string>
 
 
 
-    <string name="submit">结算</string>
+    <string name="submit">提交</string>
     <string name="service">商家服务</string>
     <string name="about_ebuy">Ebuy is an Internet e-commerce company.\nWe have 7 years experience in this area,we will provide you with fresh supply
         of vegetables,fruits,meat,dried food and cooked food.\n\nWith the powerful supply chain system and good reputation,we have cooperation
@@ -249,6 +269,16 @@
     <string name="save">保存</string>
     <string name="payment_status">付款状态:</string>
     <string name="customer_service_tel">客服电话: 85189139</string>
+
+    <string name="postal_code">邮编号码</string>
+    <string name="set_postal_code">设置邮编号码</string>
+    <string name="building_name">建筑名称</string>
+    <string name="set_building_name">设置公寓大牌号</string>
+    <string name="street_name">街道地址</string>
+    <string name="set_street_name">设置街道地址</string>
+    <string name="unitno">门牌号 #</string>
+    <string name="set_unit_no">设置门牌号</string>
+    <string name="new_address">设置收货地址</string>
 
     <string name="paynow_handle">请给我们的PayNow账户转账，付款状态显示或有延迟，我们将在24小时内处理</string>
     <string name="account_paynow">账户:  EBuy Groupon</string>

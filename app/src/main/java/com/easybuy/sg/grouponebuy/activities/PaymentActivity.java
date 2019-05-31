@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -50,6 +51,7 @@ import com.easybuy.sg.grouponebuy.adapter.CustomAlertAdapter;
 import com.easybuy.sg.grouponebuy.adapter.ProductImageAdapter;
 import com.easybuy.sg.grouponebuy.adapter.SelectDateAdapter;
 import com.easybuy.sg.grouponebuy.fragment.FragmentCart;
+import com.easybuy.sg.grouponebuy.helpers.CustomRequest;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.model.CartProduct;
 import com.easybuy.sg.grouponebuy.model.Customer;
@@ -62,10 +64,13 @@ import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.model.ProductInfo;
 import com.easybuy.sg.grouponebuy.model.ProductStock;
 import com.easybuy.sg.grouponebuy.model.ResultProductList;
+import com.easybuy.sg.grouponebuy.model.ShippingDate;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.DateChangeListener;
 import com.easybuy.sg.grouponebuy.utils.InvoiceChoiceListener;
+import com.easybuy.sg.grouponebuy.utils.OptionalChoiceListener;
 import com.easybuy.sg.grouponebuy.utils.PaymentChoiceListener;
+import com.easybuy.sg.grouponebuy.utils.UnitChoiceListener;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -84,17 +89,20 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 
-public class PaymentActivity extends AppCompatActivity implements DateChangeListener,PaymentChoiceListener {
+public class PaymentActivity extends AppCompatActivity implements DateChangeListener,PaymentChoiceListener,OptionalChoiceListener,UnitChoiceListener {
     RecyclerView imageRecycler;
     GlobalProvider globalProvider;
     RelativeLayout paymentLayout;
     ImageView backButton;
     TextView addressText;
+    TextView optionalChoiceText;
 
     TextView totalText;
     TextView numItemsText;
@@ -102,10 +110,12 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     TextView freeDeliveryCostMsg;
     double freeDeliveryPrice;
     int res;
+    int optionDefaultChoice=-1;
    // String previousOrderDate;
 
     TextView deliveryDateText;
     RelativeLayout prodLayout;
+    RelativeLayout optionLayout;
    // TextView invoiceChoiceText;
     TextView paymentMethodChoice;
     TextView subTotalText;
@@ -135,6 +145,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     Customer customer;
     public static final int DELIVERY_CONSTANT=212;
     ProductImageAdapter productImageAdapter;
+    Date now;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -145,7 +156,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         freeDeliveryLayout=(LinearLayout) findViewById(R.id.freedeliverymsg_layout);
         freeDeliveryCostMsg=(TextView) findViewById(R.id.free_deliverycost_msg);
         prodLayout = (RelativeLayout) findViewById(R.id.pd_layout);
-
+        optionLayout=(RelativeLayout) findViewById(R.id.optional_layout);
+        optionalChoiceText=(TextView)findViewById(R.id.optional_choice) ;
         totalText=(TextView) findViewById(R.id.total);
         deliveryList = new ArrayList<>();
         prevOrderList = new ArrayList<>();
@@ -156,6 +168,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         paymentLayout = (RelativeLayout) findViewById(R.id.payment_layout);
         customer = Constants.getCustomer(this);
         district = customer.getDistrict();
+        now=new Date();
         lang = Constants.getLanguage(this);
         Intent intent = getIntent();
        // totalamt = intent.getDoubleExtra("totalamt", 0.0);
@@ -217,10 +230,23 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
             invoiceChoiceText.setText(R.string.no);
             */
         String address = null;
-        if (lang.equals("english"))
-            address = customer.address + ", " + district.getNameTertiaryEn() + ", " + district.getNameSecondaryEn() ;
-        else
-            address = customer.address + ", " + district.getNameTertiaryCh() + ", " + district.getNameSecondaryCh()  ;
+        if (lang.equals("english")) {
+            if (customer.address != null&&customer.address.length()>1) {
+                address = customer.address + ", " + district.getNameTertiaryEn() + ", " + district.getNameSecondaryEn();
+            }
+            else
+            {
+                address=district.getNameTertiaryEn() + ", " + district.getNameSecondaryEn();
+            }
+        }
+
+        else {
+            if (customer.address != null&&customer.address.length()>1) {
+                address = customer.address + ", " + district.getNameTertiaryCh() + ", " + district.getNameSecondaryCh();
+            }
+            else
+                address=district.getNameTertiaryCh()+", " + district.getNameSecondaryCh();
+        }
        // Log.d("address",address);
         freeDeliveryPrice=Constants.getCustomer(PaymentActivity.this).getDistrict().getFreeDeliveryPrice();
 
@@ -231,6 +257,15 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        optionLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                DialogFragment dialogFragment = new OptionalMethodFragment();
+                dialogFragment.show(fragmentManager, "optional");
+
+            }
+        });
         paymentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -280,8 +315,17 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                         .setPositiveButton(getString(R.string.confm), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                Log.d("submitclicked","true");
                                 //submit.setEnabled(false);
                                 submitButton.setClickable(false);
+                                if(customer.address==null||customer.address.length()<1) {
+                                    showUnitNumberAlert();
+                                    Log.d("unitalert","true");
+                                    return;
+                                }
+
+
+
 
 
 
@@ -307,12 +351,38 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                             jsonObject1.put("active", customer.customer_id);
                                             jsonObject2.put("userInfo", jsonObject1);
                                             jsonObject2.put("shippingDate", deliveryDat);
-                                            jsonObject2.put("remark", remarkText.getText().toString());
+
                                            // Log.d("totalpp",subTotal+"");
                                             jsonObject2.put("freeDeliveryPrice",freeDeliveryPrice);
                                             jsonObject2.put("deliveryPrice",deliveryPrice);
                                             jsonObject2.put("totalPrice", subTotal + "");
                                             jsonObject2.put("district", district.getId());
+                                            if(optionDefaultChoice!=0)
+                                            {
+                                                String msg="";
+                                                if(!remarkText.getText().toString().isEmpty())
+                                                {
+                                                    msg+=remarkText.getText().toString();
+                                                }
+                                                if(optionDefaultChoice==1)
+                                                {
+                                                    msg+="If no one is at home, inform by phone call"+" 人不在家，电话通知";
+                                                }
+                                                else
+                                                {
+                                                    msg+="If no one is at home, place products on doorway without phone call "+"人不在家，直接放门口，不需要通知";
+                                                }
+                                                jsonObject2.put("remark", msg);
+
+
+                                            }
+                                            else
+                                            {
+                                                if(!remarkText.getText().toString().isEmpty())
+                                                jsonObject2.put("remark", remarkText.getText().toString());
+                                                else
+                                                    jsonObject2.put("remark","");
+                                            }
 
                                             //todo use radiobutton value
                                             //  Log.d("invoicetext", invoiceChoiceText.getText().toString());
@@ -691,6 +761,15 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         });
     }
 
+    private void showUnitNumberAlert() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        DialogFragment dialogFragment = new UnitInputDialogFragment();
+        dialogFragment.show(fragmentManager, "unit");
+
+
+    }
+
+
     private void displayStockList(final List<ProductStock> productStockList) {
         submitButton.setClickable(true);
 
@@ -924,7 +1003,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
 
         Calendar calendar = Calendar.getInstance();
-        Date now = new Date();
+
         calendar.setTime(now);
         SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
         todayWEEK = calendar.get(Calendar.DAY_OF_WEEK);
@@ -947,10 +1026,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         }
         //cases where todayweek is sunday i.e 7, adn delivery can go on mon,tuesday
-        if (deliveryWeek == todayWEEK) {
 
-
-        } else {
             while (deliveryWeek != todayWEEK) {
                 if (todayWEEK == 7) {
                     todayWEEK = 0;
@@ -958,6 +1034,30 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                 todayWEEK += 1;
                 now = addDays(now, 1);
 
+
+            }
+
+        for(ShippingDate shippingDate:globalProvider.shippingDateList)
+        {
+            if(shippingDate.getCurrentCount()>=globalProvider.maxCount)
+            {
+                Log.d("loopcheck","here");
+                TimeZone utc = TimeZone.getTimeZone("UTC");
+                SimpleDateFormat sd = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                sd.setTimeZone(utc);
+                Date sdp = sd.parse(shippingDate.getShippingDate());
+               // Log.d("datesdp",sdp.toString());
+               // Log.d("nowdate",now.toString());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                if(sdf.format(sdp).equals(sdf.format(now)))
+
+                {
+                    Log.d("changeddateheremax","true");
+
+                    calculateDeliveryDate();
+
+                    return;
+                }
 
             }
         }
@@ -1260,6 +1360,279 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
 
         e.commit();
+
+    }
+
+    @Override
+    public void OptionalMethodSelected(int pos) {
+        if(pos==0)
+        {
+            optionDefaultChoice=0;
+            optionalChoiceText.setText("");
+            //optionalChoiceText.setText(getString(R.string.none));
+
+        }
+        else if(pos==1)
+        {
+            optionDefaultChoice=1;
+            optionalChoiceText.setText(getString(R.string.inform_by_phone));
+        }
+        else
+        {
+            optionDefaultChoice=2;
+            optionalChoiceText.setText(getString(R.string.inform_without_phone));
+        }
+
+    }
+
+    @Override
+    public void unitChoiceSelected(String res) {
+        String url=Constants.updateProfileUrl+globalProvider.getCustomerId();
+        Map<String, String> param = new HashMap<>();
+        param.put("address", res);
+        CustomRequest customRequest=new CustomRequest(Request.Method.POST, url, param, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.getInt("status")==0)
+                    {
+                        Log.d("checkresponse",response.toString());
+                        customer.setAddress(res);
+                        Constants.setCustomer(PaymentActivity.this,null);
+                        Constants.setCustomer(PaymentActivity.this,customer);
+                        Log.d("checkcustomeraddress",customer.address);
+
+
+                        submitButton.setClickable(true);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        globalProvider.addRequest(customRequest);
+
+      /*  String url = Constants.favouriteUrl + "/" + globalProvider.getCustomerId();
+        Map<String, String> param = new HashMap<>();
+        param.put("address", res);
+        CustomRequest unitChangeRequest = new CustomRequest(Request.Method.PATCH, url, param, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                // Log.d("checlres", response.toString());
+                try {
+                    if (response.getInt("status") == 0) {
+
+                        Log.d("checkresponse",response.toString());
+                        customer.setAddress(res);
+                        Constants.setCustomer(PaymentActivity.this,null);
+                        Constants.setCustomer(PaymentActivity.this,customer);
+                        Log.d("checkcustomeraddress",customer.address);
+
+
+                        submitButton.setClickable(true);
+
+
+
+
+
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                // Log.d("bindingerror", error.toString());
+
+            }
+        });
+
+        globalProvider.addRequest(unitChangeRequest);
+        */
+
+    }
+
+    public static class UnitInputDialogFragment extends DialogFragment
+    {
+        EditText unitNumberText;
+        TextView noUnitChoiceText;
+        TextView confirmText;
+        UnitChoiceListener unitChoiceListener;
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+            // request a window without the title
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+
+            return dialog;
+        }
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            // Verify that the host activity implements the callback interface
+            try {
+                // Instantiate the EditNameDialogListener so we can send events to the host
+
+                unitChoiceListener = (UnitChoiceListener) context;
+            } catch (ClassCastException e) {
+                // The activity doesn't implement the interface, throw exception
+                throw new ClassCastException(context.toString()
+                        + " must implement UnitChoiceListener");
+
+            }
+        }
+        @Override
+        public void onDetach()
+        {
+            unitChoiceListener=null;
+            super.onDetach();
+
+        }
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+           // setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogStyle);
+
+        }
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View view= inflater.inflate(R.layout.unitselect_dialog, container);
+            //getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+           // getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            unitNumberText=(EditText) view.findViewById(R.id.unit_value_edittext);
+            noUnitChoiceText=(TextView)view.findViewById(R.id.no_unit_no);
+            confirmText=(TextView)view.findViewById(R.id.confirm);
+
+            noUnitChoiceText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    unitChoiceListener.unitChoiceSelected("*");
+                    dismiss();
+                }
+            });
+           confirmText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    unitChoiceListener.unitChoiceSelected(unitNumberText.getText().toString());
+                    dismiss();
+                }
+            });
+
+
+
+
+
+
+
+            return view;
+        }
+        @Override
+        public void onStart()
+        {
+            getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            super.onStart();
+
+        }
+
+
+
+
+
+
+    }
+
+    public static class OptionalMethodFragment extends DialogFragment
+    {
+        TextView noneTextView;
+        TextView informByPhoneTextView;
+        TextView informDoorStepTextView;
+        OptionalChoiceListener optionalChoiceListener;
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+            // request a window without the title
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            return dialog;
+        }
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            // Verify that the host activity implements the callback interface
+            try {
+                // Instantiate the EditNameDialogListener so we can send events to the host
+
+                optionalChoiceListener = (OptionalChoiceListener) context;
+            } catch (ClassCastException e) {
+                // The activity doesn't implement the interface, throw exception
+                throw new ClassCastException(context.toString()
+                        + " must implement PaymentChoiceListener");
+
+            }
+        }
+        @Override
+        public void onDetach()
+        {
+            optionalChoiceListener=null;
+            super.onDetach();
+
+        }
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+        }
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View view= inflater.inflate(R.layout.optional_dialog, container);
+            noneTextView=(TextView)view.findViewById(R.id.none);
+            informByPhoneTextView=(TextView)view.findViewById(R.id.inform_phone);
+            informDoorStepTextView=(TextView)view.findViewById(R.id.inform_without_phone);
+            noneTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    optionalChoiceListener.OptionalMethodSelected(0);
+                    dismiss();
+                }
+            });
+            informByPhoneTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    optionalChoiceListener.OptionalMethodSelected(1);
+                    dismiss();
+                }
+            });
+            informDoorStepTextView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    optionalChoiceListener.OptionalMethodSelected(2);
+                    dismiss();
+                }
+            });
+
+
+
+
+
+
+
+            return view;
+        }
 
     }
 

@@ -57,7 +57,7 @@ import static android.view.View.GONE;
 import static com.easybuy.sg.grouponebuy.network.Constants.loginUrlStr;
 
 public class SignInActivity extends AppCompatActivity {
-    TextView signupText,userNameText;
+    TextView signupText;
     EditText phoneText,pwdText;
     Button submitButton;
     TextView forgotPasswordTextView;
@@ -70,16 +70,17 @@ public class SignInActivity extends AppCompatActivity {
         signupText=(TextView)findViewById(R.id.signup);
         phoneText=(EditText)findViewById(R.id.phone_num) ;
         pwdText=(EditText) findViewById(R.id.pwd);
-        userNameText=(TextView) findViewById(R.id.user_name);
+        //userNameText=(TextView) findViewById(R.id.user_name);
         submitButton=(Button)findViewById(R.id.submit);
         forgotPasswordTextView=(TextView) findViewById(R.id.forgot);
         backButton=(ImageView) findViewById(R.id.back);
         globalProviderInstance=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
-        try {
+     /*   try {
             findHistoryList();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        */
 
 
         signupText.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +161,7 @@ public class SignInActivity extends AppCompatActivity {
                                     Constants.setCustomer(SignInActivity.this,customer.getCustomer());
                                     Customer customers=Constants.getCustomer(SignInActivity.this);
                                    // Log.d("checkcknm",customers.getUserName());
-                                    saveHistory(customer.getCustomer().userName);
+                                   // saveHistory(customer.getCustomer().userName);
 
                                     Intent intent = new Intent(SignInActivity.this, MainActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -242,7 +243,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
     }
-    private void findHistoryList() throws IOException {
+   /* private void findHistoryList() throws IOException {
 
         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/ebuygroupon.txt");
 
@@ -279,6 +280,7 @@ public class SignInActivity extends AppCompatActivity {
         osw.close();
         fos.close();
     }
+    */
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {

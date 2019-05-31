@@ -301,7 +301,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 quantity = Integer.parseInt(myholder.quantityText.getText().toString()) + 1;
 
                             }
-                            if(product.limitPurchase>0) {
+                            if(product.limitPurchase!=null&&product.limitPurchase>0) {
                                 if (quantity > product.limitPurchase) {
 
                                     String msg=context.getResources().getString(R.string.limit_sale_msg,product.limitPurchase);
@@ -372,11 +372,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
 
                 });
+                myholder.prodName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, ProductDetailActivity.class);
+                        intent.putExtra("product", product);
+                        ((Activity) context).startActivity(intent);
+
+                    }
+                });
 
 
 
                 myholder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(context, ProductDetailActivity.class);

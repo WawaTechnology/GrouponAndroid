@@ -562,11 +562,21 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         //  LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
         // activityHomeBinding.singleToprecycler.setLayoutManager(linearLayoutManager);
         //activityHomeBinding.singleToprecycler.setAdapter(singleTopAdapter);
-        if(globalProvider.specialBanner!=null) {
+        if(globalProvider.specialBanner!=null||globalProvider.specialBannerList!=null) {
 
             int bannerHeight = (int) (width / 3.3);
             activityHomeBinding.specialBanner.getLayoutParams().height = bannerHeight;
             activityHomeBinding.specialBanner.requestLayout();
+            if(globalProvider.specialBannerList!=null)
+            {
+                Log.d("heresp","here");
+                if(language.equals("english"))
+                Glide.with(getContext()).load(Constants.newImageUrl + globalProvider.specialBannerList.getImageEntryEn()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
+                else
+                    Glide.with(getContext()).load(Constants.newImageUrl + globalProvider.specialBannerList.getImageEntryCh()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
+
+            }
+            else
 
             Glide.with(getContext()).load(Constants.newImageUrl + globalProvider.specialBanner.getProductCover()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
         }
@@ -576,9 +586,17 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         activityHomeBinding.specialBanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getContext(), ProductDetailActivity.class);
-                intent.putExtra("product",globalProvider.specialBanner.getProduct());
-                startActivity(intent);
+                if(globalProvider.specialBannerList==null) {
+                    Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+                    intent.putExtra("product", globalProvider.specialBanner.getProduct());
+                    startActivity(intent);
+                }
+                else
+                {
+                    Intent intent = new Intent(getContext(), SpecialSaleLayout.class);
+                    intent.putExtra("specialImage", globalProvider.specialBannerList);
+                    startActivity(intent);
+                }
             }
         });
 

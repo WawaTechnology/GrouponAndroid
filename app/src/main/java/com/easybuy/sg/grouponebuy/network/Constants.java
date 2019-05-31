@@ -18,14 +18,16 @@ import java.util.Map;
 
 public class Constants  {
     //testing url
-//static public String baseUrlStr = "http://13.250.234.103:3000/";
+static public String baseUrlStr = "http://13.250.234.103:3000/";
 //buisness url
-static public String baseUrlStr = "http://13.251.164.198:3000/";
+//static public String baseUrlStr = "http://13.251.164.198:3000/";
     static public String loginUrlStr = baseUrlStr + "users/login";
     static public String newImageUrl="https://s3-ap-southeast-1.amazonaws.com/ebuymart/";
     static public String signUpUrl=baseUrlStr+"users/signUp";
     static public String districtUrl=baseUrlStr+"districts/search";
+    static public String createDistrictUrl=baseUrlStr+"districts/create";
     static public String categoryUrl=baseUrlStr+"categories";
+    static public String updateProfileUrl=baseUrlStr+"users/updateProfile/";
     static public String specialCategoryUrl=baseUrlStr+"categoriesSpecial";
     static public String removeAddressUrl=baseUrlStr+"users/removeAddress/";
     static public String adwordsUrl=baseUrlStr+"adwords";

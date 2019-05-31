@@ -68,8 +68,11 @@ public class DeliveryAddressAdapter extends RecyclerView.Adapter<DeliveryAddress
         Address address=addressList.get(position);
 
            // Log.d("checkunit",address.getUnit());
+        if(address.getUnit()!=null&&address.getUnit().length()>1)
 
         holder.primaryAddressText.setText(address.getUnit()+" , "+address.getDistrict().getNameTertiaryEn()+" "+address.getDistrict().getNameSecondaryEn());
+        else
+            holder.primaryAddressText.setText(address.getDistrict().getNameTertiaryEn()+" "+address.getDistrict().getNameSecondaryEn());
       //  holder.districtText.setText(address.getDistrict().getNamePrimaryEn());
         holder.postCodeText.setText(context.getResources().getString(R.string.singapore)+" "+address.getDistrict().getPostcode());
         if(position==0)

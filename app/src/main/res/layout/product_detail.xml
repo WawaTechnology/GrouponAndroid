@@ -22,14 +22,14 @@
 
             <ImageView
                 android:id="@+id/bkbutton"
-                android:layout_width="35dp"
-                android:layout_height="50dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
 
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="8dp"
 
 
-                app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
+                app:srcCompat="@drawable/left_fill" />
         </LinearLayout>
 
         <android.support.v4.view.ViewPager
@@ -56,10 +56,15 @@
     </RelativeLayout>
 
     <ScrollView
+
         android:layout_width="match_parent"
-        android:layout_height="@dimen/scroll_height"
+        android:layout_height="wrap_content"
+
 
         android:id="@+id/scroll_view"
+        android:layout_above="@+id/bottom_layout"
+
+
         android:layout_below="@id/second">
 
 
@@ -252,6 +257,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:id="@+id/bottom_layout"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
         android:visibility="visible"
         android:orientation="vertical"
         android:id="@+id/prodCartLayout">
@@ -333,9 +345,11 @@
         android:layout_width="match_parent"
 
 
+
         android:layout_height="50dp"
 
         android:layout_alignParentBottom="true"
+
 
         android:orientation="vertical"
         android:visibility="gone">
@@ -354,6 +368,7 @@
 
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
+
 
 
 
@@ -409,6 +424,7 @@
                 android:src="@drawable/add_on" />
 
         </LinearLayout>
+    </LinearLayout>
     </LinearLayout>
 
 

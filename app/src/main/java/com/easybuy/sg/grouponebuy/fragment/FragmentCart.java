@@ -64,6 +64,7 @@ import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.model.ProductOrderList;
 import com.easybuy.sg.grouponebuy.model.ProductStock;
 import com.easybuy.sg.grouponebuy.model.Result;
+import com.easybuy.sg.grouponebuy.model.ShippingDate;
 import com.easybuy.sg.grouponebuy.model.SingleOrderResult;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.DateChangeListener;
@@ -92,6 +93,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 
 //check total 9.9 if any of the previous order's date is not equal to current's order date
@@ -251,8 +253,10 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
             ((MainActivity)getContext()).HideCartNum();
         }
-        else
+        else {
+            checkPendingOrder();
             getCartProducts();
+        }
 
 
 
@@ -521,7 +525,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
         noCartLayout=(LinearLayout) view.findViewById(R.id.cart_none);
         seekBar.setEnabled(false);
-        checkPendingOrder();
+
 
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -646,6 +650,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         payButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                   /*  new AlertDialog.Builder(getContext()).setView(R.layout.dialog_confirmorder).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -662,6 +667,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                 //   Log.d("checkprevorder",prevOrder);
 
             //    if (globalProvider.getCustomer().getDistrict() == null) {
+
                 if (Constants.getCustomer(getContext()).getDistrict() == null) {
                     Intent intent = new Intent(getContext(), DistrictSettingActivity.class);
                     startActivity(intent);
@@ -768,6 +774,8 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
     private void checkPendingOrder() {
         if (globalProvider.isLogin()) {
+            globalProvider.shippingDateList.clear();
+            prevOrderList.clear();
 
            // String url= Constants.checkOrderUrl+globalProvider.getCustomer().customer_id;
             String url= Constants.checkOrderUrl+globalProvider.getCustomerId();
@@ -782,6 +790,29 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                     {
                         JsonParser jsonParser =   jsonFactory.createParser(response);
                         OrderResult resultClass = (OrderResult ) objectMapper.readValue(jsonParser, OrderResult .class);
+                        Log.d("maxCountVal",resultClass.getPayload2().getMaxCount()+"");
+                        globalProvider.maxCount=resultClass.getPayload2().getMaxCount();
+                        Date todayDate= new Date();
+                        SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy");
+                        String tempDate= sdf.format(todayDate);
+                        todayDate=sdf.parse(tempDate);
+                        for(ShippingDate shippingDate:resultClass.getPayload2().getShippingDateList())
+                        {
+                            TimeZone utc = TimeZone.getTimeZone("UTC");
+                            SimpleDateFormat sd = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                            sd.setTimeZone(utc);
+                            Date sdp = sd.parse(shippingDate.getShippingDate());
+
+
+                            if(sdp.compareTo(todayDate)>=0)
+
+                                globalProvider.shippingDateList.add(shippingDate);
+
+
+
+                        }
+                       // globalProvider.shippingDateList.addAll(resultClass.getPayload2().getShippingDateList());
+                        Log.d("shippingDateListSize",globalProvider.shippingDateList.size()+"");
                         if(resultClass.getStatus()==1)
                         {
                            prevOrder=null;
@@ -793,10 +824,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
 
                             //String shippingDate=resultClass.getPayload().get(0).getShippingDate();
-                            Date todayDate= new Date();
-                            SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy");
-                           String tempDate= sdf.format(todayDate);
-                           todayDate=sdf.parse(tempDate);
+
 
 
 
