@@ -6,10 +6,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
+        <ImageView android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/board_recycler"></android.support.v7.widget.RecyclerView>
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            android:id="@+id/board_img"
+            />
 
     </ScrollView>
     <ImageView
@@ -28,5 +30,6 @@
 
 
         />
+
 
 </RelativeLayout>

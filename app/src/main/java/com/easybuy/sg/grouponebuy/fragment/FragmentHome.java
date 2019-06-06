@@ -345,7 +345,15 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(getContext(), BoardActivity.class);
-                    intent.putExtra("specialBoardList", (Serializable) globalProvider.boardSpecialList);
+                    SpecialImage specialImage=null;
+                    if(boardCounter==globalProvider.boardSpecialList.size())
+                    {
+                      specialImage= globalProvider.boardSpecialList.get(0);
+                    }
+                    else
+                       specialImage=  globalProvider.boardSpecialList.get(boardCounter);
+
+                    intent.putExtra("specialBoard", specialImage);
                     startActivity(intent);
                 }
             });

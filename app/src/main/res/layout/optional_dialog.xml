@@ -49,6 +49,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/black_rectangle"
+        android:gravity="center"
 
         android:text="@string/inform_without_phone"/>
 

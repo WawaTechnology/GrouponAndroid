@@ -23,20 +23,42 @@ import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 public class BoardActivity extends AppCompatActivity {
     ImageView boardImage;
     ImageView backButton;
-    RecyclerView boardRecycler;
+   // RecyclerView boardRecycler;
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board_activity);
         boardImage=(ImageView)findViewById(R.id.board_img);
         backButton=(ImageView) findViewById(R.id.back);
-        boardRecycler=(RecyclerView) findViewById(R.id.board_recycler);
+       // boardRecycler=(RecyclerView) findViewById(R.id.board_recycler);
         Intent intent=getIntent();
-       List<SpecialImage> specialImageList= (List<SpecialImage>) intent.getSerializableExtra("specialBoardList");
-        BoardAdapter boardAdapter=new BoardAdapter(BoardActivity.this,specialImageList);
+       SpecialImage specialImage= (SpecialImage) intent.getSerializableExtra("specialBoard");
+
+        String cover="";
+
+
+        if(specialImage.getImageHeaderSize()!=null)
+        {
+            DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+           int width=displayMetrics.widthPixels;
+            int height= (int) (width*specialImage.getImageHeaderSize());
+            // Log.d("height",height+"");
+            boardImage.getLayoutParams().height=height;
+            boardImage.requestLayout();
+
+
+        }
+
+        if(Constants.getLanguage(this).equals("english"))
+            cover= Constants.newImageUrl+ specialImage.getImageHeaderEn();
+        else
+            cover=Constants.newImageUrl+specialImage.getImageHeaderCh();
+        Glide.with(BoardActivity.this).load(cover).thumbnail(0.1f).placeholder(R.drawable.ebuylogo).error(R.drawable.ebuylogo).into(boardImage);
+       /* BoardAdapter boardAdapter=new BoardAdapter(BoardActivity.this,specialImageList);
         boardRecycler.setAdapter(boardAdapter);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(BoardActivity.this,LinearLayoutManager.VERTICAL,false);
         boardRecycler.setLayoutManager(linearLayoutManager);
+        */
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override

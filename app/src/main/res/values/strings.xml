@@ -274,6 +274,7 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="invitation_code">Invitation Code</string>
 
 
+
     <string name="paynow_phone">Phone: 8518 9139 </string>
     <string name="account_paynow">Account: Ebuy Groupon</string>
     <string name="paynow_handle">Please transfer to our PayNow account, the payment status will change after we receive your bill. We will handle it within 24 hours.</string>
@@ -304,6 +305,8 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="whatsapp_us">1. Whatsapp us at</string>
     <string name="wechat_us">2. Search our wechat ID at</string>
     <string name="third">3. </string>
+    <string name="merge_msg_1">1.We will merge products into your undelivered order if you pick the same delivery date.</string>
+    <string name="merge_msg_2">2.Free home delivery is available if merged order meet the starting price.</string>
 
     <string name="completed">Completed</string>
     <string name="waiting">Waiting</string>

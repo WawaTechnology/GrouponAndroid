@@ -163,10 +163,11 @@
 
 
     <ImageView
-        android:layout_marginTop="24dp"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:src="@drawable/ebuylogo"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="4dp"
+        android:src="@drawable/mainlogo"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
 

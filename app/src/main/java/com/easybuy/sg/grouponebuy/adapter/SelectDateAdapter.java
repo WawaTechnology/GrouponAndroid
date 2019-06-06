@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.easybuy.sg.grouponebuy.R;
+import com.easybuy.sg.grouponebuy.activities.PaymentActivity;
 import com.easybuy.sg.grouponebuy.model.Delivery;
 
 import java.util.List;
@@ -38,6 +39,7 @@ String deliveryDate;
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
      Delivery delivery= deliveryList.get(position);
+
 
 
      String date=delivery.getDate()+"  "+delivery.getWeek()+"  "+delivery.getTime();
@@ -75,11 +77,13 @@ String deliveryDate;
     {
         TextView deliveryDate;
         LinearLayout llayout;
+       // LinearLayout mergeMsgLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             deliveryDate=(itemView).findViewById(R.id.date);
             llayout=(itemView).findViewById(R.id.textview_bkg);
+          //  mergeMsgLayout=(itemView).findViewById(R.id.merge_notification_layout);
 
         }
     }

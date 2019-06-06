@@ -51,11 +51,15 @@ import com.easybuy.sg.grouponebuy.activities.PaymentActivity;
 import com.easybuy.sg.grouponebuy.adapter.CartAdapter;
 import com.easybuy.sg.grouponebuy.adapter.CustomAlertAdapter;
 import com.easybuy.sg.grouponebuy.adapter.MergeDateAdapter;
+import com.easybuy.sg.grouponebuy.adapter.SelectDateAdapter;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.helpers.Utf8JsonRequest;
 import com.easybuy.sg.grouponebuy.model.CartProduct;
 import com.easybuy.sg.grouponebuy.model.Category;
 import com.easybuy.sg.grouponebuy.model.CategoryPrimaryList;
+import com.easybuy.sg.grouponebuy.model.Cycle;
+import com.easybuy.sg.grouponebuy.model.Delivery;
+import com.easybuy.sg.grouponebuy.model.District;
 import com.easybuy.sg.grouponebuy.model.Order;
 import com.easybuy.sg.grouponebuy.model.OrderPayload;
 import com.easybuy.sg.grouponebuy.model.OrderResult;
@@ -90,15 +94,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.TimeZone;
 
 
 //check total 9.9 if any of the previous order's date is not equal to current's order date
 
 public class FragmentCart extends Fragment implements CartAdapter.quantityChangedListener {
+    public static final int DATE_CODE = 124;
     private static final int DIALOG_FRAGMENT =123 ;
     public List<CartProduct> cartProductList;
     CartAdapter cartAdapter;
@@ -106,6 +113,18 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     List<ProductStock> limitPurchaseProductList=new ArrayList<>();
     GlobalProvider globalProvider;
     String language;
+    List<Delivery> deliveryList;
+    Date now;
+    int todayWEEK;
+    String duration;
+    int deliveryWeek;
+    String deliveryDat;
+    District district;
+    int nextDeliveries[];
+    String nextDeliveryDates[];
+    String nextDeliveryTimimgs[];
+    Delivery selectedDeliveryDate;
+    List<Cycle> cycleList ;
 
     RelativeLayout cartLayout;
     SeekBar seekBar;
@@ -143,7 +162,14 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         cartProductList = new ArrayList<>();
+        selectedDeliveryDate=new Delivery();
+
         prevOrderList=new ArrayList<>();
+        nextDeliveries = new int[2];
+        nextDeliveryDates = new String[2];
+        nextDeliveryTimimgs = new String[2];
+        deliveryList=new ArrayList<>();
+
         language=Constants.getLanguage(getContext());
         cartAdapter = new CartAdapter(cartProductList, getContext(), this);
         globalProvider = GlobalProvider.getGlobalProviderInstance(getContext().getApplicationContext());
@@ -153,7 +179,11 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             {
                 freeDeliveryamt=Constants.getCustomer(getContext()).getDistrict().getFreeDeliveryPrice();
                 minDelivery=Constants.getCustomer(getContext()).getDistrict().getDeliveryCost();
+                district=Constants.getCustomer(getContext()).getDistrict();
+                cycleList=district.getCycle();
+
             }
+
         }
 
        if(globalProvider.cartList.size()>0) {
@@ -256,7 +286,14 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         else {
             checkPendingOrder();
             getCartProducts();
+            try {
+                now=new Date();
+                calculateDeliveryDate();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
+
 
 
 
@@ -267,36 +304,78 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case DIALOG_FRAGMENT:
-                if (resultCode == Activity.RESULT_OK ) {
-                   if(data.getSerializableExtra("previousOrder")!=null)
-                    {
-                        prevOrder= (PrevOrder) data.getSerializableExtra("previousOrder");
-                        for(CartProduct product:cartProductList)
-                        {
-                            if(product.getProduct().limitPurchase>0)
-                            {
-                               // Log.d("limitfunccalled",product.getProduct().getNameEn());
+            case DIALOG_FRAGMENT: {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data.getSerializableExtra("previousOrder") != null) {
+                        prevOrder = (PrevOrder) data.getSerializableExtra("previousOrder");
+                        for (CartProduct product : cartProductList) {
+                            if (product.getProduct().limitPurchase > 0) {
+                                // Log.d("limitfunccalled",product.getProduct().getNameEn());
                                 checkLimitPreviousOrder(prevOrder);
                                 return;
                             }
                         }
 
 
+                    } else {
 
-
+                        prevOrder = null;
 
                     }
-                    else
-                   {
-
-                           prevOrder=null;
-
-                   }
 
                     startPaymentActivity();
 
                 }
+                break;
+
+            }
+            case DATE_CODE:
+            {
+                if (resultCode == Activity.RESULT_OK) {
+                   Delivery delivery= (Delivery) data.getParcelableExtra("delivery");
+                    Log.d("checkselected",delivery.getDate());
+                   selectedDeliveryDate= (Delivery) data.getParcelableExtra("delivery");
+                    try {
+                        Date deliveryDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
+                                .parse(selectedDeliveryDate.getDate());
+
+                        //  If any of the previous order's date is equal to selected date,than order will be added to the prevOrder's id
+                        for (PrevOrder order : prevOrderList) {
+
+
+                            Date shippingDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
+                                    .parse(order.getShippingDate());
+
+                            if (shippingDate.compareTo(deliveryDate) == 0) {
+                                prevOrder = order;
+                                for (CartProduct product : cartProductList) {
+                                    if (product.getProduct().limitPurchase > 0) {
+                                        // Log.d("limitfunccalled",product.getProduct().getNameEn());
+                                        checkLimitPreviousOrder(prevOrder);
+                                        return;
+                                    }
+                                }
+                                startPaymentActivity();
+
+
+                                return;
+                            }
+                        }
+                        // order date not matches with any of the previous date
+                        // prevOrder will be null;recalculate total;submitbutton text will be checkout
+                        prevOrder=null;
+                        startPaymentActivity();
+
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+                }
+
+            }
 
         }
     }
@@ -508,6 +587,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         View view = inflater.inflate(R.layout.fragment_cart, container, false);
 
 
+
         recyclerView = (RecyclerView) view.findViewById(R.id.cart_recycler);
         cartLayout=(RelativeLayout) view.findViewById(R.id.cart_layout);
         seekBar=(SeekBar) view.findViewById(R.id.horizontal_progress_bar);
@@ -668,14 +748,22 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
             //    if (globalProvider.getCustomer().getDistrict() == null) {
 
-                if (Constants.getCustomer(getContext()).getDistrict() == null) {
+                if (Constants.getCustomer(getContext()).getDistrict() == null||district.getCycle()==null) {
                     Intent intent = new Intent(getContext(), DistrictSettingActivity.class);
                     startActivity(intent);
 
                 } else {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    DialogFragment dialogFragment = new FragmentCart.ChangeDateFragment();
+                    Bundle args = new Bundle();
+                  //  args.putString("deliveryDate",deliveryDat);
+                    args.putParcelableArrayList("deliveryList", (ArrayList<? extends Parcelable>) deliveryList);
+                    dialogFragment.setArguments(args);
+                    dialogFragment.setTargetFragment(FragmentCart.this, DATE_CODE);
+                    dialogFragment.show(fragmentManager, "delivery");
 
-
-                    if(prevOrderList!=null&&prevOrderList.size()>0)
+//TODO CHECK THIS
+                 /*   if(prevOrderList!=null&&prevOrderList.size()>0)
                     {
                         FragmentManager fragmentManager = getFragmentManager();
                         DialogFragment dialogFragment = new FragmentCart.MergeOrderDialogFragment();
@@ -689,6 +777,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                     {
                         startPaymentActivity();
                     }
+                    */
 
 
 
@@ -717,6 +806,9 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
             intent.putExtra("prevOrderList", (Serializable) prevOrderList);
             intent.putExtra("previousOrder",prevOrder);
+            intent.putParcelableArrayListExtra("deliveryDateList", (ArrayList<? extends Parcelable>) deliveryList);
+            intent.putExtra("selectedDate",selectedDeliveryDate);
+
            // Log.d("cartlistSize",globalProvider.cartList.size()+"");
            // intent.putExtra("totalamt",totalamt);
 
@@ -1127,6 +1219,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
 
 
+
     public static class MergeOrderDialogFragment extends DialogFragment  {
 
              //   RecyclerView mergeDateRecycler;
@@ -1247,6 +1340,288 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
 
 
+    }
+    private void calculateDeliveryDate() throws ParseException {
+        if(district!=null&&district.getCycle()!=null) {
+            deliveryList.clear();
+            //*1 First calculate today date ,today week;If today is monday,todayWeek will be 1
+        /*2 Set DeliveryWeek,Duration to customer's 1st cycle for e.g if order can be delivered at tuesday,thursday,friday;cyclList
+        will have values 2,4,5;
+        By Default deliveryWeek=2(tuesday)
+        As same day delivery cannot be done,find week from cycle whose value is more than today week.
+        In that case,it wll be tuesday.
+        So Now deliveryWeek=2(tuesday), durattion=deliveryweek duration(retrieve from cycle)
+        But there can be a case  when todayweek is saturday(6) and delivery can be done on monday(1),so by default deliveryWeek will be monday(1)
+        Now calculate deliveryDate using delivery Week.
+        Calculate Other 2 Delivery Dates,as we have to give our customers options of selecting from 3 delivery date.
+
+
+         */
+
+
+            Calendar calendar = Calendar.getInstance();
+
+            calendar.setTime(now);
+            SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
+            todayWEEK = calendar.get(Calendar.DAY_OF_WEEK);
+            todayWEEK -= 1;
+            // e.g todayWeek will be 4 if it is thursday
+            // List<Cycle> cycleList = district.getCycle();
+            deliveryWeek = cycleList.get(0).getWeek();
+            duration = cycleList.get(0).getDuration();
+            //get deliveryweek greater than today
+            for (Cycle cycle : cycleList) {
+                int week = cycle.getWeek();
+                // Log.d("cycleweek",week+"");
+
+                if (week > todayWEEK) {
+                    deliveryWeek = week;
+                    duration = cycle.getDuration();
+                    break;
+                }
+
+            }
+            //cases where todayweek is sunday i.e 7, adn delivery can go on mon,tuesday
+
+            while (deliveryWeek != todayWEEK) {
+                if (todayWEEK == 7) {
+                    todayWEEK = 0;
+                }
+                todayWEEK += 1;
+                now = addDays(now, 1);
+
+
+            }
+
+            for (ShippingDate shippingDate : globalProvider.shippingDateList) {
+                if (shippingDate.getCurrentCount() >= globalProvider.maxCount) {
+                    Log.d("loopcheck", "here");
+                    TimeZone utc = TimeZone.getTimeZone("UTC");
+                    SimpleDateFormat sd = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    sd.setTimeZone(utc);
+                    Date sdp = sd.parse(shippingDate.getShippingDate());
+                    // Log.d("datesdp",sdp.toString());
+                    // Log.d("nowdate",now.toString());
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                    if (sdf.format(sdp).equals(sdf.format(now))) {
+                        Log.d("changeddateheremax", "true");
+
+                        calculateDeliveryDate();
+
+                        return;
+                    }
+
+                }
+            }
+            //calculating list of other delivery dates
+
+            //we have to give 3 dates to select from;1 is already calculated which is stored in variable now and deliveryWeek
+            //So we just need 2 more, we need those dates and week whose values are more than deliveryWeek(as we have to display next delivery dates)
+            Date nextDate = now;
+
+
+            int count = 1;
+
+            int i = 0;
+            for (int k = 0; k < cycleList.size(); k++) {
+
+                if (cycleList.get(k).getWeek() > deliveryWeek) {
+
+
+                    nextDeliveries[i] = cycleList.get(k).getWeek();
+                    nextDeliveryTimimgs[i] = cycleList.get(k).getDuration();
+                    int numOfDays = cycleList.get(k).getWeek() - deliveryWeek;
+                    nextDate = addDays(now, numOfDays);
+
+
+                    String nextdeliveryDate = simpleDateFormat1.format(nextDate);
+                    nextDeliveryDates[i] = nextdeliveryDate;
+
+
+                    i += 1;
+                    count += 1;
+                    if (i == 2) {
+                        //2 delivery dates saved, no need to iterate
+                        break;
+                    }
+
+                }
+
+            }
+            int j = 0;
+        /* If there are less than 2 next delivery dates;for eg,if deliveryWeek is Sunday(7) all week value from cyclist will be less than it,so no next delivery dates will be added,In that case
+        we will iterate below loop*/
+            while (count != 3) {
+                nextDeliveries[i] = cycleList.get(j).getWeek();
+                nextDeliveryTimimgs[i] = cycleList.get(j).getDuration();
+                if (cycleList.get(j).getWeek() < deliveryWeek) {
+                    int numOfDays = 7 - deliveryWeek + cycleList.get(j).getWeek();
+                    nextDate = addDays(now, numOfDays);
+
+                    // SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
+                    String nextdeliveryDate = simpleDateFormat1.format(nextDate);
+                    nextDeliveryDates[i] = nextdeliveryDate;
+
+                }
+
+                j += 1;
+                count += 1;
+                i += 1;
+
+            }
+            // SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy/MM/dd");
+            // We will be adding all 3 delivery dates in Arraylist,It will contain deliveryDate,deliveryWeek,deliveryTime
+            deliveryDat = simpleDateFormat1.format(now);
+            // Saving according to Language
+            if (language.equals("english")) {
+                Delivery currentDelivery = new Delivery(deliveryDat, globalProvider.getDeliveryTiming().get(deliveryWeek), duration);
+                deliveryList.add(currentDelivery);
+                for (int k = 0; k < 2; k++) {
+                    String week = globalProvider.getDeliveryTiming().get(nextDeliveries[k]);
+                    Delivery delivery = new Delivery(nextDeliveryDates[k], week, nextDeliveryTimimgs[k]);
+                    deliveryList.add(delivery);
+                }
+            } else {
+                String week = globalProvider.getDeliveryTiming().get(deliveryWeek);
+                week = globalProvider.deliveryTimingChinese.get(week);
+
+                Delivery currentDelivery = new Delivery(deliveryDat, week, duration);
+                deliveryList.add(currentDelivery);
+                for (int k = 0; k < 2; k++) {
+                    String weekString = globalProvider.getDeliveryTiming().get(nextDeliveries[k]);
+                    weekString = globalProvider.deliveryTimingChinese.get(weekString);
+                    Delivery delivery = new Delivery(nextDeliveryDates[k], weekString, nextDeliveryTimimgs[k]);
+                    deliveryList.add(delivery);
+                }
+            }
+        /*
+        Deciding which date to display in deliveryDateText out of 3 deliverydates
+
+        We will be checking if User has previous Orders that are in waiting state;List of prevOrder is already calculated in FragmentCart
+        and is in variable prevOrderList.
+        We will be checking if users want to create new order(doesnt want to merge with any of the previousOrder)
+        We will be checking if variable prevOrder retrieved from Intent
+        prevOrder is not null
+        2 cases
+        1 case: If user has selected to merge with the previous Order;In that case,prevOrder will not be null.
+        As the prevOrder date is in MM/dd/yyyy format and we are sending to serve in YYYY/mm/dd.
+        We will convert the prevOrderDate to YYYY/mm/dd; and thn calculate its deliveryWeek and duration;
+        This date will be displayed in deliveryDateText
+
+        2 Case: If user wants to create a new order and doesnt want to merge with previous order.we will select that date
+        which is not in prevOrderList
+
+
+
+
+
+
+
+         */
+            //Case 1 User wants to merge
+
+
+        }
+
+    }
+    public  Date addDays(Date date, int days) {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days);
+
+        return cal.getTime();
+
+
+    }
+
+    public static class ChangeDateFragment extends DialogFragment implements SelectDateAdapter.MyClickListener
+    {
+
+        RecyclerView recyclerView;
+        List<Delivery> deliveryList;
+        SelectDateAdapter selectDateAdapter;
+       // private DateChangeListener listener;
+        String deliveryDate;
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+            // request a window without the title
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            return dialog;
+        }
+
+
+
+
+
+        public void onCreate(Bundle savedInstanceState)
+        {
+            super.onCreate(savedInstanceState);
+            deliveryList=new ArrayList<>();
+            Bundle mArgs = getArguments();
+            deliveryDate=mArgs.getString("deliveryDate");
+            deliveryList = mArgs.getParcelableArrayList("deliveryList");
+        }
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+
+            View view= inflater.inflate(R.layout.nextdelivery_dialogfragment, container);
+            view.findViewById(R.id.merge_notification_layout).setVisibility(View.VISIBLE);
+            recyclerView=(view).findViewById(R.id.selectdate_recycler);
+            selectDateAdapter=new SelectDateAdapter(getContext(),deliveryList,deliveryDate,this);
+            LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+            recyclerView.setAdapter(selectDateAdapter);
+            recyclerView.setLayoutManager(linearLayoutManager);
+
+
+            return view;
+        }
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            // Verify that the host activity implements the callback interface
+            try {
+                // Instantiate the EditNameDialogListener so we can send events to the host
+              //  listener = (DateChangeListener) context;
+            } catch (ClassCastException e) {
+                // The activity doesn't implement the interface, throw exception
+                throw new ClassCastException(context.toString()
+                        + " must implement DateChangeistener");
+            }
+        }
+        @Override
+        public void onDetach()
+        {
+            //listener=null;
+            super.onDetach();
+
+        }
+
+
+        @Override
+        public void onClick(int position) {
+            Delivery delivery= deliveryList.get(position);
+            Log.d("hereposition",position+"");
+            /*Intent i = new Intent();
+            i .putExtra("status", "ok"
+            );
+            i.putExtra("selectedDate",delivery);
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+            */
+            Intent intent=new Intent();
+
+            intent.putExtra("delivery",delivery);
+
+            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+
+           // listener.onChangeDate(delivery);
+
+            this.dismiss();
+
+
+        }
     }
 
 

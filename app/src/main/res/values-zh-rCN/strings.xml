@@ -198,6 +198,9 @@
     <string name="refund">退款</string>
     <string name="refund_tab">退款记录</string>
 
+    <string name="merge_msg_1">1.若可选日期已有订单，我们将自动合并订单一起送货</string>
+    <string name="merge_msg_2">2.合并后订单总价满足最低包邮价即可免费送货上门</string>
+
     <string name="balance">余额</string>
     <string name="all_tab">所有记录</string>
     <string name="note">注意:</string>

@@ -67,6 +67,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         lang=Constants.getLanguage(context.getApplicationContext());
         globalProvider=GlobalProvider.getGlobalProviderInstance(context.getApplicationContext());
         this.changeListener=changeListener;
+       // setHasStableIds(true);
     }
     public ProductListAdapter(Context context, List<Product> productList)
     {
@@ -74,7 +75,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.productList=productList;
         lang=Constants.getLanguage(context.getApplicationContext());
         globalProvider=GlobalProvider.getGlobalProviderInstance(context.getApplicationContext());
+        setHasStableIds(true);
     }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -226,11 +226,14 @@ public class FragmentOrder extends Fragment {
     public void onResume()
     {
         super.onResume();
-       // Log.d("fragmentordertag","hereresume");
+        Log.d("fragmentordertag","hereresume");
         if(globalProvider.isLogin())
         {
+            Log.d("isLOgin","here");
             getEcoins();
             userNameText.setText(Constants.getCustomer(getContext()).userName);
+            loggedInLayout.setVisibility(View.VISIBLE);
+            frameRelative.setVisibility(View.GONE);
         }
 
              else

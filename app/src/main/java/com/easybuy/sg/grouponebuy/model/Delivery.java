@@ -19,6 +19,10 @@ public class Delivery implements Parcelable {
         this.week = data[1];
         this.time = data[2];
     }
+  public  Delivery()
+    {
+
+    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

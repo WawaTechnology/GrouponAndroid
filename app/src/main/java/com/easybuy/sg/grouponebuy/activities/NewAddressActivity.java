@@ -5,12 +5,16 @@ import android.databinding.generated.callback.OnClickListener;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -21,6 +25,7 @@ import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.google.gson.JsonArray;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -55,36 +60,64 @@ public void onCreate(Bundle savedInstanceState)
     submitButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            String url= Constants.createDistrictUrl;
+            Log.d("clickedhere","here");
+            if(TextUtils.isEmpty(nameSecEditText.getText().toString())||TextUtils.isEmpty(nameTerEditText.getText().toString())||TextUtils.isEmpty(postCodeEditText.getText().toString()))
+            {
+                if(TextUtils.isEmpty(nameSecEditText.getText().toString()))
+                {
+                    nameSecEditText.setError("Please Street Name");
+                }
+                if(TextUtils.isEmpty(nameTerEditText.getText().toString()))
+                {
+                    nameTerEditText.setError("Please enter required field");
+                }
+                if(TextUtils.isEmpty(postCodeEditText.getText().toString()))
+                {
+                    postCodeEditText.setError("Please enter Postal Code");
+                }
+
+                return;
+            }
+           // String url= Constants.createDistrictUrl;
             JSONObject jsonObject=new JSONObject();
             try {
+
+                JSONArray jsonArray=new JSONArray();
+                jsonArray.put("5c40492fae387447c6691e87");
+                jsonArray.put("5b5053980a0524071261602f");
+                jsonArray.put("5c404935ae387447c6691e88");
+                jsonArray.put("5b50539c0a05240712616030");
+                jsonArray.put("5c404938ae387447c6691e89");
+                jsonArray.put("5bbdf05bc1c1702631e4e455");
+                jsonObject.put("cycle",jsonArray);
                 jsonObject.put("deliveryCost",9.9);
                 jsonObject.put("deliveryPrice",2);
-                jsonObject.put("freeDeliveryPrice",19.9);
-                jsonObject.put("state",1);
-                jsonObject.put("type","其他");
-                jsonObject.put("sequence",1000);
                 jsonObject.put("description_ch","");
                 jsonObject.put("description_en","");
+                jsonObject.put("freeDeliveryPrice",19.9);
                 jsonObject.put("namePrimary_ch","客户自创");
                 jsonObject.put("namePrimary_en","Customer Made");
-                jsonObject.put("postcode",Integer.parseInt(postCodeEditText.getText().toString()));
                 jsonObject.put("nameSecondary_ch",nameSecEditText.getText().toString());
                 jsonObject.put("nameSecondary_en",nameSecEditText.getText().toString());
                 jsonObject.put("nameTertiary_ch",nameTerEditText.getText().toString());
                 jsonObject.put("nameTertiary_en",nameTerEditText.getText().toString());
-                JsonArray jsonArray=new JsonArray();
-                jsonArray.add("5c40492fae387447c6691e87");
-                jsonArray.add("5b5053980a0524071261602f");
-                jsonArray.add("5c404935ae387447c6691e88");
-                jsonArray.add("5b50539c0a05240712616030");
-                jsonArray.add("5c404938ae387447c6691e89");
-                jsonArray.add("5bbdf05bc1c1702631e4e455");
-                jsonObject.put("cycle",jsonArray);
+                jsonObject.put("postcode",postCodeEditText.getText().toString());
+                jsonObject.put("sequence",1000);
+                jsonObject.put("state",1);
+                jsonObject.put("type","其他");
+
+
+
+
+
+
+                Log.d("checkurl",Constants.createDistrictUrl);
+
                 JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, Constants.createDistrictUrl, jsonObject, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            Log.d("checkresponse",response.toString());
                             int status=response.getInt("status");
                             Log.d("status1",status+"");
                             if(status==0)
@@ -94,6 +127,11 @@ public void onCreate(Bundle savedInstanceState)
 
                                 String userUrl=Constants.favouriteUrl+"/"+Constants.getCustomer(NewAddressActivity.this).customer_id;
                                 Map<String,String> map=new HashMap<>();
+                                if(TextUtils.isEmpty(unitNumEditText.getText().toString()))
+                                {
+                                    map.put("address","*");
+                                }
+                                else
                                 map.put("address",unitNumEditText.getText().toString());
                                 CustomRequest customRequest=new CustomRequest(Request.Method.PATCH, userUrl, map, new Response.Listener<JSONObject>() {
                                     @Override
@@ -122,6 +160,7 @@ public void onCreate(Bundle savedInstanceState)
                                                 }, new Response.ErrorListener() {
                                                     @Override
                                                     public void onErrorResponse(VolleyError error) {
+                                                        Log.d("errorvolley",error.getMessage());
 
                                                     }});
                                                 globalProvider.addRequest(customRequest1);
@@ -136,8 +175,12 @@ public void onCreate(Bundle savedInstanceState)
                                 }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
+                                        String message= globalProvider.getErrorMessage(error);
+                                        Toast.makeText(NewAddressActivity.this,message,Toast.LENGTH_LONG).show();
 
                                     }
+
+
                                 });
                                 globalProvider.addRequest(customRequest);
 
@@ -146,13 +189,19 @@ public void onCreate(Bundle savedInstanceState)
                             e.printStackTrace();
                         }
 
+
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        if(error!=null)
+                        Log.d("checkerrorvoleey",error.toString()+"");
+                        String message= globalProvider.getErrorMessage(error);
+                        Toast.makeText(NewAddressActivity.this,message,Toast.LENGTH_LONG).show();
 
                     }
                 });
+
                 globalProvider.addRequest(jsonObjectRequest);
 
 
