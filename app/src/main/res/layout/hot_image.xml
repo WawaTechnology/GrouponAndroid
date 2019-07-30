@@ -12,17 +12,32 @@
     android:orientation="horizontal">
 
 
+<RelativeLayout
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/prodcover"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
         android:layout_weight="1"
 
         android:adjustViewBounds="true"
 
 
-        android:scaleType="fitXY" />
+        android:scaleType="fitCenter" />
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/soldout_img"
+        android:visibility="gone"
+        android:layout_alignLeft="@id/prodcover"
+        android:layout_alignTop="@id/prodcover"/>
+</RelativeLayout>
+
 
 
 
@@ -43,17 +58,24 @@
             android:layout_width="wrap_content"
             android:gravity="center_horizontal"
             android:maxLines="2"
+            android:minLines="2"
+
             android:ellipsize="end"
             android:textColor="@android:color/black"
 
             android:layout_height="wrap_content" />
         <View android:layout_width="match_parent"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+
             android:layout_height="1dp"
             android:background="@color/grey_dark"></View>
 
         <TextView
             android:id="@+id/prod_name"
             android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/red"
@@ -72,24 +94,15 @@
             android:layout_height="0dp"
             android:layout_weight="1"></View>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/red"
-                android:text="@string/offer" />
 
             <TextView
                 android:id="@+id/offer_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/red" />
-        </LinearLayout>
+
+                 />
+
 
         <Button
             android:id="@+id/buyButton"

@@ -48,6 +48,12 @@
         <activity android:name=".activities.SignUpActivity"></activity>
         <activity android:name=".activities.SignInActivity"></activity>
         <activity android:name=".activities.DeliveryAddressActivity"></activity>
+        <activity android:name=".activities.PaymentInformationActivity"></activity>
+        <activity android:name=".activities.ScanReceiptActivity"></activity>
+        <activity android:name=".activities.QrCodeActivity2"></activity>
+        <activity android:name=".activities.QrCodeActivity3"></activity>
+
+        <activity android:name=".activities.QrPayActivity"></activity>
         <activity android:name=".activities.DistrictSettingActivity"
             android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity android:name=".activities.ConsumeHistoryActivity"></activity>

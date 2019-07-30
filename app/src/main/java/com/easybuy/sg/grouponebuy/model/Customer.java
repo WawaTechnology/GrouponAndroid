@@ -23,6 +23,16 @@ public class Customer implements Serializable {
     public void setPayNowAccount(String payNowAccount) {
         this.payNowAccount = payNowAccount;
     }
+    @JsonProperty("group")
+   public String group;
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
 
     public District getDistrict() {
         return district;
@@ -41,6 +51,7 @@ public class Customer implements Serializable {
     public void setRefund(Refund refund) {
         this.refund = refund;
     }
+
 
     @JsonProperty("district")
 

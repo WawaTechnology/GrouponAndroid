@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,7 +35,6 @@ import com.easybuy.sg.grouponebuy.activities.SearchActivity;
 import com.easybuy.sg.grouponebuy.activities.SpecialSaleLayout;
 import com.easybuy.sg.grouponebuy.adapter.CategoryAdapter;
 import com.easybuy.sg.grouponebuy.adapter.FlashAdapter;
-import com.easybuy.sg.grouponebuy.adapter.ProductAdapter;
 import com.easybuy.sg.grouponebuy.adapter.ProductDetailViewPagerAdapter;
 import com.easybuy.sg.grouponebuy.adapter.SingleTopAdapter;
 import com.easybuy.sg.grouponebuy.adapter.SpecialCategoryAdapter;
@@ -47,10 +47,9 @@ import com.easybuy.sg.grouponebuy.model.ProductImageId;
 import com.easybuy.sg.grouponebuy.model.SpecialImage;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.easybuy.sg.grouponebuy.utils.CategoryListener;
+import com.easybuy.sg.grouponebuy.utils.DateHelperClass;
 import com.easybuy.sg.grouponebuy.utils.ItemOffSetDecoration;
 
-import java.io.Serializable;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -266,11 +265,25 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             handlerNotice=new Handler();
         }
 
+        if(globalProvider.isLogin()&&globalProvider.specialBannerCustomer!=null&&Constants.getCustomer(getContext())!=null) {
+            String seq=String.valueOf(globalProvider.specialBannerCustomer.getSequence());
+            Log.d("checkseq",seq);
+
+            if (Constants.getCustomer(getContext()).group.equals(seq)) {
+                globalProvider.specialBannerList=globalProvider.specialBannerCustomer;
+
+
+            }
+        }
+
+
+
 
 
         imgArray = new String[globalProvider.specialMImages.size()];
 
         for (int i = 0; i < imgArray.length; i++) {
+
             if(language.equals("english"))
             {
                 imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryEn();
@@ -278,6 +291,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             else {
                 imgArray[i] = Constants.newImageUrl + globalProvider.specialMImages.get(i).getImageEntryCh();
             }
+
             // Log.d("checkimae",imgArray[i]);
 
         }
@@ -314,6 +328,7 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
 
 
+
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         //   ((Activity) getContext()). getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         // int height = displayMetrics.heightPixels;
@@ -326,6 +341,9 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         activityHomeBinding.singleOneimage.requestLayout();
         activityHomeBinding.singleImpimage.getLayoutParams().height = width / 2;
         activityHomeBinding.singleImpimage.requestLayout();
+        checkPopUpDisplay();
+
+
 
         if(globalProvider.isHasBoardLayout())
         {
@@ -577,9 +595,14 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
             activityHomeBinding.specialBanner.requestLayout();
             if(globalProvider.specialBannerList!=null)
             {
+
                 Log.d("heresp","here");
                 if(language.equals("english"))
-                Glide.with(getContext()).load(Constants.newImageUrl + globalProvider.specialBannerList.getImageEntryEn()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
+                    if(globalProvider.specialBannerList.getImageEntryEn()==null)
+                Glide.with(getContext()).load(Constants.newImageUrl + globalProvider.specialBannerList.getImageEntryCh()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
+                    else
+                        Glide.with(getContext()).load(Constants.newImageUrl + globalProvider.specialBannerList.getImageEntryEn()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
+
                 else
                     Glide.with(getContext()).load(Constants.newImageUrl + globalProvider.specialBannerList.getImageEntryCh()).asBitmap().format(PREFER_ARGB_8888).fitCenter().diskCacheStrategy(DiskCacheStrategy.SOURCE).error(R.drawable.ebuylogo).into(activityHomeBinding.specialBanner);
 
@@ -720,6 +743,52 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
 
         return view;
     }
+
+    private void checkPopUpDisplay() {
+        if(globalProvider.oneTimespecialSequence!=null)
+        {
+            String currentDate = Constants.getDatePreference(getContext());
+            if (currentDate == null||!currentDate.equals(DateHelperClass.getCurrentDate())) {
+
+                AlertDialog.Builder alertadd = new AlertDialog.Builder(getContext());
+                LayoutInflater factory = LayoutInflater.from(getContext());
+                final View view = factory.inflate(R.layout.alert_image_layout, null);
+
+// change the ImageView image source
+                final ImageView dialogImageView = (ImageView) view.findViewById(R.id.dialog_imageview);
+                Glide.with(getContext()).load(Constants.newImageUrl+globalProvider.oneTimespecialSequence.getImageEntryEn()).fitCenter().into(dialogImageView);
+                dialogImageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getContext(), SpecialSaleLayout.class);
+                        intent.putExtra("specialImage", globalProvider.oneTimespecialSequence);
+                        startActivity(intent);
+
+                    }
+                });
+                //dialogImageView.setImageResource(R.drawable.your_im);
+
+                alertadd.setView(view);
+                //alertadd.setTitle("Alert Dialog Title");
+              /*  alertadd.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dlg, int sumthin) {
+
+                    }
+                });
+                */
+
+                alertadd.show();
+
+                Constants.setDatePreference(getContext(),DateHelperClass.getCurrentDate());
+
+            }
+            else
+            {
+
+            }
+        }
+    }
+
     public void onResume()
     {
         Log.d(Tag,"onresume");
@@ -930,9 +999,13 @@ public class FragmentHome extends Fragment implements CategoryAdapter.MyClickLis
         timer.cancel();
         // Log.d("clicked at pos",position+"");
         SpecialImage specialImage=globalProvider.specialMImages.get(position);
-        Intent intent=new Intent(getContext(),SpecialSaleLayout.class);
-        intent.putExtra("specialImage",specialImage);
-        startActivity(intent);
+
+
+
+            Intent intent = new Intent(getContext(), SpecialSaleLayout.class);
+            intent.putExtra("specialImage", specialImage);
+            startActivity(intent);
+
 
 
     }

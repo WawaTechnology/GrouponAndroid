@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -15,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,7 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.easybuy.sg.grouponebuy.Presenter.ClickPresenter;
+import com.easybuy.sg.grouponebuy.presenter.ClickPresenter;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.databinding.ActivitySignupBinding;
 import com.easybuy.sg.grouponebuy.helpers.CustomRequest;
@@ -49,7 +47,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.easybuy.sg.grouponebuy.network.Constants.loginUrlStr;
 import static com.easybuy.sg.grouponebuy.network.Constants.signUpUrl;
 
 public class SignUpActivity extends AppCompatActivity {

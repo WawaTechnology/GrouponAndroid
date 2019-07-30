@@ -63,7 +63,7 @@
             android:layout_marginLeft="16dp"
 
             android:id="@+id/phone_num"
-            android:hint="Please type in available phone number"
+            android:hint="@string/type_phone_no"
 
 
             android:inputType="number"
@@ -92,7 +92,7 @@
             android:layout_height="35dp"
 
             android:layout_marginLeft="16dp"
-            android:hint="Please Enter Password"
+            android:hint="@string/please_enter_pwd"
             android:gravity="center_vertical"
             android:textAlignment="gravity"
             android:textSize="15sp"

@@ -88,7 +88,7 @@ public class FavoriteFragment extends Fragment  {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_favourite,container,false);
         favrecyclerView=view.findViewById(R.id.show_fav);
-        productListAdapter=new ProductListAdapter(getContext(),favouriteList);
+        productListAdapter=new ProductListAdapter(getContext(),favouriteList,getFragmentManager());
         favrecyclerView.setAdapter(productListAdapter);
         emptyFavImg=(ImageView) view.findViewById(R.id.empty_fav);
         emptyFavLayout=(LinearLayout) view.findViewById(R.id.empty_favLayout) ;

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.easybuy.sg.grouponebuy.R;
@@ -49,6 +50,8 @@ public class CategoryTitleAdapter extends RecyclerView.Adapter<CategoryTitleAdap
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+
        if(globalProvider.selectedCategory==null) {
            if (row_index == position) {
                holder.titleTextView.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -132,12 +135,14 @@ public class CategoryTitleAdapter extends RecyclerView.Adapter<CategoryTitleAdap
     {
         TextView titleTextView;
         View viewSelected;
+        LinearLayout categoryLayout;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextView=(TextView)itemView.findViewById(R.id.categoryTitle);
             viewSelected=(View)itemView.findViewById(R.id.viewSelected);
+            categoryLayout=(LinearLayout)itemView.findViewById(R.id.category_title_layout);
 
         }
     }

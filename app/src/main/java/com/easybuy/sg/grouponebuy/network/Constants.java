@@ -17,7 +17,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class Constants  {
-    //testing url
+    private static final String DATE_KEY ="Today_Date" ;
+    //testing urlhttp://13.251.164.198/
 //static public String baseUrlStr = "http://13.250.234.103:3000/";
 //buisness url
 static public String baseUrlStr = "http://13.251.164.198:3000/";
@@ -140,6 +141,16 @@ static public String baseUrlStr = "http://13.251.164.198:3000/";
        return customer;
 
 
+    }
+    public static String getDatePreference(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getString(DATE_KEY, null);
+    }
+
+    public static void setDatePreference(Context context,String datePreference) {
+        final SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
+        editor.putString(DATE_KEY, datePreference);
+        editor.apply();
     }
 
 

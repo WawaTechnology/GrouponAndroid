@@ -171,7 +171,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         deliveryList=new ArrayList<>();
 
         language=Constants.getLanguage(getContext());
-        cartAdapter = new CartAdapter(cartProductList, getContext(), this);
+        cartAdapter = new CartAdapter(cartProductList, getContext(), this,getFragmentManager());
         globalProvider = GlobalProvider.getGlobalProviderInstance(getContext().getApplicationContext());
         if(globalProvider.isLogin())
         {
@@ -179,6 +179,8 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             {
                 freeDeliveryamt=Constants.getCustomer(getContext()).getDistrict().getFreeDeliveryPrice();
                 minDelivery=Constants.getCustomer(getContext()).getDistrict().getDeliveryCost();
+               // Log.d("checkfreedelivery",freeDeliveryamt+"");
+              //  Log.d("minDelivery",minDelivery+"");
                 district=Constants.getCustomer(getContext()).getDistrict();
                 cycleList=district.getCycle();
 
@@ -332,12 +334,15 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
             case DATE_CODE:
             {
                 if (resultCode == Activity.RESULT_OK) {
-                   Delivery delivery= (Delivery) data.getParcelableExtra("delivery");
-                    Log.d("checkselected",delivery.getDate());
+                   //Delivery delivery= (Delivery) data.getParcelableExtra("delivery");
+                   // Log.d("checkselected",delivery.getDate());
                    selectedDeliveryDate= (Delivery) data.getParcelableExtra("delivery");
+
+
                     try {
                         Date deliveryDate = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH)
                                 .parse(selectedDeliveryDate.getDate());
+
 
                         //  If any of the previous order's date is equal to selected date,than order will be added to the prevOrder's id
                         for (PrevOrder order : prevOrderList) {
@@ -882,7 +887,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                     {
                         JsonParser jsonParser =   jsonFactory.createParser(response);
                         OrderResult resultClass = (OrderResult ) objectMapper.readValue(jsonParser, OrderResult .class);
-                        Log.d("maxCountVal",resultClass.getPayload2().getMaxCount()+"");
+                      //  Log.d("maxCountVal",resultClass.getPayload2().getMaxCount()+"");
                         globalProvider.maxCount=resultClass.getPayload2().getMaxCount();
                         Date todayDate= new Date();
                         SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy");
@@ -904,7 +909,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
                         }
                        // globalProvider.shippingDateList.addAll(resultClass.getPayload2().getShippingDateList());
-                        Log.d("shippingDateListSize",globalProvider.shippingDateList.size()+"");
+                      //  Log.d("shippingDateListSize",globalProvider.shippingDateList.size()+"");
                         if(resultClass.getStatus()==1)
                         {
                            prevOrder=null;
@@ -1395,7 +1400,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
 
             for (ShippingDate shippingDate : globalProvider.shippingDateList) {
                 if (shippingDate.getCurrentCount() >= globalProvider.maxCount) {
-                    Log.d("loopcheck", "here");
+                   // Log.d("loopcheck", "here");
                     TimeZone utc = TimeZone.getTimeZone("UTC");
                     SimpleDateFormat sd = new SimpleDateFormat("yyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     sd.setTimeZone(utc);
@@ -1404,7 +1409,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
                     // Log.d("nowdate",now.toString());
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                     if (sdf.format(sdp).equals(sdf.format(now))) {
-                        Log.d("changeddateheremax", "true");
+                       // Log.d("changeddateheremax", "true");
 
                         calculateDeliveryDate();
 
@@ -1603,7 +1608,7 @@ public class FragmentCart extends Fragment implements CartAdapter.quantityChange
         @Override
         public void onClick(int position) {
             Delivery delivery= deliveryList.get(position);
-            Log.d("hereposition",position+"");
+          //  Log.d("hereposition",position+"");
             /*Intent i = new Intent();
             i .putExtra("status", "ok"
             );

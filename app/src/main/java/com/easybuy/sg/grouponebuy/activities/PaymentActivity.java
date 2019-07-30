@@ -71,6 +71,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -114,7 +115,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
     Button submitButton;
     List<PrevOrder> prevOrderList;
    // RelativeLayout invoiceLayout;
-    int deliveryWeek;
+    String deliveryWeek;
     String duration;
     PrevOrder prevOrder;
     int todayWEEK;
@@ -166,7 +167,10 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
         prevOrder= (PrevOrder) intent.getSerializableExtra("previousOrder");
         deliveryList=intent.getParcelableArrayListExtra("deliveryDateList");
        selectedDate= intent.getParcelableExtra("selectedDate");
-      //  ecoinLayout = (LinearLayout) findViewById(R.id.ecoin_layout);
+       duration=selectedDate.getTime();
+       deliveryWeek=selectedDate.getWeek();
+
+        //  ecoinLayout = (LinearLayout) findViewById(R.id.ecoin_layout);
         addressText = (TextView) findViewById(R.id.delivery_address);
        // invoiceLayout = (RelativeLayout) findViewById(R.id.invoice_layout);
         deliveryCostText=(TextView) findViewById(R.id.delivery_cost);
@@ -464,6 +468,10 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                             }
                                                            // Log.d("acecoint",Constants.getCustomer(PaymentActivity.this).getRefund().getECoins()+"");
                                                             String orderCode = response.getJSONObject("payload").getString("orderCode");
+                                                            JSONArray jsonArray=response.getJSONObject("payload").getJSONArray("productList");
+                                                            totalamt=response.getJSONObject("payload").getDouble("totalPrice");
+                                                            refundCost=response.getJSONObject("payload").getDouble("refundCost");
+
                                                            // Log.d("orderCode", orderCode);
 
 
@@ -471,7 +479,7 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                             object.put("productList", jsonArray);
                                                             object.put("orderCode", orderCode);
                                                             object.put("email", customer.getEmail());
-                                                            object.put("freeDeliveryPrice",freeDeliveryPrice);
+                                                           // object.put("freeDeliveryPrice",freeDeliveryPrice);
                                                             if (refundCost > 0) {
                                                                // Log.d("hererefund", "here");
                                                                 object.put("refundCost", refundCost);
@@ -479,12 +487,13 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                             object.put("deliveryPrice",deliveryPrice);
                                                             object.put("userName", customer.getUserName());
 
-                                                            object.put("totalPrice",subTotal);
+                                                            object.put("totalPrice",totalamt+"");
                                                             object.put("date", deliveryDat);
-                                                            String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
-                                                           // Log.d("deliveryweek", week);
-                                                            object.put("week_en", week);
-                                                            object.put("week", globalProvider.deliveryTimingChinese.get(week));
+                                                          //  String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
+                                                          //  Log.d("deliveryweek", week);
+
+                                                            object.put("week_en", deliveryWeek);
+                                                            object.put("week", globalProvider.deliveryTimingChinese.get(deliveryWeek));
                                                             object.put("duration", duration);
                                                             JsonObjectRequest objectRequest = new JsonObjectRequest(Request.Method.POST, Constants.emailOrderUrl, object, new Response.Listener<JSONObject>() {
                                                                 @Override
@@ -654,9 +663,9 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
                                                         object.put("refundCost",refundCost);
                                                         object.put("deliveryPrice",deliveryPrice);
                                                         object.put("date", deliveryDat);
-                                                        String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
-                                                        object.put("week_en", week);
-                                                        object.put("week", globalProvider.deliveryTimingChinese.get(week));
+                                                       // String week = GlobalProvider.deliveryTiming.get(deliveryWeek);
+                                                        object.put("week_en", deliveryWeek);
+                                                        object.put("week", globalProvider.deliveryTimingChinese.get(deliveryWeek));
                                                         object.put("duration", duration);
 
 
@@ -1020,6 +1029,10 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
          */
         //Case 1 User wants to merge
         deliveryDat=selectedDate.getDate();
+        duration=selectedDate.getTime();
+        deliveryWeek=selectedDate.getWeek();
+
+
 
         if(prevOrder!=null)
         {
@@ -1060,6 +1073,8 @@ public class PaymentActivity extends AppCompatActivity implements DateChangeList
 
         deliveryDateText.setText(delivery.getDate()+" "+delivery.getWeek()+" "+delivery.getTime());
         deliveryDat=delivery.getDate();
+        duration=delivery.getTime();
+        deliveryWeek=delivery.getWeek();
 
         if(prevOrderList.isEmpty())
         {

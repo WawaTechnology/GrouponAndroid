@@ -54,6 +54,48 @@ public class ExampleUnitTest {
         boolean res= product1.equals(product2);
         assertTrue(res);
     }
+    @Test
+    public void checkString()
+    {
+        String a="sam";
+        String b="sam";
+        String c=b;
+        b="ram";
+
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+
+
+
+    }
+    @Test
+    public void printFactorial()
+    {
+        int i=1;
+        int f=1;
+        while(i<=5)
+        {
+            f=f*i;
+            i+=1;
+        }
+        System.out.println(f) ;
+    }
+    @Test
+    public void reverseString()
+    {
+        String s="samp";
+     char ch[]=s.toCharArray();
+     int n=s.length();
+     for(int i=0;i<s.length()/2;i++)
+     {
+         char temp=ch[i];
+         ch[i]=ch[n-1-i];
+         ch[n-1-i]=temp;
+
+     }
+     System.out.println(String.valueOf(ch));
+    }
 
 
 }

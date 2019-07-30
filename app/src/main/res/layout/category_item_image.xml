@@ -8,6 +8,9 @@
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
     android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +18,16 @@
         android:adjustViewBounds="true"
 
         android:id="@+id/prodimg"/>
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/soldout_img"
+            android:visibility="gone"
+            android:layout_alignLeft="@id/prodimg"
+            android:layout_alignTop="@id/prodimg"/>
+    </RelativeLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

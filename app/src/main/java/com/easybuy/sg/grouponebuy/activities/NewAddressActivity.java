@@ -1,7 +1,7 @@
 package com.easybuy.sg.grouponebuy.activities;
 
 import android.content.Intent;
-import android.databinding.generated.callback.OnClickListener;
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;

@@ -72,11 +72,20 @@ public class SpecialDetailAdapter extends RecyclerView.Adapter<SpecialDetailAdap
             holder.tv3.setText("$ "+product.getPriceOriginal());
             holder.tv3.setPaintFlags(holder.tv3.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
+
         if(product.getStock()==0)
         {
+            Log.d("prodnameoutofstock",product.getNameEn());
            holder.addImg.setVisibility(View.GONE);
             holder.soldOutText.setText("Sold Out");
             holder.soldOutText.setVisibility(View.VISIBLE);
+            if(lang.equals("english")) {
+                holder.soldOutImg.setImageDrawable(context.getDrawable(R.drawable.soldout));
+            }
+            else
+                holder.soldOutImg.setImageDrawable(context.getDrawable(R.drawable.soldout_cn));
+          //  holder.soldOutImg.setVisibility(View.VISIBLE);
+            holder.soldOutImg.setVisibility(View.VISIBLE);
 
         }
         else
@@ -84,6 +93,7 @@ public class SpecialDetailAdapter extends RecyclerView.Adapter<SpecialDetailAdap
             holder.addImg.setVisibility(View.VISIBLE);
 
             holder.soldOutText.setVisibility(View.GONE);
+            holder.soldOutImg.setVisibility(View.GONE);
         }
         Glide.with(context).load(Constants.newImageUrl+product.getImageCover()).asBitmap().format(PREFER_ARGB_8888).diskCacheStrategy(DiskCacheStrategy.SOURCE).placeholder(R.drawable.ebuylogo).fitCenter().into(holder.imgview);
         if(product.getTotalNumber()>0)
@@ -267,6 +277,7 @@ public class SpecialDetailAdapter extends RecyclerView.Adapter<SpecialDetailAdap
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
         ImageView imgview;
+        ImageView soldOutImg;
         TextView tv1,tv2,tv3,quantityText,soldOutText;
         ImageView subImg,addImg;
 
@@ -280,6 +291,7 @@ public class SpecialDetailAdapter extends RecyclerView.Adapter<SpecialDetailAdap
             addImg=(ImageView)itemView.findViewById(R.id.plusButton);
             quantityText=(TextView)itemView.findViewById(R.id.quantity);
             soldOutText=(TextView)itemView.findViewById(R.id.soldout_text);
+            soldOutImg=(ImageView)itemView.findViewById(R.id.soldout_img);
 
         }
     }

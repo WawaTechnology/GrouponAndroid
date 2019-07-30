@@ -99,16 +99,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
         setContentView(R.layout.activity_main);
         //Signature[] sigs = new Signature[0];
-        try {
-            Signature[] sigs = getPackageManager().getPackageInfo(getPackageName(),PackageManager.GET_SIGNATURES).signatures;
-            for (Signature sig : sigs)
-            {
 
-                Log.d("MyAppsign", "Signature hashcode : " + sig.hashCode());
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
 
 
         //todo check if splashactivity is loaded when app goes in background with many apps opened
@@ -236,7 +227,8 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
            // Log.d("checkfavl",Constants.getCustomer(this).getFavoriteList().size()+"");
 
             String customerid=Constants.getCustomer(this).customer_id;
-           // Log.d("checkcustomerid",customerid);
+
+           Log.d("checkcustomerid",customerid);
            // Log.d("getdistrictid",Constants.getCustomer(this).getDistrict().getId());
 
 
@@ -285,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements CategoryListener 
 
                             Constants.setCustomer(MainActivity.this, favResult.getCustomer());
                             globalProvider.setCustomerId(Constants.getCustomer(MainActivity.this).customer_id);
+                            Log.d("checkgroup",Constants.getCustomer(MainActivity.this).group);
                            // globalProvider.setCustomer(Constants.getCustomer(MainActivity.this));
                         }
                         else

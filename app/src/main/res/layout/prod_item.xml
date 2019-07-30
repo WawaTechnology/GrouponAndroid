@@ -60,35 +60,34 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textSize="14sp"
 
+        android:layout_marginBottom="12dp"
         android:text="2.50"
         android:textColor="@color/red"
-        app:layout_constraintStart_toEndOf="@+id/product_img"
-        app:layout_constraintTop_toTopOf="@+id/minusButton" />
+        android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/grey_view"
+        app:layout_constraintStart_toEndOf="@+id/weighing_icon" />
 
     <TextView
         android:id="@+id/originalprice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="8dp"
 
+        android:layout_marginBottom="12dp"
         android:text="3.00"
         android:textColor="@color/grey"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/priceunit"
-        app:layout_constraintTop_toTopOf="@+id/minusButton" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/priceunit" />
 
     <ImageView
         android:id="@+id/plusButton"
         android:layout_width="35dp"
         android:layout_height="30dp"
-        android:padding="5dp"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginBottom="8dp"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/add_on" />
@@ -110,8 +109,8 @@
         android:id="@+id/quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="10dp"
         android:textSize="18sp"
 
         android:visibility="invisible"
@@ -132,15 +131,13 @@
 
         android:layout_width="35dp"
         android:layout_height="30dp"
-        android:padding="5dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:duplicateParentState="true"
+        android:padding="5dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/sublayout"
-        app:layout_constraintStart_toStartOf="@+id/sublayout"
-        android:duplicateParentState="true"
 
+        app:layout_constraintStart_toStartOf="@+id/sublayout"
         app:srcCompat="@drawable/minus" />
     <TextView
         android:id="@+id/stockstatus"
@@ -162,5 +159,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/product_img"
         app:srcCompat="@drawable/soldout" />
+
+    <ImageView
+        android:id="@+id/weighing_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/product_img"
+        app:srcCompat="@drawable/ic_action_weighing" />
 
 </android.support.constraint.ConstraintLayout>

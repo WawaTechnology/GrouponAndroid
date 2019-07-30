@@ -167,6 +167,7 @@
     <string name="updateOrder">Modify</string>
     <string name="not_refund">not refunded yet</string>
     <string name="consume_history">Consume History</string>
+    <string name="save_to_album">Save to Album</string>
     <string name="payment">Payment</string>
     <string name="monday">Mon</string>
     <string name="tuesday">Tue</string>
@@ -185,6 +186,7 @@
     <string name="againPassword">Confirm</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="attention">Attention:</string>
 
     <string name="click_if_paid">Click Me if You have paid</string>
     <string name="none">None</string>
@@ -307,6 +309,41 @@ ALL RIGHTS RESERVED BY EBuyMART</string>
     <string name="third">3. </string>
     <string name="merge_msg_1">1.We will merge products into your undelivered order if you pick the same delivery date.</string>
     <string name="merge_msg_2">2.Free home delivery is available if merged order meet the starting price.</string>
+    <string name="please_enter_pwd">Please Enter Password</string>
+    <string name="qr_pay">QR PAY</string>
+    <string name="scan_receipt">Scan Receipt</string>
+    <string name="open_bank_app">1.Open bank app, click QR PAY</string>
+    <string name="scan_qr_receipt">2. Scan QR code on the left side of the receipt</string>
+    <string name="enter_four_digit">3. Enter the four digits of the order number And enter the amount to be paid</string>
+    <string name="confirm_finish_payment">3. Confirm and finish the payment</string>
+    <string name="album_msg_1">1. Open bank app, click QR PAY</string>
+    <string name="album_msg_2">2. Select album to import QR images</string>
+    <string name="album_msg_3">3. Enter the four digits of the order number And enter the amount to be paid</string>
+    <string name="album_msg_4">4. Confirm and finish the payment</string>
+
+    <string name="attention_1">  Our company name is <b> EASY TECH PTE. LTD.</b></string>
+    <string name="attention_2">  Please enter first four digits of order no at reference no. </string>
+    <string name="attention_3">  You can use Paynow or Paylah to scan the QR code</string>
+
+    <string name="qr_code1">1. Scan QR code on the receipt and pay</string>
+    <string name="qr_code2">2. Select QR code image from album and pay, please make sure you save QR image below to album first</string>
+    <string name="qr_code3">3. Enter our UEN and pay UEN 201914427Z</string>
+    <string name="album_import">Album Import</string>
+    <string name="uen_msg_1">1. Open bank app, click Pay Now</string>
+    <string name="uen_msg_2">2. Click on UEN payment and enter the UEN number.Enter the four digits of the order number And enter the amount to be paid</string>
+
+    <string name="uen_payment">UEN Payment</string>
+    <string name="ebuy_notification_title">Ebuymart Notification</string>
+    <string name="ebuymart_notification_1"> 1. This product is a weighing product.</string>
+<string name="ebuymart_notification_2"> 2. The current display price is the standard specification price.</string>
+    <string name="ebuymart_notification_3"> 3. The final price is based on the weight of the actual product.</string>
+
+
+
+
+
+
+    <string name="type_phone_no">Please type in available phone number</string>
 
     <string name="completed">Completed</string>
     <string name="waiting">Waiting</string>

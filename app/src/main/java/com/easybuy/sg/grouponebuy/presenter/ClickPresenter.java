@@ -1,4 +1,4 @@
-package com.easybuy.sg.grouponebuy.Presenter;
+package com.easybuy.sg.grouponebuy.presenter;
 
 public interface ClickPresenter {
     public void onButtonClick();

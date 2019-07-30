@@ -51,6 +51,8 @@ public class GlobalProvider {
    public Date saleDate;
   String customerId;
  public int maxCount;
+ public SpecialImage specialBannerCustomer;
+ public SpecialImage oneTimespecialSequence;
  public List<ShippingDate> shippingDateList=new ArrayList<>();
 
  public List<SpecialImage> boardSpecialList=new ArrayList<>();

@@ -1,4 +1,4 @@
-package com.easybuy.sg.grouponebuy.Presenter;
+package com.easybuy.sg.grouponebuy.presenter;
 
 import android.view.View;
 

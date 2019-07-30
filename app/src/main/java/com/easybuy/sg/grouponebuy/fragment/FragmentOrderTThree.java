@@ -22,6 +22,7 @@ import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.activities.AboutUsActivity;
 import com.easybuy.sg.grouponebuy.activities.CustomerServiceActivity;
 import com.easybuy.sg.grouponebuy.activities.DistrictSettingActivity;
+import com.easybuy.sg.grouponebuy.activities.PaymentInformationActivity;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
 import com.easybuy.sg.grouponebuy.model.Cycle;
 import com.easybuy.sg.grouponebuy.network.Constants;
@@ -101,7 +102,7 @@ public class FragmentOrderTThree extends Fragment {
 
 
 //trial
-                final Dialog dialog = new Dialog(getContext());
+                /*final Dialog dialog = new Dialog(getContext());
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.custom_paynowalert);
 
@@ -115,6 +116,9 @@ public class FragmentOrderTThree extends Fragment {
                 });
 
                 dialog.show();
+                */
+                Intent intent=new Intent(getContext(), PaymentInformationActivity.class);
+                startActivity(intent);
 
 
 

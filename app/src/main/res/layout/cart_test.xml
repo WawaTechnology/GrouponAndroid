@@ -68,14 +68,14 @@
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
         android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
         android:text="$ 5.0"
-        android:textSize="14sp"
 
         android:textColor="@color/red"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/pd_img" />
+        app:layout_constraintStart_toEndOf="@+id/weighimg" />
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -158,13 +158,23 @@
         android:id="@+id/orig_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="14dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
         android:text="$ 6.0"
         android:textColor="@color/grey"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/price" />
+
+    <ImageView
+        android:id="@+id/weighimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/pd_img"
+        app:srcCompat="@drawable/ic_action_weighing" />
 
 
     <!--  <FrameLayout

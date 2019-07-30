@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#fff"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
+                android:id="@+id/back"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:textColor="@android:color/black"
+                android:text="@string/scan_pay"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_marginLeft="-24dp"
+                android:textSize="17sp"/>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+
+            android:background="@color/new_grey"></View>
+
+
+
+
+   <!-- <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbarAlwaysDrawVerticalTrack="true" >
+
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/scanpayment"
+            android:adjustViewBounds="true"
+            android:scrollbars="vertical"
+            android:id="@+id/img_payment"></ImageView>
+    </ScrollView>
+    -->
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/photo_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+
+        android:adjustViewBounds="true"/>
+
+
+
+
+    </LinearLayout>

@@ -1,16 +1,22 @@
 package com.easybuy.sg.grouponebuy.adapter;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -22,6 +28,8 @@ import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,10 +39,13 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.activities.MainActivity;
+import com.easybuy.sg.grouponebuy.activities.ProductActivity;
 import com.easybuy.sg.grouponebuy.activities.ProductDetailActivity;
+import com.easybuy.sg.grouponebuy.activities.SearchActivity;
 import com.easybuy.sg.grouponebuy.activities.SignInActivity;
 import com.easybuy.sg.grouponebuy.fragment.FavoriteFragment;
 import com.easybuy.sg.grouponebuy.helpers.GlobalProvider;
+import com.easybuy.sg.grouponebuy.model.Cycle;
 import com.easybuy.sg.grouponebuy.model.Product;
 import com.easybuy.sg.grouponebuy.network.Constants;
 import com.google.gson.Gson;
@@ -54,28 +65,32 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     GlobalProvider globalProvider;
     String lang;
     ChangeListener changeListener;
+    FragmentManager fragmentManager;
 
     /*QuantityChangedInterface quantityChangedInterface;
     public interface QuantityChangedInterface {
         void onQuantityChanged(Product product, int quantity);
     }
     */
-    public ProductListAdapter(Context context, List<Product> productList,ChangeListener changeListener)
+    public ProductListAdapter(Context context, List<Product> productList, ChangeListener changeListener, FragmentManager fragmentManager)
     {
         this.context=context;
         this.productList=productList;
         lang=Constants.getLanguage(context.getApplicationContext());
         globalProvider=GlobalProvider.getGlobalProviderInstance(context.getApplicationContext());
         this.changeListener=changeListener;
+        this.fragmentManager=fragmentManager;
+
        // setHasStableIds(true);
     }
-    public ProductListAdapter(Context context, List<Product> productList)
+    public ProductListAdapter(Context context, List<Product> productList,FragmentManager fragmentManager)
     {
         this.context=context;
         this.productList=productList;
         lang=Constants.getLanguage(context.getApplicationContext());
         globalProvider=GlobalProvider.getGlobalProviderInstance(context.getApplicationContext());
         setHasStableIds(true);
+        this.fragmentManager=fragmentManager;
     }
 
 
@@ -159,6 +174,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     myholder.originalPriceText.setPaintFlags(myholder.originalPriceText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                 } else
                     myholder.originalPriceText.setVisibility(View.INVISIBLE);
+                if(product.getIfWeigh())
+                {
+                    myholder.weighingIcon.setVisibility(View.VISIBLE);
+                }
+                else
+                    myholder.weighingIcon.setVisibility(View.GONE);
+
 
 
                     if(product.getTotalNumber()>0)
@@ -230,6 +252,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
 
+
            /*     myholder.minusButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -287,6 +310,14 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     }
                 });
                 */
+
+           myholder.weighingIcon.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   MyDialog myDialog=new MyDialog();
+                   myDialog.show(fragmentManager,"tag");
+               }
+           });
                 myholder.addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -304,13 +335,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                                 quantity = Integer.parseInt(myholder.quantityText.getText().toString()) + 1;
 
                             }
+
                             if(product.limitPurchase!=null&&product.limitPurchase>0) {
                                 if (quantity > product.limitPurchase) {
 
                                     String msg=context.getResources().getString(R.string.limit_sale_msg,product.limitPurchase);
-
-
                                     Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+
+
+
+
+
                                     return;
                                 }
                             }
@@ -440,6 +475,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     }
 
+
     @Override
     public int getItemCount() {
 
@@ -454,6 +490,38 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public long getItemId(int position) {
         return position;
+    }
+    public static class MyDialog extends DialogFragment
+    {
+        Button okButton;
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+            // request a window without the title
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            return dialog;
+        }
+        public MyDialog()
+        {
+
+        }
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+        {
+            View view=inflater.inflate(R.layout.weighing_alert,container,false);
+
+            okButton=(Button) view.findViewById(R.id.ok);
+
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+
+
+            return view;
+        }
     }
 
 
@@ -532,7 +600,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
      */
 
     protected class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView imgView,addButton,minusButton,soldOutImage;
+        ImageView imgView,addButton,minusButton,soldOutImage,weighingIcon;
         TextView prodName,prodDetail,prodPrice,originalPriceText,quantityText,stockStatusText;
         FrameLayout subLayout;
 
@@ -549,6 +617,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             stockStatusText=(TextView)itemView.findViewById(R.id.stockstatus);
             subLayout=(FrameLayout)itemView.findViewById(R.id.sublayout);
             soldOutImage=(ImageView)itemView.findViewById(R.id.soldout_img);
+            weighingIcon=(ImageView)itemView.findViewById(R.id.weighing_icon);
             final View addParent = (View) addButton.getParent();
             addParent.post( new Runnable() {
 
@@ -558,6 +627,20 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     r.top -= 100;
                     r.bottom += 4;
                     addParent.setTouchDelegate( new TouchDelegate( r , addButton));
+                }
+            });
+            final View weighImageViewParent=(View)weighingIcon.getParent();
+            weighImageViewParent.post(new Runnable() {
+                @Override
+                public void run() {
+                    final Rect r = new Rect();
+                    weighingIcon.getHitRect(r);
+                    r.right+=50;
+                    r.left-=50;
+                    r.top -= 100;
+                    r.bottom += 4;
+                    weighImageViewParent.setTouchDelegate( new TouchDelegate( r , weighingIcon));
+
                 }
             });
 

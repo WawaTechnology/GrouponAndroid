@@ -9,10 +9,13 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
@@ -26,6 +29,8 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -95,7 +100,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
     LinearLayout multipleSpecialLayout;
     LinearLayout indicator;
    TextView descriptionText;
-    ImageView favImgView;
+    ImageView favImgView,weighingIconView;
     boolean favClicked;
     GlobalProvider globalProvider;
     Product product;
@@ -181,6 +186,7 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
        // Log.d("heights",dpHeight+"");
         multipleSameProduct=new SpecialCategory();
         favoriteList=new ArrayList<>();
+        weighingIconView=(ImageView) findViewById(R.id.weighing);
         backButton = (ImageView) findViewById(R.id.bkbutton);
         cartImageButton = (ImageView) findViewById(R.id.carticonbutton);
         cartButton2 = (ImageView) findViewById(R.id.carticonbutton2);
@@ -248,6 +254,45 @@ public class ProductDetailActivity extends AppCompatActivity implements ProductD
       //  saleMultipleAdapterPosition=intent.getIntExtra("saleMultipleAdapterPosition",-1);
        // Log.d("pdid",product.getId());
         getProductDetail(product.getId());
+        if(product.getIfWeigh())
+        {
+            weighingIconView.setVisibility(View.VISIBLE);
+        }
+        else
+            weighingIconView.setVisibility(View.GONE);
+        priceText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(product.getIfWeigh()) {
+                    MyDialog myDialog = new MyDialog();
+                    myDialog.show(getSupportFragmentManager(), "tag");
+                }
+
+            }
+        });
+
+
+        weighingIconView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyDialog myDialog=new MyDialog();
+                myDialog.show(getSupportFragmentManager(),"tag");
+
+            }
+        });
+        final View weighImageViewParent=(View)weighingIconView.getParent();
+        weighImageViewParent.post(new Runnable() {
+                                      @Override
+                                      public void run() {
+                                          final Rect r = new Rect();
+                                          weighingIconView.getHitRect(r);
+                                          r.right += 50;
+                                          r.left -= 50;
+                                          r.top -= 100;
+                                          r.bottom += 4;
+                                          weighImageViewParent.setTouchDelegate(new TouchDelegate(r, weighingIconView));
+                                      }
+                                  });
 
 
 
@@ -1070,4 +1115,37 @@ private void getSpecialCategories(final String categoryId) {
 
 
     }
+    public static class MyDialog extends DialogFragment
+    {
+        Button okButton;
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+            // request a window without the title
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            return dialog;
+        }
+        public MyDialog()
+        {
+
+        }
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+        {
+            View view=inflater.inflate(R.layout.weighing_alert,container,false);
+
+            okButton=(Button) view.findViewById(R.id.ok);
+
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+
+
+            return view;
+        }
+    }
+
 }

@@ -1,5 +1,11 @@
 package com.easybuy.sg.grouponebuy.model;
 
+import android.databinding.BindingAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.easybuy.sg.grouponebuy.network.Constants;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
@@ -55,4 +61,7 @@ public class CategorySummary implements Serializable {
         this.nameEn = nameEn;
         this.image = image;
     }
+
+
+
 }

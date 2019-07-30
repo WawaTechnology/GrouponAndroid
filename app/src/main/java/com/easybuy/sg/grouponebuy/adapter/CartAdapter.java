@@ -1,14 +1,20 @@
 package com.easybuy.sg.grouponebuy.adapter;
 
 import android.app.Activity;
+import android.app.Dialog;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.text.Spannable;
@@ -22,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.FrameLayout;
@@ -49,15 +56,17 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     Context context;
     quantityChangedListener quantityListener;
     String lang;
+    FragmentManager fragmentManager;
 
 
 
-    public CartAdapter(List<CartProduct> cartProductList,Context context,quantityChangedListener quantityListener)
+    public CartAdapter(List<CartProduct> cartProductList, Context context, quantityChangedListener quantityListener, android.support.v4.app.FragmentManager fragmentManager)
     {
         this.context=context;
         this.cartProductList=cartProductList;
         this.quantityListener=quantityListener;
         lang=Constants.getLanguage(context.getApplicationContext());
+        this.fragmentManager=fragmentManager;
 
     }
 
@@ -166,6 +175,22 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
            }
        });
+       if(product.getIfWeigh())
+       {
+           holder.weighImageView.setVisibility(View.VISIBLE);
+       }
+       else
+       {
+           holder.weighImageView.setVisibility(View.GONE);
+       }
+       holder.weighImageView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               MyDialog myDialog=new MyDialog();
+               myDialog.show(fragmentManager,"tag");
+
+           }
+       });
 
 
        holder.addButton.setOnClickListener(new View.OnClickListener() {
@@ -266,7 +291,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         TextView descTextView;
         TextView origPrice;
         FrameLayout subLayout;
-
+        ImageView weighImageView;
 
 
 
@@ -283,6 +308,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             addButton=(ImageView) itemView.findViewById(R.id.add);
             origPrice=(TextView) itemView.findViewById(R.id.orig_price);
             subLayout=(FrameLayout) itemView.findViewById(R.id.sublayout);
+            weighImageView=(ImageView) itemView.findViewById(R.id.weighimg);
 
             quantityText=(TextView)itemView.findViewById(R.id.quantity);
             descTextView=(TextView)itemView.findViewById(R.id.desc);
@@ -297,6 +323,20 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
                     r.top -= 100;
                     r.bottom += 4;
                     addParent.setTouchDelegate( new TouchDelegate( r , addButton));
+                }
+            });
+            final View weighImageViewParent=(View)weighImageView.getParent();
+            weighImageViewParent.post(new Runnable() {
+                @Override
+                public void run() {
+                    final Rect r = new Rect();
+                    weighImageView.getHitRect(r);
+                    r.right+=50;
+                    r.left-=50;
+                    r.top -= 100;
+                    r.bottom += 4;
+                    weighImageViewParent.setTouchDelegate( new TouchDelegate( r , weighImageView));
+
                 }
             });
        /* final View subParent = (View) subButton.getParent();
@@ -338,6 +378,38 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     {
         public void onQuantityChanged(Product product,int quantity);
         public void onCheckedChanged(Product product,int quantity,boolean checked);
+    }
+    public static class MyDialog extends DialogFragment
+    {
+        Button okButton;
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Dialog dialog = super.onCreateDialog(savedInstanceState);
+
+            // request a window without the title
+            dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+            return dialog;
+        }
+        public MyDialog()
+        {
+
+        }
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+        {
+            View view=inflater.inflate(R.layout.weighing_alert,container,false);
+
+            okButton=(Button) view.findViewById(R.id.ok);
+
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                }
+            });
+
+
+            return view;
+        }
     }
 
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,9 +69,19 @@ public class FragmentProductCategory extends Fragment implements CategoryTitleAd
         categoryList=new ArrayList<>();
        categoryTitleAdapter=new CategoryTitleAdapter(getContext(),categoryNameList,this);
         categoryDetailAdapter=new CategoryDetailAdapter(getContext(),categoryList);
+
+        float val= 32 / ((float) getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        Log.d("vall",val+"");
+        float val24= 24 / ((float) getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        Log.d("val24",val24+"");
+        float val88= 88 / ((float) getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        Log.d("val88",val88+"");
+        float val44= 44 / ((float) getContext().getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        Log.d("val44",val44+"");
+    }
        // MyApplication.getRefWatcher(getActivity()).watch(this);
 
-    }
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
     {
         View view=inflater.inflate(R.layout.fragment_categoryproduct,container,false);
@@ -82,6 +93,7 @@ public class FragmentProductCategory extends Fragment implements CategoryTitleAd
 
        categoryTitleRecycler.setLayoutManager(linearLayoutManager);
         categoryTitleRecycler.setAdapter(categoryTitleAdapter);
+
         searchBarLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -136,7 +148,7 @@ public class FragmentProductCategory extends Fragment implements CategoryTitleAd
 
     @Override
     public void onClick(final String id) {
-       // Log.d("onclickcalled","here");
+        Log.d("onclickcalled","here");
        // Log.d("pid",id);
         String url= Constants.baseUrlStr+"categoryPrimarys/"+id;
         categoryList.clear();

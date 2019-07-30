@@ -140,7 +140,7 @@
     <string name="enter_account">请输入账户号码</string>
     <string name="less_ecoin">余额不足</string>
     <string name="withdraw_successful">提现成功</string>
-    <string name="details">填写提现细节</string>
+    <string name="details">图文版本</string>
     <string name="amount">提现金额 : </string>
     <string name="receiver_account">提至账户: </string>
     <string name="update_address">修改地址</string>
@@ -254,6 +254,50 @@
     <string name="paynow_hint">注：如果支付方式选择PayNow，请扫描发票上的二维码付费。
 付款成功后订单付款状态显示或有延迟，我们将在 24小时 内处理
 .</string>
+
+    <string name="type_phone_no">请输入有效电话号码</string>
+    <string name="please_enter_pwd">请输入密码</string>
+    <string name="attention">请注意:</string>
+
+
+    <string name="scan_receipt">收据扫描</string>
+    <string name="open_bank_app">1. 打开银行App，点击QR Pay</string>
+    <string name="scan_qr_receipt">2. 扫描收据左下方的二维码图片
+</string>
+    <string name="enter_four_digit">2.输入订单金额以及订单号码前四位</string>
+    <string name="confirm_finish_payment">3.确认完成付款</string>
+
+
+
+    <string name="attention_1">Ebuymart的付款账户显示名称为 EASY TECH PTE. LTD.</string>
+    <string name="attention_2">请在reference no处输入订单号前四位，或者直接使用订单页面的一键复制功能 </string>
+    <string name="attention_3">Paynow和Paylah均可以扫码付款</string>
+    <string name="uen_payment">UEN 付款</string>
+    <string name="qr_pay">扫描付款</string>
+    <string name="ebuy_notification_title">Ebuymart小助手提醒</string>
+
+    <string name="ebuymart_notification_1"> 1.此产品为称重产品 </string>
+    <string name="ebuymart_notification_2"> 2.当前显示价格为标准规格售价 </string>
+    <string name="ebuymart_notification_3"> 3.最终价格以实物重量为准</string>
+
+
+
+
+    <string name="album_msg_1">1. 打开银行App，选择 QR PAY</string>
+    <string name="album_msg_2">2. 点击 从相册中选择 二维码</string>
+    <string name="album_msg_3">3. 输入订单金额以及订单号码前四位</string>
+    <string name="album_msg_4">4. 确认完成付款</string>
+
+    <string name="qr_code1">方法一  扫描收据左侧下方二维码直接付款</string>
+    <string name="qr_code2">方法二  收藏下方二维码至相册，通过银行APP的相册图片识别扫描进行付款</string>
+    <string name="qr_code3">方法三  直接通过UEN进行paynow转账 UEN 201914427Z</string>
+
+    <string name="album_import">从相册中选择</string>
+    <string name="uen_msg_1">1. 打开银行App，选择 PAY NOW</string>
+    <string name="uen_msg_2">2. 选择UEN付款，输入UEN号码 输入订单金额以及订单号码前四位 </string>
+    <string name="save_to_album">保存至相册</string>
+
+
 
 
     <string name="your_unit_no">门牌号:</string>

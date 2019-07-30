@@ -37,6 +37,7 @@ import com.easybuy.sg.grouponebuy.model.ProductImageId;
 import com.easybuy.sg.grouponebuy.model.SpecialImage;
 import com.easybuy.sg.grouponebuy.model.SpecialImageResult;
 import com.easybuy.sg.grouponebuy.network.Constants;
+import com.easybuy.sg.grouponebuy.utils.DateHelperClass;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
@@ -119,6 +120,7 @@ public class SplashActivity extends AppCompatActivity {
         progressBar=(ProgressBar) findViewById(R.id.loading_spinner);
         globalProvider=GlobalProvider.getGlobalProviderInstance(getApplicationContext());
         language=Constants.getLanguage(getApplicationContext());
+        //Constants.setDatePreference(this, DateHelperClass.getCurrentDate());
 
         //setting constants for weeks
         setDeliveryMap();
@@ -299,14 +301,28 @@ public class SplashActivity extends AppCompatActivity {
                        // specialImages.addAll(specialImageResult.getPayload());
                         for(SpecialImage specialImage:specialImageResult.getPayload())
                         {
-                            if(specialImage.getSequence()!=666&&specialImage.getSequence()!=777) {
+
+                            if(specialImage.getSequence()<500) {
                                 globalProvider.specialMImages.add(specialImage);
                             }
-                            if(specialImage.getSequence()==666)
+                            if(specialImage.getSequence()>1000&&specialImage.getSequence()<1999)
+                            {
+                                globalProvider.specialBannerCustomer=specialImage;
+                            }
+
+                            if(specialImage.getSequence()==667)
+                            {
+                                globalProvider.specialBannerList=specialImage;
+                            }
+                          else  if(specialImage.getSequence()==666)
                             {
                                 globalProvider.specialBannerList=specialImage;
 
                             }
+                          if(specialImage.getSequence()>1999)
+                          {
+                              globalProvider.oneTimespecialSequence=specialImage;
+                          }
 
                             if(specialImage.getSequence()==777)
                             {

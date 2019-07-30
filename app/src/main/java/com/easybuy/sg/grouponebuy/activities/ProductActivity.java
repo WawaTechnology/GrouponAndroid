@@ -109,7 +109,7 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
         categoryIdList = intent.getStringArrayListExtra("categoryArray");
 
 
-        productListAdapter = new ProductListAdapter(this, productList,ProductActivity.this);
+        productListAdapter = new ProductListAdapter(this, productList,ProductActivity.this,getSupportFragmentManager());
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(productListAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -404,10 +404,11 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                         }
                        else if (products.getStatus() == 0) {
                             int totalproducts = products.getTotalNumber();
-                           // Log.d("totalprod", totalproducts + "");
+                           Log.d("totalprod", totalproducts + "");
 
 
                             TOTAL_PAGES = (pageSize + totalproducts - 1) / pageSize;
+                            Log.d("totalpages",TOTAL_PAGES+"");
 
 
                             for (Product cartProduct : globalProvider.cartList) {
@@ -473,10 +474,11 @@ public class ProductActivity extends AppCompatActivity implements ProductListAda
                             ProductList products = (ProductList) objectMapper.readValue(jsonParser, ProductList.class);
                             if (products.getStatus() == 0) {
                                 int totalproducts = products.getTotalNumber();
-                               // Log.d("totalprod", totalproducts + "");
+                                Log.d("totalprod", totalproducts + "");
 
 
                                 TOTAL_PAGES = (pageSize + totalproducts - 1) / pageSize;
+                                Log.d("totalprodsize", TOTAL_PAGES + "");
 
 
                                 for (Product cartProduct : globalProvider.cartList) {

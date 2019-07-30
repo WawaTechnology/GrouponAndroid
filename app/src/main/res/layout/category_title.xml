@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="48dp"
+    android:id="@+id/category_title_layout"
     >
 
     <View
         android:layout_width="5dp"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:background="@color/red"
         android:id="@+id/viewSelected"
         android:visibility="gone"></View>
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="48dp"
         android:textAlignment="center"
         android:textSize="13sp"
         android:gravity="center_vertical"

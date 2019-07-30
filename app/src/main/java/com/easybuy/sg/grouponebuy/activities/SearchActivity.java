@@ -96,7 +96,7 @@ public class SearchActivity extends AppCompatActivity implements  HotAdapter.Hot
 
         int width = displayMetrics.widthPixels;
         productResults=new ArrayList<>();
-        productListAdapter=new ProductListAdapter(this,productResults);
+        productListAdapter=new ProductListAdapter(this,productResults,getSupportFragmentManager());
         LinearLayoutManager linearLayoutManager1=new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false);
         searchRecycler.setAdapter(productListAdapter);
         searchRecycler.setLayoutManager(linearLayoutManager1);

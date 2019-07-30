@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.easybuy.sg.grouponebuy.R;
 import com.easybuy.sg.grouponebuy.activities.OrderDetailActivity;
+import com.easybuy.sg.grouponebuy.activities.QrPayActivity;
 import com.easybuy.sg.grouponebuy.fragment.FragmentOrderTOne;
 import com.easybuy.sg.grouponebuy.model.Order;
 import com.easybuy.sg.grouponebuy.model.Product;
@@ -125,15 +126,26 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     }
 
                 }
+
                 if(fragmentOrderTOne.TAB_PRESSED==2)
                 {
                     myholder.paymentLayout.setVisibility(View.VISIBLE);
+                    myholder.qrCodeButton.setVisibility(View.VISIBLE);
+                    myholder.qrCodeButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent=new Intent(context, QrPayActivity.class);
+                            context.startActivity(intent);
+                        }
+                    });
 
                 }
-                else
+                else {
                     myholder.paymentLayout.setVisibility(View.GONE);
-                myholder.paymentStatusText.setText("UnPaid");
-                myholder.clickText.setOnClickListener(new View.OnClickListener() {
+                    myholder.qrCodeButton.setVisibility(View.GONE);
+                    myholder.paymentStatusText.setText("UnPaid");
+                }
+                myholder.clickImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                      /*   AlertDialog alertDialog=null;
@@ -401,8 +413,9 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         Button orderDetailButton;
         RelativeLayout paymentLayout;
         TextView paymentStatusText;
-        TextView clickText;
+        ImageView clickImageView;
 
+        Button qrCodeButton;
 
         public OrderViewHolder(View itemView) {
             super(itemView);
@@ -416,13 +429,15 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             totalText=(TextView)itemView.findViewById(R.id.total_num);
             paymentLayout=(RelativeLayout)itemView.findViewById(R.id.payment_layout);
             paymentStatusText=(TextView)itemView.findViewById(R.id.payment_status);
-            clickText=(TextView)itemView.findViewById(R.id.click);
+            clickImageView=(ImageView)itemView.findViewById(R.id.click);
+            qrCodeButton=(Button)itemView.findViewById(R.id.o_qr_code);
 
         }
 
     }
     protected class LoadingVH extends RecyclerView.ViewHolder {
         ProgressBar progressBar;
+
 
         public LoadingVH(View itemView) {
             super(itemView);

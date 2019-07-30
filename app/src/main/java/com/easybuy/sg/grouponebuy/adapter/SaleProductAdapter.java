@@ -115,13 +115,15 @@ public SaleProductAdapter(Context context,List<String> productList)
                    //holder.buyButton.setBackgroundColor(context.getResources().getColor(R.color.grey));
                    holder.buyButton.setEnabled(false);
                    holder.buyButton.setClickable(false);
-                 /*   if(lan.equals("english")) {
+
+             if(lan.equals("english")) {
                         holder.soldOutImage.setImageDrawable(context.getDrawable(R.drawable.soldout));
                     }
                     else
                         holder.soldOutImage.setImageDrawable(context.getDrawable(R.drawable.soldout_cn));
                     holder.soldOutImage.setVisibility(View.VISIBLE);
-                    */
+
+
 
 
 
@@ -180,7 +182,7 @@ public SaleProductAdapter(Context context,List<String> productList)
         TextView prodDesc,prodName,prodSpec;
         TextView offerText;
         Button buyButton;
-       // ImageView soldOutImage;
+       ImageView soldOutImage;
 
 
         public MyViewHolder(View itemView) {
@@ -191,7 +193,7 @@ public SaleProductAdapter(Context context,List<String> productList)
             buyButton=(itemView).findViewById(R.id.buyButton);
             prodName=(itemView).findViewById(R.id.prod_name);
             prodSpec=(itemView).findViewById(R.id.prod_spec);
-           // soldOutImage=(itemView).findViewById(R.id.soldout_img);
+           soldOutImage=(itemView).findViewById(R.id.soldout_img);
         }
     }
 

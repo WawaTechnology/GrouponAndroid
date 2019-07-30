@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="300dp"
+    android:layout_height="wrap_content">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/red"></View>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginBottom="4dp"
+        android:textColor="@android:color/black"
+        android:text="@string/ebuy_notification_title"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/ebuymart_notification_1"
+
+      />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/ebuymart_notification_2"
+
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/ebuymart_notification_3"
+
+        />
+
+
+    <Button
+        android:layout_marginTop="8dp"
+        android:layout_height="30dp"
+        android:layout_width="match_parent"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:gravity="center"
+        android:background="@color/red"
+        android:textColor="#fff"
+        android:textAlignment="center"
+        android:text="@string/ok"
+        android:id="@+id/ok"></Button>
+
+
+
+</LinearLayout>

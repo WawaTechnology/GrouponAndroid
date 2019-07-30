@@ -7,7 +7,7 @@
         type="com.easybuy.sg.grouponebuy.model.User"></variable>
     <variable
         name="presenter"
-        type="com.easybuy.sg.grouponebuy.Presenter.ClickPresenter"></variable>
+        type="com.easybuy.sg.grouponebuy.presenter.ClickPresenter"></variable>
 </data>
 
 <RelativeLayout

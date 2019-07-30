@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+
     android:background="#fff"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -13,20 +14,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/search_layout"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginRight="10dp"
 
     android:orientation="horizontal">
     <ImageView
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginTop="8dp"
+
         android:id="@+id/back"
         android:src="@drawable/ic_keyboard_arrow_left_black_24dp"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+
+
         android:id="@+id/searchbar_ht"
 
         android:orientation="horizontal"
@@ -62,7 +65,7 @@
         android:id="@+id/grey_view"
         android:layout_below="@id/search_layout"
         android:background="@color/new_grey"
-        android:layout_marginTop="5dp"
+
         ></View>
 
     <android.support.design.widget.TabLayout

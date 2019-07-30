@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<data>
+    <variable
+        name="clicklistener"
+        type="com.easybuy.sg.grouponebuy.activities.QrPayActivity.QrClickListener" />
+</data>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/grey_bkg"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+
+
+            android:layout_gravity="center_horizontal|center_vertical"
+            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+           android:layout_centerInParent="true"
+
+            android:gravity="center"
+            android:textAlignment="center"
+
+
+            android:text="@string/qr_pay"
+            android:textColor="@android:color/black"
+
+
+            android:textSize="17sp" />
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        android:background="@drawable/black_rectangle">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/red"
+            android:text="@string/attention"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. "/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/attention_1"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. "/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/attention_2"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3. "/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/attention_3"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:text="@string/qr_code1"/>
+   <Button
+       android:layout_width="64dp"
+       android:layout_height="wrap_content"
+       android:background="@drawable/blue_corner_rectangle"
+       android:id="@+id/button_1"
+       android:padding="4dp"
+       android:layout_marginBottom="4dp"
+       android:textColor="#fff"
+       android:gravity="center"
+       android:textAlignment="gravity"
+       android:onClick="@{clicklistener::onClicked}"
+       android:text="@string/details"
+       android:layout_marginLeft="16dp"
+       android:layout_marginRight="16dp"
+       android:layout_gravity="right"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:text="@string/qr_code2"/>
+    <Button
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/blue_corner_rectangle"
+        android:padding="4dp"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:textColor="#fff"
+        android:layout_marginBottom="4dp"
+        android:id="@+id/button_2"
+        android:text="@string/details"
+        android:onClick="@{clicklistener::onClicked}"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_gravity="right"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:id="@+id/img"
+        android:layout_marginBottom="4dp"
+        android:layout_gravity="center_horizontal"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_to_album"
+        android:textColor="@color/dark_blue"
+        android:id="@+id/save"
+        android:onClick="@{clicklistener::onClicked}"
+        android:layout_marginBottom="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/blue_border"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+
+        android:text="@string/qr_code3"/>
+    <Button
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:background="@drawable/blue_corner_rectangle"
+        android:padding="4dp"
+        android:layout_marginBottom="4dp"
+        android:id="@+id/button_3"
+        android:textColor="#fff"
+        android:onClick="@{clicklistener::onClicked}"
+        android:text="@string/details"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_gravity="right"/>
+
+
+
+
+
+
+
+</LinearLayout>
+</layout>
